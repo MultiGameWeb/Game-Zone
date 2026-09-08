@@ -1294,22 +1294,3 @@ showHome();
 </script>
 </body>
 </html>
-
-What Was Fixed
-
-1.  Three.js Included: Added <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    in <head>.
-2.  Game 4 Hook Registered: Exported window.startNewBallRun and
-    window.stopBallGame so the home button and back buttons can start and stop
-    the 3D run without scope errors.
-3.  Responsive WebGL Resizing: Added resizeBallRenderer() that synchronizes the
-    canvas aspect ratio and dimensions with #ball_gameContainer whenever the
-    game is opened or resized.
-4.  Isolated Touch Events: Removed the global document-wide touch preventions
-    that were freezing mobile page scrolling.
-5.  Math Division & Timer Repaired:
-      - Division now computes integer dividends and divisors (e.g. 24 ÷ 6 = 4),
-        allowing real mental math.
-      - The Timer Toggle actually pauses/unpauses the countdown now instead of
-        just hiding the text.
