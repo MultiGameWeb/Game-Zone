@@ -177,9 +177,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========================================================
-       HUB VIEW: 6 INDIVIDUAL GAME BOXES (3x2 Desktop, 1xMobile)
-       ======================================================== */
+    /* HUB (6 BOXES) */
     .hub-intro {
       text-align: center;
       margin-bottom: 18px;
@@ -274,7 +272,7 @@
       min-height: 44px;
     }
 
-    /* COMMON GAME CONTAINERS */
+    /* COMMON CARD WRAPPER */
     .game-wrapper {
       max-width: 520px;
       margin: 0 auto;
@@ -285,7 +283,7 @@
       border: 1px solid var(--card-border);
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
       border-radius: 22px;
-      padding: 22px 18px;
+      padding: 20px 16px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -302,7 +300,7 @@
       border: 1px solid rgba(51, 65, 85, 0.5);
       border-radius: 14px;
       padding: 8px 14px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .stat-val {
@@ -319,10 +317,10 @@
     }
 
     .math-expression {
-      font-size: 2.8rem;
+      font-size: 2.7rem;
       font-weight: 900;
       color: #fff;
-      margin: 14px 0;
+      margin: 12px 0;
       line-height: 1.2;
     }
 
@@ -368,7 +366,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin: 16px 0 10px;
+      margin: 14px 0 10px;
     }
 
     .btn-option {
@@ -528,93 +526,149 @@
       padding: 8px 16px;
     }
 
-    /* WORD BUILDER */
-    .word-slots-container {
+    /* ========================================================
+       GAME 4: WORD BOX (LINE-CONNECT PUZZLE BOARD)
+       ======================================================== */
+    .word-box-board {
       display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin: 20px 0;
-      min-height: 58px;
-    }
-
-    .word-slot {
-      width: 52px;
-      height: 56px;
-      border-bottom: 3px solid #a855f7;
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 12px 12px 6px 6px;
-      display: flex;
+      flex-direction: column;
+      gap: 12px;
       align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-family: var(--font-mono);
-      font-weight: 900;
-      color: #ffffff;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    .word-slot.filled {
-      background: #1e1b4b;
-      border-bottom-color: #c084fc;
-      box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
+    /* Target Words Area (3 letters, 4 letters, 5 letters, 6 letters) */
+    .target-words-panel {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 16px;
+      padding: 12px 10px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .word-slot.correct-slot {
-      background: #064e3b !important;
-      border-bottom-color: #34d399 !important;
-      color: #6ee7b7 !important;
-    }
-
-    .word-slot.wrong-slot {
-      background: #7f1d1d !important;
-      border-bottom-color: #f87171 !important;
-      color: #fca5a5 !important;
-      animation: shake 0.3s both;
-    }
-
-    .letters-bank {
+    .target-group-row {
       display: flex;
       flex-wrap: wrap;
+      gap: 8px;
       justify-content: center;
-      gap: 10px;
-      margin: 18px 0 14px;
-      max-width: 380px;
-      margin-left: auto;
-      margin-right: auto;
+      align-items: center;
     }
 
-    .letter-tile {
-      width: 54px;
-      height: 54px;
-      border: 2px solid #6b21a8;
-      background: linear-gradient(180deg, #3b0764 0%, #1e1035 100%);
-      color: #ffffff;
+    .target-group-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #c084fc;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+
+    .word-pill-slot {
+      display: inline-flex;
+      gap: 3px;
+      background: #090e1a;
+      border: 1px solid #334155;
+      padding: 4px 6px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .word-pill-slot.found {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.18);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
+    }
+
+    .word-letter-box {
+      width: 22px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       font-family: var(--font-mono);
-      font-size: 1.6rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #94a3b8;
+      border-bottom: 2px solid #475569;
+    }
+
+    .word-pill-slot.found .word-letter-box {
+      color: #34d399;
+      border-bottom-color: #10b981;
+    }
+
+    /* Traced Word Live Preview Bubble */
+    .trace-preview-bubble {
+      min-height: 38px;
+      padding: 6px 18px;
+      background: #1e1b4b;
+      border: 1px solid #a855f7;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
       font-weight: 900;
-      border-radius: 14px;
-      box-shadow: 0 4px 0 #2e1065, 0 8px 14px rgba(0,0,0,0.4);
-      cursor: pointer;
+      color: #ffffff;
+      letter-spacing: 0.12em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease;
+    }
+
+    /* Interactive Swiping Box with SVG Line Overlay */
+    .connector-box-pad {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 6px auto;
+      background: radial-gradient(circle, #2e1065 0%, #15082e 100%);
+      border: 3px solid #a855f7;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.35), inset 0 0 20px rgba(0, 0, 0, 0.6);
+      border-radius: 28px;
+      touch-action: none; /* Prevents mobile scroll while dragging lines */
+    }
+
+    .connector-svg-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .letter-node {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(180deg, #581c87 0%, #3b0764 100%);
+      border: 2px solid #c084fc;
+      box-shadow: 0 4px 0 #2e1065, 0 6px 14px rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.1s ease;
+      font-family: var(--font-mono);
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #ffffff;
+      cursor: pointer;
+      z-index: 20;
+      transition: transform 0.12s, background 0.12s;
     }
 
-    .letter-tile:active { transform: translateY(3px); box-shadow: 0 1px 0 #2e1065; background: #a855f7; }
-    .letter-tile.used { opacity: 0.15; pointer-events: none; transform: scale(0.92); box-shadow: none; }
-
-    .word-hint-box {
-      font-size: 0.85rem;
-      color: #cbd5e1;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px dashed rgba(168, 85, 247, 0.4);
-      border-radius: 12px;
-      padding: 8px 14px;
-      margin-bottom: 12px;
-      display: inline-block;
+    .letter-node.active {
+      background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
+      border-color: #ffffff;
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.85);
+      transform: translate(-50%, -50%) scale(1.15);
     }
 
     /* NUMBER SERIES & BODMAS BANNER */
@@ -623,9 +677,9 @@
       border: 2px dashed #f59e0b;
       border-radius: 16px;
       padding: 18px 12px;
-      margin: 16px 0;
+      margin: 14px 0;
       font-family: var(--font-mono);
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       font-weight: 900;
       color: #fbbf24;
       letter-spacing: 0.05em;
@@ -686,8 +740,8 @@
       .series-display-box { font-size: 1.7rem; }
       .btn-option { padding: 14px 8px; font-size: 1.4rem; }
       #ball-canvas { height: 370px; }
-      .word-slot { width: 44px; height: 50px; font-size: 1.5rem; }
-      .letter-tile { width: 48px; height: 48px; font-size: 1.45rem; }
+      .connector-box-pad { width: 260px; height: 260px; }
+      .letter-node { width: 52px; height: 52px; font-size: 1.55rem; }
     }
   </style>
 </head>
@@ -716,7 +770,7 @@
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">6 Serious Brain-Sharpening & Reflex Games</p>
+        <p class="hub-subtitle">6 Serious Brain-Sharpening & Reflex Games (Zero Repeats)</p>
       </div>
 
       <div class="games-row-grid">
@@ -766,29 +820,29 @@
           </button>
         </div>
 
-        <!-- BOX 4: WORD BUILDER -->
+        <!-- BOX 4: WORD BOX (LINE CONNECT - 10 BOXES) -->
         <div class="game-card-box card-word-box">
           <div>
-            <div class="game-icon-large">🔤</div>
-            <h2 class="game-box-title">WORD BUILDER</h2>
-            <span class="game-box-badge badge-purple">English Words</span>
+            <div class="game-icon-large">📦</div>
+            <h2 class="game-box-title">WORD BOX</h2>
+            <span class="game-box-badge badge-purple">Line Connect • 10 Boxes</span>
             <p class="game-box-desc">
-              Tap scrambled letters in order to build meaningful English words.
+              Connect letters with a line to discover 3, 4, 5 & 6 letter words in 10 boxes!
             </p>
           </div>
           <button id="btn-launch-word" class="btn-3d btn-purple" type="button">
-            Play Words
+            Play Word Box
           </button>
         </div>
 
-        <!-- BOX 5: BODMAS MASTER (NEW) -->
+        <!-- BOX 5: BODMAS MASTER -->
         <div class="game-card-box card-bodmas-box">
           <div>
             <div class="game-icon-large">📐</div>
             <h2 class="game-box-title">BODMAS MASTER</h2>
-            <span class="game-box-badge badge-cyan">Order of Operations</span>
+            <span class="game-box-badge badge-cyan">Dynamic • No Repeats</span>
             <p class="game-box-desc">
-              Brackets, Division, Multiply first! Master the order of operations rule.
+              Order of operations! Brackets & Multiply first with zero repeated questions.
             </p>
           </div>
           <button id="btn-launch-bodmas" class="btn-3d btn-cyan" type="button">
@@ -796,14 +850,14 @@
           </button>
         </div>
 
-        <!-- BOX 6: NUMBER SERIES (NEW) -->
+        <!-- BOX 6: NUMBER SERIES -->
         <div class="game-card-box card-series-box">
           <div>
             <div class="game-icon-large">🔢</div>
             <h2 class="game-box-title">NUMBER SERIES</h2>
-            <span class="game-box-badge badge-amber">Pattern Quest</span>
+            <span class="game-box-badge badge-amber">Dynamic • No Repeats</span>
             <p class="game-box-desc">
-              Discover the sequence pattern and find the missing number in line!
+              Unique math patterns & sequences! Fresh questions without repetition.
             </p>
           </div>
           <button id="btn-launch-series" class="btn-3d btn-amber" type="button">
@@ -987,51 +1041,72 @@
     </section>
 
     <!-- ========================================================
-         VIEW 5: WORD BUILDER
+         VIEW 5: WORD BOX (LINE-CONNECT 10 BOXES PUZZLE)
          ======================================================== -->
     <section id="view-word" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #c084fc; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">English Word Craft</div>
-          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">WORD BUILDER</h2>
+          <div style="font-size: 0.75rem; color: #c084fc; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">
+            Connect with Line (10 Boxes)
+          </div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">WORD BOX</h2>
 
           <div class="stat-header">
             <div>
+              <span class="stat-label">Current Box</span>
+              <span id="wordbox-level-hud" class="stat-val" style="color: #c084fc;">BOX 1 / 10</span>
+            </div>
+            <div>
+              <span class="stat-label">Found</span>
+              <span id="wordbox-progress-hud" class="stat-val" style="color: #34d399;">0 / 6</span>
+            </div>
+            <div>
               <span class="stat-label">Score</span>
-              <span id="word-score" class="stat-val" style="color: #c084fc;">0</span>
-            </div>
-            <div>
-              <span class="stat-label">Word</span>
-              <span id="word-count-hud" class="stat-val">1 / 20</span>
-            </div>
-            <div>
-              <span class="stat-label">Streak</span>
-              <span id="word-streak" class="stat-val" style="color: #34d399;">🔥 0</span>
+              <span id="wordbox-score-hud" class="stat-val" style="color: #fbbf24;">0</span>
             </div>
           </div>
 
-          <div id="word-alert" class="feedback-float-alert">Tap letters in correct order</div>
+          <div id="wordbox-alert" class="feedback-float-alert">Slide finger across letters to connect a line!</div>
 
-          <div id="word-hint-text" class="word-hint-box">💡 Hint: Center of thoughts and mind</div>
-          <div id="word-slots-container" class="word-slots-container"></div>
-          <div id="letters-bank" class="letters-bank"></div>
+          <!-- TARGET WORDS AREA (3 letters, 4 letters, 5 letters, 6 letters) -->
+          <div id="target-words-panel" class="target-words-panel">
+            <!-- Dynamic word slots by length -->
+          </div>
 
+          <!-- LIVE TRACED WORD BUBBLE -->
+          <div style="margin: 8px 0;">
+            <div id="trace-preview" class="trace-preview-bubble">CONNECT</div>
+          </div>
+
+          <!-- LETTER BOX WITH SVG CONNECTING LINE -->
+          <div id="connector-box-pad" class="connector-box-pad">
+            <svg id="connector-svg" class="connector-svg-canvas">
+              <!-- Dynamic connecting line segments -->
+              <polyline id="svg-polyline" points="" fill="none" stroke="#c084fc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+              <line id="svg-active-line" x1="0" y1="0" x2="0" y2="0" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-dasharray="4,4" />
+            </svg>
+            <div id="letter-nodes-container">
+              <!-- Letter circles positioned by JS -->
+            </div>
+          </div>
+
+          <!-- Control Actions -->
           <div style="display: flex; gap: 8px; margin-top: 10px;">
-            <button id="btn-word-undo" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">⌫ Undo</button>
-            <button id="btn-word-shuffle" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">🔄 Shuffle</button>
-            <button id="btn-word-next" class="btn-3d btn-purple" style="padding: 10px; flex: 1.2;" type="button">Skip ⏭️</button>
+            <button id="btn-wordbox-hint" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">💡 Hint</button>
+            <button id="btn-wordbox-shuffle" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">🔄 Shuffle</button>
+            <button id="btn-wordbox-skip" class="btn-3d btn-purple" style="padding: 10px; flex: 1.2;" type="button">Next Box ⏭️</button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========================================================
-         VIEW 6: BODMAS MASTER (NEW 5TH GAME)
+         VIEW 6: BODMAS MASTER (INFINITE UNIQUE ENGINE)
          ======================================================== -->
     <section id="view-bodmas" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #22d3ee; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Order of Operations</div>
+          <div style="font-size: 0.75rem; color: #22d3ee; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Order of Operations (No Repeats)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">BODMAS MASTER</h2>
 
           <div class="stat-header">
@@ -1041,7 +1116,7 @@
             </div>
             <div>
               <span class="stat-label">Question</span>
-              <span id="bodmas-q-count" class="stat-val">1 / 25</span>
+              <span id="bodmas-q-count" class="stat-val">#1</span>
             </div>
             <div>
               <span class="stat-label">Streak</span>
@@ -1051,15 +1126,12 @@
 
           <div id="bodmas-alert" class="feedback-float-alert">Follow: ( ) first, then ÷ ×, then + -</div>
 
-          <!-- BODMAS Equation Display -->
           <div id="bodmas-expression" class="math-expression">6 + 4 × 2</div>
 
-          <!-- BODMAS Rule explanation box -->
           <div id="bodmas-rule-box" class="rule-explanation-box cyan">
             💡 Rule: Multiplications (4 × 2 = 8) happen before Addition! 6 + 8 = 14.
           </div>
 
-          <!-- 4 Options Grid -->
           <div id="bodmas-options" class="options-grid">
             <button class="btn-option bodmas-opt" data-idx="0" type="button">0</button>
             <button class="btn-option bodmas-opt" data-idx="1" type="button">0</button>
@@ -1076,12 +1148,12 @@
     </section>
 
     <!-- ========================================================
-         VIEW 7: NUMBER SERIES (NEW 6TH GAME)
+         VIEW 7: NUMBER SERIES (INFINITE UNIQUE ENGINE)
          ======================================================== -->
     <section id="view-series" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Sequence & Logic</div>
+          <div style="font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Sequence & Logic (No Repeats)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">NUMBER SERIES</h2>
 
           <div class="stat-header">
@@ -1091,7 +1163,7 @@
             </div>
             <div>
               <span class="stat-label">Puzzle</span>
-              <span id="series-q-count" class="stat-val">1 / 25</span>
+              <span id="series-q-count" class="stat-val">#1</span>
             </div>
             <div>
               <span class="stat-label">Accuracy</span>
@@ -1101,17 +1173,14 @@
 
           <div id="series-alert" class="feedback-float-alert">Find the number that replaces ?</div>
 
-          <!-- Sequence line box -->
           <div id="series-display" class="series-display-box">
             2, 4, 8, 16, ?
           </div>
 
-          <!-- Pattern explanation box -->
           <div id="series-rule-box" class="rule-explanation-box amber">
             💡 Pattern: Multiply previous number by 2 (16 × 2 = 32)!
           </div>
 
-          <!-- 4 Options Grid -->
           <div id="series-options" class="options-grid">
             <button class="btn-option series-opt" data-idx="0" type="button">0</button>
             <button class="btn-option series-opt" data-idx="1" type="button">0</button>
@@ -1128,6 +1197,26 @@
     </section>
 
   </main>
+
+  <!-- WORD BOX COMPLETE MODAL -->
+  <div id="wordbox-win-modal" class="modal-overlay">
+    <div class="modal-box" style="border: 2px solid #a855f7;">
+      <div style="font-size: 3rem; margin-bottom: 6px;">📦✨</div>
+      <h2 id="wordbox-modal-title" style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 4px;">BOX 1 COMPLETE!</h2>
+      <div style="color: #c084fc; font-size: 0.95rem; margin-bottom: 16px;">All target words found successfully!</div>
+      <div style="background: #0f172a; border-radius: 12px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span>Words Discovered:</span>
+          <span id="wordbox-modal-count" style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">6 / 6</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Total Score:</span>
+          <span id="wordbox-modal-score" style="font-family: var(--font-mono); font-weight: 700; color: #fbbf24;">120</span>
+        </div>
+      </div>
+      <button id="btn-wordbox-continue" class="btn-3d btn-purple" type="button">Continue to Next Box ⏭️</button>
+    </div>
+  </div>
 
   <!-- SUDOKU WIN MODAL -->
   <div id="sudoku-win-modal" class="modal-overlay">
@@ -1314,7 +1403,7 @@
       } else if (viewName === 'ball') {
         init3DBallGame();
       } else if (viewName === 'word') {
-        initWordGame();
+        initWordBoxGame();
       } else if (viewName === 'bodmas') {
         initBodmasGame();
       } else if (viewName === 'series') {
@@ -2058,212 +2147,457 @@
     document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
 
     /* ========================================================
-       GAME 4: WORD BUILDER
+       GAME 4: WORD BOX (LINE-CONNECT 10 BOXES ENGINE)
        ======================================================== */
-    const wordGameData = [
-      { word: "BRAIN", hint: "💡 Center of intelligence & thinking" },
-      { word: "FOCUS", hint: "💡 Paying complete attention to one thing" },
-      { word: "SMART", hint: "💡 Having quick-witted intelligence" },
-      { word: "LOGIC", hint: "💡 Clear, sound, rational reasoning" },
-      { word: "SPEED", hint: "💡 Rapid movement or quick performance" },
-      { word: "POWER", hint: "💡 Strength, energy and mental ability" },
-      { word: "PUZZLE", hint: "💡 A brain problem designed to test ingenuity" },
-      { word: "GENIUS", hint: "💡 Exceptional intellectual creative power" },
-      { word: "MASTER", hint: "💡 Highly skilled person in a craft" },
-      { word: "WINNER", hint: "💡 Champion who triumphs in a game" },
-      { word: "CLEVER", hint: "💡 Quick to understand, learn, and devise" },
-      { word: "ENERGY", hint: "💡 Strength and vitality for physical/mental activity" },
-      { word: "SHARP", hint: "💡 Keen, quick-thinking mental acuity" },
-      { word: "ACTION", hint: "💡 The process of doing something to achieve aim" },
-      { word: "TARGET", hint: "💡 Objective or goal to aim and hit" },
-      { word: "SILVER", hint: "💡 Precious shiny lustrous metal" },
-      { word: "SHINE", hint: "💡 Give out a bright light or excellence" },
-      { word: "QUEST", hint: "💡 A long or arduous search for something" },
-      { word: "FLIGHT", hint: "💡 The action or process of flying" },
-      { word: "CHAMP", hint: "💡 Victorious player who beats challenges" }
+    const wordBoxesData = [
+      // Box 1
+      {
+        letters: ["A", "C", "T", "S"],
+        words: ["ACT", "CAT", "SAT", "ACTS", "CATS", "CAST"]
+      },
+      // Box 2
+      {
+        letters: ["E", "A", "R", "T", "H"],
+        words: ["ART", "EAT", "HAT", "RAT", "TEA", "EAR", "HATE", "HEAT", "TEAR", "EARTH", "HEART"]
+      },
+      // Box 3
+      {
+        letters: ["P", "O", "S", "T"],
+        words: ["OPT", "POT", "TOP", "SOP", "POST", "SPOT", "STOP", "TOPS", "POTS"]
+      },
+      // Box 4
+      {
+        letters: ["S", "M", "A", "R", "T"],
+        words: ["ARM", "ART", "MAT", "RAM", "RAT", "SAT", "ARMS", "STAR", "TRAM", "MARS", "SMART"]
+      },
+      // Box 5
+      {
+        letters: ["B", "R", "A", "I", "N"],
+        words: ["AIR", "BAN", "BAR", "BIN", "RAN", "RIB", "BARN", "RAIN", "BRAN", "BRAIN"]
+      },
+      // Box 6
+      {
+        letters: ["P", "L", "A", "N", "E", "T"],
+        words: ["APE", "NET", "PAN", "PEN", "PET", "TAP", "TEA", "LATE", "LEAN", "NEAT", "PLAN", "TAPE", "PALE", "PANEL", "PLANT", "PLANE", "PLANET"]
+      },
+      // Box 7
+      {
+        letters: ["S", "P", "R", "I", "N", "G"],
+        words: ["PIG", "PIN", "RIP", "RIG", "SIN", "SIP", "SIR", "GRIP", "PING", "RING", "SIGN", "SING", "GRIPS", "RINGS", "SPRING"]
+      },
+      // Box 8
+      {
+        letters: ["S", "I", "L", "V", "E", "R"],
+        words: ["LIE", "SIR", "VIE", "LIVE", "VEIL", "VILE", "RISE", "SIRE", "LIVER", "RIVAL", "SILVER"]
+      },
+      // Box 9
+      {
+        letters: ["F", "L", "O", "W", "E", "R"],
+        words: ["FOR", "LOW", "OWL", "ROW", "FEW", "FLOW", "FOWL", "WOLF", "FORE", "LORE", "ROLE", "LOWER", "FLOWER"]
+      },
+      // Box 10
+      {
+        letters: ["M", "A", "S", "T", "E", "R"],
+        words: ["ARM", "ART", "EAR", "MAT", "RAM", "RAT", "SEA", "SET", "TEA", "ARMS", "EAST", "MATE", "MEAT", "RATE", "REST", "SEAT", "STAR", "TEAM", "TEAR", "SMART", "STARE", "STEAM", "MASTER", "STREAM"]
+      }
     ];
 
-    const wordState = {
-      currentIndex: 0, score: 0, streak: 0,
-      currentWord: "", currentHint: "", scrambledLetters: [], userLetters: []
+    const wordBoxState = {
+      currentBoxIdx: 0,
+      score: 0,
+      foundWords: new Set(),
+      isTracing: false,
+      currentTrace: [], // array of node elements
+      currentWord: ""
     };
 
-    const wordSlotsContainer = document.getElementById('word-slots-container');
-    const lettersBank = document.getElementById('letters-bank');
-    const wordAlert = document.getElementById('word-alert');
-    const wordHintText = document.getElementById('word-hint-text');
+    const padEl = document.getElementById('connector-box-pad');
+    const nodesContainer = document.getElementById('letter-nodes-container');
+    const svgPolyline = document.getElementById('svg-polyline');
+    const svgActiveLine = document.getElementById('svg-active-line');
+    const tracePreview = document.getElementById('trace-preview');
+    const targetWordsPanel = document.getElementById('target-words-panel');
+    const wordboxAlert = document.getElementById('wordbox-alert');
+    const wordboxWinModal = document.getElementById('wordbox-win-modal');
 
-    function initWordGame() {
-      wordState.currentIndex = 0;
-      wordState.score = 0;
-      wordState.streak = 0;
-      document.getElementById('word-score').textContent = '0';
-      document.getElementById('word-streak').textContent = '🔥 0';
-      loadWordChallenge();
+    function initWordBoxGame() {
+      wordBoxState.currentBoxIdx = 0;
+      wordBoxState.score = 0;
+      loadWordBox(wordBoxState.currentBoxIdx);
     }
 
-    function loadWordChallenge() {
-      const item = wordGameData[wordState.currentIndex];
-      wordState.currentWord = item.word.toUpperCase();
-      wordState.currentHint = item.hint;
-      wordState.userLetters = [];
+    function loadWordBox(idx) {
+      wordBoxState.currentBoxIdx = idx;
+      wordBoxState.foundWords.clear();
+      wordBoxState.currentTrace = [];
+      wordBoxState.currentWord = "";
+      wordBoxState.isTracing = false;
 
-      document.getElementById('word-count-hud').textContent = `${wordState.currentIndex + 1} / ${wordGameData.length}`;
-      wordHintText.textContent = wordState.currentHint;
-      wordAlert.textContent = "Tap letters in correct order!";
-      wordAlert.className = "feedback-float-alert";
+      resetLineCanvas();
+      tracePreview.textContent = "SWIPE LETTERS";
+      wordboxAlert.textContent = "Slide finger to connect letters!";
+      wordboxAlert.className = "feedback-float-alert";
+      wordboxWinModal.classList.remove('active');
 
-      const lettersArr = wordState.currentWord.split('');
-      do {
-        lettersArr.sort(() => Math.random() - 0.5);
-      } while (lettersArr.join('') === wordState.currentWord && lettersArr.length > 2);
+      const data = wordBoxesData[idx];
+      document.getElementById('wordbox-level-hud').textContent = `BOX ${idx + 1} / ${wordBoxesData.length}`;
+      updateWordBoxHUD();
 
-      wordState.scrambledLetters = lettersArr;
-      renderWordSlots();
-      renderLettersBank();
+      renderTargetWords(data.words);
+      renderLetterNodes(data.letters);
     }
 
-    function renderWordSlots() {
-      wordSlotsContainer.innerHTML = '';
-      const wordLen = wordState.currentWord.length;
-
-      for (let i = 0; i < wordLen; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'word-slot';
-        if (i < wordState.userLetters.length) {
-          slot.textContent = wordState.userLetters[i].letter;
-          slot.classList.add('filled');
-          slot.addEventListener('click', () => removeLetterFromSlot(i));
-        }
-        wordSlotsContainer.appendChild(slot);
-      }
+    function updateWordBoxHUD() {
+      const data = wordBoxesData[wordBoxState.currentBoxIdx];
+      document.getElementById('wordbox-progress-hud').textContent = `${wordBoxState.foundWords.size} / ${data.words.length}`;
+      document.getElementById('wordbox-score-hud').textContent = wordBoxState.score;
     }
 
-    function renderLettersBank() {
-      lettersBank.innerHTML = '';
-      wordState.scrambledLetters.forEach((letter, idx) => {
-        const tile = document.createElement('button');
-        tile.className = 'letter-tile';
-        tile.textContent = letter;
-        tile.type = 'button';
+    function renderTargetWords(wordsList) {
+      targetWordsPanel.innerHTML = '';
+      
+      // Group target words by length (3, 4, 5, 6 letters)
+      const groups = {};
+      wordsList.forEach(w => {
+        const len = w.length;
+        if (!groups[len]) groups[len] = [];
+        groups[len].push(w);
+      });
 
-        const isUsed = wordState.userLetters.some(item => item.originalIndex === idx);
-        if (isUsed) {
-          tile.classList.add('used');
-        } else {
-          tile.addEventListener('click', () => addLetterToSlot(letter, idx));
-        }
-        lettersBank.appendChild(tile);
+      const sortedLengths = Object.keys(groups).sort((a, b) => a - b);
+
+      sortedLengths.forEach(len => {
+        const row = document.createElement('div');
+        row.className = 'target-group-row';
+
+        const label = document.createElement('span');
+        label.className = 'target-group-label';
+        label.textContent = `${len} Letters:`;
+        row.appendChild(label);
+
+        groups[len].forEach(w => {
+          const pill = document.createElement('div');
+          pill.className = 'word-pill-slot';
+          pill.dataset.word = w;
+
+          if (wordBoxState.foundWords.has(w)) {
+            pill.classList.add('found');
+          }
+
+          for (let i = 0; i < len; i++) {
+            const letterBox = document.createElement('span');
+            letterBox.className = 'word-letter-box';
+            letterBox.textContent = wordBoxState.foundWords.has(w) ? w[i] : '_';
+            pill.appendChild(letterBox);
+          }
+          row.appendChild(pill);
+        });
+
+        targetWordsPanel.appendChild(row);
       });
     }
 
-    function addLetterToSlot(letter, originalIndex) {
-      if (wordState.userLetters.length >= wordState.currentWord.length) return;
-      playSfx('click');
-      wordState.userLetters.push({ letter, originalIndex });
-      renderWordSlots();
-      renderLettersBank();
-      if (wordState.userLetters.length === wordState.currentWord.length) checkWordComplete();
+    function renderLetterNodes(letters) {
+      nodesContainer.innerHTML = '';
+      const total = letters.length;
+      const padRect = padEl.getBoundingClientRect();
+      const radius = 94; // radius of circle in 280px pad
+      const centerX = 140;
+      const centerY = 140;
+
+      letters.forEach((letter, i) => {
+        const angle = (i * (2 * Math.PI / total)) - (Math.PI / 2);
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+
+        const node = document.createElement('div');
+        node.className = 'letter-node';
+        node.textContent = letter;
+        node.dataset.letter = letter;
+        node.dataset.idx = i;
+        node.dataset.cx = x;
+        node.dataset.cy = y;
+
+        node.style.left = `${x}px`;
+        node.style.top = `${y}px`;
+
+        nodesContainer.appendChild(node);
+      });
     }
 
-    function removeLetterFromSlot(slotIndex) {
-      if (slotIndex >= wordState.userLetters.length) return;
-      playSfx('click');
-      wordState.userLetters.splice(slotIndex, 1);
-      renderWordSlots();
-      renderLettersBank();
+    // LINE CONNECT TOUCH / DRAG SYSTEM
+    function getNodeFromPoint(clientX, clientY) {
+      const el = document.elementFromPoint(clientX, clientY);
+      if (el && el.classList.contains('letter-node')) return el;
+      return null;
     }
 
-    function checkWordComplete() {
-      const formedWord = wordState.userLetters.map(item => item.letter).join('');
-      const slots = wordSlotsContainer.querySelectorAll('.word-slot');
+    function startTrace(node) {
+      if (!node) return;
+      playSfx('click');
+      wordBoxState.isTracing = true;
+      wordBoxState.currentTrace = [node];
+      node.classList.add('active');
 
-      if (formedWord === wordState.currentWord) {
-        playSfx('correct');
-        wordState.score += 20;
-        wordState.streak++;
-        document.getElementById('word-score').textContent = wordState.score;
-        document.getElementById('word-streak').textContent = `🔥 ${wordState.streak}`;
-        slots.forEach(s => s.classList.add('correct-slot'));
-        wordAlert.textContent = `🎉 EXCELLENT! "${wordState.currentWord}" IS CORRECT!`;
-        wordAlert.className = 'feedback-float-alert show correct';
+      wordBoxState.currentWord = node.dataset.letter;
+      tracePreview.textContent = wordBoxState.currentWord;
+      updateSvgPolyline();
+    }
 
-        setTimeout(() => {
-          wordState.currentIndex = (wordState.currentIndex + 1) % wordGameData.length;
-          loadWordChallenge();
-        }, 850);
-      } else {
-        playSfx('wrong');
-        wordState.streak = 0;
-        document.getElementById('word-streak').textContent = '🔥 0';
-        slots.forEach(s => s.classList.add('wrong-slot'));
-        wordAlert.textContent = '❌ Not quite! Check order & try again.';
-        wordAlert.className = 'feedback-float-alert show wrong';
-        setTimeout(() => slots.forEach(s => s.classList.remove('wrong-slot')), 500);
+    function extendTrace(node) {
+      if (!wordBoxState.isTracing || !node) return;
+      if (wordBoxState.currentTrace.includes(node)) return; // No duplicate nodes
+
+      playSfx('click');
+      wordBoxState.currentTrace.push(node);
+      node.classList.add('active');
+
+      wordBoxState.currentWord += node.dataset.letter;
+      tracePreview.textContent = wordBoxState.currentWord;
+      updateSvgPolyline();
+    }
+
+    function updateSvgPolyline() {
+      const points = wordBoxState.currentTrace.map(n => `${n.dataset.cx},${n.dataset.cy}`).join(' ');
+      svgPolyline.setAttribute('points', points);
+    }
+
+    function updateActivePointerLine(clientX, clientY) {
+      if (!wordBoxState.isTracing || wordBoxState.currentTrace.length === 0) return;
+      const lastNode = wordBoxState.currentTrace[wordBoxState.currentTrace.length - 1];
+      const rect = padEl.getBoundingClientRect();
+      const pointerX = clientX - rect.left;
+      const pointerY = clientY - rect.top;
+
+      svgActiveLine.setAttribute('x1', lastNode.dataset.cx);
+      svgActiveLine.setAttribute('y1', lastNode.dataset.cy);
+      svgActiveLine.setAttribute('x2', pointerX);
+      svgActiveLine.setAttribute('y2', pointerY);
+    }
+
+    function endTrace() {
+      if (!wordBoxState.isTracing) return;
+      wordBoxState.isTracing = false;
+
+      const word = wordBoxState.currentWord;
+      const data = wordBoxesData[wordBoxState.currentBoxIdx];
+
+      if (word.length >= 2) {
+        if (data.words.includes(word)) {
+          if (wordBoxState.foundWords.has(word)) {
+            // Already found
+            playSfx('wrong');
+            wordboxAlert.textContent = `"${word}" already discovered!`;
+            wordboxAlert.className = "feedback-float-alert show wrong";
+          } else {
+            // Correct New Word Found!
+            playSfx('correct');
+            wordBoxState.foundWords.add(word);
+            wordBoxState.score += (word.length * 10);
+            updateWordBoxHUD();
+
+            wordboxAlert.textContent = `🎉 "${word}" DISCOVERED! +${word.length * 10}`;
+            wordboxAlert.className = "feedback-float-alert show correct";
+
+            // Reveal in Target Words Panel
+            revealWordInPill(word);
+
+            // Check if all box words discovered!
+            if (wordBoxState.foundWords.size === data.words.length) {
+              checkBoxComplete();
+            }
+          }
+        } else {
+          // Invalid Word
+          playSfx('wrong');
+          wordboxAlert.textContent = `"${word}" is not in this box list!`;
+          wordboxAlert.className = "feedback-float-alert show wrong";
+        }
+      }
+
+      // Reset node styles & lines after trace
+      setTimeout(resetLineCanvas, 220);
+    }
+
+    function revealWordInPill(word) {
+      const pill = targetWordsPanel.querySelector(`.word-pill-slot[data-word="${word}"]`);
+      if (pill) {
+        pill.classList.add('found');
+        const boxes = pill.querySelectorAll('.word-letter-box');
+        boxes.forEach((b, i) => {
+          b.textContent = word[i];
+        });
       }
     }
 
-    document.getElementById('btn-word-undo').addEventListener('click', () => {
-      if (wordState.userLetters.length > 0) {
-        playSfx('click');
-        wordState.userLetters.pop();
-        renderWordSlots();
-        renderLettersBank();
+    function resetLineCanvas() {
+      svgPolyline.setAttribute('points', '');
+      svgActiveLine.setAttribute('x1', '0');
+      svgActiveLine.setAttribute('y1', '0');
+      svgActiveLine.setAttribute('x2', '0');
+      svgActiveLine.setAttribute('y2', '0');
+      document.querySelectorAll('.letter-node').forEach(n => n.classList.remove('active'));
+      wordBoxState.currentTrace = [];
+      wordBoxState.currentWord = "";
+    }
+
+    function checkBoxComplete() {
+      playSfx('win');
+      const boxNum = wordBoxState.currentBoxIdx + 1;
+      document.getElementById('wordbox-modal-title').textContent = `BOX ${boxNum} COMPLETE!`;
+      document.getElementById('wordbox-modal-count').textContent = `${wordBoxState.foundWords.size} / ${wordBoxState.foundWords.size} Words`;
+      document.getElementById('wordbox-modal-score').textContent = wordBoxState.score;
+
+      setTimeout(() => {
+        wordboxWinModal.classList.add('active');
+      }, 500);
+    }
+
+    // Touch & Pointer Listeners on Connector Pad
+    padEl.addEventListener('pointerdown', (e) => {
+      const node = getNodeFromPoint(e.clientX, e.clientY);
+      if (node) {
+        startTrace(node);
       }
     });
 
-    document.getElementById('btn-word-shuffle').addEventListener('click', () => {
+    padEl.addEventListener('pointermove', (e) => {
+      if (!wordBoxState.isTracing) return;
+      updateActivePointerLine(e.clientX, e.clientY);
+      const node = getNodeFromPoint(e.clientX, e.clientY);
+      if (node) {
+        extendTrace(node);
+      }
+    });
+
+    window.addEventListener('pointerup', endTrace);
+    window.addEventListener('pointercancel', endTrace);
+
+    // Hint Button (Reveals first letter of any unrevealed word)
+    document.getElementById('btn-wordbox-hint').addEventListener('click', () => {
+      const data = wordBoxesData[wordBoxState.currentBoxIdx];
+      const unrevealed = data.words.filter(w => !wordBoxState.foundWords.has(w));
+      if (unrevealed.length > 0) {
+        playSfx('gem');
+        const targetWord = unrevealed[0];
+        wordboxAlert.textContent = `💡 Hint: Look for word starting with "${targetWord.substring(0, 2)}..."`;
+        wordboxAlert.className = "feedback-float-alert show correct";
+      }
+    });
+
+    // Shuffle Button (Rotates letters inside the box)
+    document.getElementById('btn-wordbox-shuffle').addEventListener('click', () => {
       playSfx('gem');
-      wordState.userLetters = [];
-      wordState.scrambledLetters.sort(() => Math.random() - 0.5);
-      renderWordSlots();
-      renderLettersBank();
+      const data = wordBoxesData[wordBoxState.currentBoxIdx];
+      data.letters.sort(() => Math.random() - 0.5);
+      renderLetterNodes(data.letters);
     });
 
-    document.getElementById('btn-word-next').addEventListener('click', () => {
+    // Skip to Next Box
+    document.getElementById('btn-wordbox-skip').addEventListener('click', () => {
       playSfx('click');
-      wordState.currentIndex = (wordState.currentIndex + 1) % wordGameData.length;
-      loadWordChallenge();
+      const nextIdx = (wordBoxState.currentBoxIdx + 1) % wordBoxesData.length;
+      loadWordBox(nextIdx);
+    });
+
+    // Continue Next Box from Win Modal
+    document.getElementById('btn-wordbox-continue').addEventListener('click', () => {
+      playSfx('click');
+      wordboxWinModal.classList.remove('active');
+      const nextIdx = (wordBoxState.currentBoxIdx + 1) % wordBoxesData.length;
+      loadWordBox(nextIdx);
     });
 
     /* ========================================================
-       GAME 5: BODMAS MASTER (ORDER OF OPERATIONS)
+       GAME 5: BODMAS MASTER (INFINITE PROCEDURAL ENGINE)
        ======================================================== */
-    const bodmasData = [
-      { exp: "6 + 4 × 2", ans: 14, rule: "💡 Rule: Multiplication first (4 × 2 = 8), then 6 + 8 = 14! (Not 20)" },
-      { exp: "18 - 8 ÷ 2", ans: 14, rule: "💡 Rule: Division first (8 ÷ 2 = 4), then 18 - 4 = 14! (Not 5)" },
-      { exp: "(5 + 3) × 4", ans: 32, rule: "💡 Rule: Brackets first! (5 + 3 = 8), then 8 × 4 = 32!" },
-      { exp: "20 - (3 + 2) × 3", ans: 5, rule: "💡 Rule: Brackets first (5), then Multiply (5 × 3 = 15), then 20 - 15 = 5!" },
-      { exp: "12 + 6 ÷ 3 × 2", ans: 16, rule: "💡 Rule: Division/Multiplication left-to-right (6 ÷ 3 = 2, 2 × 2 = 4), then 12 + 4 = 16!" },
-      { exp: "(15 - 5) ÷ (2 + 3)", ans: 2, rule: "💡 Rule: Both Brackets first: (10) ÷ (5) = 2!" },
-      { exp: "7 × 3 - 10 ÷ 2", ans: 16, rule: "💡 Rule: Multiply (21) & Divide (5) first: 21 - 5 = 16!" },
-      { exp: "40 ÷ (4 + 6) × 3", ans: 12, rule: "💡 Rule: Brackets first (10), then 40 ÷ 10 = 4, then 4 × 3 = 12!" },
-      { exp: "9 + 9 ÷ 9 + 9 × 9", ans: 91, rule: "💡 Rule: Division (9÷9=1) & Multiply (9×9=81) first: 9 + 1 + 81 = 91!" },
-      { exp: "(8 + 2) × (9 - 4)", ans: 50, rule: "💡 Rule: Brackets first: (10) × (5) = 50!" },
-      { exp: "30 - 3 × 4 + 6", ans: 24, rule: "💡 Rule: Multiplication first (3 × 4 = 12), then 30 - 12 + 6 = 24!" },
-      { exp: "100 - 4 × (15 + 5)", ans: 20, rule: "💡 Rule: Brackets first (20), then 4 × 20 = 80, then 100 - 80 = 20!" },
-      { exp: "16 ÷ (2 + 6) + 7 × 2", ans: 16, rule: "💡 Rule: Brackets (8), 16 ÷ 8 = 2, 7 × 2 = 14, then 2 + 14 = 16!" },
-      { exp: "5 + 5 × 5 - 5", ans: 25, rule: "💡 Rule: Multiplication first (5 × 5 = 25), then 5 + 25 - 5 = 25!" },
-      { exp: "24 ÷ (3 × 2) + 8", ans: 12, rule: "💡 Rule: Brackets first (3 × 2 = 6), then 24 ÷ 6 = 4, then 4 + 8 = 12!" },
-      { exp: "(10 + 20) ÷ (15 - 10)", ans: 6, rule: "💡 Rule: Brackets first: (30) ÷ (5) = 6!" },
-      { exp: "8 + 12 ÷ 4 × 3", ans: 17, rule: "💡 Rule: 12 ÷ 4 = 3, then 3 × 3 = 9, then 8 + 9 = 17!" },
-      { exp: "50 - 5 × (4 + 2)", ans: 20, rule: "💡 Rule: Brackets (6), 5 × 6 = 30, then 50 - 30 = 20!" },
-      { exp: "4 × 5 + 18 ÷ 2", ans: 29, rule: "💡 Rule: Multiply (20) & Divide (9) first: 20 + 9 = 29!" },
-      { exp: "(35 - 5) ÷ (3 + 3) + 7", ans: 12, rule: "💡 Rule: (30) ÷ (6) = 5, then 5 + 7 = 12!" }
-    ];
-
     const bodmasState = {
-      index: 0, score: 0, streak: 0, options: [], isAnswered: false
+      score: 0, streak: 0, attempted: 0, usedSet: new Set(),
+      current: null, options: [], isAnswered: false
     };
 
     const bodmasButtons = document.querySelectorAll('.bodmas-opt');
     const bodmasAlert = document.getElementById('bodmas-alert');
     const bodmasRuleBox = document.getElementById('bodmas-rule-box');
 
+    function generateUniqueBodmas() {
+      let attempts = 0;
+      while (attempts < 150) {
+        attempts++;
+        const patternType = getRandomInt(1, 8);
+        let exp = "", ans = 0, rule = "";
+
+        if (patternType === 1) {
+          const a = getRandomInt(4, 25), b = getRandomInt(2, 9), c = getRandomInt(3, 8);
+          exp = `${a} + ${b} × ${c}`;
+          ans = a + (b * c);
+          rule = `💡 Rule: Multiply first (${b} × ${c} = ${b * c}), then add ${a} + ${b * c} = ${ans}!`;
+        } else if (patternType === 2) {
+          const a = getRandomInt(2, 15), b = getRandomInt(2, 15), c = getRandomInt(2, 8);
+          exp = `(${a} + ${b}) × ${c}`;
+          ans = (a + b) * c;
+          rule = `💡 Rule: Brackets first (${a} + ${b} = ${a + b}), then multiply ${a + b} × ${c} = ${ans}!`;
+        } else if (patternType === 3) {
+          const c = getRandomInt(2, 6), q = getRandomInt(2, 8);
+          const b = c * q;
+          const a = getRandomInt(b + 5, b + 30);
+          exp = `${a} - ${b} ÷ ${c}`;
+          ans = a - q;
+          rule = `💡 Rule: Divide first (${b} ÷ ${c} = ${q}), then subtract ${a} - ${q} = ${ans}!`;
+        } else if (patternType === 4) {
+          const c = getRandomInt(2, 8), q = getRandomInt(2, 10);
+          const diff = c * q;
+          const b = getRandomInt(5, 30);
+          const a = b + diff;
+          exp = `(${a} - ${b}) ÷ ${c}`;
+          ans = q;
+          rule = `💡 Rule: Brackets first (${a} - ${b} = ${diff}), then divide ${diff} ÷ ${c} = ${ans}!`;
+        } else if (patternType === 5) {
+          const d = getRandomInt(2, 5), q = getRandomInt(2, 6);
+          const c = d * q, a = getRandomInt(3, 8), b = getRandomInt(3, 7);
+          exp = `${a} × ${b} + ${c} ÷ ${d}`;
+          ans = (a * b) + q;
+          rule = `💡 Rule: Multiply (${a}×${b}=${a*b}) & Divide (${c}÷${d}=${q}) first, then add = ${ans}!`;
+        } else if (patternType === 6) {
+          const b = getRandomInt(1, 5), c = getRandomInt(1, 5), d = getRandomInt(2, 4);
+          const mult = (b + c) * d;
+          const a = mult + getRandomInt(5, 25);
+          exp = `${a} - (${b} + ${c}) × ${d}`;
+          ans = a - mult;
+          rule = `💡 Rule: Brackets first (${b}+${c}=${b+c}), then Multiply (${b+c}×${d}=${mult}), then ${a} - ${mult} = ${ans}!`;
+        } else if (patternType === 7) {
+          const c = getRandomInt(2, 5), q = getRandomInt(2, 6);
+          const b = c * q, d = getRandomInt(2, 5), a = getRandomInt(5, 20);
+          exp = `${a} + ${b} ÷ ${c} × ${d}`;
+          ans = a + (q * d);
+          rule = `💡 Rule: Left-to-right for ÷ & × (${b}÷${c}=${q}, ${q}×${d}=${q*d}), then ${a} + ${q*d} = ${ans}!`;
+        } else {
+          const denom = getRandomInt(2, 5), d = getRandomInt(1, 4);
+          const c = d + denom, q = getRandomInt(2, 8), num = denom * q;
+          const a = getRandomInt(2, num - 2), b = num - a;
+          exp = `(${a} + ${b}) ÷ (${c} - ${d})`;
+          ans = q;
+          rule = `💡 Rule: Both Brackets first: (${a}+${b}=${num}) ÷ (${c}-${d}=${denom}) = ${ans}!`;
+        }
+
+        if (!bodmasState.usedSet.has(exp)) {
+          bodmasState.usedSet.add(exp);
+          return { exp, ans, rule };
+        }
+      }
+      const fbA = getRandomInt(10, 30), fbB = getRandomInt(2, 6), fbC = getRandomInt(2, 5);
+      return {
+        exp: `${fbA} + ${fbB} × ${fbC}`,
+        ans: fbA + (fbB * fbC),
+        rule: `💡 Rule: Multiply first (${fbB} × ${fbC} = ${fbB * fbC}), then add = ${fbA + (fbB * fbC)}!`
+      };
+    }
+
     function initBodmasGame() {
-      bodmasState.index = 0;
       bodmasState.score = 0;
       bodmasState.streak = 0;
+      bodmasState.attempted = 0;
+      bodmasState.usedSet.clear();
       document.getElementById('bodmas-score').textContent = '0';
       document.getElementById('bodmas-streak').textContent = '🔥 0';
       loadBodmasQuestion();
@@ -2274,14 +2608,16 @@
       bodmasAlert.className = 'feedback-float-alert';
       bodmasRuleBox.classList.remove('show');
 
-      const q = bodmasData[bodmasState.index];
-      document.getElementById('bodmas-expression').textContent = q.exp;
-      document.getElementById('bodmas-q-count').textContent = `${bodmasState.index + 1} / ${bodmasData.length}`;
+      bodmasState.attempted++;
+      document.getElementById('bodmas-q-count').textContent = `#${bodmasState.attempted}`;
 
-      // Distractor generation
-      const target = q.ans;
+      bodmasState.current = generateUniqueBodmas();
+      document.getElementById('bodmas-expression').textContent = bodmasState.current.exp;
+
+      const target = bodmasState.current.ans;
       const opts = new Set([target]);
-      const offsets = [target + 6, target - 6, target * 2, Math.abs(target - 10), target + 12, target + 2];
+
+      const offsets = [target + 2, target - 2, target + 10, Math.abs(target - 8), target * 2, target + 5];
       offsets.sort(() => Math.random() - 0.5);
 
       for (const off of offsets) {
@@ -2291,7 +2627,7 @@
       let step = 1;
       while (opts.size < 4) {
         opts.add(target + step);
-        step += 2;
+        step += 3;
       }
 
       bodmasState.options = Array.from(opts).sort(() => Math.random() - 0.5);
@@ -2308,10 +2644,10 @@
       bodmasState.isAnswered = true;
 
       const chosen = bodmasState.options[idx];
-      const correct = bodmasData[bodmasState.index].ans;
+      const correct = bodmasState.current.ans;
       const clickedBtn = bodmasButtons[idx];
 
-      bodmasRuleBox.textContent = bodmasData[bodmasState.index].rule;
+      bodmasRuleBox.textContent = bodmasState.current.rule;
       bodmasRuleBox.classList.add('show');
 
       if (chosen === correct) {
@@ -2343,49 +2679,129 @@
 
     document.getElementById('btn-bodmas-next').addEventListener('click', () => {
       playSfx('click');
-      bodmasState.index = (bodmasState.index + 1) % bodmasData.length;
       loadBodmasQuestion();
     });
 
     /* ========================================================
-       GAME 6: NUMBER SERIES (PATTERN QUEST)
+       GAME 6: NUMBER SERIES (INFINITE PROCEDURAL ENGINE)
        ======================================================== */
-    const seriesData = [
-      { seq: "2, 4, 8, 16, ?", ans: 32, rule: "💡 Pattern: Multiply previous number by 2 (16 × 2 = 32)!" },
-      { seq: "5, 10, 15, 20, 25, ?", ans: 30, rule: "💡 Pattern: Add 5 each time (+5)!" },
-      { seq: "3, 7, 11, 15, 19, ?", ans: 23, rule: "💡 Pattern: Add 4 continuously (+4)!" },
-      { seq: "1, 4, 9, 16, 25, ?", ans: 36, rule: "💡 Pattern: Perfect squares (1², 2², 3², 4², 5², 6² = 36)!" },
-      { seq: "2, 3, 5, 8, 13, ?", ans: 21, rule: "💡 Pattern: Fibonacci sum of previous two numbers (8 + 13 = 21)!" },
-      { seq: "100, 95, 85, 70, ?", ans: 50, rule: "💡 Pattern: Subtract consecutive multiples (-5, -10, -15, -20 = 50)!" },
-      { seq: "2, 6, 18, 54, ?", ans: 162, rule: "💡 Pattern: Multiply by 3 each time (54 × 3 = 162)!" },
-      { seq: "1, 2, 4, 7, 11, 16, ?", ans: 22, rule: "💡 Pattern: Add +1, +2, +3, +4, +5, then +6 (16 + 6 = 22)!" },
-      { seq: "80, 40, 20, 10, ?", ans: 5, rule: "💡 Pattern: Divide by 2 each time (10 ÷ 2 = 5)!" },
-      { seq: "3, 6, 5, 10, 9, 18, ?", ans: 17, rule: "💡 Pattern: Alternate (× 2, then - 1): 18 - 1 = 17!" },
-      { seq: "7, 14, 12, 24, 22, ?", ans: 44, rule: "💡 Pattern: Alternate (× 2, then - 2): 22 × 2 = 44!" },
-      { seq: "4, 9, 19, 39, ?", ans: 79, rule: "💡 Pattern: Multiply by 2 and add 1 (39 × 2 + 1 = 79)!" },
-      { seq: "1, 8, 27, 64, ?", ans: 125, rule: "💡 Pattern: Cubes (1³, 2³, 3³, 4³, 5³ = 125)!" },
-      { seq: "11, 13, 17, 19, 23, ?", ans: 29, rule: "💡 Pattern: Consecutive prime numbers (next is 29)!" },
-      { seq: "5, 8, 14, 23, 35, ?", ans: 50, rule: "💡 Pattern: Differences increase by 3 (+3, +6, +9, +12, +15 = 50)!" },
-      { seq: "256, 128, 64, 32, ?", ans: 16, rule: "💡 Pattern: Half of previous number (32 ÷ 2 = 16)!" },
-      { seq: "12, 24, 21, 42, 39, ?", ans: 78, rule: "💡 Pattern: Alternate (× 2, then - 3): 39 × 2 = 78!" },
-      { seq: "0, 3, 8, 15, 24, ?", ans: 35, rule: "💡 Pattern: n² - 1 (6² - 1 = 36 - 1 = 35)!" },
-      { seq: "2, 5, 10, 17, 26, ?", ans: 37, rule: "💡 Pattern: n² + 1 (6² + 1 = 36 + 1 = 37)!" },
-      { seq: "6, 11, 21, 36, 56, ?", ans: 81, rule: "💡 Pattern: Add +5, +10, +15, +20, then +25 (56 + 25 = 81)!" }
-    ];
-
     const seriesState = {
-      index: 0, score: 0, attempted: 0, correct: 0, options: [], isAnswered: false
+      score: 0, attempted: 0, correct: 0, usedSet: new Set(),
+      current: null, options: [], isAnswered: false
     };
 
     const seriesButtons = document.querySelectorAll('.series-opt');
     const seriesAlert = document.getElementById('series-alert');
     const seriesRuleBox = document.getElementById('series-rule-box');
 
+    function generateUniqueSeries() {
+      let attempts = 0;
+      while (attempts < 150) {
+        attempts++;
+        const patternType = getRandomInt(1, 7);
+        let seqArr = [], ans = 0, rule = "";
+
+        if (patternType === 1) {
+          const start = getRandomInt(3, 40);
+          const diff = getRandomInt(3, 12);
+          seqArr = [start, start + diff, start + diff * 2, start + diff * 3, start + diff * 4];
+          ans = start + diff * 5;
+          rule = `💡 Pattern: Add ${diff} each time (+${diff})! Next is ${ans}.`;
+        } else if (patternType === 2) {
+          const mult = getRandomInt(2, 3);
+          const start = getRandomInt(2, 6);
+          let curr = start;
+          seqArr = [curr];
+          for (let i = 0; i < 4; i++) {
+            curr *= mult;
+            seqArr.push(curr);
+          }
+          ans = curr * mult;
+          rule = `💡 Pattern: Multiply previous number by ${mult} (×${mult})! Next is ${ans}.`;
+        } else if (patternType === 3) {
+          const start = getRandomInt(2, 20);
+          const step = getRandomInt(1, 3);
+          let curr = start;
+          let diff = getRandomInt(2, 5);
+          seqArr = [curr];
+          for (let i = 0; i < 4; i++) {
+            curr += diff;
+            seqArr.push(curr);
+            diff += step;
+          }
+          ans = curr + diff;
+          rule = `💡 Pattern: Difference increases by +${step} each step! Next difference is +${diff} (${curr} + ${diff} = ${ans}).`;
+        } else if (patternType === 4) {
+          const addVal = getRandomInt(5, 12);
+          const subVal = getRandomInt(2, addVal - 2);
+          const start = getRandomInt(10, 30);
+          let curr = start;
+          seqArr = [curr];
+          for (let i = 0; i < 2; i++) {
+            curr += addVal;
+            seqArr.push(curr);
+            curr -= subVal;
+            seqArr.push(curr);
+          }
+          ans = curr + addVal;
+          rule = `💡 Pattern: Alternating sequence (+${addVal}, -${subVal}, +${addVal}, -${subVal})! Next is +${addVal} (${curr} + ${addVal} = ${ans}).`;
+        } else if (patternType === 5) {
+          const offset = getRandomInt(-2, 3);
+          const startN = getRandomInt(1, 3);
+          seqArr = [];
+          for (let n = startN; n < startN + 5; n++) {
+            seqArr.push(n * n + offset);
+          }
+          const nextN = startN + 5;
+          ans = nextN * nextN + offset;
+          rule = offset === 0 
+            ? `💡 Pattern: Perfect squares (${nextN}² = ${ans})!` 
+            : `💡 Pattern: n² ${offset > 0 ? '+' : ''}${offset} (${nextN}² ${offset > 0 ? '+' : ''}${offset} = ${ans})!`;
+        } else if (patternType === 6) {
+          const c = getRandomInt(1, 3);
+          const start = getRandomInt(2, 6);
+          let curr = start;
+          seqArr = [curr];
+          for (let i = 0; i < 4; i++) {
+            curr = curr * 2 + c;
+            seqArr.push(curr);
+          }
+          ans = curr * 2 + c;
+          rule = `💡 Pattern: Multiply by 2 and add ${c} (× 2 + ${c})! Next is ${ans}.`;
+        } else {
+          const a = getRandomInt(1, 5);
+          const b = getRandomInt(a, a + 4);
+          let n1 = a, n2 = b;
+          seqArr = [n1, n2];
+          for (let i = 0; i < 3; i++) {
+            const next = n1 + n2;
+            seqArr.push(next);
+            n1 = n2;
+            n2 = next;
+          }
+          ans = n1 + n2;
+          rule = `💡 Pattern: Fibonacci sum of previous two numbers (${n1} + ${n2} = ${ans})!`;
+        }
+
+        const seqKey = seqArr.join(',');
+        if (!seriesState.usedSet.has(seqKey)) {
+          seriesState.usedSet.add(seqKey);
+          return { seq: seqArr.join(', ') + ', ?', ans, rule };
+        }
+      }
+
+      return {
+        seq: "4, 8, 12, 16, 20, ?",
+        ans: 24,
+        rule: "💡 Pattern: Add 4 each time (+4)!"
+      };
+    }
+
     function initSeriesGame() {
-      seriesState.index = 0;
       seriesState.score = 0;
       seriesState.attempted = 0;
       seriesState.correct = 0;
+      seriesState.usedSet.clear();
       document.getElementById('series-score').textContent = '0';
       document.getElementById('series-acc').textContent = '100%';
       loadSeriesQuestion();
@@ -2396,13 +2812,16 @@
       seriesAlert.className = 'feedback-float-alert';
       seriesRuleBox.classList.remove('show');
 
-      const q = seriesData[seriesState.index];
-      document.getElementById('series-display').textContent = q.seq;
-      document.getElementById('series-q-count').textContent = `${seriesState.index + 1} / ${seriesData.length}`;
+      const qNum = seriesState.attempted + 1;
+      document.getElementById('series-q-count').textContent = `#${qNum}`;
 
-      const target = q.ans;
+      seriesState.current = generateUniqueSeries();
+      document.getElementById('series-display').textContent = seriesState.current.seq;
+
+      const target = seriesState.current.ans;
       const opts = new Set([target]);
-      const offsets = [target + 2, target - 2, target + 4, target - 4, target + 10, target - 5];
+
+      const offsets = [target + 2, target - 2, target + 4, target - 4, target + 8, target - 5];
       offsets.sort(() => Math.random() - 0.5);
 
       for (const off of offsets) {
@@ -2430,10 +2849,10 @@
       seriesState.attempted++;
 
       const chosen = seriesState.options[idx];
-      const correct = seriesData[seriesState.index].ans;
+      const correct = seriesState.current.ans;
       const clickedBtn = seriesButtons[idx];
 
-      seriesRuleBox.textContent = seriesData[seriesState.index].rule;
+      seriesRuleBox.textContent = seriesState.current.rule;
       seriesRuleBox.classList.add('show');
 
       if (chosen === correct) {
@@ -2465,7 +2884,6 @@
 
     document.getElementById('btn-series-next').addEventListener('click', () => {
       playSfx('click');
-      seriesState.index = (seriesState.index + 1) % seriesData.length;
       loadSeriesQuestion();
     });
 
