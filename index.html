@@ -1,9 +1,39 @@
+అవును, మీరు గమనించింది నిజమే! మునుపటి మెసేజ్‌లో మీరు Word Box కి ప్రత్యేకంగా
+ఇచ్చిన పూర్తి స్పెసిఫికేషన్ ఆధారంగా కేవలం ఆ ఒక్క గేమ్‌ను మాత్రమే అప్‌డేట్ చేసి
+ఇచ్చాను. అందువల్ల మిగిలిన 5 గేమ్స్ కోడ్ అందులో లేకపోవడంతో లైన్స్ తగ్గాయి.
+
+ఇప్పుడు మొత్తం 6 గేమ్‌లను (All 6 Games Total Code) ఒకే సింగిల్ HTML ఫైల్‌లో
+సిద్ధం చేశాను:
+
+ఇందులో ఉన్న 6 గేమ్స్:
+
+1.  🧮 Quick Maths: 4 ఆప్షన్స్ & టైపింగ్ మోడ్‌తో స్పీడ్ క్యాలిక్యులేషన్ (Blue
+    Button).
+2.  🧩 6×6 Sudoku: 2×3 బ్లాక్స్, రాంగ్ అలర్ట్స్, హింట్స్ మరియు టైమర్‌తో లాజిక్
+    పజిల్ (Green Button).
+3.  🔴 3D Ball Run: స్టార్టింగ్‌లో ఫ్రీ రన్, స్మూత్ స్పీడ్-అప్ & మొబైల్ టచ్
+    కంట్రోల్ (Orange Button).
+4.  📦 Word Box (Updated):
+      - 8 దిశల్లో (Left, Right, Up, Down, Diagonal) వేలితో లైన్ గీస్తూ ఆడే అసలైన
+        Word Connect/Boggle పజిల్.
+      - ఆటోమేటిక్ నెక్స్ట్ బాక్స్: బాక్స్‌లోని టార్గెట్ పదాలు పూర్తి కాగానే
+        ఎలాంటి బటన్ నొక్కే పనిలేకుండా ఆటోమేటిక్‌గా నెక్స్ట్ బాక్స్‌కి
+        వెళ్లిపోతుంది.
+      - 3×3 నుండి 5×5 వరకు మొత్తం 20 బాక్సులు, డిక్షనరీ వెరిఫికేషన్ మరియు
+        హింట్స్.
+5.  📐 BODMAS Master: ఆర్డర్ ఆఫ్ ఆపరేషన్స్ ఛాలెంజ్ — ఒకసారి వచ్చిన లెక్క మళ్లీ
+    రాని (No Repeats) అపరిమిత ఆటోమేటిక్ జనరేటర్ (Cyan Button).
+6.  🔢 Number Series: సీక్వెన్స్ & ప్యాటర్న్ పజిల్ — నో-రిపీట్ (No Repeats)
+    ఆటోమేటిక్ జనరేటర్ & రూల్ ఎక్స్‌ప్లనేషన్ (Amber Button).
+
+ఈ క్రింది పూర్తి (Entire Total) కోడ్‌ను కాపీ చేసి మీ index.html ఫైల్‌లో ఉంచండి:
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain & Arcade Games Hub - 6 Games</title>
+  <title>Brain & Arcade Games Hub - All 6 Games</title>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -33,6 +63,7 @@
       --accent-red: #ef4444;
       --accent-green: #10b981;
       --accent-amber: #f59e0b;
+      --accent-violet: #8b5cf6;
       --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
@@ -274,7 +305,7 @@
 
     /* COMMON CARD WRAPPER */
     .game-wrapper {
-      max-width: 520px;
+      max-width: 500px;
       margin: 0 auto;
     }
 
@@ -527,148 +558,152 @@
     }
 
     /* ========================================================
-       GAME 4: WORD BOX (LINE-CONNECT PUZZLE BOARD)
+       GAME 4: FULL WORD BOX (8-DIRECTION SWIPE • 20 BOXES)
        ======================================================== */
-    .word-box-board {
+    .word-preview-wrapper {
+      min-height: 44px;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
-
-    /* Target Words Area (3 letters, 4 letters, 5 letters, 6 letters) */
-    .target-words-panel {
-      width: 100%;
-      max-width: 440px;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 16px;
-      padding: 12px 10px;
-      min-height: 90px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .target-group-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .target-group-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: #c084fc;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 2px;
-    }
-
-    .word-pill-slot {
-      display: inline-flex;
-      gap: 3px;
-      background: #090e1a;
-      border: 1px solid #334155;
-      padding: 4px 6px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .word-pill-slot.found {
-      border-color: #10b981;
-      background: rgba(16, 185, 129, 0.18);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
-    }
-
-    .word-letter-box {
-      width: 22px;
-      height: 24px;
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #94a3b8;
-      border-bottom: 2px solid #475569;
+      margin-bottom: 8px;
+      position: relative;
     }
 
-    .word-pill-slot.found .word-letter-box {
-      color: #34d399;
-      border-bottom-color: #10b981;
-    }
-
-    /* Traced Word Live Preview Bubble */
-    .trace-preview-bubble {
-      min-height: 38px;
-      padding: 6px 18px;
+    .word-preview-bubble {
+      min-width: 150px;
+      padding: 6px 20px;
       background: #1e1b4b;
-      border: 1px solid #a855f7;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+      border: 2px solid var(--accent-violet);
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.35);
       border-radius: 999px;
       font-family: var(--font-mono);
       font-size: 1.4rem;
       font-weight: 900;
+      letter-spacing: 0.15em;
       color: #ffffff;
-      letter-spacing: 0.12em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       transition: transform 0.1s ease;
     }
 
-    /* Interactive Swiping Box with SVG Line Overlay */
-    .connector-box-pad {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      margin: 6px auto;
-      background: radial-gradient(circle, #2e1065 0%, #15082e 100%);
-      border: 3px solid #a855f7;
-      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.35), inset 0 0 20px rgba(0, 0, 0, 0.6);
-      border-radius: 28px;
-      touch-action: none; /* Prevents mobile scroll while dragging lines */
+    .word-preview-bubble.empty {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      border-color: #334155;
+      box-shadow: none;
     }
 
-    .connector-svg-canvas {
+    .grid-container-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      aspect-ratio: 1;
+      margin: 0 auto 12px;
+      touch-action: none; /* Prevents mobile scroll while swiping across tiles */
+    }
+
+    .letter-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      gap: 8px;
+      padding: 8px;
+      background: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 24px;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6), 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .grid-3x3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4x4 { grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 7px; }
+    .grid-5x5 { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 5px; }
+
+    .tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 2px solid #334155;
+      border-radius: 16px;
+      font-family: var(--font-mono);
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #090e17, 0 6px 12px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease;
+    }
+
+    .grid-4x4 .tile { font-size: 1.45rem; border-radius: 13px; }
+    .grid-5x5 .tile { font-size: 1.2rem; border-radius: 10px; }
+
+    .tile.selected {
+      background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+      border-color: #f8fafc;
+      transform: scale(1.06);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 4px 0 #4c1d95;
+      color: #ffffff;
+      z-index: 15;
+    }
+
+    .tile.hint-pulse {
+      animation: hintFlash 0.5s ease 3;
+    }
+    @keyframes hintFlash {
+      0%, 100% { background: #1e293b; border-color: #334155; }
+      50% { background: #059669; border-color: #34d399; transform: scale(1.08); }
+    }
+
+    .grid-svg-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 10;
+      z-index: 5;
     }
 
-    .letter-node {
-      position: absolute;
-      width: 58px;
-      height: 58px;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(180deg, #581c87 0%, #3b0764 100%);
-      border: 2px solid #c084fc;
-      box-shadow: 0 4px 0 #2e1065, 0 6px 14px rgba(0, 0, 0, 0.5);
-      border-radius: 50%;
+    .found-container {
+      width: 100%;
+      max-width: 350px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 8px 12px;
+      margin: 0 auto 12px;
+      min-height: 60px;
+      max-height: 85px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .found-header-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 1.7rem;
-      font-weight: 900;
-      color: #ffffff;
-      cursor: pointer;
-      z-index: 20;
-      transition: transform 0.12s, background 0.12s;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-transform: uppercase;
     }
 
-    .letter-node.active {
-      background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
-      border-color: #ffffff;
-      box-shadow: 0 0 18px rgba(168, 85, 247, 0.85);
-      transform: translate(-50%, -50%) scale(1.15);
+    .found-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .word-chip {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
     }
 
     /* NUMBER SERIES & BODMAS BANNER */
@@ -740,8 +775,6 @@
       .series-display-box { font-size: 1.7rem; }
       .btn-option { padding: 14px 8px; font-size: 1.4rem; }
       #ball-canvas { height: 370px; }
-      .connector-box-pad { width: 260px; height: 260px; }
-      .letter-node { width: 52px; height: 52px; font-size: 1.55rem; }
     }
   </style>
 </head>
@@ -820,14 +853,14 @@
           </button>
         </div>
 
-        <!-- BOX 4: WORD BOX (LINE CONNECT - 10 BOXES) -->
+        <!-- BOX 4: WORD BOX (20 PUZZLE BOXES - 8-DIRECTION SWIPE) -->
         <div class="game-card-box card-word-box">
           <div>
             <div class="game-icon-large">📦</div>
             <h2 class="game-box-title">WORD BOX</h2>
-            <span class="game-box-badge badge-purple">Line Connect • 10 Boxes</span>
+            <span class="game-box-badge badge-purple">8-Way Swipe • 20 Boxes</span>
             <p class="game-box-desc">
-              Connect letters with a line to discover 3, 4, 5 & 6 letter words in 10 boxes!
+              Swipe adjacent letters in 8 directions to discover words. Auto-advances across 20 boxes!
             </p>
           </div>
           <button id="btn-launch-word" class="btn-3d btn-purple" type="button">
@@ -1041,67 +1074,71 @@
     </section>
 
     <!-- ========================================================
-         VIEW 5: WORD BOX (LINE-CONNECT 10 BOXES PUZZLE)
+         VIEW 5: WORD BOX (8-DIRECTION SWIPE • 20 PROGRESSIVE BOXES)
          ======================================================== -->
     <section id="view-word" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #c084fc; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">
-            Connect with Line (10 Boxes)
-          </div>
-          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">WORD BOX</h2>
-
+          <!-- Top HUD -->
           <div class="stat-header">
             <div>
-              <span class="stat-label">Current Box</span>
-              <span id="wordbox-level-hud" class="stat-val" style="color: #c084fc;">BOX 1 / 10</span>
-            </div>
-            <div>
-              <span class="stat-label">Found</span>
-              <span id="wordbox-progress-hud" class="stat-val" style="color: #34d399;">0 / 6</span>
+              <span class="stat-label">Box</span>
+              <span id="wb-hud-box" class="stat-val" style="color: var(--accent-violet);">1 / 20</span>
             </div>
             <div>
               <span class="stat-label">Score</span>
-              <span id="wordbox-score-hud" class="stat-val" style="color: #fbbf24;">0</span>
+              <span id="wb-hud-score" class="stat-val">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Time</span>
+              <span id="wb-hud-time" class="stat-val" style="color: var(--accent-cyan);">00:00</span>
+            </div>
+            <div>
+              <span class="stat-label">Target</span>
+              <span id="wb-hud-target" class="stat-val" style="color: var(--accent-green);">0 / 5</span>
             </div>
           </div>
 
-          <div id="wordbox-alert" class="feedback-float-alert">Slide finger across letters to connect a line!</div>
-
-          <!-- TARGET WORDS AREA (3 letters, 4 letters, 5 letters, 6 letters) -->
-          <div id="target-words-panel" class="target-words-panel">
-            <!-- Dynamic word slots by length -->
+          <!-- Word Forming Bubble Display -->
+          <div class="word-preview-wrapper">
+            <div id="wb-floating-feedback" class="feedback-float-alert">VALID +20</div>
+            <div id="wb-preview-bubble" class="word-preview-bubble empty">SWIPE LETTERS</div>
           </div>
 
-          <!-- LIVE TRACED WORD BUBBLE -->
-          <div style="margin: 8px 0;">
-            <div id="trace-preview" class="trace-preview-bubble">CONNECT</div>
-          </div>
-
-          <!-- LETTER BOX WITH SVG CONNECTING LINE -->
-          <div id="connector-box-pad" class="connector-box-pad">
-            <svg id="connector-svg" class="connector-svg-canvas">
-              <!-- Dynamic connecting line segments -->
-              <polyline id="svg-polyline" points="" fill="none" stroke="#c084fc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
-              <line id="svg-active-line" x1="0" y1="0" x2="0" y2="0" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-dasharray="4,4" />
+          <!-- Square Letter Grid with SVG Line Overlay -->
+          <div id="wb-grid-wrapper" class="grid-container-wrapper">
+            <svg id="wb-grid-svg" class="grid-svg-overlay">
+              <polyline id="wb-svg-trace" points="" fill="none" stroke="#a855f7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+              <line id="wb-svg-pointer" x1="0" y1="0" x2="0" y2="0" stroke="#c084fc" stroke-width="5" stroke-linecap="round" stroke-dasharray="4,4" opacity="0.8" />
             </svg>
-            <div id="letter-nodes-container">
-              <!-- Letter circles positioned by JS -->
+            <div id="wb-letter-grid" class="letter-grid grid-3x3">
+              <!-- Dynamically generated tiles -->
             </div>
           </div>
 
-          <!-- Control Actions -->
-          <div style="display: flex; gap: 8px; margin-top: 10px;">
-            <button id="btn-wordbox-hint" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">💡 Hint</button>
-            <button id="btn-wordbox-shuffle" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">🔄 Shuffle</button>
-            <button id="btn-wordbox-skip" class="btn-3d btn-purple" style="padding: 10px; flex: 1.2;" type="button">Next Box ⏭️</button>
+          <!-- Discovered Words List -->
+          <div class="found-container">
+            <div class="found-header-row">
+              <span>Discovered Words</span>
+              <span id="wb-found-count">0 found</span>
+            </div>
+            <div id="wb-found-list" class="found-list">
+              <!-- Word chips inserted here -->
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div style="display: flex; gap: 8px;">
+            <button id="wb-btn-hint" class="btn-3d btn-cyan" style="flex: 1.2; padding: 10px;" type="button">💡 Hint (<span id="wb-hint-badge">3</span>)</button>
+            <button id="wb-btn-next-box" class="btn-3d btn-purple" style="flex: 1; padding: 10px;" type="button">Skip Box ⏭️</button>
+            <button class="btn-3d btn-secondary" style="flex: 0.8; padding: 10px;" onclick="openView('hub')" type="button">Menu</button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========================================================
-         VIEW 6: BODMAS MASTER (INFINITE UNIQUE ENGINE)
+         VIEW 6: BODMAS MASTER
          ======================================================== -->
     <section id="view-bodmas" class="view-section">
       <div class="game-wrapper">
@@ -1148,7 +1185,7 @@
     </section>
 
     <!-- ========================================================
-         VIEW 7: NUMBER SERIES (INFINITE UNIQUE ENGINE)
+         VIEW 7: NUMBER SERIES
          ======================================================== -->
     <section id="view-series" class="view-section">
       <div class="game-wrapper">
@@ -1198,23 +1235,41 @@
 
   </main>
 
-  <!-- WORD BOX COMPLETE MODAL -->
-  <div id="wordbox-win-modal" class="modal-overlay">
-    <div class="modal-box" style="border: 2px solid #a855f7;">
-      <div style="font-size: 3rem; margin-bottom: 6px;">📦✨</div>
-      <h2 id="wordbox-modal-title" style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 4px;">BOX 1 COMPLETE!</h2>
-      <div style="color: #c084fc; font-size: 0.95rem; margin-bottom: 16px;">All target words found successfully!</div>
-      <div style="background: #0f172a; border-radius: 12px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+  <!-- WORD BOX COMPLETE MODAL (AUTOMATIC TRANSITION) -->
+  <div id="wb-modal-box-complete" class="modal-overlay">
+    <div class="modal-box" style="border: 2px solid var(--accent-green);">
+      <div style="font-size: 3rem; margin-bottom: 4px;">🎉</div>
+      <h2 id="wb-complete-title" style="font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 4px;">BOX 1 COMPLETE!</h2>
+      <div style="color: var(--accent-green); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;">+150 BOX BONUS</div>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+        Advancing to next box automatically...
+      </p>
+      <div style="width: 100%; height: 6px; background: #1e293b; border-radius: 999px; overflow: hidden;">
+        <div id="wb-auto-progress" style="width: 0%; height: 100%; background: var(--accent-green); transition: width 1.5s linear;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORD BOX 20 VICTORY MODAL -->
+  <div id="wb-modal-victory" class="modal-overlay">
+    <div class="modal-box" style="border: 2px solid var(--accent-amber);">
+      <div style="font-size: 3.5rem; margin-bottom: 4px;">🏆</div>
+      <h2 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 12px;">GAME COMPLETE!</h2>
+      <div style="background: #0f172a; border-radius: 14px; padding: 14px; text-align: left; margin-bottom: 18px; font-size: 0.95rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span>Total Score:</span>
+          <b id="wb-res-score" style="font-family: var(--font-mono); color: var(--accent-cyan);">0</b>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
           <span>Words Discovered:</span>
-          <span id="wordbox-modal-count" style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">6 / 6</span>
+          <b id="wb-res-words" style="font-family: var(--font-mono); color: var(--accent-green);">0</b>
         </div>
         <div style="display: flex; justify-content: space-between;">
-          <span>Total Score:</span>
-          <span id="wordbox-modal-score" style="font-family: var(--font-mono); font-weight: 700; color: #fbbf24;">120</span>
+          <span>Total Time:</span>
+          <b id="wb-res-time" style="font-family: var(--font-mono); color: var(--accent-amber);">00:00</b>
         </div>
       </div>
-      <button id="btn-wordbox-continue" class="btn-3d btn-purple" type="button">Continue to Next Box ⏭️</button>
+      <button id="wb-btn-restart-all" class="btn-3d btn-purple" type="button">Play 20 Boxes Again</button>
     </div>
   </div>
 
@@ -1288,55 +1343,55 @@
         if (!ctx) return;
         const now = ctx.currentTime;
 
-        if (type === 'click') {
+        if (type === 'click' || type === 'tile') {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(600, now);
-          osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
-          gain.gain.setValueAtTime(0.14, now);
+          osc.frequency.setValueAtTime(550, now);
+          osc.frequency.exponentialRampToValueAtTime(320, now + 0.04);
+          gain.gain.setValueAtTime(0.12, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start(now);
           osc.stop(now + 0.05);
 
-        } else if (type === 'correct') {
-          const notes = [523.25, 783.99];
+        } else if (type === 'correct' || type === 'valid') {
+          const notes = [523.25, 659.25, 783.99];
           notes.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            const startTime = now + (idx * 0.08);
+            const startTime = now + (idx * 0.07);
             osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, startTime);
-            gain.gain.setValueAtTime(0.2, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.16);
+            gain.gain.setValueAtTime(0.18, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(startTime);
-            osc.stop(startTime + 0.18);
+            osc.stop(startTime + 0.16);
           });
 
-        } else if (type === 'wrong') {
+        } else if (type === 'wrong' || type === 'invalid') {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(140, now);
-          osc.frequency.linearRampToValueAtTime(90, now + 0.22);
-          gain.gain.setValueAtTime(0.24, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.frequency.linearRampToValueAtTime(85, now + 0.2);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + 0.23);
+          osc.stop(now + 0.21);
 
-        } else if (type === 'gem') {
+        } else if (type === 'gem' || type === 'hint') {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(987.77, now);
           osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1);
-          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.setValueAtTime(0.18, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
           osc.connect(gain);
           gain.connect(ctx.destination);
@@ -1356,20 +1411,20 @@
           osc.start(now);
           osc.stop(now + 0.33);
 
-        } else if (type === 'win') {
+        } else if (type === 'win' || type === 'box') {
           const notes = [523.25, 659.25, 783.99, 1046.50];
           notes.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            const startTime = now + (idx * 0.1);
+            const startTime = now + (idx * 0.09);
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(freq, startTime);
-            gain.gain.setValueAtTime(0.25, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.25);
+            gain.gain.setValueAtTime(0.22, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(startTime);
-            osc.stop(startTime + 0.28);
+            osc.stop(startTime + 0.24);
           });
         }
       } catch (e) {}
@@ -1393,6 +1448,7 @@
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
       if (viewName !== 'sudoku') stopSudokuTimer();
+      if (viewName !== 'word') stopWordBoxTimer();
 
       Object.keys(views).forEach(k => {
         views[k].classList.toggle('active', k === viewName);
@@ -1403,7 +1459,7 @@
       } else if (viewName === 'ball') {
         init3DBallGame();
       } else if (viewName === 'word') {
-        initWordBoxGame();
+        initWordBox20();
       } else if (viewName === 'bodmas') {
         initBodmasGame();
       } else if (viewName === 'series') {
@@ -2147,369 +2203,538 @@
     document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
 
     /* ========================================================
-       GAME 4: WORD BOX (LINE-CONNECT 10 BOXES ENGINE)
+       GAME 4: WORD BOX (8-DIRECTION SWIPE • 20 BOXES • AUTO-ADVANCE)
        ======================================================== */
-    const wordBoxesData = [
-      // Box 1
-      {
-        letters: ["A", "C", "T", "S"],
-        words: ["ACT", "CAT", "SAT", "ACTS", "CATS", "CAST"]
-      },
-      // Box 2
-      {
-        letters: ["E", "A", "R", "T", "H"],
-        words: ["ART", "EAT", "HAT", "RAT", "TEA", "EAR", "HATE", "HEAT", "TEAR", "EARTH", "HEART"]
-      },
-      // Box 3
-      {
-        letters: ["P", "O", "S", "T"],
-        words: ["OPT", "POT", "TOP", "SOP", "POST", "SPOT", "STOP", "TOPS", "POTS"]
-      },
-      // Box 4
-      {
-        letters: ["S", "M", "A", "R", "T"],
-        words: ["ARM", "ART", "MAT", "RAM", "RAT", "SAT", "ARMS", "STAR", "TRAM", "MARS", "SMART"]
-      },
-      // Box 5
-      {
-        letters: ["B", "R", "A", "I", "N"],
-        words: ["AIR", "BAN", "BAR", "BIN", "RAN", "RIB", "BARN", "RAIN", "BRAN", "BRAIN"]
-      },
-      // Box 6
-      {
-        letters: ["P", "L", "A", "N", "E", "T"],
-        words: ["APE", "NET", "PAN", "PEN", "PET", "TAP", "TEA", "LATE", "LEAN", "NEAT", "PLAN", "TAPE", "PALE", "PANEL", "PLANT", "PLANE", "PLANET"]
-      },
-      // Box 7
-      {
-        letters: ["S", "P", "R", "I", "N", "G"],
-        words: ["PIG", "PIN", "RIP", "RIG", "SIN", "SIP", "SIR", "GRIP", "PING", "RING", "SIGN", "SING", "GRIPS", "RINGS", "SPRING"]
-      },
-      // Box 8
-      {
-        letters: ["S", "I", "L", "V", "E", "R"],
-        words: ["LIE", "SIR", "VIE", "LIVE", "VEIL", "VILE", "RISE", "SIRE", "LIVER", "RIVAL", "SILVER"]
-      },
-      // Box 9
-      {
-        letters: ["F", "L", "O", "W", "E", "R"],
-        words: ["FOR", "LOW", "OWL", "ROW", "FEW", "FLOW", "FOWL", "WOLF", "FORE", "LORE", "ROLE", "LOWER", "FLOWER"]
-      },
-      // Box 10
-      {
-        letters: ["M", "A", "S", "T", "E", "R"],
-        words: ["ARM", "ART", "EAR", "MAT", "RAM", "RAT", "SEA", "SET", "TEA", "ARMS", "EAST", "MATE", "MEAT", "RATE", "REST", "SEAT", "STAR", "TEAM", "TEAR", "SMART", "STARE", "STEAM", "MASTER", "STREAM"]
-      }
+    const RAW_DICTIONARY = [
+      "ACT","ACE","AGE","AIR","ALL","AND","ANT","APE","ARC","ARM","ART","ASH","ASK","BAD","BAG","BAR","BAT","BAY","BED","BEE","BET",
+      "BIG","BIN","BIRD","BIT","BLOW","BLUE","BOAT","BODY","BOIL","BONE","BOOK","BORN","BOWL","BOY","BOX","BUS","BUSY","BUT","BUY",
+      "CAMP","CAN","CAP","CAR","CARE","CART","CASE","CAST","CAT","CAVE","CHEF","CITY","CLAP","CLAY","CLAW","CLIP","COAL","COAT","COLD",
+      "COME","COOK","COOL","CORN","COST","CRAB","CROP","CROW","CURE","CUP","CUT","DARK","DAWN","DAYS","DEAL","DEAR","DEEP","DEER","DESK",
+      "DIET","DINT","DIRT","DISH","DIVE","DOCK","DOG","DOOR","DOT","DOWN","DRAW","DREAM","DROP","DRUM","DRY","DUCK","DUST","EACH","EAR",
+      "EARN","EARTH","EAST","EAT","EDGE","EGG","ENVY","EYE","FACE","FACT","FAIR","FALL","FAME","FARM","FAST","FAT","FEAR","FEED","FEEL",
+      "FEET","FILL","FILM","FIND","FINE","FIRE","FISH","FIST","FIT","FIVE","FLAT","FLOW","FLY","FOG","FOLD","FOOD","FOOT","FOR","FORK",
+      "FORT","FOUL","FOUR","FOX","FREE","FROG","FROM","FULL","GAME","GATE","GAVE","GEAR","GIFT","GIRL","GIVE","GLAD","GLOW","GOAL","GOAT",
+      "GOLD","GOOD","GRAB","GRAY","GREW","GRID","GROW","GULF","HAIR","HALF","HALL","HAND","HANG","HARD","HARM","HAT","HATE","HAVE","HEAD",
+      "HEAL","HEAR","HEAT","HELP","HERO","HIDE","HIGH","HILL","HINT","HOLD","HOLE","HOME","HONEY","HOPE","HORN","HORSE","HOST","HOUR","HOUSE",
+      "HUGE","HUNT","HURT","ICE","IDEA","IRON","ISLAND","ITEM","JARS","JAW","JEAN","JOIN","JOKE","JOY","JUMP","JUST","KEEP","KEPT","KICK",
+      "KID","KIND","KING","KISS","KITE","KNEE","KNEW","KNOT","KNOW","LADY","LAKE","LAMP","LAND","LANE","LAST","LATE","LAWN","LEAD","LEAF",
+      "LEAP","LEARN","LEFT","LEGS","LEND","LENS","LESS","LIFE","LIFT","LIGHT","LIKE","LIME","LINE","LION","LIPS","LIST","LIVE","LOAD","LOAF",
+      "LOCK","LONG","LOOK","LOOP","LORD","LOSE","LOST","LOUD","LOVE","LUCK","LUNG","MADE","MAIL","MAIN","MAKE","MALE","MANY","MAP","MARK",
+      "MASK","MASS","MAST","MATE","MEAL","MEAN","MEAT","MEET","MELT","MEND","MILE","MILK","MILL","MIND","MINE","MINT","MISS","MIST","MOON",
+      "MORE","MOST","MOTH","MOVE","MUCH","MUD","MULE","MUST","NAME","NEAR","NEAT","NECK","NEED","NEST","NET","NEWS","NEXT","NICE","NIGHT",
+      "NINE","NOON","NOSE","NOTE","OAK","OAR","OCEAN","OFF","OIL","OLD","ONCE","ONE","OPEN","ORAL","OVEN","OVER","OWL","PACE","PACK","PAGE",
+      "PAIN","PAIR","PALE","PALM","PAN","PARK","PART","PASS","PAST","PATH","PEAK","PEAR","PECK","PEEL","PET","PICK","PIG","PILE","PIN","PINE",
+      "PINK","PINT","PIPE","PLAN","PLANT","PLAY","PLUG","POEM","POET","POINT","POLE","POND","POOL","POOR","PORK","PORT","POST","POT","POUR",
+      "PRAY","PULL","PURE","PUSH","RACE","RAIN","RAKE","RAMP","RANK","RARE","RATE","READ","REAL","REAP","RED","REST","RICE","RICH","RIDE",
+      "RING","RIPE","RISE","RISK","ROAD","ROAR","ROBE","ROCK","ROD","ROOF","ROOT","ROPE","ROSE","ROUT","ROW","RUDE","RULE","RUSH","RUST",
+      "SAFE","SAIL","SALE","SALT","SAME","SAND","SAVE","SEAL","SEAM","SEAT","SEED","SEEK","SEEM","SEEN","SELF","SELL","SEND","SHIP","SHOE",
+      "SHOP","SHOT","SHOW","SHUT","SICK","SIDE","SIGN","SILK","SILVER","SING","SINK","SITE","SIZE","SKIN","SKIP","SKY","SLAP","SLID","SLIM",
+      "SLOW","SNOW","SOAP","SOIL","SOLAR","SOLD","SOLE","SOME","SONG","SOON","SORE","SOUP","SOUR","SPIN","SPOT","STAR","STAY","STEM","STEP",
+      "STIR","STOP","STORM","SUCH","SUIT","SUN","SURE","SWAN","SWIM","TALE","TALK","TALL","TANK","TAPE","TASK","TEAM","TEAR","TENT","TERM",
+      "TEST","TEXT","THAT","THEM","THEN","THEY","THIN","THIS","TIDE","TIDY","TIE","TIME","TINY","TIRE","TOAD","TOLL","TONE","TOOK","TOOL",
+      "TOP","TORE","TORN","TOUR","TOWN","TRAP","TREE","TRIP","TRUE","TUBE","TUNE","TURN","TWIN","TWO","TYPE","UGLY","UNIT","UPON","URGE",
+      "VAIN","VAST","VEIL","VENT","VERB","VERY","VIEW","VINE","VOICE","VOLT","VOTE","WAIT","WAKE","WALK","WALL","WANT","WARM","WARN","WASH",
+      "WASP","WAVE","WEAK","WEAR","WEEK","WENT","WEST","WHAT","WHEN","WIDE","WILD","WILL","WIND","WING","WINK","WINS","WIPE","WIRE","WISE",
+      "WISH","WITH","WOLF","WOOD","WOOL","WORD","WORK","WORM","WORN","YARD","YARN","YEAR","YELL","ZERO","ZONE","BRAIN","BREAD","BRICK","BRIDGE",
+      "BRUSH","BUILD","CANDLE","CASTLE","CHAIR","CHARM","CHASE","CLEAN","CLEAR","CLIMB","CLOCK","CLOUD","COAST","COUNT","CRAFT","CRANE","CRISP",
+      "CROWD","CROWN","DANCE","DRIVE","EAGLE","EARLY","FAVOR","FIGHT","FLAME","FLASH","FLOAT","FLOOR","FLOWER","FORCE","FOREST","FRESH","FRONT",
+      "FRUIT","GIANT","GLASS","GLOVE","GRACE","GRAIN","GRAPE","GRASS","GREAT","GREEN","GUARD","GUIDE","HAPPY","HEART","HEAVY","HORSE","HOTEL",
+      "HOUSE","IMAGE","JUICE","KNIFE","LEMON","LUNCH","MAGIC","MANGO","MARCH","METAL","MONEY","MONKEY","MOTOR","MOUNT","MUSIC","NIGHT","NORTH",
+      "OCEAN","ONION","ORDER","PAINT","PAPER","PEACE","PEACH","PHONE","PILOT","PIZZA","PLANE","PLANT","PLATE","POINT","POWER","PRICE","PRIDE",
+      "PRINCE","PRIZE","QUEEN","QUICK","QUIET","RADIO","RIVER","ROBOT","ROUND","SCALE","SCENE","SHARK","SHIRT","SHORE","SIGHT","SKILL","SLATE",
+      "SMILE","SMOKE","SNAKE","SPACE","SPARK","SPEED","SPICE","SPOON","SPORT","STAGE","STAMP","STAND","START","STEAM","STEEL","STONE","STORM",
+      "STREET","SUGAR","SWEET","TABLE","TASTE","TEACH","TIGER","TOOTH","TOWER","TRACK","TRAIN","TRUCK","UNCLE","VOICE","WATER","WHEEL","WHITE",
+      "WHOLE","WINTER","WOMAN","WORLD","ZEBRA","ACTION","BRANCH","BREEZE","BRIDGE","BRIGHT","BUTTON","CANDLE","CASTLE","CHANCE","CHURCH","CIRCLE",
+      "CLOVER","COPPER","CORNER","COUSIN","CREDIT","DANGER","DOCTOR","DRAGON","DRAWER","ENERGY","ENGINE","FAMILY","FARMER","FEATHER","FINGER",
+      "FLIGHT","FLOWER","FOREST","FRIEND","GARDEN","GENTLE","GIFTED","GLANCE","GOLDEN","GUITAR","HAMMER","HARBOR","HEALTH","HEAVEN","HOLLOW",
+      "HUNTER","ISLAND","JACKET","JUNGLE","KITTEN","KNIGHT","LADDER","LEADER","LEGEND","LESSON","LIZARD","MARKET","MASTER","MIRROR","MONKEY",
+      "MORNING","MOTHER","NATURE","NEEDLE","NUMBER","ORANGE","PALACE","PARROT","PLANET","POCKET","POETRY","POTATO","PRINCE","PRISON","PUPPY",
+      "RABBIT","REASON","RIVER","ROCKET","SAILOR","SCHOOL","SHADOW","SILVER","SISTER","SPRING","STREAM","STREET","SUMMER","TEMPLE","THREAD",
+      "TICKET","TIMBER","TRAVEL","VALLEY","VILLAGE","VIOLET","VISION","WINDOW","WINTER","WONDER","YELLOW"
     ];
 
-    const wordBoxState = {
-      currentBoxIdx: 0,
-      score: 0,
-      foundWords: new Set(),
-      isTracing: false,
-      currentTrace: [], // array of node elements
-      currentWord: ""
+    class WordTrieNode {
+      constructor() { this.children = {}; this.isWord = false; }
+    }
+    const wbTrie = new WordTrieNode();
+    const wbDictSet = new Set();
+
+    RAW_DICTIONARY.forEach(word => {
+      const w = word.trim().toUpperCase();
+      if (!w) return;
+      wbDictSet.add(w);
+      let curr = wbTrie;
+      for (const ch of w) {
+        if (!curr.children[ch]) curr.children[ch] = new WordTrieNode();
+        curr = curr.children[ch];
+      }
+      curr.isWord = true;
+    });
+
+    const wbState = {
+      currentBox: 1, totalBoxes: 20, score: 0, consecutiveFinds: 0,
+      totalWordsFound: 0, elapsedSeconds: 0, timerInterval: null,
+      hintsLeft: 3, gridSize: 3, targetWordCount: 5, minWordLength: 3,
+      gridLetters: [], discoveredWords: new Set(), allSolvableWords: new Map(),
+      isDragging: false, currentPath: [], currentWord: ""
     };
 
-    const padEl = document.getElementById('connector-box-pad');
-    const nodesContainer = document.getElementById('letter-nodes-container');
-    const svgPolyline = document.getElementById('svg-polyline');
-    const svgActiveLine = document.getElementById('svg-active-line');
-    const tracePreview = document.getElementById('trace-preview');
-    const targetWordsPanel = document.getElementById('target-words-panel');
-    const wordboxAlert = document.getElementById('wordbox-alert');
-    const wordboxWinModal = document.getElementById('wordbox-win-modal');
+    const wbEls = {
+      hudBox: document.getElementById('wb-hud-box'),
+      hudScore: document.getElementById('wb-hud-score'),
+      hudTime: document.getElementById('wb-hud-time'),
+      hudTarget: document.getElementById('wb-hud-target'),
+      previewBubble: document.getElementById('wb-preview-bubble'),
+      floatingFeedback: document.getElementById('wb-floating-feedback'),
+      gridWrapper: document.getElementById('wb-grid-wrapper'),
+      letterGrid: document.getElementById('wb-letter-grid'),
+      svgTrace: document.getElementById('wb-svg-trace'),
+      svgPointer: document.getElementById('wb-svg-pointer'),
+      foundList: document.getElementById('wb-found-list'),
+      foundCount: document.getElementById('wb-found-count'),
+      hintBadge: document.getElementById('wb-hint-badge'),
+      btnHint: document.getElementById('wb-btn-hint'),
+      btnNextBox: document.getElementById('wb-btn-next-box'),
+      modalComplete: document.getElementById('wb-modal-box-complete'),
+      completeTitle: document.getElementById('wb-complete-title'),
+      autoProgress: document.getElementById('wb-auto-progress'),
+      modalVictory: document.getElementById('wb-modal-victory'),
+      resScore: document.getElementById('wb-res-score'),
+      resWords: document.getElementById('wb-res-words'),
+      resTime: document.getElementById('wb-res-time'),
+      btnRestartAll: document.getElementById('wb-btn-restart-all')
+    };
 
-    function initWordBoxGame() {
-      wordBoxState.currentBoxIdx = 0;
-      wordBoxState.score = 0;
-      loadWordBox(wordBoxState.currentBoxIdx);
+    function getNeighbors8(idx, size) {
+      const r = Math.floor(idx / size), c = idx % size, nbrs = [];
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          if (dr === 0 && dc === 0) continue;
+          const nr = r + dr, nc = c + dc;
+          if (nr >= 0 && nr < size && nc >= 0 && nc < size) nbrs.push(nr * size + nc);
+        }
+      }
+      return nbrs;
     }
 
-    function loadWordBox(idx) {
-      wordBoxState.currentBoxIdx = idx;
-      wordBoxState.foundWords.clear();
-      wordBoxState.currentTrace = [];
-      wordBoxState.currentWord = "";
-      wordBoxState.isTracing = false;
-
-      resetLineCanvas();
-      tracePreview.textContent = "SWIPE LETTERS";
-      wordboxAlert.textContent = "Slide finger to connect letters!";
-      wordboxAlert.className = "feedback-float-alert";
-      wordboxWinModal.classList.remove('active');
-
-      const data = wordBoxesData[idx];
-      document.getElementById('wordbox-level-hud').textContent = `BOX ${idx + 1} / ${wordBoxesData.length}`;
-      updateWordBoxHUD();
-
-      renderTargetWords(data.words);
-      renderLetterNodes(data.letters);
-    }
-
-    function updateWordBoxHUD() {
-      const data = wordBoxesData[wordBoxState.currentBoxIdx];
-      document.getElementById('wordbox-progress-hud').textContent = `${wordBoxState.foundWords.size} / ${data.words.length}`;
-      document.getElementById('wordbox-score-hud').textContent = wordBoxState.score;
-    }
-
-    function renderTargetWords(wordsList) {
-      targetWordsPanel.innerHTML = '';
-      
-      // Group target words by length (3, 4, 5, 6 letters)
-      const groups = {};
-      wordsList.forEach(w => {
-        const len = w.length;
-        if (!groups[len]) groups[len] = [];
-        groups[len].push(w);
-      });
-
-      const sortedLengths = Object.keys(groups).sort((a, b) => a - b);
-
-      sortedLengths.forEach(len => {
-        const row = document.createElement('div');
-        row.className = 'target-group-row';
-
-        const label = document.createElement('span');
-        label.className = 'target-group-label';
-        label.textContent = `${len} Letters:`;
-        row.appendChild(label);
-
-        groups[len].forEach(w => {
-          const pill = document.createElement('div');
-          pill.className = 'word-pill-slot';
-          pill.dataset.word = w;
-
-          if (wordBoxState.foundWords.has(w)) {
-            pill.classList.add('found');
-          }
-
-          for (let i = 0; i < len; i++) {
-            const letterBox = document.createElement('span');
-            letterBox.className = 'word-letter-box';
-            letterBox.textContent = wordBoxState.foundWords.has(w) ? w[i] : '_';
-            pill.appendChild(letterBox);
-          }
-          row.appendChild(pill);
-        });
-
-        targetWordsPanel.appendChild(row);
-      });
-    }
-
-    function renderLetterNodes(letters) {
-      nodesContainer.innerHTML = '';
-      const total = letters.length;
-      const padRect = padEl.getBoundingClientRect();
-      const radius = 94; // radius of circle in 280px pad
-      const centerX = 140;
-      const centerY = 140;
-
-      letters.forEach((letter, i) => {
-        const angle = (i * (2 * Math.PI / total)) - (Math.PI / 2);
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
-        const node = document.createElement('div');
-        node.className = 'letter-node';
-        node.textContent = letter;
-        node.dataset.letter = letter;
-        node.dataset.idx = i;
-        node.dataset.cx = x;
-        node.dataset.cy = y;
-
-        node.style.left = `${x}px`;
-        node.style.top = `${y}px`;
-
-        nodesContainer.appendChild(node);
-      });
-    }
-
-    // LINE CONNECT TOUCH / DRAG SYSTEM
-    function getNodeFromPoint(clientX, clientY) {
-      const el = document.elementFromPoint(clientX, clientY);
-      if (el && el.classList.contains('letter-node')) return el;
-      return null;
-    }
-
-    function startTrace(node) {
-      if (!node) return;
-      playSfx('click');
-      wordBoxState.isTracing = true;
-      wordBoxState.currentTrace = [node];
-      node.classList.add('active');
-
-      wordBoxState.currentWord = node.dataset.letter;
-      tracePreview.textContent = wordBoxState.currentWord;
-      updateSvgPolyline();
-    }
-
-    function extendTrace(node) {
-      if (!wordBoxState.isTracing || !node) return;
-      if (wordBoxState.currentTrace.includes(node)) return; // No duplicate nodes
-
-      playSfx('click');
-      wordBoxState.currentTrace.push(node);
-      node.classList.add('active');
-
-      wordBoxState.currentWord += node.dataset.letter;
-      tracePreview.textContent = wordBoxState.currentWord;
-      updateSvgPolyline();
-    }
-
-    function updateSvgPolyline() {
-      const points = wordBoxState.currentTrace.map(n => `${n.dataset.cx},${n.dataset.cy}`).join(' ');
-      svgPolyline.setAttribute('points', points);
-    }
-
-    function updateActivePointerLine(clientX, clientY) {
-      if (!wordBoxState.isTracing || wordBoxState.currentTrace.length === 0) return;
-      const lastNode = wordBoxState.currentTrace[wordBoxState.currentTrace.length - 1];
-      const rect = padEl.getBoundingClientRect();
-      const pointerX = clientX - rect.left;
-      const pointerY = clientY - rect.top;
-
-      svgActiveLine.setAttribute('x1', lastNode.dataset.cx);
-      svgActiveLine.setAttribute('y1', lastNode.dataset.cy);
-      svgActiveLine.setAttribute('x2', pointerX);
-      svgActiveLine.setAttribute('y2', pointerY);
-    }
-
-    function endTrace() {
-      if (!wordBoxState.isTracing) return;
-      wordBoxState.isTracing = false;
-
-      const word = wordBoxState.currentWord;
-      const data = wordBoxesData[wordBoxState.currentBoxIdx];
-
-      if (word.length >= 2) {
-        if (data.words.includes(word)) {
-          if (wordBoxState.foundWords.has(word)) {
-            // Already found
-            playSfx('wrong');
-            wordboxAlert.textContent = `"${word}" already discovered!`;
-            wordboxAlert.className = "feedback-float-alert show wrong";
-          } else {
-            // Correct New Word Found!
-            playSfx('correct');
-            wordBoxState.foundWords.add(word);
-            wordBoxState.score += (word.length * 10);
-            updateWordBoxHUD();
-
-            wordboxAlert.textContent = `🎉 "${word}" DISCOVERED! +${word.length * 10}`;
-            wordboxAlert.className = "feedback-float-alert show correct";
-
-            // Reveal in Target Words Panel
-            revealWordInPill(word);
-
-            // Check if all box words discovered!
-            if (wordBoxState.foundWords.size === data.words.length) {
-              checkBoxComplete();
+    function solveGridWords8(letters, size, minLen) {
+      const totalCells = size * size, map = new Map(), visited = new Array(totalCells).fill(false);
+      function dfs(idx, node, path, str) {
+        if (node.isWord && str.length >= minLen) {
+          if (!map.has(str)) map.set(str, [...path]);
+        }
+        visited[idx] = true;
+        const nbrs = getNeighbors8(idx, size);
+        for (const nIdx of nbrs) {
+          if (!visited[nIdx]) {
+            const ch = letters[nIdx];
+            if (node.children[ch]) {
+              path.push(nIdx);
+              dfs(nIdx, node.children[ch], path, str + ch);
+              path.pop();
             }
           }
-        } else {
-          // Invalid Word
-          playSfx('wrong');
-          wordboxAlert.textContent = `"${word}" is not in this box list!`;
-          wordboxAlert.className = "feedback-float-alert show wrong";
+        }
+        visited[idx] = false;
+      }
+      for (let i = 0; i < totalCells; i++) {
+        const ch = letters[i];
+        if (wbTrie.children[ch]) dfs(i, wbTrie.children[ch], [i], ch);
+      }
+      return map;
+    }
+
+    const VOWELS_POOL = ["A", "E", "I", "O", "U"];
+    const CONSONANTS_POOL = ["T", "N", "S", "R", "H", "L", "D", "C", "M", "P", "F", "G", "W", "B", "Y"];
+
+    function generateSolvableBox(boxNum) {
+      let size = 3, targetWords = 5, minLen = 3;
+      if (boxNum <= 5) { size = 3; targetWords = 5; minLen = 3; }
+      else if (boxNum <= 10) { size = 4; targetWords = 6; minLen = 4; }
+      else if (boxNum <= 15) { size = 5; targetWords = 7; minLen = 4; }
+      else { size = 5; targetWords = 8; minLen = 5; }
+
+      const totalCells = size * size;
+      const seedPool = RAW_DICTIONARY.filter(w => {
+        if (boxNum <= 5) return w.length >= 3 && w.length <= 4;
+        if (boxNum <= 10) return w.length >= 4 && w.length <= 5;
+        if (boxNum <= 15) return w.length >= 4 && w.length <= 6;
+        return w.length >= 5 && w.length <= 7;
+      });
+
+      let attempts = 0;
+      while (attempts < 80) {
+        attempts++;
+        const grid = new Array(totalCells).fill(null);
+        const seedsCount = size === 3 ? 2 : (size === 4 ? 3 : 4);
+
+        for (let s = 0; s < seedsCount; s++) {
+          const word = seedPool[Math.floor(Math.random() * seedPool.length)];
+          let curr = Math.floor(Math.random() * totalCells);
+          let path = [curr];
+          for (let c = 0; c < word.length; c++) {
+            grid[curr] = word[c];
+            if (c < word.length - 1) {
+              const nbrs = getNeighbors8(curr, size).filter(n => !path.includes(n));
+              if (nbrs.length > 0) {
+                curr = nbrs[Math.floor(Math.random() * nbrs.length)];
+                path.push(curr);
+              } else break;
+            }
+          }
+        }
+
+        for (let i = 0; i < totalCells; i++) {
+          if (!grid[i]) {
+            grid[i] = (Math.random() > 0.42)
+              ? VOWELS_POOL[Math.floor(Math.random() * VOWELS_POOL.length)]
+              : CONSONANTS_POOL[Math.floor(Math.random() * CONSONANTS_POOL.length)];
+          }
+        }
+
+        const map = solveGridWords8(grid, size, minLen);
+        if (map.size >= targetWords + 2) {
+          return { size, targetWords, minLen, letters: grid, solvableWords: map };
         }
       }
 
-      // Reset node styles & lines after trace
-      setTimeout(resetLineCanvas, 220);
+      // Fallback valid box
+      const fbGrid = size === 3
+        ? ["C","A","T","R","E","D","P","I","N"]
+        : (size === 4
+          ? ["C","A","T","R","E","D","O","P","L","I","N","K","M","E","S","T"]
+          : ["S","P","R","I","N","G","L","O","V","E","W","A","T","E","R","S","M","A","R","T","F","L","A","M","E"]);
+      const fbMap = solveGridWords8(fbGrid, size, minLen);
+      return { size, targetWords, minLen, letters: fbGrid, solvableWords: fbMap };
     }
 
-    function revealWordInPill(word) {
-      const pill = targetWordsPanel.querySelector(`.word-pill-slot[data-word="${word}"]`);
-      if (pill) {
-        pill.classList.add('found');
-        const boxes = pill.querySelectorAll('.word-letter-box');
-        boxes.forEach((b, i) => {
-          b.textContent = word[i];
-        });
+    function initWordBox20() {
+      wbState.currentBox = 1;
+      wbState.score = 0;
+      wbState.elapsedSeconds = 0;
+      wbState.totalWordsFound = 0;
+      wbState.consecutiveFinds = 0;
+      wbState.hintsLeft = 3;
+      loadWordBoxLevel(1);
+      startWordBoxTimer();
+    }
+
+    function loadWordBoxLevel(boxNum) {
+      wbState.currentBox = boxNum;
+      wbState.discoveredWords.clear();
+      wbState.currentPath = [];
+      wbState.currentWord = "";
+      wbState.isDragging = false;
+
+      const puz = generateSolvableBox(boxNum);
+      wbState.gridSize = puz.size;
+      wbState.targetWordCount = puz.targetWords;
+      wbState.minWordLength = puz.minLen;
+      wbState.gridLetters = puz.letters;
+      wbState.allSolvableWords = puz.solvableWords;
+
+      wbEls.hudBox.textContent = `${boxNum} / ${wbState.totalBoxes}`;
+      wbEls.hudTarget.textContent = `0 / ${wbState.targetWordCount}`;
+      wbEls.hudScore.textContent = wbState.score;
+      wbEls.hintBadge.textContent = wbState.hintsLeft;
+      wbEls.foundCount.textContent = `0 found`;
+      wbEls.foundList.innerHTML = '';
+
+      updateWbPreview("");
+      clearWbSvg();
+      renderWbGrid();
+    }
+
+    function renderWbGrid() {
+      wbEls.letterGrid.className = `letter-grid grid-${wbState.gridSize}x${wbState.gridSize}`;
+      wbEls.letterGrid.innerHTML = '';
+      wbState.gridLetters.forEach((letter, i) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = letter;
+        tile.dataset.index = i;
+        wbEls.letterGrid.appendChild(tile);
+      });
+    }
+
+    function getTileCenter(tile) {
+      const r = tile.getBoundingClientRect();
+      const p = wbEls.gridWrapper.getBoundingClientRect();
+      return { x: r.left - p.left + r.width / 2, y: r.top - p.top + r.height / 2 };
+    }
+
+    function updateWbPreview(word) {
+      if (!word) {
+        wbEls.previewBubble.textContent = "SWIPE LETTERS";
+        wbEls.previewBubble.classList.add('empty');
+      } else {
+        wbEls.previewBubble.textContent = word;
+        wbEls.previewBubble.classList.remove('empty');
       }
     }
 
-    function resetLineCanvas() {
-      svgPolyline.setAttribute('points', '');
-      svgActiveLine.setAttribute('x1', '0');
-      svgActiveLine.setAttribute('y1', '0');
-      svgActiveLine.setAttribute('x2', '0');
-      svgActiveLine.setAttribute('y2', '0');
-      document.querySelectorAll('.letter-node').forEach(n => n.classList.remove('active'));
-      wordBoxState.currentTrace = [];
-      wordBoxState.currentWord = "";
+    function updateWbSvg() {
+      if (wbState.currentPath.length === 0) { clearWbSvg(); return; }
+      const points = wbState.currentPath.map(idx => {
+        const tile = wbEls.letterGrid.children[idx];
+        const pt = getTileCenter(tile);
+        return `${pt.x},${pt.y}`;
+      }).join(' ');
+      wbEls.svgTrace.setAttribute('points', points);
     }
 
-    function checkBoxComplete() {
-      playSfx('win');
-      const boxNum = wordBoxState.currentBoxIdx + 1;
-      document.getElementById('wordbox-modal-title').textContent = `BOX ${boxNum} COMPLETE!`;
-      document.getElementById('wordbox-modal-count').textContent = `${wordBoxState.foundWords.size} / ${wordBoxState.foundWords.size} Words`;
-      document.getElementById('wordbox-modal-score').textContent = wordBoxState.score;
+    function clearWbSvg() {
+      wbEls.svgTrace.setAttribute('points', '');
+      wbEls.svgPointer.setAttribute('x1', '0');
+      wbEls.svgPointer.setAttribute('y1', '0');
+      wbEls.svgPointer.setAttribute('x2', '0');
+      wbEls.svgPointer.setAttribute('y2', '0');
+    }
 
+    function showWbAlert(text, isOk) {
+      wbEls.floatingFeedback.textContent = text;
+      wbEls.floatingFeedback.className = `feedback-float-alert show ${isOk ? 'correct' : 'wrong'}`;
       setTimeout(() => {
-        wordboxWinModal.classList.add('active');
-      }, 500);
+        wbEls.floatingFeedback.classList.remove('show');
+      }, 700);
     }
 
-    // Touch & Pointer Listeners on Connector Pad
-    padEl.addEventListener('pointerdown', (e) => {
-      const node = getNodeFromPoint(e.clientX, e.clientY);
-      if (node) {
-        startTrace(node);
+    function areNbrs8(i1, i2, sz) {
+      const r1 = Math.floor(i1 / sz), c1 = i1 % sz;
+      const r2 = Math.floor(i2 / sz), c2 = i2 % sz;
+      return Math.abs(r1 - r2) <= 1 && Math.abs(c1 - c2) <= 1;
+    }
+
+    function getTileIdxFromCoords(clientX, clientY) {
+      const el = document.elementFromPoint(clientX, clientY);
+      if (el && el.classList.contains('tile')) return parseInt(el.dataset.index, 10);
+      return null;
+    }
+
+    // Touch & Mouse Drag Listeners on Word Box Grid
+    wbEls.gridWrapper.addEventListener('pointerdown', (e) => {
+      const idx = getTileIdxFromCoords(e.clientX, e.clientY);
+      if (idx !== null) {
+        wbState.isDragging = true;
+        wbState.currentPath = [idx];
+        wbState.currentWord = wbState.gridLetters[idx];
+        wbEls.letterGrid.children[idx].classList.add('selected');
+        playSfx('tile');
+        updateWbPreview(wbState.currentWord);
+        updateWbSvg();
       }
     });
 
-    padEl.addEventListener('pointermove', (e) => {
-      if (!wordBoxState.isTracing) return;
-      updateActivePointerLine(e.clientX, e.clientY);
-      const node = getNodeFromPoint(e.clientX, e.clientY);
-      if (node) {
-        extendTrace(node);
+    window.addEventListener('pointermove', (e) => {
+      if (!wbState.isDragging) return;
+      if (wbState.currentPath.length > 0) {
+        const lastTile = wbEls.letterGrid.children[wbState.currentPath[wbState.currentPath.length - 1]];
+        const pt = getTileCenter(lastTile);
+        const rect = wbEls.gridWrapper.getBoundingClientRect();
+        wbEls.svgPointer.setAttribute('x1', pt.x);
+        wbEls.svgPointer.setAttribute('y1', pt.y);
+        wbEls.svgPointer.setAttribute('x2', e.clientX - rect.left);
+        wbEls.svgPointer.setAttribute('y2', e.clientY - rect.top);
+      }
+
+      const idx = getTileIdxFromCoords(e.clientX, e.clientY);
+      if (idx === null) return;
+
+      // Backtrack / Undo tile
+      if (wbState.currentPath.length > 1 && idx === wbState.currentPath[wbState.currentPath.length - 2]) {
+        const popped = wbState.currentPath.pop();
+        wbEls.letterGrid.children[popped].classList.remove('selected');
+        wbState.currentWord = wbState.currentPath.map(i => wbState.gridLetters[i]).join('');
+        playSfx('tile');
+        updateWbPreview(wbState.currentWord);
+        updateWbSvg();
+        return;
+      }
+
+      // Add neighbor tile (no reuse within same word)
+      if (!wbState.currentPath.includes(idx)) {
+        const lastIdx = wbState.currentPath[wbState.currentPath.length - 1];
+        if (areNbrs8(lastIdx, idx, wbState.gridSize)) {
+          wbState.currentPath.push(idx);
+          wbState.currentWord += wbState.gridLetters[idx];
+          wbEls.letterGrid.children[idx].classList.add('selected');
+          playSfx('tile');
+          updateWbPreview(wbState.currentWord);
+          updateWbSvg();
+        }
       }
     });
 
-    window.addEventListener('pointerup', endTrace);
-    window.addEventListener('pointercancel', endTrace);
+    function finishWbSwipe() {
+      if (!wbState.isDragging) return;
+      wbState.isDragging = false;
+      clearWbSvg();
 
-    // Hint Button (Reveals first letter of any unrevealed word)
-    document.getElementById('btn-wordbox-hint').addEventListener('click', () => {
-      const data = wordBoxesData[wordBoxState.currentBoxIdx];
-      const unrevealed = data.words.filter(w => !wordBoxState.foundWords.has(w));
-      if (unrevealed.length > 0) {
-        playSfx('gem');
-        const targetWord = unrevealed[0];
-        wordboxAlert.textContent = `💡 Hint: Look for word starting with "${targetWord.substring(0, 2)}..."`;
-        wordboxAlert.className = "feedback-float-alert show correct";
+      const word = wbState.currentWord;
+      if (word.length >= 3) {
+        if (wbDictSet.has(word)) {
+          if (wbState.discoveredWords.has(word)) {
+            playSfx('wrong');
+            showWbAlert(`"${word}" already found!`, false);
+            shakeWbTiles();
+          } else {
+            // Valid word found!
+            submitValidWbWord(word);
+          }
+        } else {
+          playSfx('wrong');
+          showWbAlert(`"${word}" not in dictionary!`, false);
+          shakeWbTiles();
+        }
+      } else {
+        clearWbSelection();
+        updateWbPreview("");
       }
-    });
+    }
 
-    // Shuffle Button (Rotates letters inside the box)
-    document.getElementById('btn-wordbox-shuffle').addEventListener('click', () => {
+    window.addEventListener('pointerup', finishWbSwipe);
+    window.addEventListener('pointercancel', finishWbSwipe);
+
+    function shakeWbTiles() {
+      wbState.currentPath.forEach(idx => {
+        const t = wbEls.letterGrid.children[idx];
+        t.classList.add('shake-anim');
+        setTimeout(() => t.classList.remove('shake-anim'), 350);
+      });
+      setTimeout(() => { clearWbSelection(); updateWbPreview(""); }, 360);
+    }
+
+    function clearWbSelection() {
+      wbState.currentPath.forEach(idx => {
+        wbEls.letterGrid.children[idx].classList.remove('selected');
+      });
+      wbState.currentPath = [];
+      wbState.currentWord = "";
+    }
+
+    function submitValidWbWord(word) {
+      wbState.discoveredWords.add(word);
+      wbState.totalWordsFound++;
+      wbState.consecutiveFinds++;
+
+      let pts = word.length === 3 ? 10 : (word.length === 4 ? 20 : (word.length === 5 ? 30 : 45));
+      if (wbState.consecutiveFinds > 1) pts += (wbState.consecutiveFinds - 1) * 5;
+      wbState.score += pts;
+
+      playSfx('valid');
+      showWbAlert(`+${pts} ${wbState.consecutiveFinds > 1 ? 'COMBO!' : ''}`, true);
+
+      wbEls.hudScore.textContent = wbState.score;
+      wbEls.hudTarget.textContent = `${wbState.discoveredWords.size} / ${wbState.targetWordCount}`;
+
+      const chip = document.createElement('span');
+      chip.className = 'word-chip';
+      chip.textContent = `✓ ${word}`;
+      wbEls.foundList.appendChild(chip);
+      wbEls.foundCount.textContent = `${wbState.discoveredWords.size} found`;
+
+      clearWbSelection();
+      updateWbPreview("");
+
+      // AUTOMATIC PROGRESSION CHECK!
+      if (wbState.discoveredWords.size >= wbState.targetWordCount) {
+        triggerAutomaticNextBox();
+      }
+    }
+
+    // AUTOMATIC ADVANCE TO NEXT BOX
+    function triggerAutomaticNextBox() {
+      playSfx('box');
+      wbState.score += 150; // Box completion bonus
+      wbEls.hudScore.textContent = wbState.score;
+
+      wbEls.completeTitle.textContent = `BOX ${wbState.currentBox} COMPLETE!`;
+      wbEls.autoProgress.style.width = '0%';
+      wbEls.modalComplete.classList.add('active');
+
+      // Animate progress bar
+      setTimeout(() => { wbEls.autoProgress.style.width = '100%'; }, 40);
+
+      // Automatically move to the next box after 1.5 seconds!
+      setTimeout(() => {
+        wbEls.modalComplete.classList.remove('active');
+        if (wbState.currentBox < wbState.totalBoxes) {
+          loadWordBoxLevel(wbState.currentBox + 1);
+        } else {
+          finishWordBox20();
+        }
+      }, 1500);
+    }
+
+    function finishWordBox20() {
+      stopWordBoxTimer();
+      playSfx('win');
+      wbEls.resScore.textContent = wbState.score;
+      wbEls.resWords.textContent = wbState.totalWordsFound;
+      wbEls.resTime.textContent = formatSec(wbState.elapsedSeconds);
+      wbEls.modalVictory.classList.add('active');
+    }
+
+    function startWordBoxTimer() {
+      if (wbState.timerInterval) clearInterval(wbState.timerInterval);
+      wbState.timerInterval = setInterval(() => {
+        wbState.elapsedSeconds++;
+        wbEls.hudTime.textContent = formatSec(wbState.elapsedSeconds);
+      }, 1000);
+    }
+
+    function stopWordBoxTimer() {
+      if (wbState.timerInterval) clearInterval(wbState.timerInterval);
+    }
+
+    function formatSec(totalSec) {
+      const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+      const s = String(totalSec % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    wbEls.btnHint.addEventListener('click', () => {
+      if (wbState.hintsLeft <= 0) {
+        showWbAlert("No hints left!", false);
+        return;
+      }
+      let targetWord = null, targetPath = null;
+      for (const [w, p] of wbState.allSolvableWords.entries()) {
+        if (!wbState.discoveredWords.has(w)) {
+          targetWord = w; targetPath = p; break;
+        }
+      }
+      if (!targetWord) return;
+
+      wbState.hintsLeft--;
+      wbEls.hintBadge.textContent = wbState.hintsLeft;
       playSfx('gem');
-      const data = wordBoxesData[wordBoxState.currentBoxIdx];
-      data.letters.sort(() => Math.random() - 0.5);
-      renderLetterNodes(data.letters);
+      showWbAlert(`HINT: Starts with "${targetWord.substring(0, 2)}..."`, true);
+
+      targetPath.forEach(idx => {
+        const t = wbEls.letterGrid.children[idx];
+        t.classList.add('hint-pulse');
+        setTimeout(() => t.classList.remove('hint-pulse'), 1500);
+      });
     });
 
-    // Skip to Next Box
-    document.getElementById('btn-wordbox-skip').addEventListener('click', () => {
+    wbEls.btnNextBox.addEventListener('click', () => {
       playSfx('click');
-      const nextIdx = (wordBoxState.currentBoxIdx + 1) % wordBoxesData.length;
-      loadWordBox(nextIdx);
+      if (wbState.currentBox < wbState.totalBoxes) {
+        loadWordBoxLevel(wbState.currentBox + 1);
+      } else {
+        finishWordBox20();
+      }
     });
 
-    // Continue Next Box from Win Modal
-    document.getElementById('btn-wordbox-continue').addEventListener('click', () => {
+    wbEls.btnRestartAll.addEventListener('click', () => {
       playSfx('click');
-      wordboxWinModal.classList.remove('active');
-      const nextIdx = (wordBoxState.currentBoxIdx + 1) % wordBoxesData.length;
-      loadWordBox(nextIdx);
+      wbEls.modalVictory.classList.remove('active');
+      initWordBox20();
     });
 
     /* ========================================================
-       GAME 5: BODMAS MASTER (INFINITE PROCEDURAL ENGINE)
+       GAME 5: BODMAS MASTER (NO REPEATS)
        ======================================================== */
     const bodmasState = {
       score: 0, streak: 0, attempted: 0, usedSet: new Set(),
@@ -2683,7 +2908,7 @@
     });
 
     /* ========================================================
-       GAME 6: NUMBER SERIES (INFINITE PROCEDURAL ENGINE)
+       GAME 6: NUMBER SERIES (NO REPEATS)
        ======================================================== */
     const seriesState = {
       score: 0, attempted: 0, correct: 0, usedSet: new Set(),
