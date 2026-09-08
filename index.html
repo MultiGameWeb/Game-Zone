@@ -3,21 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain Games Hub - Math Quiz & 6x6 Sudoku</title>
+  <title>Brain & Arcade Games Hub</title>
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at 50% 20%, #151d30 0%, #0a0d14 100%);
-      --card-bg: rgba(22, 31, 48, 0.88);
+      --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
+      --card-bg: rgba(22, 31, 48, 0.9);
       --card-border: #283750;
       --card-glow: rgba(40, 55, 80, 0.4);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --accent-blue: #3b82f6;
+      
+      /* Distinct Button Colors */
+      --btn-blue: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+      --btn-blue-shadow: #1e40af;
+      --btn-green: linear-gradient(180deg, #10b981 0%, #059669 100%);
+      --btn-green-shadow: #047857;
+      --btn-orange: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+      --btn-orange-shadow: #c2410c;
+      --btn-gray: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      --btn-gray-shadow: #0f172a;
+
       --accent-cyan: #06b6d4;
-      --accent-green: #10b981;
       --accent-red: #ef4444;
       --accent-amber: #f59e0b;
-      --accent-purple: #8b5cf6;
       --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
@@ -39,528 +47,312 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 12px 16px 28px;
+      padding: 10px 12px 24px;
       overflow-x: hidden;
     }
 
-    /* TOP GAME SWITCHER BAR */
-    .game-nav-bar {
+    /* TOP HEADER & HUB NAVIGATION */
+    .top-header {
       width: 100%;
-      max-width: 540px;
+      max-width: 980px;
       display: flex;
-      background: rgba(15, 23, 42, 0.8);
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: rgba(15, 23, 42, 0.85);
       border: 1px solid var(--card-border);
-      padding: 6px;
-      border-radius: 16px;
+      border-radius: 18px;
       margin-bottom: 16px;
-      gap: 8px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
     }
 
-    .nav-tab {
-      flex: 1;
-      appearance: none;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: var(--font-stack);
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 10px 14px;
-      border-radius: 12px;
-      cursor: pointer;
+    .hub-brand {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
+      gap: 6px;
+    }
+
+    .btn-nav-home {
+      appearance: none;
+      border: 1px solid #334155;
+      background: rgba(30, 41, 59, 0.8);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.2s ease;
     }
 
-    .nav-tab.active {
-      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    .btn-nav-home:active {
+      transform: scale(0.96);
+      background: #3b82f6;
     }
 
     #app {
       width: 100%;
-      max-width: 540px;
-      position: relative;
+      max-width: 980px;
     }
 
-    .game-section {
-      display: none;
-    }
-
-    .game-section.active {
-      display: block;
-      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px var(--card-glow);
-      border-radius: 24px;
-      padding: 28px 24px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    /* Screen Management */
-    .screen {
-      display: none;
-      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* 3D Push Button Styles */
+    /* 3D PUSH BUTTON CORE */
     .btn-3d {
       appearance: none;
       border: none;
       cursor: pointer;
       font-family: var(--font-stack);
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      border-radius: 16px;
+      border-radius: 14px;
       position: relative;
-      transition: all 0.12s ease-in-out;
+      transition: all 0.1s ease-in-out;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 15px 28px;
-      font-size: 1.05rem;
+      padding: 14px 20px;
+      font-size: 1rem;
       outline: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+      width: 100%;
       color: #ffffff;
-      box-shadow: 0 5px 0 #1d4ed8, 0 10px 18px rgba(37, 99, 235, 0.35);
     }
 
-    .btn-primary:active {
+    .btn-blue {
+      background: var(--btn-blue);
+      box-shadow: 0 5px 0 var(--btn-blue-shadow), 0 10px 20px rgba(37, 99, 235, 0.4);
+    }
+    .btn-blue:active {
       transform: translateY(3px);
-      box-shadow: 0 2px 0 #1d4ed8;
+      box-shadow: 0 2px 0 var(--btn-blue-shadow);
+    }
+
+    .btn-green {
+      background: var(--btn-green);
+      box-shadow: 0 5px 0 var(--btn-green-shadow), 0 10px 20px rgba(16, 185, 129, 0.4);
+    }
+    .btn-green:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 var(--btn-green-shadow);
+    }
+
+    .btn-orange {
+      background: var(--btn-orange);
+      box-shadow: 0 5px 0 var(--btn-orange-shadow), 0 10px 20px rgba(249, 115, 22, 0.4);
+    }
+    .btn-orange:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 var(--btn-orange-shadow);
     }
 
     .btn-secondary {
-      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      background: var(--btn-gray);
+      box-shadow: 0 4px 0 var(--btn-gray-shadow);
       color: var(--text-main);
-      box-shadow: 0 4px 0 #0f172a, 0 8px 14px rgba(0, 0, 0, 0.4);
-      padding: 12px 20px;
-      font-size: 0.95rem;
-      border-radius: 12px;
     }
-
     .btn-secondary:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #0f172a;
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 var(--btn-gray-shadow);
     }
 
-    .btn-success {
-      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-      color: #ffffff;
-      box-shadow: 0 5px 0 #047857, 0 10px 18px rgba(16, 185, 129, 0.3);
+    /* VIEW MANAGEMENT */
+    .view-section {
+      display: none;
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .btn-success:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 #047857;
+    .view-section.active {
+      display: block;
     }
 
-    .btn-full {
-      width: 100%;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .title-badge {
-      display: inline-block;
-      padding: 5px 14px;
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      color: var(--accent-cyan);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-
-    .main-title {
-      font-size: 2.5rem;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    .sub-title {
-      color: var(--text-muted);
-      font-size: 1rem;
-      margin-bottom: 24px;
-    }
-
-    /* Start Screen Elements */
-    .setting-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(51, 65, 85, 0.7);
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .setting-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      text-align: left;
-    }
-
-    .setting-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-align: left;
-      margin-top: 2px;
-    }
-
-    .toggle-group {
-      display: flex;
-      background: #0f172a;
-      border: 1px solid #334155;
-      padding: 4px;
-      border-radius: 10px;
-      gap: 4px;
-    }
-
-    .toggle-btn {
-      appearance: none;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .toggle-btn.active {
-      background: var(--accent-blue);
-      color: #fff;
-    }
-
-    .bests-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-
-    .best-pill {
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(51, 65, 85, 0.5);
-      border-radius: 14px;
-      padding: 10px 4px;
-    }
-
-    .best-pill-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .best-pill-val {
-      font-family: var(--font-mono);
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--accent-cyan);
-    }
-
-    /* Countdown */
-    .countdown-number {
-      font-size: 6.5rem;
-      font-weight: 900;
-      font-family: var(--font-mono);
-      background: linear-gradient(135deg, #38bdf8, #818cf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      padding: 40px 0;
-    }
-
-    /* Math Gameplay */
-    .game-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.5);
-      border-radius: 16px;
-      padding: 10px 16px;
+    /* ========================================================
+       HUB VIEW: 3 INDIVIDUAL GAME BOXES IN A ROW
+       ======================================================== */
+    .hub-intro {
+      text-align: center;
       margin-bottom: 20px;
     }
 
-    .stat-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .hub-title {
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
     }
 
-    .stat-label {
-      font-size: 0.68rem;
-      text-transform: uppercase;
+    .hub-subtitle {
       color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* 3 Cards Grid: 3 columns on Desktop, Stack on Mobile */
+    .games-row-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .game-card-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 20px var(--card-glow);
+      border-radius: 20px;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .game-card-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-math-box { border-top: 4px solid #3b82f6; }
+    .card-sudoku-box { border-top: 4px solid #10b981; }
+    .card-ball-box { border-top: 4px solid #f97316; }
+
+    .game-icon-large {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      display: inline-block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+    }
+
+    .game-box-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .game-box-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      align-self: center;
+    }
+
+    .badge-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+
+    .game-box-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      min-height: 48px;
+    }
+
+    /* COMMON GAME CONTAINER */
+    .game-wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      border-radius: 22px;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen-math { display: none; }
+    .screen-math.active { display: block; }
+
+    /* MATH & SUDOKU STYLES (MOBILE-TUNED) */
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      border-radius: 14px;
+      padding: 8px 14px;
+      margin-bottom: 16px;
     }
 
     .stat-val {
       font-family: var(--font-mono);
       font-size: 1.25rem;
       font-weight: 800;
-      color: var(--text-main);
     }
 
-    .stat-val.highlight {
-      color: var(--accent-cyan);
-    }
-
-    .stat-val.critical {
-      color: var(--accent-red);
-    }
-
-    .question-panel {
-      min-height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .rule-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--accent-amber);
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.28);
-      border-radius: 8px;
-      padding: 4px 10px;
-      margin-bottom: 8px;
-      opacity: 0;
-      transition: all 0.2s ease;
-    }
-
-    .rule-badge.visible {
-      opacity: 1;
+    .stat-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
     }
 
     .math-expression {
-      font-size: 3.2rem;
-      font-weight: 800;
-      line-height: 1.1;
-      font-family: var(--font-stack);
-      color: #ffffff;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin: 16px 0;
     }
 
     .answer-input {
       width: 100%;
       background: #0b1120;
       border: 2px solid #334155;
-      border-radius: 16px;
-      color: #ffffff;
-      font-size: 2.2rem;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 2.1rem;
       font-weight: 800;
       text-align: center;
-      padding: 12px 16px;
+      padding: 10px;
       outline: none;
       font-family: var(--font-mono);
       margin-bottom: 16px;
     }
 
     .answer-input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+      border-color: #3b82f6;
     }
 
-    .feedback-float {
-      position: absolute;
-      top: -24px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1rem;
-      font-weight: 800;
-      font-family: var(--font-mono);
-      opacity: 0;
-      transition: all 0.4s ease;
-      pointer-events: none;
-    }
-
-    .feedback-float.show-up {
-      opacity: 1;
-      top: -38px;
-    }
-
-    .feedback-float.correct { color: var(--accent-green); }
-    .feedback-float.wrong { color: var(--accent-red); }
-
-    .flash-correct {
-      border-color: var(--accent-green) !important;
-      box-shadow: 0 0 35px rgba(16, 185, 129, 0.45) !important;
-    }
-
-    .flash-wrong {
-      border-color: var(--accent-red) !important;
-      box-shadow: 0 0 35px rgba(239, 68, 68, 0.45) !important;
-      animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    }
-
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
-      40%, 60% { transform: translate3d(5px, 0, 0); }
-    }
-
-    .benchmark-toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #1e293b;
-      border: 1px solid var(--accent-cyan);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-      border-radius: 14px;
-      padding: 12px 20px;
-      color: #fff;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      transition: transform 0.4s ease;
-      white-space: nowrap;
-    }
-
-    .benchmark-toast.visible {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Results Screen */
-    .result-score-block { margin-bottom: 20px; }
-    .result-final-score {
-      font-family: var(--font-mono);
-      font-size: 3.8rem;
-      font-weight: 900;
-      line-height: 1;
-      color: #ffffff;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 24px;
-      text-align: left;
-    }
-
-    .metric-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.5);
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    .metric-name {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 3px;
-    }
-
-    .metric-val {
-      font-family: var(--font-mono);
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    /* ========================================================
-       SUDOKU 6x6 SPECIFIC STYLES
-       ======================================================== */
-    .sudoku-container {
-      width: 100%;
-    }
-
-    .sudoku-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.5);
-      border-radius: 16px;
-      padding: 10px 16px;
-      margin-bottom: 14px;
-    }
-
-    /* Alert Banner for Wrong input / Hints in Sudoku */
-    .sudoku-alert {
-      min-height: 28px;
-      margin-bottom: 10px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: all 0.2s ease;
-      color: var(--accent-amber);
-    }
-
-    .sudoku-alert.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .sudoku-alert.wrong {
-      color: var(--accent-red);
-    }
-
-    .sudoku-alert.success {
-      color: var(--accent-green);
-    }
-
-    /* 6x6 Sudoku Grid: 2 rows x 3 columns per block */
+    /* 6x6 SUDOKU BOARD */
     .sudoku-board {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       background: #090d16;
-      border: 3px solid #3b82f6;
-      border-radius: 16px;
+      border: 3px solid #10b981;
+      border-radius: 14px;
       overflow: hidden;
-      margin: 0 auto 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-      max-width: 380px;
+      margin: 0 auto 14px;
+      max-width: 360px;
       width: 100%;
     }
 
@@ -569,863 +361,589 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-family: var(--font-mono);
       font-weight: 800;
       color: #ffffff;
       background: #101726;
       border: 1px solid #1e293b;
       cursor: pointer;
-      position: relative;
-      transition: background 0.15s ease, transform 0.1s ease;
     }
 
-    /* 2x3 block borders */
-    /* Horizontal divider between row 1 & 2, row 3 & 4 (0-indexed) */
-    .sudoku-cell[data-row="1"],
-    .sudoku-cell[data-row="3"] {
-      border-bottom: 3px solid #3b82f6;
+    .sudoku-cell[data-row="1"], .sudoku-cell[data-row="3"] {
+      border-bottom: 3px solid #10b981;
     }
-
-    /* Vertical divider between col 2 & 3 (0-indexed) */
     .sudoku-cell[data-col="2"] {
-      border-right: 3px solid #3b82f6;
+      border-right: 3px solid #10b981;
     }
 
-    .sudoku-cell.clue {
-      color: #93c5fd;
-      background: #0d1527;
-      font-weight: 900;
-    }
-
-    .sudoku-cell.selected {
-      background: #1e3a8a !important;
-      box-shadow: inset 0 0 0 2px #60a5fa;
-    }
-
-    .sudoku-cell.related {
-      background: #142036;
-    }
-
-    .sudoku-cell.same-number {
-      background: #1e293b;
-      color: var(--accent-cyan);
-    }
-
+    .sudoku-cell.clue { color: #34d399; background: #0c1825; }
+    .sudoku-cell.selected { background: #064e3b !important; box-shadow: inset 0 0 0 2px #34d399; }
     .sudoku-cell.cell-wrong {
-      background: rgba(239, 68, 68, 0.35) !important;
+      background: rgba(239, 68, 68, 0.4) !important;
       color: #fca5a5 !important;
       animation: shake 0.3s both;
     }
-
     .sudoku-cell.cell-hint {
-      background: rgba(16, 185, 129, 0.25) !important;
+      background: rgba(16, 185, 129, 0.3) !important;
       color: #6ee7b7 !important;
     }
 
-    /* Keypad 1-6 + Controls */
     .sudoku-keypad {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 6px;
-      max-width: 380px;
-      margin: 0 auto 14px;
+      max-width: 360px;
+      margin: 0 auto 12px;
     }
 
     .key-btn {
       appearance: none;
-      border: none;
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-      color: #f8fafc;
       border: 1px solid #334155;
-      box-shadow: 0 3px 0 #090d16;
-      border-radius: 12px;
-      padding: 12px 0;
-      font-size: 1.35rem;
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 0;
+      font-size: 1.3rem;
       font-family: var(--font-mono);
       font-weight: 800;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.1s ease;
     }
+    .key-btn:active { background: #10b981; }
 
-    .key-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #090d16;
-      background: #2563eb;
-    }
-
-    .sudoku-actions {
-      display: flex;
-      gap: 10px;
-      max-width: 380px;
+    /* ========================================================
+       GAME 3: 3D ROLLING BALL CANVAS GAME (MOBILE TOUCH)
+       ======================================================== */
+    .ball-game-container {
+      width: 100%;
+      max-width: 460px;
       margin: 0 auto;
+      text-align: center;
     }
 
-    .sudoku-actions .btn-3d {
-      flex: 1;
-      padding: 12px 8px;
-      font-size: 0.9rem;
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid #f97316;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.25);
+      background: #070913;
+      touch-action: none; /* Prevents mobile scroll while dragging */
     }
 
-    /* Win Modal */
+    #ball-canvas {
+      display: block;
+      width: 100%;
+      height: 420px;
+      touch-action: none;
+    }
+
+    .touch-hint-bar {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      color: #fed7aa;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    .ball-stats-hud {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 12px;
+      padding: 8px 16px;
+    }
+
+    /* MODALS & ALERTS */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(3, 7, 18, 0.85);
+      background: rgba(5, 8, 16, 0.88);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
       z-index: 2000;
-      animation: fadeIn 0.25s ease;
     }
+    .modal-overlay.active { display: flex; }
 
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .win-modal {
+    .modal-box {
       background: #111827;
-      border: 2px solid var(--accent-green);
-      box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.35);
-      border-radius: 24px;
-      padding: 30px 24px;
-      text-align: center;
-      max-width: 440px;
+      border-radius: 22px;
+      padding: 26px 20px;
+      max-width: 380px;
       width: 100%;
+      text-align: center;
     }
 
-    .win-icon {
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      animation: bounce 0.6s infinite alternate;
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    @keyframes bounce {
-      from { transform: translateY(0); }
-      to { transform: translateY(-8px); }
-    }
-
-    .win-title {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .win-subtitle {
-      font-size: 0.95rem;
-      color: var(--accent-cyan);
-      margin-bottom: 20px;
-    }
-
-    .win-stats-list {
-      background: rgba(15, 23, 42, 0.7);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 22px;
-      text-align: left;
-    }
-
-    .win-stat-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
-      font-size: 0.92rem;
-    }
-
-    .win-stat-row:last-child {
-      border-bottom: none;
-    }
-
-    .win-stat-row span:last-child {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--accent-cyan);
+    /* MOBILE RESPONSIVE ADJUSTMENTS */
+    @media (max-width: 820px) {
+      .games-row-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .game-box-desc {
+        min-height: auto;
+      }
+      .hub-title {
+        font-size: 1.8rem;
+      }
+      .math-expression {
+        font-size: 2.5rem;
+      }
+      #ball-canvas {
+        height: 380px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP HUB NAVIGATION: GAMES SWITCHER -->
-  <nav class="game-nav-bar">
-    <button id="tab-math" class="nav-tab active" type="button">
-      🧮 Math Quiz
-    </button>
-    <button id="tab-sudoku" class="nav-tab" type="button">
-      🧩 6×6 Sudoku
-    </button>
-  </nav>
-
-  <div id="app">
-
-    <!-- ========================================================
-         GAME SECTION 1: MATH QUIZ
-         ======================================================== -->
-    <div id="section-math" class="game-section active">
-
-      <!-- START SCREEN -->
-      <div id="screen-start" class="screen active">
-        <div class="card">
-          <div class="title-badge">Mental Training</div>
-          <h1 class="main-title">MATH QUIZ</h1>
-          <p class="sub-title">Sharpen Your Mind. Beat Your Score.</p>
-
-          <div class="bests-grid">
-            <div class="best-pill">
-              <div class="best-pill-label">High Score</div>
-              <div id="disp-best-score" class="best-pill-val">0</div>
-            </div>
-            <div class="best-pill">
-              <div class="best-pill-label">1-Min Solved</div>
-              <div id="disp-best-1min" class="best-pill-val">0</div>
-            </div>
-            <div class="best-pill">
-              <div class="best-pill-label">Best Acc</div>
-              <div id="disp-best-acc" class="best-pill-val">0%</div>
-            </div>
-          </div>
-
-          <div class="setting-card">
-            <div class="setting-label">
-              <div class="setting-title">⏱️ 60-Second Timer</div>
-              <div class="setting-desc">Race the clock or play unmetered</div>
-            </div>
-            <div class="toggle-group">
-              <button id="toggle-timer-on" class="toggle-btn active" type="button">ON</button>
-              <button id="toggle-timer-off" class="toggle-btn" type="button">OFF</button>
-            </div>
-          </div>
-
-          <button id="btn-start" class="btn-3d btn-primary btn-full" type="button">
-            Start Game
-          </button>
-        </div>
-      </div>
-
-      <!-- COUNTDOWN SCREEN -->
-      <div id="screen-countdown" class="screen">
-        <div class="card">
-          <div id="countdown-text" class="countdown-number">3</div>
-        </div>
-      </div>
-
-      <!-- GAMEPLAY SCREEN -->
-      <div id="screen-game" class="screen">
-        <div id="game-card" class="card">
-          <div class="game-header">
-            <div class="stat-box">
-              <span class="stat-label">Score</span>
-              <span id="stat-score" class="stat-val">0</span>
-            </div>
-            <div class="stat-box">
-              <span id="timer-header-label" class="stat-label">Time Left</span>
-              <span id="stat-timer" class="stat-val highlight">01:00</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-label">Accuracy</span>
-              <span id="stat-accuracy" class="stat-val">100%</span>
-            </div>
-          </div>
-
-          <div class="question-panel">
-            <div id="rule-precision" class="rule-badge">Round answer to 2 decimal places</div>
-            <div id="math-expression" class="math-expression">24 + 18</div>
-          </div>
-
-          <div style="position: relative;">
-            <div id="feedback-float" class="feedback-float">+10</div>
-            <input 
-              id="answer-input" 
-              class="answer-input" 
-              type="text" 
-              inputmode="decimal" 
-              pattern="[0-9.-]*"
-              placeholder="?" 
-              autocomplete="off"
-            >
-          </div>
-
-          <button id="btn-submit" class="btn-3d btn-primary btn-full" type="button">
-            Submit Answer
-          </button>
-
-          <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
-            <button id="btn-quit" class="btn-secondary" type="button">Finish Session</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- RESULTS SCREEN -->
-      <div id="screen-results" class="screen">
-        <div class="card">
-          <div id="result-badge" class="title-badge" style="color: var(--accent-green);">Great Run!</div>
-          <h2 id="result-headline" style="font-size: 1.7rem; font-weight: 800; margin-bottom: 14px;">Can You Beat Your Score?</h2>
-
-          <div class="result-score-block">
-            <div id="res-final-score" class="result-final-score">0</div>
-            <div style="color: var(--text-muted); font-size: 0.9rem;">Total Points</div>
-          </div>
-
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-name">Questions Solved</div>
-              <div id="res-solved" class="metric-val">0</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">Accuracy</div>
-              <div id="res-acc" class="metric-val" style="color: var(--accent-cyan);">0%</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">1-Min Benchmark</div>
-              <div id="res-1min" class="metric-val">0</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">Avg Time / Question</div>
-              <div id="res-avg-time" class="metric-val">0.0s</div>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button id="btn-restart" class="btn-3d btn-primary btn-full" type="button">Play Again</button>
-            <button id="btn-home" class="btn-3d btn-secondary btn-full" type="button">Main Menu</button>
-          </div>
-        </div>
-      </div>
-
+  <!-- TOP HUB NAVIGATION -->
+  <header class="top-header">
+    <div class="hub-brand">
+      <span>🕹️</span> BRAIN & ARCADE
     </div>
+    <button id="btn-back-hub" class="btn-nav-home" type="button">
+      🏠 Games Hub
+    </button>
+  </header>
+
+  <main id="app">
 
     <!-- ========================================================
-         GAME SECTION 2: 6x6 SUDOKU
+         VIEW 1: GAMES HUB (3 INDIVIDUAL GAME BOXES IN A ROW)
          ======================================================== -->
-    <div id="section-sudoku" class="game-section">
-      <div class="card sudoku-container">
+    <section id="view-hub" class="view-section active">
+      <div class="hub-intro">
+        <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
+        <p class="hub-subtitle">Mobile-Optimized Fast Mental & Reflex Games</p>
+      </div>
+
+      <!-- 3 SEPARATE BOXES IN A ROW -->
+      <div class="games-row-grid">
         
-        <div class="title-badge" style="color: var(--accent-purple); border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.15);">
-          Logic Puzzle (2×3 Blocks)
-        </div>
-        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em;">
-          6×6 SUDOKU
-        </h2>
-
-        <!-- Sudoku Header -->
-        <div class="sudoku-header">
-          <div class="stat-box">
-            <span class="stat-label">Timer</span>
-            <span id="sdk-timer" class="stat-val highlight">00:00</span>
+        <!-- BOX 1: MATH QUIZ -->
+        <div class="game-card-box card-math-box">
+          <div>
+            <div class="game-icon-large">🧮</div>
+            <h2 class="game-box-title">MATH QUIZ</h2>
+            <span class="game-box-badge badge-blue">Mental Speed</span>
+            <p class="game-box-desc">
+              Sharpen mental arithmetic with 60-second timer & rapid one-op questions.
+            </p>
           </div>
-          <div class="stat-box">
-            <span class="stat-label">Mistakes</span>
-            <span id="sdk-mistakes" class="stat-val" style="color: var(--accent-red);">0</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-label">Hints Used</span>
-            <span id="sdk-hints" class="stat-val" style="color: var(--accent-amber);">0</span>
-          </div>
-        </div>
-
-        <!-- Alert Notification for Wrong/Hint info -->
-        <div id="sudoku-alert" class="sudoku-alert">
-          Wrong Number! / తప్పు సంఖ్య!
-        </div>
-
-        <!-- 6x6 Grid Container -->
-        <div id="sudoku-board" class="sudoku-board">
-          <!-- 36 Cells generated dynamically by JS -->
-        </div>
-
-        <!-- Keypad (Numbers 1 to 6) -->
-        <div class="sudoku-keypad">
-          <button class="key-btn" data-num="1" type="button">1</button>
-          <button class="key-btn" data-num="2" type="button">2</button>
-          <button class="key-btn" data-num="3" type="button">3</button>
-          <button class="key-btn" data-num="4" type="button">4</button>
-          <button class="key-btn" data-num="5" type="button">5</button>
-          <button class="key-btn" data-num="6" type="button">6</button>
-        </div>
-
-        <!-- Sudoku Actions -->
-        <div class="sudoku-actions">
-          <button id="sdk-btn-hint" class="btn-3d btn-secondary" type="button">
-            💡 Hint
+          <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
+            Play Math Quiz
           </button>
-          <button id="sdk-btn-erase" class="btn-3d btn-secondary" type="button">
-            ⌫ Erase
+        </div>
+
+        <!-- BOX 2: 6X6 SUDOKU -->
+        <div class="game-card-box card-sudoku-box">
+          <div>
+            <div class="game-icon-large">🧩</div>
+            <h2 class="game-box-title">6×6 SUDOKU</h2>
+            <span class="game-box-badge badge-green">2×3 Logic</span>
+            <p class="game-box-desc">
+              Fast 6x6 grid with instant wrong number detection and smart hints.
+            </p>
+          </div>
+          <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
+            Play Sudoku
           </button>
-          <button id="sdk-btn-new" class="btn-3d btn-primary" type="button">
-            🔄 New Game
+        </div>
+
+        <!-- BOX 3: 3D BALL GAME -->
+        <div class="game-card-box card-ball-box">
+          <div>
+            <div class="game-icon-large">🔴</div>
+            <h2 class="game-box-title">3D BALL RUN</h2>
+            <span class="game-box-badge badge-orange">Finger Reflex</span>
+            <p class="game-box-desc">
+              Continuous 3D rolling ball! Slide your finger to dodge obstacles & grab gems.
+            </p>
+          </div>
+          <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">
+            Play 3D Ball
           </button>
         </div>
 
       </div>
-    </div>
+    </section>
 
-  </div>
+    <!-- ========================================================
+         VIEW 2: MATH QUIZ
+         ======================================================== -->
+    <section id="view-math" class="view-section">
+      <div class="game-wrapper">
+        
+        <!-- Math Start Screen -->
+        <div id="math-screen-start" class="card screen-math active">
+          <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Speed Drill</div>
+          <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 12px;">MATH QUIZ</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">60 Seconds mental speed calculation</p>
+          
+          <div style="background: rgba(15, 23, 42, 0.7); border-radius: 14px; padding: 12px; margin-bottom: 20px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">PERSONAL BEST</div>
+            <div id="mq-best-score" style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: #38bdf8;">0 PTS</div>
+          </div>
 
-  <!-- 1-Minute Milestone Toast (Math Quiz) -->
-  <div id="benchmark-toast" class="benchmark-toast">
-    ⚡ 1-Minute Milestone! Benchmark saved.
-  </div>
+          <button id="mq-btn-start" class="btn-3d btn-blue" type="button">Start Quiz</button>
+        </div>
 
-  <!-- SUDOKU WIN / CONGRATS MODAL -->
+        <!-- Math Gameplay Screen -->
+        <div id="math-screen-play" class="card screen-math">
+          <div class="stat-header">
+            <div>
+              <span class="stat-label">Score</span>
+              <span id="mq-score" class="stat-val">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Time</span>
+              <span id="mq-timer" class="stat-val" style="color: #38bdf8;">01:00</span>
+            </div>
+            <div>
+              <span class="stat-label">Acc</span>
+              <span id="mq-acc" class="stat-val">100%</span>
+            </div>
+          </div>
+
+          <div id="mq-precision-hint" style="font-size: 0.75rem; color: var(--accent-amber); display: none;">Round to 2 decimal places</div>
+          <div id="mq-expression" class="math-expression">24 + 19</div>
+
+          <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
+          <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
+        </div>
+
+        <!-- Math Results Screen -->
+        <div id="math-screen-end" class="card screen-math">
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px;">GAME OVER</h2>
+          <p style="color: var(--text-muted); margin-bottom: 16px;">Here is your 1-minute performance</p>
+          <div style="font-family: var(--font-mono); font-size: 3.5rem; font-weight: 900; color: #fff; margin-bottom: 16px;" id="mq-final-score">0</div>
+          <div style="display: flex; gap: 10px;">
+            <button id="mq-btn-restart" class="btn-3d btn-blue" type="button">Play Again</button>
+            <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: 6x6 SUDOKU
+         ======================================================== -->
+    <section id="view-sudoku" class="view-section">
+      <div class="game-wrapper">
+        <div class="card">
+          <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Logical Grid</div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">6×6 SUDOKU</h2>
+
+          <div class="stat-header">
+            <div>
+              <span class="stat-label">Time</span>
+              <span id="sdk-timer" class="stat-val" style="color: #34d399;">00:00</span>
+            </div>
+            <div>
+              <span class="stat-label">Mistakes</span>
+              <span id="sdk-mistakes" class="stat-val" style="color: var(--accent-red);">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Hints</span>
+              <span id="sdk-hints" class="stat-val" style="color: var(--accent-amber);">0</span>
+            </div>
+          </div>
+
+          <div id="sdk-alert" style="min-height: 22px; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--accent-red);"></div>
+
+          <div id="sudoku-board" class="sudoku-board"></div>
+
+          <!-- Mobile 1-6 Keypad -->
+          <div class="sudoku-keypad">
+            <button class="key-btn" data-num="1">1</button>
+            <button class="key-btn" data-num="2">2</button>
+            <button class="key-btn" data-num="3">3</button>
+            <button class="key-btn" data-num="4">4</button>
+            <button class="key-btn" data-num="5">5</button>
+            <button class="key-btn" data-num="6">6</button>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button id="sdk-btn-hint" class="btn-3d btn-secondary" style="padding: 10px;" type="button">💡 Hint</button>
+            <button id="sdk-btn-erase" class="btn-3d btn-secondary" style="padding: 10px;" type="button">⌫ Erase</button>
+            <button id="sdk-btn-new" class="btn-3d btn-green" style="padding: 10px;" type="button">🔄 New</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: 3D BALL RUN (CANVAS 3D RUNNER)
+         ======================================================== -->
+    <section id="view-ball" class="view-section">
+      <div class="ball-game-container">
+        
+        <div class="ball-stats-hud">
+          <div>
+            <span class="stat-label">Score</span>
+            <span id="ball-score" class="stat-val" style="color: #fb923c;">0</span>
+          </div>
+          <div>
+            <span class="stat-label">Diamonds</span>
+            <span id="ball-gems" class="stat-val" style="color: #38bdf8;">💎 0</span>
+          </div>
+          <div>
+            <span class="stat-label">Speed</span>
+            <span id="ball-speed" class="stat-val">1.0x</span>
+          </div>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="ball-canvas" width="440" height="460"></canvas>
+          <div class="touch-hint-bar">👈 Drag Finger Left / Right 👉</div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 14px;">
+          <button id="btn-restart-ball" class="btn-3d btn-orange" type="button">Restart Ball</button>
+          <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SUDOKU WIN MODAL -->
   <div id="sudoku-win-modal" class="modal-overlay">
-    <div class="win-modal">
-      <div class="win-icon">🏆</div>
-      <h2 class="win-title">CONGRATULATIONS!</h2>
-      <div class="win-subtitle">అభినందనలు! పజిల్ విజయవంతంగా పూర్తయింది!</div>
-
-      <div class="win-stats-list">
-        <div class="win-stat-row">
+    <div class="modal-box" style="border: 2px solid #10b981;">
+      <div style="font-size: 3rem; margin-bottom: 6px;">🏆</div>
+      <h2 style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 4px;">CONGRATULATIONS!</h2>
+      <div style="color: #34d399; font-size: 0.95rem; margin-bottom: 16px;">పజిల్ విజయవంతంగా పూర్తయింది!</div>
+      <div style="background: #0f172a; border-radius: 12px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
           <span>Time Taken (సమయం):</span>
-          <span id="win-modal-time">02:15</span>
+          <span id="win-time" style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">00:00</span>
         </div>
-        <div class="win-stat-row">
+        <div style="display: flex; justify-content: space-between;">
           <span>Mistakes (తప్పులు):</span>
-          <span id="win-modal-mistakes">0</span>
-        </div>
-        <div class="win-stat-row">
-          <span>Hints Used (సూచనలు):</span>
-          <span id="win-modal-hints">0</span>
+          <span id="win-mistakes" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-red);">0</span>
         </div>
       </div>
+      <button id="btn-sdk-play-again" class="btn-3d btn-green" type="button">Play Again</button>
+    </div>
+  </div>
 
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <button id="btn-sdk-play-again" class="btn-3d btn-success btn-full" type="button">
-          Play Again (మళ్ళీ ఆడండి)
-        </button>
-        <button id="btn-sdk-switch-math" class="btn-3d btn-secondary btn-full" type="button">
-          Play Math Quiz (గణితం క్విజ్)
-        </button>
+  <!-- 3D BALL GAME OVER MODAL -->
+  <div id="ball-gameover-modal" class="modal-overlay">
+    <div class="modal-box" style="border: 2px solid #f97316;">
+      <div style="font-size: 3rem; margin-bottom: 6px;">💥</div>
+      <h2 style="font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 4px;">CRASHED!</h2>
+      <div style="color: #fb923c; font-size: 0.95rem; margin-bottom: 16px;">Good Reflex Run!</div>
+      <div style="background: #0f172a; border-radius: 12px; padding: 14px; margin-bottom: 18px; text-align: left;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span>Distance Score:</span>
+          <span id="ball-final-dist" style="font-family: var(--font-mono); font-weight: 700; color: #fb923c;">0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Gems Collected:</span>
+          <span id="ball-final-gems" style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">0</span>
+        </div>
       </div>
+      <button id="btn-ball-retry" class="btn-3d btn-orange" type="button">Try Again</button>
     </div>
   </div>
 
   <script>
     /* ========================================================
-       TOP NAVIGATION: SWITCH BETWEEN MATH QUIZ & SUDOKU
+       CORE ROUTING / VIEW SWITCHER
        ======================================================== */
-    const tabMath = document.getElementById('tab-math');
-    const tabSudoku = document.getElementById('tab-sudoku');
-    const sectionMath = document.getElementById('section-math');
-    const sectionSudoku = document.getElementById('section-sudoku');
+    const views = {
+      hub: document.getElementById('view-hub'),
+      math: document.getElementById('view-math'),
+      sudoku: document.getElementById('view-sudoku'),
+      ball: document.getElementById('view-ball')
+    };
 
-    function switchGame(game) {
-      if (game === 'math') {
-        tabMath.classList.add('active');
-        tabSudoku.classList.remove('active');
-        sectionMath.classList.add('active');
-        sectionSudoku.classList.remove('active');
-        // Pause sudoku timer if running
-        stopSudokuTimer();
-      } else {
-        tabSudoku.classList.add('active');
-        tabMath.classList.remove('active');
-        sectionSudoku.classList.add('active');
-        sectionMath.classList.remove('active');
-        // If sudoku not started, start a new board
-        if (!sdkState.active) {
-          startNewSudoku();
-        } else {
-          startSudokuTimer();
-        }
+    function openView(viewName) {
+      // Pause loops if leaving
+      if (viewName !== 'ball') stopBallGame();
+      if (viewName !== 'math') stopMathTimer();
+      if (viewName !== 'sudoku') stopSudokuTimer();
+
+      Object.keys(views).forEach(k => {
+        views[k].classList.toggle('active', k === viewName);
+      });
+
+      if (viewName === 'sudoku' && !sdkState.active) {
+        startNewSudoku();
+      } else if (viewName === 'ball') {
+        init3DBallGame();
       }
     }
 
-    tabMath.addEventListener('click', () => switchGame('math'));
-    tabSudoku.addEventListener('click', () => switchGame('sudoku'));
+    document.getElementById('btn-back-hub').addEventListener('click', () => openView('hub'));
+    document.getElementById('btn-launch-math').addEventListener('click', () => openView('math'));
+    document.getElementById('btn-launch-sudoku').addEventListener('click', () => openView('sudoku'));
+    document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
 
     /* ========================================================
-       GAME 1: MATH QUIZ LOGIC
+       GAME 1: MATH QUIZ CODE
        ======================================================== */
     const mathState = {
-      timerMode: 'on',
-      score: 0,
-      attempted: 0,
-      correct: 0,
-      incorrect: 0,
-      startTime: 0,
-      qStartTime: 0,
-      timerRemaining: 60,
-      elapsedSeconds: 0,
-      timerInterval: null,
-      currentQuestion: null,
-      sessionHistory: new Set(),
-      oneMinBenchmarkQuestions: 0,
-      oneMinRecorded: false,
-      personalBest: { score: 0, oneMinSolved: 0, accuracy: 0 }
+      score: 0, attempted: 0, correct: 0, timerRemaining: 60,
+      timerInterval: null, currentQuestion: null, bestScore: 0
     };
 
-    const mathScreens = {
-      start: document.getElementById('screen-start'),
-      countdown: document.getElementById('screen-countdown'),
-      game: document.getElementById('screen-game'),
-      results: document.getElementById('screen-results')
+    const mqScreens = {
+      start: document.getElementById('math-screen-start'),
+      play: document.getElementById('math-screen-play'),
+      end: document.getElementById('math-screen-end')
     };
 
-    const mathEls = {
-      toggleTimerOn: document.getElementById('toggle-timer-on'),
-      toggleTimerOff: document.getElementById('toggle-timer-off'),
-      btnStart: document.getElementById('btn-start'),
-      btnSubmit: document.getElementById('btn-submit'),
-      btnQuit: document.getElementById('btn-quit'),
-      btnRestart: document.getElementById('btn-restart'),
-      btnHome: document.getElementById('btn-home'),
-      countdownText: document.getElementById('countdown-text'),
-      gameCard: document.getElementById('game-card'),
-      statScore: document.getElementById('stat-score'),
-      statTimer: document.getElementById('stat-timer'),
-      timerHeaderLabel: document.getElementById('timer-header-label'),
-      statAccuracy: document.getElementById('stat-accuracy'),
-      mathExpression: document.getElementById('math-expression'),
-      rulePrecision: document.getElementById('rule-precision'),
-      answerInput: document.getElementById('answer-input'),
-      feedbackFloat: document.getElementById('feedback-float'),
-      benchmarkToast: document.getElementById('benchmark-toast'),
-      dispBestScore: document.getElementById('disp-best-score'),
-      dispBest1Min: document.getElementById('disp-best-1min'),
-      dispBestAcc: document.getElementById('disp-best-acc'),
-      resFinalScore: document.getElementById('res-final-score'),
-      resSolved: document.getElementById('res-solved'),
-      resAcc: document.getElementById('res-acc'),
-      res1Min: document.getElementById('res-1min'),
-      resAvgTime: document.getElementById('res-avg-time'),
-      resultBadge: document.getElementById('result-badge'),
-      resultHeadline: document.getElementById('result-headline')
-    };
-
-    function loadBestScore() {
-      try {
-        const data = localStorage.getItem('mq_brain_records');
-        if (data) mathState.personalBest = Object.assign(mathState.personalBest, JSON.parse(data));
-      } catch (e) {}
-      updateStartScreenRecords();
-    }
-
-    function saveBestScore() {
-      try {
-        localStorage.setItem('mq_brain_records', JSON.stringify(mathState.personalBest));
-      } catch (e) {}
-    }
-
-    function updateStartScreenRecords() {
-      mathEls.dispBestScore.textContent = mathState.personalBest.score || 0;
-      mathEls.dispBest1Min.textContent = mathState.personalBest.oneMinSolved || 0;
-      mathEls.dispBestAcc.textContent = `${mathState.personalBest.accuracy || 0}%`;
-    }
-
-    function showMathScreen(screenKey) {
-      Object.keys(mathScreens).forEach(key => {
-        mathScreens[key].classList.toggle('active', key === screenKey);
-      });
+    function showMathSubScreen(sub) {
+      Object.keys(mqScreens).forEach(k => mqScreens[k].classList.toggle('active', k === sub));
     }
 
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function generateMathQuestion(level) {
+    function generateMathQ() {
       const ops = ['+', '-', '×', '÷'];
       const op = ops[Math.floor(Math.random() * ops.length)];
-      let num1, num2, targetAnswer, isDecimal = false;
+      let a, b, ans, isDec = false;
 
-      if (level === 1) {
-        if (op === '+') { num1 = getRandomInt(12, 60); num2 = getRandomInt(10, 45); targetAnswer = num1 + num2; }
-        else if (op === '-') { num1 = getRandomInt(25, 95); num2 = getRandomInt(10, num1 - 5); targetAnswer = num1 - num2; }
-        else if (op === '×') { num1 = getRandomInt(3, 12); num2 = getRandomInt(3, 12); targetAnswer = num1 * num2; }
-        else { const q = getRandomInt(2, 10); num2 = getRandomInt(2, 10); num1 = q * num2; targetAnswer = q; }
-      } else if (level === 2) {
-        if (op === '+') { num1 = getRandomInt(45, 300); num2 = getRandomInt(25, 180); targetAnswer = num1 + num2; }
-        else if (op === '-') { num1 = getRandomInt(20, 180); num2 = getRandomInt(30, 220); targetAnswer = num1 - num2; }
-        else if (op === '×') { num1 = getRandomInt(11, 24); num2 = getRandomInt(6, 16); targetAnswer = num1 * num2; }
-        else {
-          if (Math.random() > 0.4) {
-            const q = getRandomInt(4, 20); num2 = getRandomInt(4, 15); num1 = q * num2; targetAnswer = q;
-          } else {
-            const divs = [2, 4, 5];
-            num2 = divs[Math.floor(Math.random() * divs.length)];
-            num1 = getRandomInt(3, 39);
-            if (num1 % num2 === 0) num1 += 1;
-            targetAnswer = Number((num1 / num2).toFixed(2));
-            isDecimal = true;
-          }
-        }
-      } else {
-        if (op === '+') { num1 = getRandomInt(120, 600); num2 = getRandomInt(90, 500); targetAnswer = num1 + num2; }
-        else if (op === '-') { num1 = getRandomInt(50, 700); num2 = getRandomInt(60, 800); targetAnswer = num1 - num2; }
-        else if (op === '×') { num1 = getRandomInt(16, 75); num2 = getRandomInt(12, 65); targetAnswer = num1 * num2; }
-        else {
-          num2 = getRandomInt(3, 15); num1 = getRandomInt(7, 85);
-          if (num1 % num2 === 0) num1 += 1;
-          targetAnswer = Number((num1 / num2).toFixed(2));
-          isDecimal = true;
-        }
-      }
-
-      const canonicalKey = (op === '+' || op === '×')
-        ? `${op}:${Math.min(num1, num2)},${Math.max(num1, num2)}`
-        : `${op}:${num1},${num2}`;
-
-      return { num1, num2, op, targetAnswer, isDecimal, key: canonicalKey, displayString: `${num1} ${op} ${num2}` };
-    }
-
-    function getUniqueQuestion() {
-      let level = 1;
-      if (mathState.attempted >= 15) level = 3;
-      else if (mathState.attempted >= 5) level = 2;
-
-      let q = null, attempts = 0;
-      while (attempts < 80) {
-        const candidate = generateMathQuestion(level);
-        if (!mathState.sessionHistory.has(candidate.key)) {
-          q = candidate;
-          mathState.sessionHistory.add(candidate.key);
-          break;
-        }
-        attempts++;
-      }
-      return q || generateMathQuestion(level);
-    }
-
-    function displayNextQuestion() {
-      mathState.currentQuestion = getUniqueQuestion();
-      mathState.qStartTime = performance.now();
-      mathEls.mathExpression.textContent = mathState.currentQuestion.displayString;
-      mathEls.rulePrecision.classList.toggle('visible', mathState.currentQuestion.isDecimal);
-      mathEls.answerInput.value = '';
-      mathEls.answerInput.focus();
-    }
-
-    function startMathCountdown() {
-      showMathScreen('countdown');
-      const steps = ['3', '2', '1', 'GO!'];
-      let idx = 0;
-      mathEls.countdownText.textContent = steps[idx];
-      const countInt = setInterval(() => {
-        idx++;
-        if (idx < steps.length) {
-          mathEls.countdownText.textContent = steps[idx];
+      if (op === '+') { a = getRandomInt(15, 80); b = getRandomInt(10, 60); ans = a + b; }
+      else if (op === '-') { a = getRandomInt(20, 95); b = getRandomInt(5, 75); ans = a - b; }
+      else if (op === '×') { a = getRandomInt(4, 15); b = getRandomInt(4, 14); ans = a * b; }
+      else {
+        if (Math.random() > 0.4) {
+          const q = getRandomInt(3, 15); b = getRandomInt(3, 12); a = q * b; ans = q;
         } else {
-          clearInterval(countInt);
-          startMathGame();
+          b = [2, 4, 5][Math.floor(Math.random() * 3)];
+          a = getRandomInt(3, 39);
+          if (a % b === 0) a++;
+          ans = Number((a / b).toFixed(2));
+          isDec = true;
         }
-      }, 700);
+      }
+      return { str: `${a} ${op} ${b}`, target: ans, isDec };
     }
 
-    function startMathGame() {
+    function nextMathQuestion() {
+      mathState.currentQuestion = generateMathQ();
+      document.getElementById('mq-expression').textContent = mathState.currentQuestion.str;
+      document.getElementById('mq-precision-hint').style.display = mathState.currentQuestion.isDec ? 'block' : 'none';
+      const input = document.getElementById('mq-input');
+      input.value = '';
+      input.focus();
+    }
+
+    function startMathSession() {
       mathState.score = 0;
       mathState.attempted = 0;
       mathState.correct = 0;
-      mathState.incorrect = 0;
       mathState.timerRemaining = 60;
-      mathState.elapsedSeconds = 0;
-      mathState.oneMinBenchmarkQuestions = 0;
-      mathState.oneMinRecorded = false;
-      mathState.sessionHistory.clear();
-      mathState.startTime = performance.now();
+      document.getElementById('mq-score').textContent = '0';
+      document.getElementById('mq-timer').textContent = '01:00';
+      document.getElementById('mq-acc').textContent = '100%';
 
-      updateMathStatsUI();
-      showMathScreen('game');
+      showMathSubScreen('play');
+      nextMathQuestion();
 
-      if (mathState.timerMode === 'on') {
-        mathEls.timerHeaderLabel.textContent = 'Time Left';
-        mathEls.statTimer.textContent = '01:00';
-      } else {
-        mathEls.timerHeaderLabel.textContent = 'Elapsed';
-        mathEls.statTimer.textContent = '00:00';
-      }
-
-      displayNextQuestion();
-      startMathTimer();
-    }
-
-    function startMathTimer() {
       if (mathState.timerInterval) clearInterval(mathState.timerInterval);
       mathState.timerInterval = setInterval(() => {
-        if (mathState.timerMode === 'on') {
-          mathState.timerRemaining--;
-          updateMathTimerUI();
-          if (mathState.timerRemaining <= 0) {
-            clearInterval(mathState.timerInterval);
-            mathState.oneMinBenchmarkQuestions = mathState.correct;
-            endMathGame();
-          }
-        } else {
-          mathState.elapsedSeconds++;
-          updateMathTimerUI();
-          if (mathState.elapsedSeconds === 60 && !mathState.oneMinRecorded) {
-            mathState.oneMinRecorded = true;
-            mathState.oneMinBenchmarkQuestions = mathState.correct;
-            showBenchmarkToast();
-          }
+        mathState.timerRemaining--;
+        const m = String(Math.floor(mathState.timerRemaining / 60)).padStart(2, '0');
+        const s = String(mathState.timerRemaining % 60).padStart(2, '0');
+        document.getElementById('mq-timer').textContent = `${m}:${s}`;
+        if (mathState.timerRemaining <= 0) {
+          stopMathTimer();
+          finishMathQuiz();
         }
       }, 1000);
     }
 
-    function updateMathTimerUI() {
-      if (mathState.timerMode === 'on') {
-        mathEls.statTimer.textContent = formatSec(mathState.timerRemaining);
-        mathEls.statTimer.classList.toggle('critical', mathState.timerRemaining <= 10);
-      } else {
-        mathEls.statTimer.textContent = formatSec(mathState.elapsedSeconds);
-      }
-    }
-
-    function formatSec(totalSec) {
-      const m = Math.floor(Math.max(0, totalSec) / 60);
-      const s = Math.max(0, totalSec) % 60;
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-
-    function showBenchmarkToast() {
-      mathEls.benchmarkToast.classList.add('visible');
-      setTimeout(() => mathEls.benchmarkToast.classList.remove('visible'), 3500);
-    }
-
-    function checkMathAnswer() {
-      const raw = mathEls.answerInput.value.trim();
-      if (raw === '' || isNaN(raw)) {
-        triggerMathCardShake();
-        return;
-      }
-      const val = parseFloat(raw);
-      const q = mathState.currentQuestion;
-      const speedSec = (performance.now() - mathState.qStartTime) / 1000;
-
-      const isCorrect = q.isDecimal 
-        ? Math.abs(val - q.targetAnswer) <= 0.015 
-        : Math.abs(val - q.targetAnswer) < 0.0001;
-
-      mathState.attempted++;
-      let earned = 0;
-
-      if (isCorrect) {
-        mathState.correct++;
-        earned = 10;
-        if (speedSec <= 3.5) earned += 5;
-        mathState.score += earned;
-        showMathFeedback(true, earned);
-      } else {
-        mathState.incorrect++;
-        showMathFeedback(false, 0);
-      }
-
-      updateMathStatsUI();
-      displayNextQuestion();
-    }
-
-    function showMathFeedback(isCorrect, pts) {
-      mathEls.gameCard.classList.remove('flash-correct', 'flash-wrong');
-      void mathEls.gameCard.offsetWidth;
-      mathEls.gameCard.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
-
-      mathEls.feedbackFloat.textContent = isCorrect ? (pts > 10 ? `+${pts} SPEED!` : `+${pts}`) : 'MISSED';
-      mathEls.feedbackFloat.className = `feedback-float show-up ${isCorrect ? 'correct' : 'wrong'}`;
-
-      setTimeout(() => {
-        mathEls.gameCard.classList.remove('flash-correct', 'flash-wrong');
-        mathEls.feedbackFloat.classList.remove('show-up');
-      }, 400);
-    }
-
-    function triggerMathCardShake() {
-      mathEls.gameCard.classList.remove('flash-wrong');
-      void mathEls.gameCard.offsetWidth;
-      mathEls.gameCard.classList.add('flash-wrong');
-      setTimeout(() => mathEls.gameCard.classList.remove('flash-wrong'), 300);
-    }
-
-    function updateMathStatsUI() {
-      mathEls.statScore.textContent = mathState.score;
-      const acc = mathState.attempted > 0 ? Math.round((mathState.correct / mathState.attempted) * 100) : 100;
-      mathEls.statAccuracy.textContent = `${acc}%`;
-    }
-
-    function endMathGame() {
+    function stopMathTimer() {
       if (mathState.timerInterval) clearInterval(mathState.timerInterval);
-      const totalSec = Math.max(1, (performance.now() - mathState.startTime) / 1000);
-      const acc = mathState.attempted > 0 ? Math.round((mathState.correct / mathState.attempted) * 100) : 0;
-      const avg = mathState.attempted > 0 ? (totalSec / mathState.attempted).toFixed(1) : '0.0';
-
-      let oneMin = mathState.oneMinBenchmarkQuestions;
-      if (!mathState.oneMinRecorded && totalSec < 60) oneMin = mathState.correct;
-
-      if (mathState.score > mathState.personalBest.score) mathState.personalBest.score = mathState.score;
-      if (oneMin > mathState.personalBest.oneMinSolved) mathState.personalBest.oneMinSolved = oneMin;
-      if (acc > mathState.personalBest.accuracy && mathState.attempted >= 5) mathState.personalBest.accuracy = acc;
-      saveBestScore();
-
-      mathEls.resFinalScore.textContent = mathState.score;
-      mathEls.resSolved.textContent = `${mathState.correct} / ${mathState.attempted}`;
-      mathEls.resAcc.textContent = `${acc}%`;
-      mathEls.res1Min.textContent = `${oneMin} Qs`;
-      mathEls.resAvgTime.textContent = `${avg}s`;
-
-      showMathScreen('results');
     }
 
-    // Math Event Listeners
-    mathEls.toggleTimerOn.addEventListener('click', () => {
-      mathState.timerMode = 'on';
-      mathEls.toggleTimerOn.classList.add('active');
-      mathEls.toggleTimerOff.classList.remove('active');
-    });
-    mathEls.toggleTimerOff.addEventListener('click', () => {
-      mathState.timerMode = 'off';
-      mathEls.toggleTimerOff.classList.add('active');
-      mathEls.toggleTimerOn.classList.remove('active');
-    });
-    mathEls.btnStart.addEventListener('click', startMathCountdown);
-    mathEls.btnSubmit.addEventListener('click', checkMathAnswer);
-    mathEls.btnQuit.addEventListener('click', endMathGame);
-    mathEls.btnRestart.addEventListener('click', startMathCountdown);
-    mathEls.btnHome.addEventListener('click', () => {
-      updateStartScreenRecords();
-      showMathScreen('start');
-    });
-    mathEls.answerInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        checkMathAnswer();
+    function submitMathAnswer() {
+      const raw = document.getElementById('mq-input').value.trim();
+      if (raw === '' || isNaN(raw)) return;
+      const val = parseFloat(raw);
+      mathState.attempted++;
+
+      const isOk = mathState.currentQuestion.isDec 
+        ? Math.abs(val - mathState.currentQuestion.target) <= 0.02
+        : Math.abs(val - mathState.currentQuestion.target) < 0.001;
+
+      if (isOk) {
+        mathState.correct++;
+        mathState.score += 10;
       }
+      document.getElementById('mq-score').textContent = mathState.score;
+      document.getElementById('mq-acc').textContent = `${Math.round((mathState.correct / mathState.attempted) * 100)}%`;
+      nextMathQuestion();
+    }
+
+    function finishMathQuiz() {
+      if (mathState.score > mathState.bestScore) {
+        mathState.bestScore = mathState.score;
+        document.getElementById('mq-best-score').textContent = `${mathState.bestScore} PTS`;
+      }
+      document.getElementById('mq-final-score').textContent = mathState.score;
+      showMathSubScreen('end');
+    }
+
+    document.getElementById('mq-btn-start').addEventListener('click', startMathSession);
+    document.getElementById('mq-btn-restart').addEventListener('click', startMathSession);
+    document.getElementById('mq-btn-submit').addEventListener('click', submitMathAnswer);
+    document.getElementById('mq-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitMathAnswer();
     });
 
     /* ========================================================
-       GAME 2: 6x6 SUDOKU LOGIC (2x3 BLOCKS)
+       GAME 2: 6X6 SUDOKU CODE
        ======================================================== */
     const sdkState = {
-      active: false,
-      solution: [],
-      initial: [],
-      current: [],
-      selectedRow: -1,
-      selectedCol: -1,
-      mistakes: 0,
-      hintsUsed: 0,
-      seconds: 0,
-      timerInterval: null
+      active: false, solution: [], initial: [], current: [],
+      selectedR: -1, selectedC: -1, mistakes: 0, hints: 0,
+      seconds: 0, timerInterval: null
     };
 
-    const sdkBoardEl = document.getElementById('sudoku-board');
-    const sdkTimerEl = document.getElementById('sdk-timer');
-    const sdkMistakesEl = document.getElementById('sdk-mistakes');
-    const sdkHintsEl = document.getElementById('sdk-hints');
-    const sdkAlertEl = document.getElementById('sudoku-alert');
-    const sdkWinModal = document.getElementById('sudoku-win-modal');
-
-    // 6x6 Sudoku Generator & Solver
-    // 6 Rows x 6 Cols. 2 rows per block, 3 cols per block.
     function isValid6x6(grid, r, c, val) {
       for (let i = 0; i < 6; i++) {
-        if (grid[r][i] === val) return false;
-        if (grid[i][c] === val) return false;
+        if (grid[r][i] === val || grid[i][c] === val) return false;
       }
-      const startR = Math.floor(r / 2) * 2;
-      const startC = Math.floor(c / 3) * 3;
+      const br = Math.floor(r / 2) * 2;
+      const bc = Math.floor(c / 3) * 3;
       for (let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
-          if (grid[startR + i][startC + j] === val) return false;
+          if (grid[br + i][bc + j] === val) return false;
         }
       }
       return true;
@@ -1435,10 +953,10 @@
       for (let r = 0; r < 6; r++) {
         for (let c = 0; c < 6; c++) {
           if (grid[r][c] === 0) {
-            const numbers = [1, 2, 3, 4, 5, 6].sort(() => Math.random() - 0.5);
-            for (const val of numbers) {
-              if (isValid6x6(grid, r, c, val)) {
-                grid[r][c] = val;
+            const nums = [1, 2, 3, 4, 5, 6].sort(() => Math.random() - 0.5);
+            for (let v of nums) {
+              if (isValid6x6(grid, r, c, v)) {
+                grid[r][c] = v;
                 if (solve6x6(grid)) return true;
                 grid[r][c] = 0;
               }
@@ -1450,48 +968,39 @@
       return true;
     }
 
-    function generate6x6Sudoku() {
-      // 1. Generate full completed 6x6 board
-      const solution = Array.from({ length: 6 }, () => Array(6).fill(0));
-      solve6x6(solution);
+    function startNewSudoku() {
+      stopSudokuTimer();
+      const sol = Array.from({ length: 6 }, () => Array(6).fill(0));
+      solve6x6(sol);
 
-      // 2. Clone and remove cells to make puzzle (~16 clues remain)
-      const puzzle = solution.map(row => [...row]);
-      const totalToRemove = 18 + Math.floor(Math.random() * 3); // removes 18-20 numbers
+      const puz = sol.map(row => [...row]);
       let removed = 0;
-
-      while (removed < totalToRemove) {
+      while (removed < 18) {
         const r = Math.floor(Math.random() * 6);
         const c = Math.floor(Math.random() * 6);
-        if (puzzle[r][c] !== 0) {
-          puzzle[r][c] = 0;
+        if (puz[r][c] !== 0) {
+          puz[r][c] = 0;
           removed++;
         }
       }
 
-      return { solution, puzzle };
-    }
-
-    function startNewSudoku() {
-      stopSudokuTimer();
-      const { solution, puzzle } = generate6x6Sudoku();
-      sdkState.solution = solution;
-      sdkState.initial = puzzle.map(r => [...r]);
-      sdkState.current = puzzle.map(r => [...r]);
-      sdkState.selectedRow = -1;
-      sdkState.selectedCol = -1;
+      sdkState.solution = sol;
+      sdkState.initial = puz.map(r => [...r]);
+      sdkState.current = puz.map(r => [...r]);
+      sdkState.selectedR = -1;
+      sdkState.selectedC = -1;
       sdkState.mistakes = 0;
-      sdkState.hintsUsed = 0;
+      sdkState.hints = 0;
       sdkState.seconds = 0;
       sdkState.active = true;
 
-      sdkMistakesEl.textContent = '0';
-      sdkHintsEl.textContent = '0';
-      sdkTimerEl.textContent = '00:00';
-      hideSudokuAlert();
-      sdkWinModal.classList.remove('active');
+      document.getElementById('sdk-mistakes').textContent = '0';
+      document.getElementById('sdk-hints').textContent = '0';
+      document.getElementById('sdk-timer').textContent = '00:00';
+      document.getElementById('sdk-alert').textContent = '';
+      document.getElementById('sudoku-win-modal').classList.remove('active');
 
-      renderSudokuBoard();
+      renderSudoku();
       startSudokuTimer();
     }
 
@@ -1499,7 +1008,9 @@
       if (sdkState.timerInterval) clearInterval(sdkState.timerInterval);
       sdkState.timerInterval = setInterval(() => {
         sdkState.seconds++;
-        sdkTimerEl.textContent = formatSec(sdkState.seconds);
+        const m = String(Math.floor(sdkState.seconds / 60)).padStart(2, '0');
+        const s = String(sdkState.seconds % 60).padStart(2, '0');
+        document.getElementById('sdk-timer').textContent = `${m}:${s}`;
       }, 1000);
     }
 
@@ -1507,257 +1018,403 @@
       if (sdkState.timerInterval) clearInterval(sdkState.timerInterval);
     }
 
-    function renderSudokuBoard() {
-      sdkBoardEl.innerHTML = '';
+    function renderSudoku() {
+      const board = document.getElementById('sudoku-board');
+      board.innerHTML = '';
       for (let r = 0; r < 6; r++) {
         for (let c = 0; c < 6; c++) {
           const cell = document.createElement('div');
           cell.className = 'sudoku-cell';
-          cell.dataset.row = r;
-          cell.dataset.col = c;
-
+          cell.dataset.r = r;
+          cell.dataset.c = c;
           const val = sdkState.current[r][c];
           if (val !== 0) {
             cell.textContent = val;
-            if (sdkState.initial[r][c] !== 0) {
-              cell.classList.add('clue');
-            }
+            if (sdkState.initial[r][c] !== 0) cell.classList.add('clue');
           }
-
-          cell.addEventListener('click', () => selectSudokuCell(r, c));
-          sdkBoardEl.appendChild(cell);
+          cell.addEventListener('click', () => {
+            sdkState.selectedR = r;
+            sdkState.selectedC = c;
+            highlightSudoku();
+          });
+          board.appendChild(cell);
         }
       }
-      updateCellHighlights();
     }
 
-    function selectSudokuCell(r, c) {
-      sdkState.selectedRow = r;
-      sdkState.selectedCol = c;
-      updateCellHighlights();
-    }
-
-    function updateCellHighlights() {
-      const cells = sdkBoardEl.querySelectorAll('.sudoku-cell');
-      const selR = sdkState.selectedRow;
-      const selC = sdkState.selectedCol;
-      const selVal = (selR >= 0 && selC >= 0) ? sdkState.current[selR][selC] : 0;
-
-      cells.forEach(cell => {
-        const r = parseInt(cell.dataset.row, 10);
-        const c = parseInt(cell.dataset.col, 10);
-        const val = sdkState.current[r][c];
-
-        cell.classList.remove('selected', 'related', 'same-number');
-
-        if (r === selR && c === selC) {
-          cell.classList.add('selected');
-        } else if (
-          selR >= 0 && selC >= 0 && (
-            r === selR || 
-            c === selC || 
-            (Math.floor(r / 2) === Math.floor(selR / 2) && Math.floor(c / 3) === Math.floor(selC / 3))
-          )
-        ) {
-          cell.classList.add('related');
-        }
-
-        if (selVal !== 0 && val === selVal && !(r === selR && c === selC)) {
-          cell.classList.add('same-number');
-        }
+    function highlightSudoku() {
+      const cells = document.querySelectorAll('.sudoku-cell');
+      cells.forEach(c => {
+        const r = parseInt(c.dataset.r, 10);
+        const col = parseInt(c.dataset.c, 10);
+        c.classList.toggle('selected', r === sdkState.selectedR && col === sdkState.selectedC);
       });
     }
 
-    function showSudokuAlert(text, type = 'wrong') {
-      sdkAlertEl.textContent = text;
-      sdkAlertEl.className = `sudoku-alert active ${type}`;
-      setTimeout(() => {
-        sdkAlertEl.classList.remove('active');
-      }, 2500);
-    }
-
-    function hideSudokuAlert() {
-      sdkAlertEl.classList.remove('active');
-    }
-
-    function inputSudokuNumber(num) {
-      const r = sdkState.selectedRow;
-      const c = sdkState.selectedCol;
-
-      if (r < 0 || c < 0) {
-        showSudokuAlert('Select a cell first! / ముందుగా ఒక బాక్స్ ఎంచుకోండి!', 'wrong');
-        return;
-      }
-
-      // Cannot overwrite initial clue
-      if (sdkState.initial[r][c] !== 0) {
-        showSudokuAlert('Clue cannot be changed! / ముందున్న నంబర్‌ని మార్చలేరు!', 'wrong');
-        return;
-      }
-
-      const expected = sdkState.solution[r][c];
-      const targetCell = getCellElement(r, c);
-
-      // Check if number is correct
-      if (num === expected) {
-        sdkState.current[r][c] = num;
-        targetCell.textContent = num;
-        targetCell.classList.remove('cell-wrong');
-        hideSudokuAlert();
-        updateCellHighlights();
-        checkSudokuCompletion();
-      } else {
-        // Wrong number entered!
-        sdkState.mistakes++;
-        sdkMistakesEl.textContent = sdkState.mistakes;
-        targetCell.classList.remove('cell-wrong');
-        void targetCell.offsetWidth; // Reflow for animation
-        targetCell.classList.add('cell-wrong');
-        showSudokuAlert(`Wrong Number (${num})! / తప్పు సంఖ్య!`, 'wrong');
-      }
-    }
-
-    function eraseSudokuCell() {
-      const r = sdkState.selectedRow;
-      const c = sdkState.selectedCol;
+    function inputSudoku(num) {
+      const r = sdkState.selectedR, c = sdkState.selectedC;
       if (r < 0 || c < 0) return;
+      if (sdkState.initial[r][c] !== 0) return;
 
-      if (sdkState.initial[r][c] !== 0) {
-        showSudokuAlert('Cannot erase clue! / ప్రశ్న నంబర్‌ని తొలగించలేరు!', 'wrong');
-        return;
+      const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
+      if (num === sdkState.solution[r][c]) {
+        sdkState.current[r][c] = num;
+        cell.textContent = num;
+        cell.classList.remove('cell-wrong');
+        document.getElementById('sdk-alert').textContent = '';
+        checkSudokuWin();
+      } else {
+        sdkState.mistakes++;
+        document.getElementById('sdk-mistakes').textContent = sdkState.mistakes;
+        cell.classList.remove('cell-wrong');
+        void cell.offsetWidth;
+        cell.classList.add('cell-wrong');
+        document.getElementById('sdk-alert').textContent = `Wrong Number (${num})! / తప్పు సంఖ్య!`;
       }
-
-      sdkState.current[r][c] = 0;
-      const cell = getCellElement(r, c);
-      cell.textContent = '';
-      cell.classList.remove('cell-wrong', 'cell-hint');
-      hideSudokuAlert();
-      updateCellHighlights();
     }
 
-    function giveSudokuHint() {
-      // Find candidate cell: preferably current selected if empty/wrong, else first empty
-      let targetR = sdkState.selectedRow;
-      let targetC = sdkState.selectedCol;
-
-      const isCurrentEmpty = (targetR >= 0 && targetC >= 0 && sdkState.current[targetR][targetC] !== sdkState.solution[targetR][targetC]);
-
-      if (!isCurrentEmpty) {
-        // find any empty cell
-        let found = false;
-        for (let r = 0; r < 6; r++) {
-          for (let c = 0; c < 6; c++) {
-            if (sdkState.current[r][c] !== sdkState.solution[r][c]) {
-              targetR = r;
-              targetC = c;
-              found = true;
-              break;
-            }
-          }
-          if (found) break;
-        }
-        if (!found) return; // already solved
-      }
-
-      const correctVal = sdkState.solution[targetR][targetC];
-      sdkState.current[targetR][targetC] = correctVal;
-      sdkState.hintsUsed++;
-      sdkHintsEl.textContent = sdkState.hintsUsed;
-
-      sdkState.selectedRow = targetR;
-      sdkState.selectedCol = targetC;
-
-      const cell = getCellElement(targetR, targetC);
-      cell.textContent = correctVal;
-      cell.classList.remove('cell-wrong');
-      cell.classList.add('cell-hint');
-
-      showSudokuAlert(`Hint: Cell filled with ${correctVal}!`, 'success');
-      updateCellHighlights();
-      checkSudokuCompletion();
-    }
-
-    function getCellElement(r, c) {
-      return sdkBoardEl.querySelector(`.sudoku-cell[data-row="${r}"][data-col="${c}"]`);
-    }
-
-    function checkSudokuCompletion() {
+    function checkSudokuWin() {
       for (let r = 0; r < 6; r++) {
         for (let c = 0; c < 6; c++) {
-          if (sdkState.current[r][c] !== sdkState.solution[r][c]) {
-            return; // Not finished yet
-          }
+          if (sdkState.current[r][c] !== sdkState.solution[r][c]) return;
         }
       }
-
-      // Sudoku Completed!
       stopSudokuTimer();
-      sdkState.active = false;
-
-      document.getElementById('win-modal-time').textContent = formatSec(sdkState.seconds);
-      document.getElementById('win-modal-mistakes').textContent = sdkState.mistakes;
-      document.getElementById('win-modal-hints').textContent = sdkState.hintsUsed;
-
-      setTimeout(() => {
-        sdkWinModal.classList.add('active');
-      }, 350);
+      const m = String(Math.floor(sdkState.seconds / 60)).padStart(2, '0');
+      const s = String(sdkState.seconds % 60).padStart(2, '0');
+      document.getElementById('win-time').textContent = `${m}:${s}`;
+      document.getElementById('win-mistakes').textContent = sdkState.mistakes;
+      document.getElementById('sudoku-win-modal').classList.add('active');
     }
 
-    // Sudoku Keypad & Button Listeners
-    document.querySelectorAll('.key-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const num = parseInt(btn.dataset.num, 10);
-        inputSudokuNumber(num);
-      });
+    document.querySelectorAll('.key-btn').forEach(b => {
+      b.addEventListener('click', () => inputSudoku(parseInt(b.dataset.num, 10)));
     });
 
-    document.getElementById('sdk-btn-hint').addEventListener('click', giveSudokuHint);
-    document.getElementById('sdk-btn-erase').addEventListener('click', eraseSudokuCell);
-    document.getElementById('sdk-btn-new').addEventListener('click', startNewSudoku);
+    document.getElementById('sdk-btn-hint').addEventListener('click', () => {
+      let r = sdkState.selectedR, c = sdkState.selectedC;
+      if (r < 0 || c < 0 || sdkState.current[r][c] !== 0) {
+        // pick first empty
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < 6; j++) {
+            if (sdkState.current[i][j] === 0) { r = i; c = j; break; }
+          }
+          if (r >= 0) break;
+        }
+      }
+      if (r >= 0 && c >= 0) {
+        sdkState.current[r][c] = sdkState.solution[r][c];
+        sdkState.hints++;
+        document.getElementById('sdk-hints').textContent = sdkState.hints;
+        const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
+        cell.textContent = sdkState.solution[r][c];
+        cell.classList.add('cell-hint');
+        checkSudokuWin();
+      }
+    });
 
+    document.getElementById('sdk-btn-erase').addEventListener('click', () => {
+      const r = sdkState.selectedR, c = sdkState.selectedC;
+      if (r >= 0 && c >= 0 && sdkState.initial[r][c] === 0) {
+        sdkState.current[r][c] = 0;
+        const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
+        cell.textContent = '';
+        cell.classList.remove('cell-wrong', 'cell-hint');
+      }
+    });
+
+    document.getElementById('sdk-btn-new').addEventListener('click', startNewSudoku);
     document.getElementById('btn-sdk-play-again').addEventListener('click', () => {
-      sdkWinModal.classList.remove('active');
+      document.getElementById('sudoku-win-modal').classList.remove('active');
       startNewSudoku();
     });
 
-    document.getElementById('btn-sdk-switch-math').addEventListener('click', () => {
-      sdkWinModal.classList.remove('active');
-      switchGame('math');
-    });
+    /* ========================================================
+       GAME 3: 3D ROLLING BALL RUNNER (PURE HTML5 CANVAS)
+       ======================================================== */
+    const canvas = document.getElementById('ball-canvas');
+    const ctx = canvas.getContext('2d');
+    let ballAnimId = null;
 
-    // Keyboard controls for Sudoku & Math
-    window.addEventListener('keydown', (e) => {
-      if (!sectionSudoku.classList.contains('active')) return;
+    const ballGame = {
+      running: false,
+      score: 0,
+      gems: 0,
+      speed: 3.5,
+      ballX: 0, // from -100 to 100
+      targetBallX: 0,
+      ballY: 0,
+      rollAngle: 0,
+      zOffset: 0,
+      obstacles: [],
+      collectibles: []
+    };
 
-      const key = e.key;
-      if (['1', '2', '3', '4', '5', '6'].includes(key)) {
-        inputSudokuNumber(parseInt(key, 10));
-      } else if (key === 'Backspace' || key === 'Delete') {
-        eraseSudokuCell();
-      } else if (key === 'h' || key === 'H') {
-        giveSudokuHint();
-      } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
-        e.preventDefault();
-        let r = sdkState.selectedRow < 0 ? 0 : sdkState.selectedRow;
-        let c = sdkState.selectedCol < 0 ? 0 : sdkState.selectedCol;
-        if (key === 'ArrowUp') r = Math.max(0, r - 1);
-        if (key === 'ArrowDown') r = Math.min(5, r + 1);
-        if (key === 'ArrowLeft') c = Math.max(0, c - 1);
-        if (key === 'ArrowRight') c = Math.min(5, c + 1);
-        selectSudokuCell(r, c);
+    function init3DBallGame() {
+      document.getElementById('ball-gameover-modal').classList.remove('active');
+      ballGame.running = true;
+      ballGame.score = 0;
+      ballGame.gems = 0;
+      ballGame.speed = 3.6;
+      ballGame.ballX = 0;
+      ballGame.targetBallX = 0;
+      ballGame.rollAngle = 0;
+      ballGame.zOffset = 0;
+      ballGame.obstacles = [];
+      ballGame.collectibles = [];
+
+      // Spawn initial world items
+      for (let z = 300; z < 1800; z += 240) {
+        spawnObstacle(z);
+        if (Math.random() > 0.4) spawnGem(z + 100);
       }
+
+      if (ballAnimId) cancelAnimationFrame(ballAnimId);
+      ballLoop();
+    }
+
+    function stopBallGame() {
+      ballGame.running = false;
+      if (ballAnimId) cancelAnimationFrame(ballAnimId);
+    }
+
+    function spawnObstacle(z) {
+      const lanes = [-55, 0, 55];
+      const x = lanes[Math.floor(Math.random() * lanes.length)];
+      ballGame.obstacles.push({ x, z, w: 26, h: 26 });
+    }
+
+    function spawnGem(z) {
+      const lanes = [-55, 0, 55];
+      const x = lanes[Math.floor(Math.random() * lanes.length)];
+      ballGame.collectibles.push({ x, z, collected: false });
+    }
+
+    // Touch & Drag Controls for mobile screen
+    function handlePointerMove(clientX) {
+      const rect = canvas.getBoundingClientRect();
+      const relativeX = clientX - rect.left;
+      const normalized = (relativeX / rect.width) * 2 - 1; // -1 to 1
+      ballGame.targetBallX = Math.max(-80, Math.min(80, normalized * 85));
+    }
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (e.touches.length > 0) handlePointerMove(e.touches[0].clientX);
+    }, { passive: false });
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) handlePointerMove(e.touches[0].clientX);
+    }, { passive: false });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (e.buttons === 1 || e.buttons === 0) handlePointerMove(e.clientX);
     });
 
-    /* APP INITIALIZATION */
-    function initHub() {
-      loadBestScore();
+    // 3D Ball Rendering Engine Loop
+    function ballLoop() {
+      if (!ballGame.running) return;
+
+      // Update State
+      ballGame.score += Math.round(ballGame.speed * 0.3);
+      ballGame.speed += 0.0008; // progressive difficulty
+      ballGame.rollAngle += ballGame.speed * 0.05;
+      ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2; // smooth follow finger
+      ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.5) % 80;
+
+      // Update HUD
+      document.getElementById('ball-score').textContent = ballGame.score;
+      document.getElementById('ball-gems').textContent = `💎 ${ballGame.gems}`;
+      document.getElementById('ball-speed').textContent = `${(ballGame.speed / 3.5).toFixed(1)}x`;
+
+      // Clear Screen
+      ctx.fillStyle = '#070a14';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const horizonY = 90;
+      const fov = 220;
+
+      // DRAW 3D PERSPECTIVE NEON TRACK
+      ctx.save();
+      // Track ground polygon
+      ctx.beginPath();
+      ctx.moveTo(cx - 35, horizonY);
+      ctx.lineTo(cx + 35, horizonY);
+      ctx.lineTo(cx + 190, canvas.height);
+      ctx.lineTo(cx - 190, canvas.height);
+      ctx.closePath();
+      ctx.fillStyle = '#0b1329';
+      ctx.fill();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Horizontal moving grid lines (depth motion)
+      for (let z = 40; z < 800; z += 55) {
+        const visualZ = z - ballGame.zOffset;
+        if (visualZ <= 10) continue;
+        const scale = fov / (visualZ + fov);
+        const y = horizonY + (canvas.height - horizonY) * scale * 1.35;
+        if (y > canvas.height) continue;
+        const w = (visualZ < 50 ? 380 : 70 + (340 - 70) * scale);
+
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx - w / 2, y);
+        ctx.lineTo(cx + w / 2, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // MOVE & DRAW OBSTACLES & GEMS (Sorted by Z for 3D depth)
+      // Obstacles update
+      for (let i = ballGame.obstacles.length - 1; i >= 0; i--) {
+        const obs = ballGame.obstacles[i];
+        obs.z -= ballGame.speed * 2.5;
+
+        // Collision Check with Ball (ball is at z ~ 60)
+        if (obs.z > 40 && obs.z < 85) {
+          if (Math.abs(ballGame.ballX - obs.x) < 26) {
+            triggerBallGameOver();
+            return;
+          }
+        }
+
+        if (obs.z < 15) {
+          ballGame.obstacles.splice(i, 1);
+          spawnObstacle(900 + Math.random() * 200);
+        }
+      }
+
+      // Gems update
+      for (let i = ballGame.collectibles.length - 1; i >= 0; i--) {
+        const gem = ballGame.collectibles[i];
+        gem.z -= ballGame.speed * 2.5;
+
+        // Pickup Check
+        if (!gem.collected && gem.z > 45 && gem.z < 85) {
+          if (Math.abs(ballGame.ballX - gem.x) < 28) {
+            gem.collected = true;
+            ballGame.gems++;
+            ballGame.score += 50;
+          }
+        }
+
+        if (gem.z < 15) {
+          ballGame.collectibles.splice(i, 1);
+          if (Math.random() > 0.4) spawnGem(950 + Math.random() * 200);
+        }
+      }
+
+      // Render 3D Obstacles (Cubes)
+      ballGame.obstacles.forEach(obs => {
+        if (obs.z < 20 || obs.z > 900) return;
+        const scale = fov / (obs.z + fov);
+        const sx = cx + obs.x * scale * 2.2;
+        const sy = horizonY + (canvas.height - horizonY) * scale * 1.35;
+        const size = obs.w * scale * 2.1;
+
+        // Draw 3D Box
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(sx - size / 2, sy - size, size, size);
+        ctx.strokeStyle = '#fca5a5';
+        ctx.strokeRect(sx - size / 2, sy - size, size, size);
+
+        // Box top face
+        ctx.fillStyle = '#f87171';
+        ctx.beginPath();
+        ctx.moveTo(sx - size / 2, sy - size);
+        ctx.lineTo(sx - size / 4, sy - size - size * 0.4);
+        ctx.lineTo(sx + size * 0.75, sy - size - size * 0.4);
+        ctx.lineTo(sx + size / 2, sy - size);
+        ctx.fill();
+      });
+
+      // Render 3D Collectible Diamonds
+      ballGame.collectibles.forEach(gem => {
+        if (gem.collected || gem.z < 20 || gem.z > 900) return;
+        const scale = fov / (gem.z + fov);
+        const sx = cx + gem.x * scale * 2.2;
+        const sy = horizonY + (canvas.height - horizonY) * scale * 1.35 - (18 * scale);
+        const r = 12 * scale * 2.2;
+
+        ctx.save();
+        ctx.translate(sx, sy);
+        ctx.rotate(ballGame.rollAngle);
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath();
+        ctx.moveTo(0, -r);
+        ctx.lineTo(r, 0);
+        ctx.lineTo(0, r);
+        ctx.lineTo(-r, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // DRAW PLAYER'S 3D ROLLING BALL
+      const ballRadius = 24;
+      const ballScreenX = cx + ballGame.ballX * 1.6;
+      const ballScreenY = canvas.height - 58;
+
+      // Ball Drop Shadow
+      ctx.beginPath();
+      ctx.ellipse(ballScreenX, ballScreenY + ballRadius - 4, ballRadius * 1.1, 7, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+      ctx.fill();
+
+      // Ball 3D Sphere Shading
+      const grad = ctx.createRadialGradient(
+        ballScreenX - ballRadius * 0.35,
+        ballScreenY - ballRadius * 0.35,
+        ballRadius * 0.15,
+        ballScreenX,
+        ballScreenY,
+        ballRadius
+      );
+      grad.addColorStop(0, '#fed7aa');
+      grad.addColorStop(0.3, '#f97316');
+      grad.addColorStop(0.8, '#c2410c');
+      grad.addColorStop(1, '#7c2d12');
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ballScreenX, ballScreenY, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Rolling rotation lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(
+        ballScreenX,
+        ballScreenY,
+        ballRadius * 0.75,
+        ballGame.rollAngle,
+        ballGame.rollAngle + Math.PI * 0.8
+      );
+      ctx.stroke();
+      ctx.restore();
+
+      ballAnimId = requestAnimationFrame(ballLoop);
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHub);
-    } else {
-      initHub();
+    function triggerBallGameOver() {
+      stopBallGame();
+      document.getElementById('ball-final-dist').textContent = ballGame.score;
+      document.getElementById('ball-final-gems').textContent = ballGame.gems;
+      document.getElementById('ball-gameover-modal').classList.add('active');
     }
+
+    document.getElementById('btn-restart-ball').addEventListener('click', init3DBallGame);
+    document.getElementById('btn-ball-retry').addEventListener('click', init3DBallGame);
+
   </script>
 </body>
 </html>
