@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain & Arcade Games Hub - 4 Games</title>
+  <title>Brain & Arcade Games Hub - 6 Games</title>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -13,7 +13,7 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
-      /* 4 Distinct 3D Button Colors */
+      /* 6 Distinct 3D Button Themes */
       --btn-blue: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
       --btn-blue-shadow: #1e40af;
       --btn-green: linear-gradient(180deg, #10b981 0%, #059669 100%);
@@ -22,6 +22,10 @@
       --btn-orange-shadow: #c2410c;
       --btn-purple: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
       --btn-purple-shadow: #581c87;
+      --btn-cyan: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+      --btn-cyan-shadow: #0e7490;
+      --btn-amber: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+      --btn-amber-shadow: #b45309;
       --btn-gray: linear-gradient(180deg, #334155 0%, #1e293b 100%);
       --btn-gray-shadow: #0f172a;
 
@@ -137,35 +141,25 @@
       color: #ffffff;
     }
 
-    .btn-blue {
-      background: var(--btn-blue);
-      box-shadow: 0 5px 0 var(--btn-blue-shadow), 0 8px 16px rgba(37, 99, 235, 0.4);
-    }
+    .btn-blue { background: var(--btn-blue); box-shadow: 0 5px 0 var(--btn-blue-shadow), 0 8px 16px rgba(37, 99, 235, 0.4); }
     .btn-blue:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-blue-shadow); }
 
-    .btn-green {
-      background: var(--btn-green);
-      box-shadow: 0 5px 0 var(--btn-green-shadow), 0 8px 16px rgba(16, 185, 129, 0.4);
-    }
+    .btn-green { background: var(--btn-green); box-shadow: 0 5px 0 var(--btn-green-shadow), 0 8px 16px rgba(16, 185, 129, 0.4); }
     .btn-green:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-green-shadow); }
 
-    .btn-orange {
-      background: var(--btn-orange);
-      box-shadow: 0 5px 0 var(--btn-orange-shadow), 0 8px 16px rgba(249, 115, 22, 0.4);
-    }
+    .btn-orange { background: var(--btn-orange); box-shadow: 0 5px 0 var(--btn-orange-shadow), 0 8px 16px rgba(249, 115, 22, 0.4); }
     .btn-orange:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-orange-shadow); }
 
-    .btn-purple {
-      background: var(--btn-purple);
-      box-shadow: 0 5px 0 var(--btn-purple-shadow), 0 8px 16px rgba(168, 85, 247, 0.4);
-    }
+    .btn-purple { background: var(--btn-purple); box-shadow: 0 5px 0 var(--btn-purple-shadow), 0 8px 16px rgba(168, 85, 247, 0.4); }
     .btn-purple:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-purple-shadow); }
 
-    .btn-secondary {
-      background: var(--btn-gray);
-      box-shadow: 0 4px 0 var(--btn-gray-shadow);
-      color: var(--text-main);
-    }
+    .btn-cyan { background: var(--btn-cyan); box-shadow: 0 5px 0 var(--btn-cyan-shadow), 0 8px 16px rgba(6, 182, 212, 0.4); }
+    .btn-cyan:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-cyan-shadow); }
+
+    .btn-amber { background: var(--btn-amber); box-shadow: 0 5px 0 var(--btn-amber-shadow), 0 8px 16px rgba(245, 158, 11, 0.4); }
+    .btn-amber:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-amber-shadow); }
+
+    .btn-secondary { background: var(--btn-gray); box-shadow: 0 4px 0 var(--btn-gray-shadow); color: var(--text-main); }
     .btn-secondary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--btn-gray-shadow); }
 
     /* VIEW MANAGEMENT */
@@ -184,7 +178,7 @@
     }
 
     /* ========================================================
-       HUB VIEW: 4 INDIVIDUAL GAME BOXES
+       HUB VIEW: 6 INDIVIDUAL GAME BOXES (3x2 Desktop, 1xMobile)
        ======================================================== */
     .hub-intro {
       text-align: center;
@@ -206,10 +200,9 @@
       font-size: 0.95rem;
     }
 
-    /* 4-Column Grid on Desktop, 2-Col Tablet, 1-Col Mobile */
     .games-row-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       margin-bottom: 24px;
     }
@@ -237,10 +230,12 @@
     .card-sudoku-box { border-top: 4px solid #10b981; }
     .card-ball-box { border-top: 4px solid #f97316; }
     .card-word-box { border-top: 4px solid #a855f7; }
+    .card-bodmas-box { border-top: 4px solid #06b6d4; }
+    .card-series-box { border-top: 4px solid #f59e0b; }
 
     .game-icon-large {
-      font-size: 2.7rem;
-      margin-bottom: 8px;
+      font-size: 2.6rem;
+      margin-bottom: 6px;
       display: inline-block;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
     }
@@ -268,6 +263,8 @@
     .badge-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
     .badge-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
     .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
 
     .game-box-desc {
       color: var(--text-muted);
@@ -297,7 +294,6 @@
     .screen-math { display: none; }
     .screen-math.active { display: block; }
 
-    /* MATH STATS & OPTIONS */
     .stat-header {
       display: flex;
       justify-content: space-between;
@@ -323,10 +319,11 @@
     }
 
     .math-expression {
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 900;
       color: #fff;
       margin: 14px 0;
+      line-height: 1.2;
     }
 
     .setting-row {
@@ -531,9 +528,7 @@
       padding: 8px 16px;
     }
 
-    /* ========================================================
-       GAME 4: WORD BUILDER SPECIFIC STYLES
-       ======================================================== */
+    /* WORD BUILDER */
     .word-slots-container {
       display: flex;
       justify-content: center;
@@ -608,18 +603,8 @@
       transition: all 0.1s ease;
     }
 
-    .letter-tile:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #2e1065;
-      background: #a855f7;
-    }
-
-    .letter-tile.used {
-      opacity: 0.15;
-      pointer-events: none;
-      transform: scale(0.92);
-      box-shadow: none;
-    }
+    .letter-tile:active { transform: translateY(3px); box-shadow: 0 1px 0 #2e1065; background: #a855f7; }
+    .letter-tile.used { opacity: 0.15; pointer-events: none; transform: scale(0.92); box-shadow: none; }
 
     .word-hint-box {
       font-size: 0.85rem;
@@ -631,6 +616,34 @@
       margin-bottom: 12px;
       display: inline-block;
     }
+
+    /* NUMBER SERIES & BODMAS BANNER */
+    .series-display-box {
+      background: #0f172a;
+      border: 2px dashed #f59e0b;
+      border-radius: 16px;
+      padding: 18px 12px;
+      margin: 16px 0;
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fbbf24;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+    }
+
+    .rule-explanation-box {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .rule-explanation-box.show { display: block; }
+    .rule-explanation-box.cyan { background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.4); color: #67e8f9; }
+    .rule-explanation-box.amber { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); color: #fde68a; }
 
     /* MODALS */
     .modal-overlay {
@@ -666,11 +679,12 @@
     @media (max-width: 980px) {
       .games-row-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
-    @media (max-width: 540px) {
+    @media (max-width: 580px) {
       .games-row-grid { grid-template-columns: 1fr; gap: 12px; }
       .hub-title { font-size: 1.7rem; }
-      .math-expression { font-size: 2.6rem; }
-      .btn-option { padding: 14px 8px; font-size: 1.45rem; }
+      .math-expression { font-size: 2.2rem; }
+      .series-display-box { font-size: 1.7rem; }
+      .btn-option { padding: 14px 8px; font-size: 1.4rem; }
       #ball-canvas { height: 370px; }
       .word-slot { width: 44px; height: 50px; font-size: 1.5rem; }
       .letter-tile { width: 48px; height: 48px; font-size: 1.45rem; }
@@ -697,12 +711,12 @@
   <main id="app">
 
     <!-- ========================================================
-         VIEW 1: GAMES HUB (4 BOXES)
+         VIEW 1: GAMES HUB (6 BOXES)
          ======================================================== -->
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">Mobile-Optimized Mental, Word & Reflex Games</p>
+        <p class="hub-subtitle">6 Serious Brain-Sharpening & Reflex Games</p>
       </div>
 
       <div class="games-row-grid">
@@ -714,7 +728,7 @@
             <h2 class="game-box-title">QUICK MATHS</h2>
             <span class="game-box-badge badge-blue">4 Options Mode</span>
             <p class="game-box-desc">
-              Sharpen arithmetic with 60s sprint & rapid 4 clickable options.
+              Rapid mental calculation sprint with 4 clickable options & 60s timer.
             </p>
           </div>
           <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
@@ -729,7 +743,7 @@
             <h2 class="game-box-title">6×6 SUDOKU</h2>
             <span class="game-box-badge badge-green">2×3 Logic</span>
             <p class="game-box-desc">
-              Fast 6x6 grid with instant wrong detection, smart hints & timer.
+              Fast 6x6 grid with instant wrong detection, smart hints & live timer.
             </p>
           </div>
           <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
@@ -737,7 +751,7 @@
           </button>
         </div>
 
-        <!-- BOX 3: 3D BALL RUN (SMOOTH & EASY START) -->
+        <!-- BOX 3: 3D BALL RUN -->
         <div class="game-card-box card-ball-box">
           <div>
             <div class="game-icon-large">🔴</div>
@@ -752,7 +766,7 @@
           </button>
         </div>
 
-        <!-- BOX 4: WORD BUILDER (ENGLISH WORDS) -->
+        <!-- BOX 4: WORD BUILDER -->
         <div class="game-card-box card-word-box">
           <div>
             <div class="game-icon-large">🔤</div>
@@ -767,6 +781,36 @@
           </button>
         </div>
 
+        <!-- BOX 5: BODMAS MASTER (NEW) -->
+        <div class="game-card-box card-bodmas-box">
+          <div>
+            <div class="game-icon-large">📐</div>
+            <h2 class="game-box-title">BODMAS MASTER</h2>
+            <span class="game-box-badge badge-cyan">Order of Operations</span>
+            <p class="game-box-desc">
+              Brackets, Division, Multiply first! Master the order of operations rule.
+            </p>
+          </div>
+          <button id="btn-launch-bodmas" class="btn-3d btn-cyan" type="button">
+            Play BODMAS
+          </button>
+        </div>
+
+        <!-- BOX 6: NUMBER SERIES (NEW) -->
+        <div class="game-card-box card-series-box">
+          <div>
+            <div class="game-icon-large">🔢</div>
+            <h2 class="game-box-title">NUMBER SERIES</h2>
+            <span class="game-box-badge badge-amber">Pattern Quest</span>
+            <p class="game-box-desc">
+              Discover the sequence pattern and find the missing number in line!
+            </p>
+          </div>
+          <button id="btn-launch-series" class="btn-3d btn-amber" type="button">
+            Play Series
+          </button>
+        </div>
+
       </div>
     </section>
 
@@ -775,7 +819,6 @@
          ======================================================== -->
     <section id="view-math" class="view-section">
       <div class="game-wrapper">
-        
         <div id="math-screen-start" class="card screen-math active">
           <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Mental Speed</div>
           <h2 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 12px;">QUICK MATHS</h2>
@@ -831,10 +874,10 @@
           <div id="mq-expression" class="math-expression">24 + 19</div>
 
           <div id="mq-container-options" class="options-grid">
-            <button class="btn-option" data-opt-idx="0" type="button">0</button>
-            <button class="btn-option" data-opt-idx="1" type="button">0</button>
-            <button class="btn-option" data-opt-idx="2" type="button">0</button>
-            <button class="btn-option" data-opt-idx="3" type="button">0</button>
+            <button class="btn-option mq-opt" data-opt-idx="0" type="button">0</button>
+            <button class="btn-option mq-opt" data-opt-idx="1" type="button">0</button>
+            <button class="btn-option mq-opt" data-opt-idx="2" type="button">0</button>
+            <button class="btn-option mq-opt" data-opt-idx="3" type="button">0</button>
           </div>
 
           <div id="mq-container-type" style="display: none;">
@@ -862,7 +905,6 @@
             <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -913,11 +955,10 @@
     </section>
 
     <!-- ========================================================
-         VIEW 4: 3D BALL RUN (SMOOTH SPEED & GENTLE START)
+         VIEW 4: 3D BALL RUN
          ======================================================== -->
     <section id="view-ball" class="view-section">
       <div class="ball-game-container">
-        
         <div class="ball-stats-hud">
           <div>
             <span class="stat-label">Score</span>
@@ -942,12 +983,11 @@
           <button id="btn-restart-ball" class="btn-3d btn-orange" type="button">Restart Ball</button>
           <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
         </div>
-
       </div>
     </section>
 
     <!-- ========================================================
-         VIEW 5: WORD BUILDER (ENGLISH WORDS)
+         VIEW 5: WORD BUILDER
          ======================================================== -->
     <section id="view-word" class="view-section">
       <div class="game-wrapper">
@@ -972,20 +1012,116 @@
 
           <div id="word-alert" class="feedback-float-alert">Tap letters in correct order</div>
 
-          <!-- Meaning Clue -->
           <div id="word-hint-text" class="word-hint-box">💡 Hint: Center of thoughts and mind</div>
-
-          <!-- Slots for user entered word -->
           <div id="word-slots-container" class="word-slots-container"></div>
-
-          <!-- Scrambled Letter Tiles Bank -->
           <div id="letters-bank" class="letters-bank"></div>
 
-          <!-- Action buttons -->
           <div style="display: flex; gap: 8px; margin-top: 10px;">
             <button id="btn-word-undo" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">⌫ Undo</button>
             <button id="btn-word-shuffle" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">🔄 Shuffle</button>
             <button id="btn-word-next" class="btn-3d btn-purple" style="padding: 10px; flex: 1.2;" type="button">Skip ⏭️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 6: BODMAS MASTER (NEW 5TH GAME)
+         ======================================================== -->
+    <section id="view-bodmas" class="view-section">
+      <div class="game-wrapper">
+        <div class="card">
+          <div style="font-size: 0.75rem; color: #22d3ee; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Order of Operations</div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">BODMAS MASTER</h2>
+
+          <div class="stat-header">
+            <div>
+              <span class="stat-label">Score</span>
+              <span id="bodmas-score" class="stat-val" style="color: #22d3ee;">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Question</span>
+              <span id="bodmas-q-count" class="stat-val">1 / 25</span>
+            </div>
+            <div>
+              <span class="stat-label">Streak</span>
+              <span id="bodmas-streak" class="stat-val" style="color: #34d399;">🔥 0</span>
+            </div>
+          </div>
+
+          <div id="bodmas-alert" class="feedback-float-alert">Follow: ( ) first, then ÷ ×, then + -</div>
+
+          <!-- BODMAS Equation Display -->
+          <div id="bodmas-expression" class="math-expression">6 + 4 × 2</div>
+
+          <!-- BODMAS Rule explanation box -->
+          <div id="bodmas-rule-box" class="rule-explanation-box cyan">
+            💡 Rule: Multiplications (4 × 2 = 8) happen before Addition! 6 + 8 = 14.
+          </div>
+
+          <!-- 4 Options Grid -->
+          <div id="bodmas-options" class="options-grid">
+            <button class="btn-option bodmas-opt" data-idx="0" type="button">0</button>
+            <button class="btn-option bodmas-opt" data-idx="1" type="button">0</button>
+            <button class="btn-option bodmas-opt" data-idx="2" type="button">0</button>
+            <button class="btn-option bodmas-opt" data-idx="3" type="button">0</button>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button id="btn-bodmas-next" class="btn-3d btn-cyan" type="button">Next Equation ⏭️</button>
+            <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 7: NUMBER SERIES (NEW 6TH GAME)
+         ======================================================== -->
+    <section id="view-series" class="view-section">
+      <div class="game-wrapper">
+        <div class="card">
+          <div style="font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Sequence & Logic</div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">NUMBER SERIES</h2>
+
+          <div class="stat-header">
+            <div>
+              <span class="stat-label">Score</span>
+              <span id="series-score" class="stat-val" style="color: #fbbf24;">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Puzzle</span>
+              <span id="series-q-count" class="stat-val">1 / 25</span>
+            </div>
+            <div>
+              <span class="stat-label">Accuracy</span>
+              <span id="series-acc" class="stat-val" style="color: #34d399;">100%</span>
+            </div>
+          </div>
+
+          <div id="series-alert" class="feedback-float-alert">Find the number that replaces ?</div>
+
+          <!-- Sequence line box -->
+          <div id="series-display" class="series-display-box">
+            2, 4, 8, 16, ?
+          </div>
+
+          <!-- Pattern explanation box -->
+          <div id="series-rule-box" class="rule-explanation-box amber">
+            💡 Pattern: Multiply previous number by 2 (16 × 2 = 32)!
+          </div>
+
+          <!-- 4 Options Grid -->
+          <div id="series-options" class="options-grid">
+            <button class="btn-option series-opt" data-idx="0" type="button">0</button>
+            <button class="btn-option series-opt" data-idx="1" type="button">0</button>
+            <button class="btn-option series-opt" data-idx="2" type="button">0</button>
+            <button class="btn-option series-opt" data-idx="3" type="button">0</button>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button id="btn-series-next" class="btn-3d btn-amber" type="button">Next Series ⏭️</button>
+            <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
           </div>
         </div>
       </div>
@@ -1158,7 +1294,9 @@
       math: document.getElementById('view-math'),
       sudoku: document.getElementById('view-sudoku'),
       ball: document.getElementById('view-ball'),
-      word: document.getElementById('view-word')
+      word: document.getElementById('view-word'),
+      bodmas: document.getElementById('view-bodmas'),
+      series: document.getElementById('view-series')
     };
 
     function openView(viewName) {
@@ -1177,6 +1315,10 @@
         init3DBallGame();
       } else if (viewName === 'word') {
         initWordGame();
+      } else if (viewName === 'bodmas') {
+        initBodmasGame();
+      } else if (viewName === 'series') {
+        initSeriesGame();
       }
     }
 
@@ -1185,17 +1327,16 @@
     document.getElementById('btn-launch-sudoku').addEventListener('click', () => openView('sudoku'));
     document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
     document.getElementById('btn-launch-word').addEventListener('click', () => openView('word'));
+    document.getElementById('btn-launch-bodmas').addEventListener('click', () => openView('bodmas'));
+    document.getElementById('btn-launch-series').addEventListener('click', () => openView('series'));
 
     /* ========================================================
        GAME 1: QUICK MATHS
        ======================================================== */
     const mathState = {
-      inputMode: 'options',
-      timerMode: 'on',
-      score: 0, attempted: 0, correct: 0,
-      timerRemaining: 60, elapsedSeconds: 0,
-      timerInterval: null, currentQuestion: null, bestScore: 0,
-      optionsList: [], isProcessingAnswer: false
+      inputMode: 'options', timerMode: 'on', score: 0, attempted: 0, correct: 0,
+      timerRemaining: 60, elapsedSeconds: 0, timerInterval: null, currentQuestion: null,
+      bestScore: 0, optionsList: [], isProcessingAnswer: false
     };
 
     const mqScreens = {
@@ -1204,7 +1345,7 @@
       end: document.getElementById('math-screen-end')
     };
 
-    const optButtons = document.querySelectorAll('.btn-option');
+    const optButtons = document.querySelectorAll('.mq-opt');
     const feedbackAlert = document.getElementById('mq-feedback-alert');
 
     function showMathSubScreen(sub) {
@@ -1219,7 +1360,6 @@
       const ops = ['+', '-', '×', '÷'];
       const op = ops[Math.floor(Math.random() * ops.length)];
       let a, b, ans, isDec = false;
-
       const level = mathState.attempted < 5 ? 1 : (mathState.attempted < 15 ? 2 : 3);
 
       if (level === 1) {
@@ -1253,38 +1393,30 @@
           isDec = true;
         }
       }
-
       return { str: `${a} ${op} ${b}`, target: ans, isDec };
     }
 
     function generate4Options(target, isDec) {
       const opts = new Set();
       opts.add(target);
-
-      const offsets = isDec 
-        ? [0.1, -0.1, 0.2, -0.2, 0.5, -0.5, 1, -1] 
-        : [1, -1, 2, -2, 5, -5, 10, -10, 3, -3];
+      const offsets = isDec ? [0.1, -0.1, 0.2, -0.2, 0.5, -0.5, 1, -1] : [1, -1, 2, -2, 5, -5, 10, -10, 3, -3];
       offsets.sort(() => Math.random() - 0.5);
-
       for (const off of offsets) {
         const val = isDec ? Number((target + off).toFixed(2)) : target + off;
         if (val !== target) opts.add(val);
         if (opts.size === 4) break;
       }
-
       let fallback = 1;
       while (opts.size < 4) {
         opts.add(isDec ? Number((target + fallback * 0.15).toFixed(2)) : target + fallback);
         fallback++;
       }
-
       return Array.from(opts).sort(() => Math.random() - 0.5);
     }
 
     function nextMathQuestion() {
       mathState.isProcessingAnswer = false;
       feedbackAlert.className = 'feedback-float-alert';
-      
       mathState.currentQuestion = generateMathQ();
       document.getElementById('mq-expression').textContent = mathState.currentQuestion.str;
       document.getElementById('mq-precision-hint').style.display = mathState.currentQuestion.isDec ? 'block' : 'none';
@@ -1292,11 +1424,10 @@
       if (mathState.inputMode === 'options') {
         document.getElementById('mq-container-options').style.display = 'grid';
         document.getElementById('mq-container-type').style.display = 'none';
-
         mathState.optionsList = generate4Options(mathState.currentQuestion.target, mathState.currentQuestion.isDec);
         optButtons.forEach((btn, idx) => {
           btn.textContent = mathState.optionsList[idx];
-          btn.className = 'btn-option';
+          btn.className = 'btn-option mq-opt';
           btn.disabled = false;
         });
       } else {
@@ -1311,15 +1442,12 @@
     function handleOptionClick(selectedIdx) {
       if (mathState.isProcessingAnswer) return;
       mathState.isProcessingAnswer = true;
-
       const chosenVal = mathState.optionsList[selectedIdx];
       const targetVal = mathState.currentQuestion.target;
       const clickedBtn = optButtons[selectedIdx];
       mathState.attempted++;
 
-      const isCorrect = mathState.currentQuestion.isDec 
-        ? Math.abs(chosenVal - targetVal) <= 0.02 
-        : Math.abs(chosenVal - targetVal) < 0.001;
+      const isCorrect = mathState.currentQuestion.isDec ? Math.abs(chosenVal - targetVal) <= 0.02 : Math.abs(chosenVal - targetVal) < 0.001;
 
       if (isCorrect) {
         playSfx('correct');
@@ -1328,7 +1456,6 @@
         clickedBtn.classList.add('btn-opt-correct');
         feedbackAlert.textContent = '✅ CORRECT! +10';
         feedbackAlert.className = 'feedback-float-alert show correct';
-
         updateMathHUD();
         setTimeout(nextMathQuestion, 280);
       } else {
@@ -1336,13 +1463,9 @@
         clickedBtn.classList.add('btn-opt-wrong');
         feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
         feedbackAlert.className = 'feedback-float-alert show wrong';
-
         optButtons.forEach((btn, idx) => {
-          if (mathState.optionsList[idx] === targetVal) {
-            btn.classList.add('btn-opt-correct');
-          }
+          if (mathState.optionsList[idx] === targetVal) btn.classList.add('btn-opt-correct');
         });
-
         updateMathHUD();
         setTimeout(nextMathQuestion, 450);
       }
@@ -1352,15 +1475,11 @@
       if (mathState.isProcessingAnswer) return;
       const raw = document.getElementById('mq-input').value.trim();
       if (raw === '' || isNaN(raw)) return;
-
       const val = parseFloat(raw);
       const targetVal = mathState.currentQuestion.target;
       mathState.attempted++;
 
-      const isCorrect = mathState.currentQuestion.isDec 
-        ? Math.abs(val - targetVal) <= 0.02 
-        : Math.abs(val - targetVal) < 0.001;
-
+      const isCorrect = mathState.currentQuestion.isDec ? Math.abs(val - targetVal) <= 0.02 : Math.abs(val - targetVal) < 0.001;
       if (isCorrect) {
         playSfx('correct');
         mathState.correct++;
@@ -1372,7 +1491,6 @@
         feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
         feedbackAlert.className = 'feedback-float-alert show wrong';
       }
-
       updateMathHUD();
       setTimeout(nextMathQuestion, 300);
     }
@@ -1391,9 +1509,7 @@
       mathState.timerRemaining = 60;
       mathState.elapsedSeconds = 0;
       updateMathHUD();
-
       showMathSubScreen('play');
-
       if (mathState.timerMode === 'on') {
         document.getElementById('mq-timer-label').textContent = 'Time Left';
         document.getElementById('mq-timer').textContent = '01:00';
@@ -1401,7 +1517,6 @@
         document.getElementById('mq-timer-label').textContent = 'Elapsed';
         document.getElementById('mq-timer').textContent = '00:00';
       }
-
       nextMathQuestion();
       startMathTimer();
     }
@@ -1474,9 +1589,7 @@
     });
 
     optButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        handleOptionClick(parseInt(btn.dataset.optIdx, 10));
-      });
+      btn.addEventListener('click', () => handleOptionClick(parseInt(btn.dataset.optIdx, 10)));
     });
 
     document.getElementById('mq-btn-start').addEventListener('click', startMathSession);
@@ -1539,10 +1652,7 @@
       while (removed < 18) {
         const r = Math.floor(Math.random() * 6);
         const c = Math.floor(Math.random() * 6);
-        if (puz[r][c] !== 0) {
-          puz[r][c] = 0;
-          removed++;
-        }
+        if (puz[r][c] !== 0) { puz[r][c] = 0; removed++; }
       }
 
       sdkState.solution = sol;
@@ -1615,8 +1725,7 @@
 
     function inputSudoku(num) {
       const r = sdkState.selectedR, c = sdkState.selectedC;
-      if (r < 0 || c < 0) return;
-      if (sdkState.initial[r][c] !== 0) return;
+      if (r < 0 || c < 0 || sdkState.initial[r][c] !== 0) return;
 
       const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
       if (num === sdkState.solution[r][c]) {
@@ -1692,10 +1801,7 @@
       }
     });
 
-    document.getElementById('sdk-btn-new').addEventListener('click', () => {
-      playSfx('click');
-      startNewSudoku();
-    });
+    document.getElementById('sdk-btn-new').addEventListener('click', () => { playSfx('click'); startNewSudoku(); });
     document.getElementById('btn-sdk-play-again').addEventListener('click', () => {
       playSfx('click');
       document.getElementById('sudoku-win-modal').classList.remove('active');
@@ -1703,24 +1809,16 @@
     });
 
     /* ========================================================
-       GAME 3: 3D BALL RUN (SMOOTH ACCELERATION & GENTLE START)
+       GAME 3: 3D BALL RUN
        ======================================================== */
     const canvas = document.getElementById('ball-canvas');
     const ctx = canvas.getContext('2d');
     let ballAnimId = null;
 
     const ballGame = {
-      running: false,
-      score: 0,
-      gems: 0,
-      speed: 2.3,             // Gentle & slow start speed
-      ballX: 0,
-      targetBallX: 0,
-      rollAngle: 0,
-      zOffset: 0,
-      obstacles: [],
-      collectibles: [],
-      graceTime: 0            // Safe period with no obstacles
+      running: false, score: 0, gems: 0, speed: 2.3,
+      ballX: 0, targetBallX: 0, rollAngle: 0, zOffset: 0,
+      obstacles: [], collectibles: [], graceTime: 0
     };
 
     function init3DBallGame() {
@@ -1728,24 +1826,17 @@
       ballGame.running = true;
       ballGame.score = 0;
       ballGame.gems = 0;
-      ballGame.speed = 2.3;    // Gentle, comfortable starting speed
+      ballGame.speed = 2.3;
       ballGame.ballX = 0;
       ballGame.targetBallX = 0;
       ballGame.rollAngle = 0;
       ballGame.zOffset = 0;
       ballGame.obstacles = [];
       ballGame.collectibles = [];
-      ballGame.graceTime = performance.now() + 3000; // 3 seconds grace period
+      ballGame.graceTime = performance.now() + 3000;
 
-      // Collectibles start immediately to give reward
-      for (let z = 350; z < 1400; z += 180) {
-        spawnGem(z);
-      }
-
-      // Obstacles placed FAR AWAY so start is completely free
-      for (let z = 950; z < 2200; z += 260) {
-        spawnObstacle(z);
-      }
+      for (let z = 350; z < 1400; z += 180) spawnGem(z);
+      for (let z = 950; z < 2200; z += 260) spawnObstacle(z);
 
       if (ballAnimId) cancelAnimationFrame(ballAnimId);
       ballLoop();
@@ -1792,12 +1883,7 @@
       if (!ballGame.running) return;
 
       ballGame.score += Math.round(ballGame.speed * 0.25);
-      
-      // Gradually and smoothly increase speed (melli melli ga speed up)
-      if (ballGame.speed < 5.8) {
-        ballGame.speed += 0.0004;
-      }
-      
+      if (ballGame.speed < 5.8) ballGame.speed += 0.0004;
       ballGame.rollAngle += ballGame.speed * 0.05;
       ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2;
       ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.3) % 80;
@@ -1813,7 +1899,6 @@
       const horizonY = 90;
       const fov = 220;
 
-      // Draw Perspective Track
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(cx - 35, horizonY);
@@ -1834,7 +1919,6 @@
         const y = horizonY + (canvas.height - horizonY) * scale * 1.35;
         if (y > canvas.height) continue;
         const w = (visualZ < 50 ? 380 : 70 + (340 - 70) * scale);
-
         ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -1844,7 +1928,6 @@
       }
       ctx.restore();
 
-      // Grace period indicator on screen
       if (performance.now() < ballGame.graceTime) {
         ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
         ctx.font = 'bold 18px sans-serif';
@@ -1852,12 +1935,9 @@
         ctx.fillText('✨ FREE RUN START! GET READY ✨', cx, 140);
       }
 
-      // Obstacles update & collision
       for (let i = ballGame.obstacles.length - 1; i >= 0; i--) {
         const obs = ballGame.obstacles[i];
         obs.z -= ballGame.speed * 2.3;
-
-        // Collision Check only active after initial safe grace period
         if (performance.now() > ballGame.graceTime) {
           if (obs.z > 35 && obs.z < 75) {
             if (Math.abs(ballGame.ballX - obs.x) < 24) {
@@ -1866,18 +1946,15 @@
             }
           }
         }
-
         if (obs.z < 15) {
           ballGame.obstacles.splice(i, 1);
           spawnObstacle(900 + Math.random() * 220);
         }
       }
 
-      // Collectibles
       for (let i = ballGame.collectibles.length - 1; i >= 0; i--) {
         const gem = ballGame.collectibles[i];
         gem.z -= ballGame.speed * 2.3;
-
         if (!gem.collected && gem.z > 40 && gem.z < 80) {
           if (Math.abs(ballGame.ballX - gem.x) < 28) {
             gem.collected = true;
@@ -1892,7 +1969,6 @@
         }
       }
 
-      // Render Obstacles
       ballGame.obstacles.forEach(obs => {
         if (obs.z < 20 || obs.z > 900) return;
         const scale = fov / (obs.z + fov);
@@ -1904,7 +1980,6 @@
         ctx.fillRect(sx - size / 2, sy - size, size, size);
         ctx.strokeStyle = '#fca5a5';
         ctx.strokeRect(sx - size / 2, sy - size, size, size);
-
         ctx.fillStyle = '#f87171';
         ctx.beginPath();
         ctx.moveTo(sx - size / 2, sy - size);
@@ -1914,7 +1989,6 @@
         ctx.fill();
       });
 
-      // Render Gems
       ballGame.collectibles.forEach(gem => {
         if (gem.collected || gem.z < 20 || gem.z > 900) return;
         const scale = fov / (gem.z + fov);
@@ -1939,7 +2013,6 @@
         ctx.restore();
       });
 
-      // Player Ball
       const ballRadius = 24;
       const ballScreenX = cx + ballGame.ballX * 1.6;
       const ballScreenY = canvas.height - 58;
@@ -1963,7 +2036,6 @@
       ctx.arc(ballScreenX, ballScreenY, ballRadius, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
-
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
       ctx.lineWidth = 2.5;
       ctx.beginPath();
@@ -1982,17 +2054,11 @@
       document.getElementById('ball-gameover-modal').classList.add('active');
     }
 
-    document.getElementById('btn-restart-ball').addEventListener('click', () => {
-      playSfx('click');
-      init3DBallGame();
-    });
-    document.getElementById('btn-ball-retry').addEventListener('click', () => {
-      playSfx('click');
-      init3DBallGame();
-    });
+    document.getElementById('btn-restart-ball').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
+    document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
 
     /* ========================================================
-       GAME 4: WORD BUILDER (ENGLISH WORDS ONLY)
+       GAME 4: WORD BUILDER
        ======================================================== */
     const wordGameData = [
       { word: "BRAIN", hint: "💡 Center of intelligence & thinking" },
@@ -2018,13 +2084,8 @@
     ];
 
     const wordState = {
-      currentIndex: 0,
-      score: 0,
-      streak: 0,
-      currentWord: "",
-      currentHint: "",
-      scrambledLetters: [],
-      userLetters: [] // array of { letter, originalIndex }
+      currentIndex: 0, score: 0, streak: 0,
+      currentWord: "", currentHint: "", scrambledLetters: [], userLetters: []
     };
 
     const wordSlotsContainer = document.getElementById('word-slots-container');
@@ -2052,14 +2113,12 @@
       wordAlert.textContent = "Tap letters in correct order!";
       wordAlert.className = "feedback-float-alert";
 
-      // Scramble letters
       const lettersArr = wordState.currentWord.split('');
       do {
         lettersArr.sort(() => Math.random() - 0.5);
       } while (lettersArr.join('') === wordState.currentWord && lettersArr.length > 2);
 
       wordState.scrambledLetters = lettersArr;
-
       renderWordSlots();
       renderLettersBank();
     }
@@ -2074,10 +2133,7 @@
         if (i < wordState.userLetters.length) {
           slot.textContent = wordState.userLetters[i].letter;
           slot.classList.add('filled');
-          // Clicking a filled slot removes it back to bank
           slot.addEventListener('click', () => removeLetterFromSlot(i));
-        } else {
-          slot.textContent = '';
         }
         wordSlotsContainer.appendChild(slot);
       }
@@ -2091,35 +2147,27 @@
         tile.textContent = letter;
         tile.type = 'button';
 
-        // Check if this letter instance has already been used in userLetters
         const isUsed = wordState.userLetters.some(item => item.originalIndex === idx);
         if (isUsed) {
           tile.classList.add('used');
         } else {
           tile.addEventListener('click', () => addLetterToSlot(letter, idx));
         }
-
         lettersBank.appendChild(tile);
       });
     }
 
     function addLetterToSlot(letter, originalIndex) {
       if (wordState.userLetters.length >= wordState.currentWord.length) return;
-
       playSfx('click');
       wordState.userLetters.push({ letter, originalIndex });
       renderWordSlots();
       renderLettersBank();
-
-      // Check if full word formed
-      if (wordState.userLetters.length === wordState.currentWord.length) {
-        checkWordComplete();
-      }
+      if (wordState.userLetters.length === wordState.currentWord.length) checkWordComplete();
     }
 
     function removeLetterFromSlot(slotIndex) {
       if (slotIndex >= wordState.userLetters.length) return;
-
       playSfx('click');
       wordState.userLetters.splice(slotIndex, 1);
       renderWordSlots();
@@ -2131,13 +2179,11 @@
       const slots = wordSlotsContainer.querySelectorAll('.word-slot');
 
       if (formedWord === wordState.currentWord) {
-        // Correct Word!
         playSfx('correct');
         wordState.score += 20;
         wordState.streak++;
         document.getElementById('word-score').textContent = wordState.score;
         document.getElementById('word-streak').textContent = `🔥 ${wordState.streak}`;
-
         slots.forEach(s => s.classList.add('correct-slot'));
         wordAlert.textContent = `🎉 EXCELLENT! "${wordState.currentWord}" IS CORRECT!`;
         wordAlert.className = 'feedback-float-alert show correct';
@@ -2147,22 +2193,16 @@
           loadWordChallenge();
         }, 850);
       } else {
-        // Wrong Word
         playSfx('wrong');
         wordState.streak = 0;
         document.getElementById('word-streak').textContent = '🔥 0';
-
         slots.forEach(s => s.classList.add('wrong-slot'));
         wordAlert.textContent = '❌ Not quite! Check order & try again.';
         wordAlert.className = 'feedback-float-alert show wrong';
-
-        setTimeout(() => {
-          slots.forEach(s => s.classList.remove('wrong-slot'));
-        }, 500);
+        setTimeout(() => slots.forEach(s => s.classList.remove('wrong-slot')), 500);
       }
     }
 
-    // Undo last letter
     document.getElementById('btn-word-undo').addEventListener('click', () => {
       if (wordState.userLetters.length > 0) {
         playSfx('click');
@@ -2172,20 +2212,261 @@
       }
     });
 
-    // Shuffle Bank Letters
     document.getElementById('btn-word-shuffle').addEventListener('click', () => {
       playSfx('gem');
-      wordState.userLetters = []; // clear current attempts
+      wordState.userLetters = [];
       wordState.scrambledLetters.sort(() => Math.random() - 0.5);
       renderWordSlots();
       renderLettersBank();
     });
 
-    // Skip Word
     document.getElementById('btn-word-next').addEventListener('click', () => {
       playSfx('click');
       wordState.currentIndex = (wordState.currentIndex + 1) % wordGameData.length;
       loadWordChallenge();
+    });
+
+    /* ========================================================
+       GAME 5: BODMAS MASTER (ORDER OF OPERATIONS)
+       ======================================================== */
+    const bodmasData = [
+      { exp: "6 + 4 × 2", ans: 14, rule: "💡 Rule: Multiplication first (4 × 2 = 8), then 6 + 8 = 14! (Not 20)" },
+      { exp: "18 - 8 ÷ 2", ans: 14, rule: "💡 Rule: Division first (8 ÷ 2 = 4), then 18 - 4 = 14! (Not 5)" },
+      { exp: "(5 + 3) × 4", ans: 32, rule: "💡 Rule: Brackets first! (5 + 3 = 8), then 8 × 4 = 32!" },
+      { exp: "20 - (3 + 2) × 3", ans: 5, rule: "💡 Rule: Brackets first (5), then Multiply (5 × 3 = 15), then 20 - 15 = 5!" },
+      { exp: "12 + 6 ÷ 3 × 2", ans: 16, rule: "💡 Rule: Division/Multiplication left-to-right (6 ÷ 3 = 2, 2 × 2 = 4), then 12 + 4 = 16!" },
+      { exp: "(15 - 5) ÷ (2 + 3)", ans: 2, rule: "💡 Rule: Both Brackets first: (10) ÷ (5) = 2!" },
+      { exp: "7 × 3 - 10 ÷ 2", ans: 16, rule: "💡 Rule: Multiply (21) & Divide (5) first: 21 - 5 = 16!" },
+      { exp: "40 ÷ (4 + 6) × 3", ans: 12, rule: "💡 Rule: Brackets first (10), then 40 ÷ 10 = 4, then 4 × 3 = 12!" },
+      { exp: "9 + 9 ÷ 9 + 9 × 9", ans: 91, rule: "💡 Rule: Division (9÷9=1) & Multiply (9×9=81) first: 9 + 1 + 81 = 91!" },
+      { exp: "(8 + 2) × (9 - 4)", ans: 50, rule: "💡 Rule: Brackets first: (10) × (5) = 50!" },
+      { exp: "30 - 3 × 4 + 6", ans: 24, rule: "💡 Rule: Multiplication first (3 × 4 = 12), then 30 - 12 + 6 = 24!" },
+      { exp: "100 - 4 × (15 + 5)", ans: 20, rule: "💡 Rule: Brackets first (20), then 4 × 20 = 80, then 100 - 80 = 20!" },
+      { exp: "16 ÷ (2 + 6) + 7 × 2", ans: 16, rule: "💡 Rule: Brackets (8), 16 ÷ 8 = 2, 7 × 2 = 14, then 2 + 14 = 16!" },
+      { exp: "5 + 5 × 5 - 5", ans: 25, rule: "💡 Rule: Multiplication first (5 × 5 = 25), then 5 + 25 - 5 = 25!" },
+      { exp: "24 ÷ (3 × 2) + 8", ans: 12, rule: "💡 Rule: Brackets first (3 × 2 = 6), then 24 ÷ 6 = 4, then 4 + 8 = 12!" },
+      { exp: "(10 + 20) ÷ (15 - 10)", ans: 6, rule: "💡 Rule: Brackets first: (30) ÷ (5) = 6!" },
+      { exp: "8 + 12 ÷ 4 × 3", ans: 17, rule: "💡 Rule: 12 ÷ 4 = 3, then 3 × 3 = 9, then 8 + 9 = 17!" },
+      { exp: "50 - 5 × (4 + 2)", ans: 20, rule: "💡 Rule: Brackets (6), 5 × 6 = 30, then 50 - 30 = 20!" },
+      { exp: "4 × 5 + 18 ÷ 2", ans: 29, rule: "💡 Rule: Multiply (20) & Divide (9) first: 20 + 9 = 29!" },
+      { exp: "(35 - 5) ÷ (3 + 3) + 7", ans: 12, rule: "💡 Rule: (30) ÷ (6) = 5, then 5 + 7 = 12!" }
+    ];
+
+    const bodmasState = {
+      index: 0, score: 0, streak: 0, options: [], isAnswered: false
+    };
+
+    const bodmasButtons = document.querySelectorAll('.bodmas-opt');
+    const bodmasAlert = document.getElementById('bodmas-alert');
+    const bodmasRuleBox = document.getElementById('bodmas-rule-box');
+
+    function initBodmasGame() {
+      bodmasState.index = 0;
+      bodmasState.score = 0;
+      bodmasState.streak = 0;
+      document.getElementById('bodmas-score').textContent = '0';
+      document.getElementById('bodmas-streak').textContent = '🔥 0';
+      loadBodmasQuestion();
+    }
+
+    function loadBodmasQuestion() {
+      bodmasState.isAnswered = false;
+      bodmasAlert.className = 'feedback-float-alert';
+      bodmasRuleBox.classList.remove('show');
+
+      const q = bodmasData[bodmasState.index];
+      document.getElementById('bodmas-expression').textContent = q.exp;
+      document.getElementById('bodmas-q-count').textContent = `${bodmasState.index + 1} / ${bodmasData.length}`;
+
+      // Distractor generation
+      const target = q.ans;
+      const opts = new Set([target]);
+      const offsets = [target + 6, target - 6, target * 2, Math.abs(target - 10), target + 12, target + 2];
+      offsets.sort(() => Math.random() - 0.5);
+
+      for (const off of offsets) {
+        if (off !== target && off >= 0) opts.add(off);
+        if (opts.size === 4) break;
+      }
+      let step = 1;
+      while (opts.size < 4) {
+        opts.add(target + step);
+        step += 2;
+      }
+
+      bodmasState.options = Array.from(opts).sort(() => Math.random() - 0.5);
+
+      bodmasButtons.forEach((btn, i) => {
+        btn.textContent = bodmasState.options[i];
+        btn.className = 'btn-option bodmas-opt';
+        btn.disabled = false;
+      });
+    }
+
+    function handleBodmasChoice(idx) {
+      if (bodmasState.isAnswered) return;
+      bodmasState.isAnswered = true;
+
+      const chosen = bodmasState.options[idx];
+      const correct = bodmasData[bodmasState.index].ans;
+      const clickedBtn = bodmasButtons[idx];
+
+      bodmasRuleBox.textContent = bodmasData[bodmasState.index].rule;
+      bodmasRuleBox.classList.add('show');
+
+      if (chosen === correct) {
+        playSfx('correct');
+        bodmasState.score += 15;
+        bodmasState.streak++;
+        clickedBtn.classList.add('btn-opt-correct');
+        bodmasAlert.textContent = '✅ CORRECT! BODMAS Rule followed!';
+        bodmasAlert.className = 'feedback-float-alert show correct';
+      } else {
+        playSfx('wrong');
+        bodmasState.streak = 0;
+        clickedBtn.classList.add('btn-opt-wrong');
+        bodmasAlert.textContent = '❌ WRONG! Order of operations missed!';
+        bodmasAlert.className = 'feedback-float-alert show wrong';
+
+        bodmasButtons.forEach((btn, i) => {
+          if (bodmasState.options[i] === correct) btn.classList.add('btn-opt-correct');
+        });
+      }
+
+      document.getElementById('bodmas-score').textContent = bodmasState.score;
+      document.getElementById('bodmas-streak').textContent = `🔥 ${bodmasState.streak}`;
+    }
+
+    bodmasButtons.forEach(btn => {
+      btn.addEventListener('click', () => handleBodmasChoice(parseInt(btn.dataset.idx, 10)));
+    });
+
+    document.getElementById('btn-bodmas-next').addEventListener('click', () => {
+      playSfx('click');
+      bodmasState.index = (bodmasState.index + 1) % bodmasData.length;
+      loadBodmasQuestion();
+    });
+
+    /* ========================================================
+       GAME 6: NUMBER SERIES (PATTERN QUEST)
+       ======================================================== */
+    const seriesData = [
+      { seq: "2, 4, 8, 16, ?", ans: 32, rule: "💡 Pattern: Multiply previous number by 2 (16 × 2 = 32)!" },
+      { seq: "5, 10, 15, 20, 25, ?", ans: 30, rule: "💡 Pattern: Add 5 each time (+5)!" },
+      { seq: "3, 7, 11, 15, 19, ?", ans: 23, rule: "💡 Pattern: Add 4 continuously (+4)!" },
+      { seq: "1, 4, 9, 16, 25, ?", ans: 36, rule: "💡 Pattern: Perfect squares (1², 2², 3², 4², 5², 6² = 36)!" },
+      { seq: "2, 3, 5, 8, 13, ?", ans: 21, rule: "💡 Pattern: Fibonacci sum of previous two numbers (8 + 13 = 21)!" },
+      { seq: "100, 95, 85, 70, ?", ans: 50, rule: "💡 Pattern: Subtract consecutive multiples (-5, -10, -15, -20 = 50)!" },
+      { seq: "2, 6, 18, 54, ?", ans: 162, rule: "💡 Pattern: Multiply by 3 each time (54 × 3 = 162)!" },
+      { seq: "1, 2, 4, 7, 11, 16, ?", ans: 22, rule: "💡 Pattern: Add +1, +2, +3, +4, +5, then +6 (16 + 6 = 22)!" },
+      { seq: "80, 40, 20, 10, ?", ans: 5, rule: "💡 Pattern: Divide by 2 each time (10 ÷ 2 = 5)!" },
+      { seq: "3, 6, 5, 10, 9, 18, ?", ans: 17, rule: "💡 Pattern: Alternate (× 2, then - 1): 18 - 1 = 17!" },
+      { seq: "7, 14, 12, 24, 22, ?", ans: 44, rule: "💡 Pattern: Alternate (× 2, then - 2): 22 × 2 = 44!" },
+      { seq: "4, 9, 19, 39, ?", ans: 79, rule: "💡 Pattern: Multiply by 2 and add 1 (39 × 2 + 1 = 79)!" },
+      { seq: "1, 8, 27, 64, ?", ans: 125, rule: "💡 Pattern: Cubes (1³, 2³, 3³, 4³, 5³ = 125)!" },
+      { seq: "11, 13, 17, 19, 23, ?", ans: 29, rule: "💡 Pattern: Consecutive prime numbers (next is 29)!" },
+      { seq: "5, 8, 14, 23, 35, ?", ans: 50, rule: "💡 Pattern: Differences increase by 3 (+3, +6, +9, +12, +15 = 50)!" },
+      { seq: "256, 128, 64, 32, ?", ans: 16, rule: "💡 Pattern: Half of previous number (32 ÷ 2 = 16)!" },
+      { seq: "12, 24, 21, 42, 39, ?", ans: 78, rule: "💡 Pattern: Alternate (× 2, then - 3): 39 × 2 = 78!" },
+      { seq: "0, 3, 8, 15, 24, ?", ans: 35, rule: "💡 Pattern: n² - 1 (6² - 1 = 36 - 1 = 35)!" },
+      { seq: "2, 5, 10, 17, 26, ?", ans: 37, rule: "💡 Pattern: n² + 1 (6² + 1 = 36 + 1 = 37)!" },
+      { seq: "6, 11, 21, 36, 56, ?", ans: 81, rule: "💡 Pattern: Add +5, +10, +15, +20, then +25 (56 + 25 = 81)!" }
+    ];
+
+    const seriesState = {
+      index: 0, score: 0, attempted: 0, correct: 0, options: [], isAnswered: false
+    };
+
+    const seriesButtons = document.querySelectorAll('.series-opt');
+    const seriesAlert = document.getElementById('series-alert');
+    const seriesRuleBox = document.getElementById('series-rule-box');
+
+    function initSeriesGame() {
+      seriesState.index = 0;
+      seriesState.score = 0;
+      seriesState.attempted = 0;
+      seriesState.correct = 0;
+      document.getElementById('series-score').textContent = '0';
+      document.getElementById('series-acc').textContent = '100%';
+      loadSeriesQuestion();
+    }
+
+    function loadSeriesQuestion() {
+      seriesState.isAnswered = false;
+      seriesAlert.className = 'feedback-float-alert';
+      seriesRuleBox.classList.remove('show');
+
+      const q = seriesData[seriesState.index];
+      document.getElementById('series-display').textContent = q.seq;
+      document.getElementById('series-q-count').textContent = `${seriesState.index + 1} / ${seriesData.length}`;
+
+      const target = q.ans;
+      const opts = new Set([target]);
+      const offsets = [target + 2, target - 2, target + 4, target - 4, target + 10, target - 5];
+      offsets.sort(() => Math.random() - 0.5);
+
+      for (const off of offsets) {
+        if (off !== target && off >= 0) opts.add(off);
+        if (opts.size === 4) break;
+      }
+      let step = 1;
+      while (opts.size < 4) {
+        opts.add(target + step * 3);
+        step++;
+      }
+
+      seriesState.options = Array.from(opts).sort(() => Math.random() - 0.5);
+
+      seriesButtons.forEach((btn, i) => {
+        btn.textContent = seriesState.options[i];
+        btn.className = 'btn-option series-opt';
+        btn.disabled = false;
+      });
+    }
+
+    function handleSeriesChoice(idx) {
+      if (seriesState.isAnswered) return;
+      seriesState.isAnswered = true;
+      seriesState.attempted++;
+
+      const chosen = seriesState.options[idx];
+      const correct = seriesData[seriesState.index].ans;
+      const clickedBtn = seriesButtons[idx];
+
+      seriesRuleBox.textContent = seriesData[seriesState.index].rule;
+      seriesRuleBox.classList.add('show');
+
+      if (chosen === correct) {
+        playSfx('correct');
+        seriesState.correct++;
+        seriesState.score += 15;
+        clickedBtn.classList.add('btn-opt-correct');
+        seriesAlert.textContent = '✅ BRILLIANT! Pattern cracked!';
+        seriesAlert.className = 'feedback-float-alert show correct';
+      } else {
+        playSfx('wrong');
+        clickedBtn.classList.add('btn-opt-wrong');
+        seriesAlert.textContent = '❌ MISSED! See the pattern rule below.';
+        seriesAlert.className = 'feedback-float-alert show wrong';
+
+        seriesButtons.forEach((btn, i) => {
+          if (seriesState.options[i] === correct) btn.classList.add('btn-opt-correct');
+        });
+      }
+
+      document.getElementById('series-score').textContent = seriesState.score;
+      const acc = Math.round((seriesState.correct / seriesState.attempted) * 100);
+      document.getElementById('series-acc').textContent = `${acc}%`;
+    }
+
+    seriesButtons.forEach(btn => {
+      btn.addEventListener('click', () => handleSeriesChoice(parseInt(btn.dataset.idx, 10)));
+    });
+
+    document.getElementById('btn-series-next').addEventListener('click', () => {
+      playSfx('click');
+      seriesState.index = (seriesState.index + 1) % seriesData.length;
+      loadSeriesQuestion();
     });
 
   </script>
