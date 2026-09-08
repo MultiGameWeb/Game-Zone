@@ -13,7 +13,7 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
-      /* Distinct Button Colors */
+      /* Distinct 3D Button Colors */
       --btn-blue: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
       --btn-blue-shadow: #1e40af;
       --btn-green: linear-gradient(180deg, #10b981 0%, #059669 100%);
@@ -25,6 +25,7 @@
 
       --accent-cyan: #06b6d4;
       --accent-red: #ef4444;
+      --accent-green: #10b981;
       --accent-amber: #f59e0b;
       --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -203,7 +204,6 @@
       font-size: 0.95rem;
     }
 
-    /* 3 Cards Grid: 3 columns on Desktop, Stack on Mobile */
     .games-row-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -223,7 +223,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease;
     }
 
     .game-card-box:hover {
@@ -287,12 +287,13 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      transition: border-color 0.2s;
     }
 
     .screen-math { display: none; }
     .screen-math.active { display: block; }
 
-    /* MATH & SUDOKU STYLES (MOBILE-TUNED) */
+    /* MATH STATS & QUESTIONS */
     .stat-header {
       display: flex;
       justify-content: space-between;
@@ -321,9 +322,98 @@
       font-size: 3rem;
       font-weight: 900;
       color: #fff;
-      margin: 16px 0;
+      margin: 14px 0;
     }
 
+    /* TOGGLE SWITCHES ON START SCREEN */
+    .setting-row {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .setting-title { font-size: 0.9rem; font-weight: 700; }
+    .setting-subtitle { font-size: 0.72rem; color: var(--text-muted); }
+
+    .toggle-bar {
+      display: flex;
+      background: #090e1a;
+      padding: 3px;
+      border-radius: 10px;
+      gap: 3px;
+      border: 1px solid #334155;
+    }
+
+    .toggle-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .toggle-btn.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    /* PLAY WITH OPTIONS GRID (4 BUTTONS) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 16px 0 10px;
+    }
+
+    .btn-option {
+      appearance: none;
+      border: 2px solid #334155;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 800;
+      padding: 18px 10px;
+      border-radius: 16px;
+      box-shadow: 0 4px 0 #090e1a, 0 8px 16px rgba(0,0,0,0.3);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.12s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-option:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #090e1a;
+      background: #2563eb;
+    }
+
+    .btn-opt-correct {
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
+      border-color: #34d399 !important;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6) !important;
+    }
+
+    .btn-opt-wrong {
+      background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%) !important;
+      border-color: #f87171 !important;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.6) !important;
+      animation: shake 0.3s both;
+    }
+
+    /* TYPE INPUT BOX */
     .answer-input {
       width: 100%;
       background: #0b1120;
@@ -336,12 +426,23 @@
       padding: 10px;
       outline: none;
       font-family: var(--font-mono);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+    }
+    .answer-input:focus { border-color: #3b82f6; }
+
+    .feedback-float-alert {
+      min-height: 26px;
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      margin-bottom: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
-    .answer-input:focus {
-      border-color: #3b82f6;
-    }
+    .feedback-float-alert.show { opacity: 1; }
+    .feedback-float-alert.correct { color: var(--accent-green); }
+    .feedback-float-alert.wrong { color: var(--accent-red); }
 
     /* 6x6 SUDOKU BOARD */
     .sudoku-board {
@@ -370,13 +471,8 @@
       cursor: pointer;
     }
 
-    .sudoku-cell[data-row="1"], .sudoku-cell[data-row="3"] {
-      border-bottom: 3px solid #10b981;
-    }
-    .sudoku-cell[data-col="2"] {
-      border-right: 3px solid #10b981;
-    }
-
+    .sudoku-cell[data-row="1"], .sudoku-cell[data-row="3"] { border-bottom: 3px solid #10b981; }
+    .sudoku-cell[data-col="2"] { border-right: 3px solid #10b981; }
     .sudoku-cell.clue { color: #34d399; background: #0c1825; }
     .sudoku-cell.selected { background: #064e3b !important; box-shadow: inset 0 0 0 2px #34d399; }
     .sudoku-cell.cell-wrong {
@@ -411,9 +507,7 @@
     }
     .key-btn:active { background: #10b981; }
 
-    /* ========================================================
-       GAME 3: 3D ROLLING BALL CANVAS GAME (MOBILE TOUCH)
-       ======================================================== */
+    /* 3D BALL GAME CANVAS */
     .ball-game-container {
       width: 100%;
       max-width: 460px;
@@ -429,7 +523,7 @@
       border: 2px solid #f97316;
       box-shadow: 0 10px 30px rgba(249, 115, 22, 0.25);
       background: #070913;
-      touch-action: none; /* Prevents mobile scroll while dragging */
+      touch-action: none;
     }
 
     #ball-canvas {
@@ -470,7 +564,7 @@
       padding: 8px 16px;
     }
 
-    /* MODALS & ALERTS */
+    /* MODALS & OVERLAYS */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -500,30 +594,20 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* MOBILE RESPONSIVE ADJUSTMENTS */
+    /* RESPONSIVE */
     @media (max-width: 820px) {
-      .games-row-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-      }
-      .game-box-desc {
-        min-height: auto;
-      }
-      .hub-title {
-        font-size: 1.8rem;
-      }
-      .math-expression {
-        font-size: 2.5rem;
-      }
-      #ball-canvas {
-        height: 380px;
-      }
+      .games-row-grid { grid-template-columns: 1fr; gap: 14px; }
+      .game-box-desc { min-height: auto; }
+      .hub-title { font-size: 1.8rem; }
+      .math-expression { font-size: 2.6rem; }
+      .btn-option { padding: 15px 8px; font-size: 1.45rem; }
+      #ball-canvas { height: 380px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP HUB NAVIGATION -->
+  <!-- TOP HEADER -->
   <header class="top-header">
     <div class="hub-brand">
       <span>🕹️</span> BRAIN & ARCADE
@@ -536,29 +620,28 @@
   <main id="app">
 
     <!-- ========================================================
-         VIEW 1: GAMES HUB (3 INDIVIDUAL GAME BOXES IN A ROW)
+         VIEW 1: GAMES HUB (3 DISTINCT BOXES IN A ROW)
          ======================================================== -->
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">Mobile-Optimized Fast Mental & Reflex Games</p>
+        <p class="hub-subtitle">Fast Mental Math, Sudoku & 3D Reflex Runner</p>
       </div>
 
-      <!-- 3 SEPARATE BOXES IN A ROW -->
       <div class="games-row-grid">
         
-        <!-- BOX 1: MATH QUIZ -->
+        <!-- BOX 1: QUICK MATHS -->
         <div class="game-card-box card-math-box">
           <div>
             <div class="game-icon-large">🧮</div>
-            <h2 class="game-box-title">MATH QUIZ</h2>
-            <span class="game-box-badge badge-blue">Mental Speed</span>
+            <h2 class="game-box-title">QUICK MATHS</h2>
+            <span class="game-box-badge badge-blue">4 Options Mode Included</span>
             <p class="game-box-desc">
-              Sharpen mental arithmetic with 60-second timer & rapid one-op questions.
+              Rapid mental calculation! Type answers or play with 4 instant clickable options.
             </p>
           </div>
           <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
-            Play Math Quiz
+            Play Quick Maths
           </button>
         </div>
 
@@ -569,7 +652,7 @@
             <h2 class="game-box-title">6×6 SUDOKU</h2>
             <span class="game-box-badge badge-green">2×3 Logic</span>
             <p class="game-box-desc">
-              Fast 6x6 grid with instant wrong number detection and smart hints.
+              Fast 6x6 grid with instant wrong number detection, smart hints and time tracking.
             </p>
           </div>
           <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
@@ -577,14 +660,14 @@
           </button>
         </div>
 
-        <!-- BOX 3: 3D BALL GAME -->
+        <!-- BOX 3: 3D BALL RUN -->
         <div class="game-card-box card-ball-box">
           <div>
             <div class="game-icon-large">🔴</div>
             <h2 class="game-box-title">3D BALL RUN</h2>
-            <span class="game-box-badge badge-orange">Finger Reflex</span>
+            <span class="game-box-badge badge-orange">Finger Touch Reflex</span>
             <p class="game-box-desc">
-              Continuous 3D rolling ball! Slide your finger to dodge obstacles & grab gems.
+              Continuous 3D rolling ball! Slide your finger across the mobile screen to dodge & collect.
             </p>
           </div>
           <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">
@@ -596,23 +679,46 @@
     </section>
 
     <!-- ========================================================
-         VIEW 2: MATH QUIZ
+         VIEW 2: QUICK MATHS (WITH "PLAY WITH OPTIONS")
          ======================================================== -->
     <section id="view-math" class="view-section">
       <div class="game-wrapper">
         
         <!-- Math Start Screen -->
         <div id="math-screen-start" class="card screen-math active">
-          <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Speed Drill</div>
-          <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 12px;">MATH QUIZ</h2>
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">60 Seconds mental speed calculation</p>
+          <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Mental Speed</div>
+          <h2 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 12px;">QUICK MATHS</h2>
           
-          <div style="background: rgba(15, 23, 42, 0.7); border-radius: 14px; padding: 12px; margin-bottom: 20px;">
-            <div style="font-size: 0.75rem; color: var(--text-muted);">PERSONAL BEST</div>
-            <div id="mq-best-score" style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 800; color: #38bdf8;">0 PTS</div>
+          <!-- Mode Toggle: Play with Options vs Type Answer -->
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">🎮 Input Style</div>
+              <div class="setting-subtitle">Select 4 Options or Type</div>
+            </div>
+            <div class="toggle-bar">
+              <button id="toggle-opt-mode" class="toggle-btn active" type="button">🔘 4 Options</button>
+              <button id="toggle-type-mode" class="toggle-btn" type="button">⌨️ Type</button>
+            </div>
           </div>
 
-          <button id="mq-btn-start" class="btn-3d btn-blue" type="button">Start Quiz</button>
+          <!-- Timer Toggle -->
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">⏱️ 60s Speed Timer</div>
+              <div class="setting-subtitle">1-Minute speed sprint</div>
+            </div>
+            <div class="toggle-bar">
+              <button id="toggle-timer-on" class="toggle-btn active" type="button">ON</button>
+              <button id="toggle-timer-off" class="toggle-btn" type="button">OFF</button>
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.7); border-radius: 14px; padding: 10px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">PERSONAL BEST</div>
+            <div id="mq-best-score" style="font-family: var(--font-mono); font-size: 1.6rem; font-weight: 800; color: #38bdf8;">0 PTS</div>
+          </div>
+
+          <button id="mq-btn-start" class="btn-3d btn-blue" type="button">Start Game</button>
         </div>
 
         <!-- Math Gameplay Screen -->
@@ -623,7 +729,7 @@
               <span id="mq-score" class="stat-val">0</span>
             </div>
             <div>
-              <span class="stat-label">Time</span>
+              <span id="mq-timer-label" class="stat-label">Time</span>
               <span id="mq-timer" class="stat-val" style="color: #38bdf8;">01:00</span>
             </div>
             <div>
@@ -632,18 +738,40 @@
             </div>
           </div>
 
+          <div id="mq-feedback-alert" class="feedback-float-alert">❌ WRONG! / తప్పు!</div>
           <div id="mq-precision-hint" style="font-size: 0.75rem; color: var(--accent-amber); display: none;">Round to 2 decimal places</div>
           <div id="mq-expression" class="math-expression">24 + 19</div>
 
-          <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
-          <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
+          <!-- CONTAINER A: 4 OPTIONS MODE ("PLAY WITH OPTIONS") -->
+          <div id="mq-container-options" class="options-grid">
+            <button class="btn-option" data-opt-idx="0" type="button">0</button>
+            <button class="btn-option" data-opt-idx="1" type="button">0</button>
+            <button class="btn-option" data-opt-idx="2" type="button">0</button>
+            <button class="btn-option" data-opt-idx="3" type="button">0</button>
+          </div>
+
+          <!-- CONTAINER B: MANUAL KEYBOARD INPUT MODE -->
+          <div id="mq-container-type" style="display: none;">
+            <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
+            <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+            <button id="mq-btn-quit" class="btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;" type="button">Finish</button>
+          </div>
         </div>
 
         <!-- Math Results Screen -->
         <div id="math-screen-end" class="card screen-math">
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px;">GAME OVER</h2>
-          <p style="color: var(--text-muted); margin-bottom: 16px;">Here is your 1-minute performance</p>
-          <div style="font-family: var(--font-mono); font-size: 3.5rem; font-weight: 900; color: #fff; margin-bottom: 16px;" id="mq-final-score">0</div>
+          <p style="color: var(--text-muted); margin-bottom: 14px;">Great mental sprint performance!</p>
+          <div style="font-family: var(--font-mono); font-size: 3.5rem; font-weight: 900; color: #fff; margin-bottom: 14px;" id="mq-final-score">0</div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
+            <div style="background: #0f172a; padding: 10px; border-radius: 10px;">Solved: <b id="mq-res-solved" style="color: #38bdf8;">0</b></div>
+            <div style="background: #0f172a; padding: 10px; border-radius: 10px;">Accuracy: <b id="mq-res-acc" style="color: #34d399;">0%</b></div>
+          </div>
+
           <div style="display: flex; gap: 10px;">
             <button id="mq-btn-restart" class="btn-3d btn-blue" type="button">Play Again</button>
             <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
@@ -659,7 +787,7 @@
     <section id="view-sudoku" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Logical Grid</div>
+          <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Logical Grid (2×3 Blocks)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">6×6 SUDOKU</h2>
 
           <div class="stat-header">
@@ -681,7 +809,7 @@
 
           <div id="sudoku-board" class="sudoku-board"></div>
 
-          <!-- Mobile 1-6 Keypad -->
+          <!-- Keypad 1-6 -->
           <div class="sudoku-keypad">
             <button class="key-btn" data-num="1">1</button>
             <button class="key-btn" data-num="2">2</button>
@@ -701,7 +829,7 @@
     </section>
 
     <!-- ========================================================
-         VIEW 4: 3D BALL RUN (CANVAS 3D RUNNER)
+         VIEW 4: 3D BALL RUNNER
          ======================================================== -->
     <section id="view-ball" class="view-section">
       <div class="ball-game-container">
@@ -778,7 +906,7 @@
 
   <script>
     /* ========================================================
-       CORE ROUTING / VIEW SWITCHER
+       HUB & VIEW MANAGEMENT
        ======================================================== */
     const views = {
       hub: document.getElementById('view-hub'),
@@ -788,7 +916,6 @@
     };
 
     function openView(viewName) {
-      // Pause loops if leaving
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
       if (viewName !== 'sudoku') stopSudokuTimer();
@@ -810,11 +937,21 @@
     document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
 
     /* ========================================================
-       GAME 1: MATH QUIZ CODE
+       GAME 1: QUICK MATHS WITH "PLAY WITH OPTIONS" (4 OPTIONS)
        ======================================================== */
     const mathState = {
-      score: 0, attempted: 0, correct: 0, timerRemaining: 60,
-      timerInterval: null, currentQuestion: null, bestScore: 0
+      inputMode: 'options', // 'options' (4 choices) or 'type'
+      timerMode: 'on',      // 'on' or 'off'
+      score: 0,
+      attempted: 0,
+      correct: 0,
+      timerRemaining: 60,
+      elapsedSeconds: 0,
+      timerInterval: null,
+      currentQuestion: null,
+      bestScore: 0,
+      optionsList: [],
+      isProcessingAnswer: false
     };
 
     const mqScreens = {
@@ -822,6 +959,9 @@
       play: document.getElementById('math-screen-play'),
       end: document.getElementById('math-screen-end')
     };
+
+    const optButtons = document.querySelectorAll('.btn-option');
+    const feedbackAlert = document.getElementById('mq-feedback-alert');
 
     function showMathSubScreen(sub) {
       Object.keys(mqScreens).forEach(k => mqScreens[k].classList.toggle('active', k === sub));
@@ -836,30 +976,167 @@
       const op = ops[Math.floor(Math.random() * ops.length)];
       let a, b, ans, isDec = false;
 
-      if (op === '+') { a = getRandomInt(15, 80); b = getRandomInt(10, 60); ans = a + b; }
-      else if (op === '-') { a = getRandomInt(20, 95); b = getRandomInt(5, 75); ans = a - b; }
-      else if (op === '×') { a = getRandomInt(4, 15); b = getRandomInt(4, 14); ans = a * b; }
-      else {
-        if (Math.random() > 0.4) {
-          const q = getRandomInt(3, 15); b = getRandomInt(3, 12); a = q * b; ans = q;
-        } else {
-          b = [2, 4, 5][Math.floor(Math.random() * 3)];
-          a = getRandomInt(3, 39);
+      const level = mathState.attempted < 5 ? 1 : (mathState.attempted < 15 ? 2 : 3);
+
+      if (level === 1) {
+        if (op === '+') { a = getRandomInt(10, 45); b = getRandomInt(10, 35); ans = a + b; }
+        else if (op === '-') { a = getRandomInt(20, 75); b = getRandomInt(5, a - 3); ans = a - b; }
+        else if (op === '×') { a = getRandomInt(3, 10); b = getRandomInt(3, 9); ans = a * b; }
+        else { const q = getRandomInt(2, 9); b = getRandomInt(2, 8); a = q * b; ans = q; }
+      } else if (level === 2) {
+        if (op === '+') { a = getRandomInt(35, 180); b = getRandomInt(20, 140); ans = a + b; }
+        else if (op === '-') { a = getRandomInt(20, 160); b = getRandomInt(15, 190); ans = a - b; }
+        else if (op === '×') { a = getRandomInt(8, 18); b = getRandomInt(5, 15); ans = a * b; }
+        else {
+          if (Math.random() > 0.4) {
+            const q = getRandomInt(4, 18); b = getRandomInt(4, 14); a = q * b; ans = q;
+          } else {
+            b = [2, 4, 5][Math.floor(Math.random() * 3)];
+            a = getRandomInt(5, 45);
+            if (a % b === 0) a++;
+            ans = Number((a / b).toFixed(2));
+            isDec = true;
+          }
+        }
+      } else {
+        if (op === '+') { a = getRandomInt(120, 550); b = getRandomInt(90, 450); ans = a + b; }
+        else if (op === '-') { a = getRandomInt(50, 600); b = getRandomInt(50, 700); ans = a - b; }
+        else if (op === '×') { a = getRandomInt(14, 55); b = getRandomInt(11, 45); ans = a * b; }
+        else {
+          b = getRandomInt(3, 16); a = getRandomInt(9, 75);
           if (a % b === 0) a++;
           ans = Number((a / b).toFixed(2));
           isDec = true;
         }
       }
+
       return { str: `${a} ${op} ${b}`, target: ans, isDec };
     }
 
+    // Generate 4 Clever Options (1 correct, 3 realistic distractors)
+    function generate4Options(target, isDec) {
+      const opts = new Set();
+      opts.add(target);
+
+      const offsets = isDec 
+        ? [0.1, -0.1, 0.2, -0.2, 0.5, -0.5, 1, -1] 
+        : [1, -1, 2, -2, 5, -5, 10, -10, 3, -3];
+      offsets.sort(() => Math.random() - 0.5);
+
+      for (const off of offsets) {
+        const val = isDec ? Number((target + off).toFixed(2)) : target + off;
+        if (val !== target) opts.add(val);
+        if (opts.size === 4) break;
+      }
+
+      let fallback = 1;
+      while (opts.size < 4) {
+        opts.add(isDec ? Number((target + fallback * 0.15).toFixed(2)) : target + fallback);
+        fallback++;
+      }
+
+      return Array.from(opts).sort(() => Math.random() - 0.5);
+    }
+
     function nextMathQuestion() {
+      mathState.isProcessingAnswer = false;
+      feedbackAlert.className = 'feedback-float-alert';
+      
       mathState.currentQuestion = generateMathQ();
       document.getElementById('mq-expression').textContent = mathState.currentQuestion.str;
       document.getElementById('mq-precision-hint').style.display = mathState.currentQuestion.isDec ? 'block' : 'none';
-      const input = document.getElementById('mq-input');
-      input.value = '';
-      input.focus();
+
+      if (mathState.inputMode === 'options') {
+        document.getElementById('mq-container-options').style.display = 'grid';
+        document.getElementById('mq-container-type').style.display = 'none';
+
+        mathState.optionsList = generate4Options(mathState.currentQuestion.target, mathState.currentQuestion.isDec);
+        optButtons.forEach((btn, idx) => {
+          btn.textContent = mathState.optionsList[idx];
+          btn.className = 'btn-option';
+          btn.disabled = false;
+        });
+      } else {
+        document.getElementById('mq-container-options').style.display = 'none';
+        document.getElementById('mq-container-type').style.display = 'block';
+        const input = document.getElementById('mq-input');
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function handleOptionClick(selectedIdx) {
+      if (mathState.isProcessingAnswer) return;
+      mathState.isProcessingAnswer = true;
+
+      const chosenVal = mathState.optionsList[selectedIdx];
+      const targetVal = mathState.currentQuestion.target;
+      const clickedBtn = optButtons[selectedIdx];
+      mathState.attempted++;
+
+      const isCorrect = mathState.currentQuestion.isDec 
+        ? Math.abs(chosenVal - targetVal) <= 0.02 
+        : Math.abs(chosenVal - targetVal) < 0.001;
+
+      if (isCorrect) {
+        // Correct Option Selected
+        mathState.correct++;
+        mathState.score += 10;
+        clickedBtn.classList.add('btn-opt-correct');
+        feedbackAlert.textContent = '✅ CORRECT! +10';
+        feedbackAlert.className = 'feedback-float-alert show correct';
+
+        updateMathHUD();
+        setTimeout(nextMathQuestion, 280);
+      } else {
+        // Wrong Option Selected -> Show Wrong & Advance immediately
+        clickedBtn.classList.add('btn-opt-wrong');
+        feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
+        feedbackAlert.className = 'feedback-float-alert show wrong';
+
+        // Briefly show the correct one to help learning
+        optButtons.forEach((btn, idx) => {
+          if (mathState.optionsList[idx] === targetVal) {
+            btn.classList.add('btn-opt-correct');
+          }
+        });
+
+        updateMathHUD();
+        setTimeout(nextMathQuestion, 450); // Move forward quickly
+      }
+    }
+
+    function submitTypeAnswer() {
+      if (mathState.isProcessingAnswer) return;
+      const raw = document.getElementById('mq-input').value.trim();
+      if (raw === '' || isNaN(raw)) return;
+
+      const val = parseFloat(raw);
+      const targetVal = mathState.currentQuestion.target;
+      mathState.attempted++;
+
+      const isCorrect = mathState.currentQuestion.isDec 
+        ? Math.abs(val - targetVal) <= 0.02 
+        : Math.abs(val - targetVal) < 0.001;
+
+      if (isCorrect) {
+        mathState.correct++;
+        mathState.score += 10;
+        feedbackAlert.textContent = '✅ CORRECT! +10';
+        feedbackAlert.className = 'feedback-float-alert show correct';
+      } else {
+        feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
+        feedbackAlert.className = 'feedback-float-alert show wrong';
+      }
+
+      updateMathHUD();
+      setTimeout(nextMathQuestion, 300);
+    }
+
+    function updateMathHUD() {
+      document.getElementById('mq-score').textContent = mathState.score;
+      const acc = mathState.attempted > 0 ? Math.round((mathState.correct / mathState.attempted) * 100) : 100;
+      document.getElementById('mq-acc').textContent = `${acc}%`;
     }
 
     function startMathSession() {
@@ -867,22 +1144,40 @@
       mathState.attempted = 0;
       mathState.correct = 0;
       mathState.timerRemaining = 60;
-      document.getElementById('mq-score').textContent = '0';
-      document.getElementById('mq-timer').textContent = '01:00';
-      document.getElementById('mq-acc').textContent = '100%';
+      mathState.elapsedSeconds = 0;
+      updateMathHUD();
 
       showMathSubScreen('play');
-      nextMathQuestion();
 
+      if (mathState.timerMode === 'on') {
+        document.getElementById('mq-timer-label').textContent = 'Time Left';
+        document.getElementById('mq-timer').textContent = '01:00';
+      } else {
+        document.getElementById('mq-timer-label').textContent = 'Elapsed';
+        document.getElementById('mq-timer').textContent = '00:00';
+      }
+
+      nextMathQuestion();
+      startMathTimer();
+    }
+
+    function startMathTimer() {
       if (mathState.timerInterval) clearInterval(mathState.timerInterval);
       mathState.timerInterval = setInterval(() => {
-        mathState.timerRemaining--;
-        const m = String(Math.floor(mathState.timerRemaining / 60)).padStart(2, '0');
-        const s = String(mathState.timerRemaining % 60).padStart(2, '0');
-        document.getElementById('mq-timer').textContent = `${m}:${s}`;
-        if (mathState.timerRemaining <= 0) {
-          stopMathTimer();
-          finishMathQuiz();
+        if (mathState.timerMode === 'on') {
+          mathState.timerRemaining--;
+          const m = String(Math.floor(mathState.timerRemaining / 60)).padStart(2, '0');
+          const s = String(mathState.timerRemaining % 60).padStart(2, '0');
+          document.getElementById('mq-timer').textContent = `${m}:${s}`;
+          if (mathState.timerRemaining <= 0) {
+            stopMathTimer();
+            finishMathQuiz();
+          }
+        } else {
+          mathState.elapsedSeconds++;
+          const m = String(Math.floor(mathState.elapsedSeconds / 60)).padStart(2, '0');
+          const s = String(mathState.elapsedSeconds % 60).padStart(2, '0');
+          document.getElementById('mq-timer').textContent = `${m}:${s}`;
         }
       }, 1000);
     }
@@ -891,39 +1186,61 @@
       if (mathState.timerInterval) clearInterval(mathState.timerInterval);
     }
 
-    function submitMathAnswer() {
-      const raw = document.getElementById('mq-input').value.trim();
-      if (raw === '' || isNaN(raw)) return;
-      const val = parseFloat(raw);
-      mathState.attempted++;
-
-      const isOk = mathState.currentQuestion.isDec 
-        ? Math.abs(val - mathState.currentQuestion.target) <= 0.02
-        : Math.abs(val - mathState.currentQuestion.target) < 0.001;
-
-      if (isOk) {
-        mathState.correct++;
-        mathState.score += 10;
-      }
-      document.getElementById('mq-score').textContent = mathState.score;
-      document.getElementById('mq-acc').textContent = `${Math.round((mathState.correct / mathState.attempted) * 100)}%`;
-      nextMathQuestion();
-    }
-
     function finishMathQuiz() {
+      stopMathTimer();
       if (mathState.score > mathState.bestScore) {
         mathState.bestScore = mathState.score;
         document.getElementById('mq-best-score').textContent = `${mathState.bestScore} PTS`;
       }
       document.getElementById('mq-final-score').textContent = mathState.score;
+      document.getElementById('mq-res-solved').textContent = `${mathState.correct} / ${mathState.attempted}`;
+      const acc = mathState.attempted > 0 ? Math.round((mathState.correct / mathState.attempted) * 100) : 0;
+      document.getElementById('mq-res-acc').textContent = `${acc}%`;
       showMathSubScreen('end');
     }
 
+    // Input Mode Toggle Listeners
+    const btnToggleOpt = document.getElementById('toggle-opt-mode');
+    const btnToggleType = document.getElementById('toggle-type-mode');
+    btnToggleOpt.addEventListener('click', () => {
+      mathState.inputMode = 'options';
+      btnToggleOpt.classList.add('active');
+      btnToggleType.classList.remove('active');
+    });
+    btnToggleType.addEventListener('click', () => {
+      mathState.inputMode = 'type';
+      btnToggleType.classList.add('active');
+      btnToggleOpt.classList.remove('active');
+    });
+
+    // Timer Toggle Listeners
+    const btnToggleTimerOn = document.getElementById('toggle-timer-on');
+    const btnToggleTimerOff = document.getElementById('toggle-timer-off');
+    btnToggleTimerOn.addEventListener('click', () => {
+      mathState.timerMode = 'on';
+      btnToggleTimerOn.classList.add('active');
+      btnToggleTimerOff.classList.remove('active');
+    });
+    btnToggleTimerOff.addEventListener('click', () => {
+      mathState.timerMode = 'off';
+      btnToggleTimerOff.classList.add('active');
+      btnToggleTimerOn.classList.remove('active');
+    });
+
+    // 4 Options Click Listeners
+    optButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.optIdx, 10);
+        handleOptionClick(idx);
+      });
+    });
+
     document.getElementById('mq-btn-start').addEventListener('click', startMathSession);
     document.getElementById('mq-btn-restart').addEventListener('click', startMathSession);
-    document.getElementById('mq-btn-submit').addEventListener('click', submitMathAnswer);
+    document.getElementById('mq-btn-quit').addEventListener('click', finishMathQuiz);
+    document.getElementById('mq-btn-submit').addEventListener('click', submitTypeAnswer);
     document.getElementById('mq-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') submitMathAnswer();
+      if (e.key === 'Enter') submitTypeAnswer();
     });
 
     /* ========================================================
@@ -954,7 +1271,7 @@
         for (let c = 0; c < 6; c++) {
           if (grid[r][c] === 0) {
             const nums = [1, 2, 3, 4, 5, 6].sort(() => Math.random() - 0.5);
-            for (let v of nums) {
+            for (const v of nums) {
               if (isValid6x6(grid, r, c, v)) {
                 grid[r][c] = v;
                 if (solve6x6(grid)) return true;
@@ -1094,7 +1411,6 @@
     document.getElementById('sdk-btn-hint').addEventListener('click', () => {
       let r = sdkState.selectedR, c = sdkState.selectedC;
       if (r < 0 || c < 0 || sdkState.current[r][c] !== 0) {
-        // pick first empty
         for (let i = 0; i < 6; i++) {
           for (let j = 0; j < 6; j++) {
             if (sdkState.current[i][j] === 0) { r = i; c = j; break; }
@@ -1130,7 +1446,7 @@
     });
 
     /* ========================================================
-       GAME 3: 3D ROLLING BALL RUNNER (PURE HTML5 CANVAS)
+       GAME 3: 3D ROLLING BALL RUNNER
        ======================================================== */
     const canvas = document.getElementById('ball-canvas');
     const ctx = canvas.getContext('2d');
@@ -1141,9 +1457,8 @@
       score: 0,
       gems: 0,
       speed: 3.5,
-      ballX: 0, // from -100 to 100
+      ballX: 0,
       targetBallX: 0,
-      ballY: 0,
       rollAngle: 0,
       zOffset: 0,
       obstacles: [],
@@ -1163,7 +1478,6 @@
       ballGame.obstacles = [];
       ballGame.collectibles = [];
 
-      // Spawn initial world items
       for (let z = 300; z < 1800; z += 240) {
         spawnObstacle(z);
         if (Math.random() > 0.4) spawnGem(z + 100);
@@ -1181,7 +1495,7 @@
     function spawnObstacle(z) {
       const lanes = [-55, 0, 55];
       const x = lanes[Math.floor(Math.random() * lanes.length)];
-      ballGame.obstacles.push({ x, z, w: 26, h: 26 });
+      ballGame.obstacles.push({ x, z, w: 26 });
     }
 
     function spawnGem(z) {
@@ -1190,11 +1504,10 @@
       ballGame.collectibles.push({ x, z, collected: false });
     }
 
-    // Touch & Drag Controls for mobile screen
     function handlePointerMove(clientX) {
       const rect = canvas.getBoundingClientRect();
       const relativeX = clientX - rect.left;
-      const normalized = (relativeX / rect.width) * 2 - 1; // -1 to 1
+      const normalized = (relativeX / rect.width) * 2 - 1;
       ballGame.targetBallX = Math.max(-80, Math.min(80, normalized * 85));
     }
 
@@ -1211,23 +1524,19 @@
       if (e.buttons === 1 || e.buttons === 0) handlePointerMove(e.clientX);
     });
 
-    // 3D Ball Rendering Engine Loop
     function ballLoop() {
       if (!ballGame.running) return;
 
-      // Update State
       ballGame.score += Math.round(ballGame.speed * 0.3);
-      ballGame.speed += 0.0008; // progressive difficulty
+      ballGame.speed += 0.0008;
       ballGame.rollAngle += ballGame.speed * 0.05;
-      ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2; // smooth follow finger
+      ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2;
       ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.5) % 80;
 
-      // Update HUD
       document.getElementById('ball-score').textContent = ballGame.score;
       document.getElementById('ball-gems').textContent = `💎 ${ballGame.gems}`;
       document.getElementById('ball-speed').textContent = `${(ballGame.speed / 3.5).toFixed(1)}x`;
 
-      // Clear Screen
       ctx.fillStyle = '#070a14';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1235,9 +1544,8 @@
       const horizonY = 90;
       const fov = 220;
 
-      // DRAW 3D PERSPECTIVE NEON TRACK
+      // Draw Perspective Track
       ctx.save();
-      // Track ground polygon
       ctx.beginPath();
       ctx.moveTo(cx - 35, horizonY);
       ctx.lineTo(cx + 35, horizonY);
@@ -1250,7 +1558,6 @@
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // Horizontal moving grid lines (depth motion)
       for (let z = 40; z < 800; z += 55) {
         const visualZ = z - ballGame.zOffset;
         if (visualZ <= 10) continue;
@@ -1268,32 +1575,28 @@
       }
       ctx.restore();
 
-      // MOVE & DRAW OBSTACLES & GEMS (Sorted by Z for 3D depth)
-      // Obstacles update
+      // Obstacles update & collision
       for (let i = ballGame.obstacles.length - 1; i >= 0; i--) {
         const obs = ballGame.obstacles[i];
         obs.z -= ballGame.speed * 2.5;
 
-        // Collision Check with Ball (ball is at z ~ 60)
         if (obs.z > 40 && obs.z < 85) {
           if (Math.abs(ballGame.ballX - obs.x) < 26) {
             triggerBallGameOver();
             return;
           }
         }
-
         if (obs.z < 15) {
           ballGame.obstacles.splice(i, 1);
           spawnObstacle(900 + Math.random() * 200);
         }
       }
 
-      // Gems update
+      // Collectibles
       for (let i = ballGame.collectibles.length - 1; i >= 0; i--) {
         const gem = ballGame.collectibles[i];
         gem.z -= ballGame.speed * 2.5;
 
-        // Pickup Check
         if (!gem.collected && gem.z > 45 && gem.z < 85) {
           if (Math.abs(ballGame.ballX - gem.x) < 28) {
             gem.collected = true;
@@ -1301,14 +1604,13 @@
             ballGame.score += 50;
           }
         }
-
         if (gem.z < 15) {
           ballGame.collectibles.splice(i, 1);
           if (Math.random() > 0.4) spawnGem(950 + Math.random() * 200);
         }
       }
 
-      // Render 3D Obstacles (Cubes)
+      // Render Obstacles
       ballGame.obstacles.forEach(obs => {
         if (obs.z < 20 || obs.z > 900) return;
         const scale = fov / (obs.z + fov);
@@ -1316,13 +1618,11 @@
         const sy = horizonY + (canvas.height - horizonY) * scale * 1.35;
         const size = obs.w * scale * 2.1;
 
-        // Draw 3D Box
         ctx.fillStyle = '#ef4444';
         ctx.fillRect(sx - size / 2, sy - size, size, size);
         ctx.strokeStyle = '#fca5a5';
         ctx.strokeRect(sx - size / 2, sy - size, size, size);
 
-        // Box top face
         ctx.fillStyle = '#f87171';
         ctx.beginPath();
         ctx.moveTo(sx - size / 2, sy - size);
@@ -1332,7 +1632,7 @@
         ctx.fill();
       });
 
-      // Render 3D Collectible Diamonds
+      // Render Gems
       ballGame.collectibles.forEach(gem => {
         if (gem.collected || gem.z < 20 || gem.z > 900) return;
         const scale = fov / (gem.z + fov);
@@ -1357,25 +1657,19 @@
         ctx.restore();
       });
 
-      // DRAW PLAYER'S 3D ROLLING BALL
+      // Player Ball
       const ballRadius = 24;
       const ballScreenX = cx + ballGame.ballX * 1.6;
       const ballScreenY = canvas.height - 58;
 
-      // Ball Drop Shadow
       ctx.beginPath();
       ctx.ellipse(ballScreenX, ballScreenY + ballRadius - 4, ballRadius * 1.1, 7, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
       ctx.fill();
 
-      // Ball 3D Sphere Shading
       const grad = ctx.createRadialGradient(
-        ballScreenX - ballRadius * 0.35,
-        ballScreenY - ballRadius * 0.35,
-        ballRadius * 0.15,
-        ballScreenX,
-        ballScreenY,
-        ballRadius
+        ballScreenX - ballRadius * 0.35, ballScreenY - ballRadius * 0.35, ballRadius * 0.15,
+        ballScreenX, ballScreenY, ballRadius
       );
       grad.addColorStop(0, '#fed7aa');
       grad.addColorStop(0.3, '#f97316');
@@ -1388,17 +1682,10 @@
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Rolling rotation lines
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
       ctx.lineWidth = 2.5;
       ctx.beginPath();
-      ctx.arc(
-        ballScreenX,
-        ballScreenY,
-        ballRadius * 0.75,
-        ballGame.rollAngle,
-        ballGame.rollAngle + Math.PI * 0.8
-      );
+      ctx.arc(ballScreenX, ballScreenY, ballRadius * 0.75, ballGame.rollAngle, ballGame.rollAngle + Math.PI * 0.8);
       ctx.stroke();
       ctx.restore();
 
