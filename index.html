@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain & Arcade Games Hub</title>
+  <title>Brain & Arcade Games Hub - 4 Games</title>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -13,13 +13,15 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
-      /* Distinct 3D Button Colors */
+      /* 4 Distinct 3D Button Colors */
       --btn-blue: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
       --btn-blue-shadow: #1e40af;
       --btn-green: linear-gradient(180deg, #10b981 0%, #059669 100%);
       --btn-green-shadow: #047857;
       --btn-orange: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
       --btn-orange-shadow: #c2410c;
+      --btn-purple: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
+      --btn-purple-shadow: #581c87;
       --btn-gray: linear-gradient(180deg, #334155 0%, #1e293b 100%);
       --btn-gray-shadow: #0f172a;
 
@@ -55,7 +57,7 @@
     /* TOP HEADER */
     .top-header {
       width: 100%;
-      max-width: 980px;
+      max-width: 1080px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -92,7 +94,7 @@
       background: rgba(30, 41, 59, 0.8);
       color: var(--text-main);
       font-family: var(--font-stack);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       padding: 7px 12px;
       border-radius: 10px;
@@ -110,7 +112,7 @@
 
     #app {
       width: 100%;
-      max-width: 980px;
+      max-width: 1080px;
     }
 
     /* 3D BUTTONS */
@@ -128,8 +130,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 20px;
-      font-size: 1rem;
+      padding: 13px 18px;
+      font-size: 0.95rem;
       outline: none;
       width: 100%;
       color: #ffffff;
@@ -137,40 +139,34 @@
 
     .btn-blue {
       background: var(--btn-blue);
-      box-shadow: 0 5px 0 var(--btn-blue-shadow), 0 10px 20px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 5px 0 var(--btn-blue-shadow), 0 8px 16px rgba(37, 99, 235, 0.4);
     }
-    .btn-blue:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--btn-blue-shadow);
-    }
+    .btn-blue:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-blue-shadow); }
 
     .btn-green {
       background: var(--btn-green);
-      box-shadow: 0 5px 0 var(--btn-green-shadow), 0 10px 20px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 5px 0 var(--btn-green-shadow), 0 8px 16px rgba(16, 185, 129, 0.4);
     }
-    .btn-green:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--btn-green-shadow);
-    }
+    .btn-green:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-green-shadow); }
 
     .btn-orange {
       background: var(--btn-orange);
-      box-shadow: 0 5px 0 var(--btn-orange-shadow), 0 10px 20px rgba(249, 115, 22, 0.4);
+      box-shadow: 0 5px 0 var(--btn-orange-shadow), 0 8px 16px rgba(249, 115, 22, 0.4);
     }
-    .btn-orange:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--btn-orange-shadow);
+    .btn-orange:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-orange-shadow); }
+
+    .btn-purple {
+      background: var(--btn-purple);
+      box-shadow: 0 5px 0 var(--btn-purple-shadow), 0 8px 16px rgba(168, 85, 247, 0.4);
     }
+    .btn-purple:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-purple-shadow); }
 
     .btn-secondary {
       background: var(--btn-gray);
       box-shadow: 0 4px 0 var(--btn-gray-shadow);
       color: var(--text-main);
     }
-    .btn-secondary:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--btn-gray-shadow);
-    }
+    .btn-secondary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--btn-gray-shadow); }
 
     /* VIEW MANAGEMENT */
     .view-section {
@@ -187,10 +183,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* HUB (3 GAME BOXES IN A ROW) */
+    /* ========================================================
+       HUB VIEW: 4 INDIVIDUAL GAME BOXES
+       ======================================================== */
     .hub-intro {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .hub-title {
@@ -208,10 +206,11 @@
       font-size: 0.95rem;
     }
 
+    /* 4-Column Grid on Desktop, 2-Col Tablet, 1-Col Mobile */
     .games-row-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
       margin-bottom: 24px;
     }
 
@@ -220,7 +219,7 @@
       border: 1px solid var(--card-border);
       box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 20px var(--card-glow);
       border-radius: 20px;
-      padding: 22px 18px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -237,28 +236,29 @@
     .card-math-box { border-top: 4px solid #3b82f6; }
     .card-sudoku-box { border-top: 4px solid #10b981; }
     .card-ball-box { border-top: 4px solid #f97316; }
+    .card-word-box { border-top: 4px solid #a855f7; }
 
     .game-icon-large {
-      font-size: 3rem;
-      margin-bottom: 10px;
+      font-size: 2.7rem;
+      margin-bottom: 8px;
       display: inline-block;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
     }
 
     .game-box-title {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .game-box-badge {
       display: inline-block;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 4px 10px;
+      padding: 4px 9px;
       border-radius: 999px;
       margin-bottom: 10px;
       align-self: center;
@@ -267,13 +267,14 @@
     .badge-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
     .badge-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
     .badge-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+    .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
     .game-box-desc {
       color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.4;
-      margin-bottom: 20px;
-      min-height: 48px;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      margin-bottom: 16px;
+      min-height: 44px;
     }
 
     /* COMMON GAME CONTAINERS */
@@ -287,7 +288,7 @@
       border: 1px solid var(--card-border);
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
       border-radius: 22px;
-      padding: 24px 20px;
+      padding: 22px 18px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -333,7 +334,7 @@
       border: 1px solid #334155;
       border-radius: 14px;
       padding: 10px 14px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -364,12 +365,8 @@
       cursor: pointer;
     }
 
-    .toggle-btn.active {
-      background: #3b82f6;
-      color: #fff;
-    }
+    .toggle-btn.active { background: #3b82f6; color: #fff; }
 
-    /* 4 OPTIONS BUTTONS */
     .options-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -385,35 +382,19 @@
       font-family: var(--font-mono);
       font-size: 1.6rem;
       font-weight: 800;
-      padding: 18px 10px;
+      padding: 16px 10px;
       border-radius: 16px;
       box-shadow: 0 4px 0 #090e1a, 0 8px 16px rgba(0,0,0,0.3);
       cursor: pointer;
-      position: relative;
       transition: all 0.12s ease;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .btn-option:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #090e1a;
-      background: #2563eb;
-    }
-
-    .btn-opt-correct {
-      background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
-      border-color: #34d399 !important;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6) !important;
-    }
-
-    .btn-opt-wrong {
-      background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%) !important;
-      border-color: #f87171 !important;
-      box-shadow: 0 0 25px rgba(239, 68, 68, 0.6) !important;
-      animation: shake 0.3s both;
-    }
+    .btn-option:active { transform: translateY(3px); box-shadow: 0 1px 0 #090e1a; background: #2563eb; }
+    .btn-opt-correct { background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important; border-color: #34d399 !important; }
+    .btn-opt-wrong { background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%) !important; border-color: #f87171 !important; animation: shake 0.3s both; }
 
     .answer-input {
       width: 100%;
@@ -429,23 +410,21 @@
       font-family: var(--font-mono);
       margin-bottom: 14px;
     }
-    .answer-input:focus { border-color: #3b82f6; }
 
     .feedback-float-alert {
-      min-height: 26px;
-      font-size: 1rem;
+      min-height: 24px;
+      font-size: 0.95rem;
       font-weight: 800;
       font-family: var(--font-mono);
       margin-bottom: 4px;
       opacity: 0;
       transition: opacity 0.2s ease;
     }
-
     .feedback-float-alert.show { opacity: 1; }
     .feedback-float-alert.correct { color: var(--accent-green); }
     .feedback-float-alert.wrong { color: var(--accent-red); }
 
-    /* 6x6 SUDOKU BOARD */
+    /* SUDOKU BOARD */
     .sudoku-board {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -476,15 +455,8 @@
     .sudoku-cell[data-col="2"] { border-right: 3px solid #10b981; }
     .sudoku-cell.clue { color: #34d399; background: #0c1825; }
     .sudoku-cell.selected { background: #064e3b !important; box-shadow: inset 0 0 0 2px #34d399; }
-    .sudoku-cell.cell-wrong {
-      background: rgba(239, 68, 68, 0.4) !important;
-      color: #fca5a5 !important;
-      animation: shake 0.3s both;
-    }
-    .sudoku-cell.cell-hint {
-      background: rgba(16, 185, 129, 0.3) !important;
-      color: #6ee7b7 !important;
-    }
+    .sudoku-cell.cell-wrong { background: rgba(239, 68, 68, 0.4) !important; color: #fca5a5 !important; animation: shake 0.3s both; }
+    .sudoku-cell.cell-hint { background: rgba(16, 185, 129, 0.3) !important; color: #6ee7b7 !important; }
 
     .sudoku-keypad {
       display: grid;
@@ -547,12 +519,6 @@
       color: #fed7aa;
       white-space: nowrap;
       pointer-events: none;
-      animation: pulse 1.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { opacity: 0.6; }
-      to { opacity: 1; }
     }
 
     .ball-stats-hud {
@@ -563,6 +529,107 @@
       border: 1px solid rgba(51, 65, 85, 0.6);
       border-radius: 12px;
       padding: 8px 16px;
+    }
+
+    /* ========================================================
+       GAME 4: WORD BUILDER SPECIFIC STYLES
+       ======================================================== */
+    .word-slots-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 20px 0;
+      min-height: 58px;
+    }
+
+    .word-slot {
+      width: 52px;
+      height: 56px;
+      border-bottom: 3px solid #a855f7;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 12px 12px 6px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-family: var(--font-mono);
+      font-weight: 900;
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .word-slot.filled {
+      background: #1e1b4b;
+      border-bottom-color: #c084fc;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
+    }
+
+    .word-slot.correct-slot {
+      background: #064e3b !important;
+      border-bottom-color: #34d399 !important;
+      color: #6ee7b7 !important;
+    }
+
+    .word-slot.wrong-slot {
+      background: #7f1d1d !important;
+      border-bottom-color: #f87171 !important;
+      color: #fca5a5 !important;
+      animation: shake 0.3s both;
+    }
+
+    .letters-bank {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 18px 0 14px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .letter-tile {
+      width: 54px;
+      height: 54px;
+      border: 2px solid #6b21a8;
+      background: linear-gradient(180deg, #3b0764 0%, #1e1035 100%);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 900;
+      border-radius: 14px;
+      box-shadow: 0 4px 0 #2e1065, 0 8px 14px rgba(0,0,0,0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
+    }
+
+    .letter-tile:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #2e1065;
+      background: #a855f7;
+    }
+
+    .letter-tile.used {
+      opacity: 0.15;
+      pointer-events: none;
+      transform: scale(0.92);
+      box-shadow: none;
+    }
+
+    .word-hint-box {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px dashed rgba(168, 85, 247, 0.4);
+      border-radius: 12px;
+      padding: 8px 14px;
+      margin-bottom: 12px;
+      display: inline-block;
     }
 
     /* MODALS */
@@ -595,13 +662,18 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    @media (max-width: 820px) {
-      .games-row-grid { grid-template-columns: 1fr; gap: 14px; }
-      .game-box-desc { min-height: auto; }
-      .hub-title { font-size: 1.8rem; }
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 980px) {
+      .games-row-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+    @media (max-width: 540px) {
+      .games-row-grid { grid-template-columns: 1fr; gap: 12px; }
+      .hub-title { font-size: 1.7rem; }
       .math-expression { font-size: 2.6rem; }
-      .btn-option { padding: 15px 8px; font-size: 1.45rem; }
-      #ball-canvas { height: 380px; }
+      .btn-option { padding: 14px 8px; font-size: 1.45rem; }
+      #ball-canvas { height: 370px; }
+      .word-slot { width: 44px; height: 50px; font-size: 1.5rem; }
+      .letter-tile { width: 48px; height: 48px; font-size: 1.45rem; }
     }
   </style>
 </head>
@@ -613,8 +685,7 @@
       <span>🕹️</span> BRAIN & ARCADE
     </div>
     <div class="header-actions">
-      <!-- Mute / Unmute Sound Toggle -->
-      <button id="btn-sound-toggle" class="btn-header-action" type="button" title="Toggle Sound">
+      <button id="btn-sound-toggle" class="btn-header-action" type="button">
         🔊 Sound ON
       </button>
       <button id="btn-back-hub" class="btn-header-action" type="button">
@@ -626,12 +697,12 @@
   <main id="app">
 
     <!-- ========================================================
-         VIEW 1: GAMES HUB
+         VIEW 1: GAMES HUB (4 BOXES)
          ======================================================== -->
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">Mobile-Optimized Fast Mental & Reflex Games</p>
+        <p class="hub-subtitle">Mobile-Optimized Mental, Word & Reflex Games</p>
       </div>
 
       <div class="games-row-grid">
@@ -641,13 +712,13 @@
           <div>
             <div class="game-icon-large">🧮</div>
             <h2 class="game-box-title">QUICK MATHS</h2>
-            <span class="game-box-badge badge-blue">Play with 4 Options</span>
+            <span class="game-box-badge badge-blue">4 Options Mode</span>
             <p class="game-box-desc">
-              Sharpen mental arithmetic with 60s speed sprint & 4 clickable options mode.
+              Sharpen arithmetic with 60s sprint & rapid 4 clickable options.
             </p>
           </div>
           <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
-            Play Quick Maths
+            Play Maths
           </button>
         </div>
 
@@ -658,7 +729,7 @@
             <h2 class="game-box-title">6×6 SUDOKU</h2>
             <span class="game-box-badge badge-green">2×3 Logic</span>
             <p class="game-box-desc">
-              Fast 6x6 grid with instant wrong number alerts, smart hints & live timer.
+              Fast 6x6 grid with instant wrong detection, smart hints & timer.
             </p>
           </div>
           <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
@@ -666,18 +737,33 @@
           </button>
         </div>
 
-        <!-- BOX 3: 3D BALL RUN -->
+        <!-- BOX 3: 3D BALL RUN (SMOOTH & EASY START) -->
         <div class="game-card-box card-ball-box">
           <div>
             <div class="game-icon-large">🔴</div>
             <h2 class="game-box-title">3D BALL RUN</h2>
-            <span class="game-box-badge badge-orange">Finger Touch Reflex</span>
+            <span class="game-box-badge badge-orange">Smooth Start</span>
             <p class="game-box-desc">
-              Continuous 3D rolling ball! Slide your finger across the mobile screen to dodge & collect.
+              Gentle start & smooth speed-up! Slide finger to dodge & collect gems.
             </p>
           </div>
           <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">
             Play 3D Ball
+          </button>
+        </div>
+
+        <!-- BOX 4: WORD BUILDER (ENGLISH WORDS) -->
+        <div class="game-card-box card-word-box">
+          <div>
+            <div class="game-icon-large">🔤</div>
+            <h2 class="game-box-title">WORD BUILDER</h2>
+            <span class="game-box-badge badge-purple">English Words</span>
+            <p class="game-box-desc">
+              Tap scrambled letters in order to build meaningful English words.
+            </p>
+          </div>
+          <button id="btn-launch-word" class="btn-3d btn-purple" type="button">
+            Play Words
           </button>
         </div>
 
@@ -690,7 +776,6 @@
     <section id="view-math" class="view-section">
       <div class="game-wrapper">
         
-        <!-- Start Screen -->
         <div id="math-screen-start" class="card screen-math active">
           <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Mental Speed</div>
           <h2 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 12px;">QUICK MATHS</h2>
@@ -725,7 +810,6 @@
           <button id="mq-btn-start" class="btn-3d btn-blue" type="button">Start Game</button>
         </div>
 
-        <!-- Gameplay Screen -->
         <div id="math-screen-play" class="card screen-math">
           <div class="stat-header">
             <div>
@@ -746,7 +830,6 @@
           <div id="mq-precision-hint" style="font-size: 0.75rem; color: var(--accent-amber); display: none;">Round to 2 decimal places</div>
           <div id="mq-expression" class="math-expression">24 + 19</div>
 
-          <!-- 4 Options Grid -->
           <div id="mq-container-options" class="options-grid">
             <button class="btn-option" data-opt-idx="0" type="button">0</button>
             <button class="btn-option" data-opt-idx="1" type="button">0</button>
@@ -754,7 +837,6 @@
             <button class="btn-option" data-opt-idx="3" type="button">0</button>
           </div>
 
-          <!-- Type Input Mode -->
           <div id="mq-container-type" style="display: none;">
             <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
             <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
@@ -765,7 +847,6 @@
           </div>
         </div>
 
-        <!-- Results Screen -->
         <div id="math-screen-end" class="card screen-math">
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px;">GAME OVER</h2>
           <p style="color: var(--text-muted); margin-bottom: 14px;">Great mental sprint performance!</p>
@@ -813,7 +894,6 @@
 
           <div id="sudoku-board" class="sudoku-board"></div>
 
-          <!-- Keypad 1-6 -->
           <div class="sudoku-keypad">
             <button class="key-btn" data-num="1">1</button>
             <button class="key-btn" data-num="2">2</button>
@@ -833,7 +913,7 @@
     </section>
 
     <!-- ========================================================
-         VIEW 4: 3D BALL RUNNER
+         VIEW 4: 3D BALL RUN (SMOOTH SPEED & GENTLE START)
          ======================================================== -->
     <section id="view-ball" class="view-section">
       <div class="ball-game-container">
@@ -863,6 +943,51 @@
           <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 5: WORD BUILDER (ENGLISH WORDS)
+         ======================================================== -->
+    <section id="view-word" class="view-section">
+      <div class="game-wrapper">
+        <div class="card">
+          <div style="font-size: 0.75rem; color: #c084fc; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">English Word Craft</div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">WORD BUILDER</h2>
+
+          <div class="stat-header">
+            <div>
+              <span class="stat-label">Score</span>
+              <span id="word-score" class="stat-val" style="color: #c084fc;">0</span>
+            </div>
+            <div>
+              <span class="stat-label">Word</span>
+              <span id="word-count-hud" class="stat-val">1 / 20</span>
+            </div>
+            <div>
+              <span class="stat-label">Streak</span>
+              <span id="word-streak" class="stat-val" style="color: #34d399;">🔥 0</span>
+            </div>
+          </div>
+
+          <div id="word-alert" class="feedback-float-alert">Tap letters in correct order</div>
+
+          <!-- Meaning Clue -->
+          <div id="word-hint-text" class="word-hint-box">💡 Hint: Center of thoughts and mind</div>
+
+          <!-- Slots for user entered word -->
+          <div id="word-slots-container" class="word-slots-container"></div>
+
+          <!-- Scrambled Letter Tiles Bank -->
+          <div id="letters-bank" class="letters-bank"></div>
+
+          <!-- Action buttons -->
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button id="btn-word-undo" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">⌫ Undo</button>
+            <button id="btn-word-shuffle" class="btn-3d btn-secondary" style="padding: 10px; flex: 1;" type="button">🔄 Shuffle</button>
+            <button id="btn-word-next" class="btn-3d btn-purple" style="padding: 10px; flex: 1.2;" type="button">Skip ⏭️</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -910,7 +1035,7 @@
 
   <script>
     /* ========================================================
-       SOUND EFFECTS ENGINE (WEB AUDIO API - ZERO EXTERNAL FILES)
+       SOUND EFFECTS ENGINE (WEB AUDIO API)
        ======================================================== */
     let audioCtx = null;
     let isSoundOn = true;
@@ -920,13 +1045,10 @@
         const AudioClass = window.AudioContext || window.webkitAudioContext;
         if (AudioClass) audioCtx = new AudioClass();
       }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
       return audioCtx;
     }
 
-    // Toggle Sound Button
     const btnSoundToggle = document.getElementById('btn-sound-toggle');
     btnSoundToggle.addEventListener('click', () => {
       isSoundOn = !isSoundOn;
@@ -934,7 +1056,6 @@
       if (isSoundOn) playSfx('click');
     });
 
-    // Sound Synthesizers
     function playSfx(type) {
       if (!isSoundOn) return;
       try {
@@ -943,13 +1064,12 @@
         const now = ctx.currentTime;
 
         if (type === 'click') {
-          // Subtle tap blip
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(600, now);
           osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
-          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.setValueAtTime(0.14, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
           osc.connect(gain);
           gain.connect(ctx.destination);
@@ -957,7 +1077,6 @@
           osc.stop(now + 0.05);
 
         } else if (type === 'correct') {
-          // Pleasant high double chime (C5 -> G5)
           const notes = [523.25, 783.99];
           notes.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
@@ -974,13 +1093,12 @@
           });
 
         } else if (type === 'wrong') {
-          // Low warning buzz
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(140, now);
           osc.frequency.linearRampToValueAtTime(90, now + 0.22);
-          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.setValueAtTime(0.24, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
           osc.connect(gain);
           gain.connect(ctx.destination);
@@ -988,12 +1106,11 @@
           osc.stop(now + 0.23);
 
         } else if (type === 'gem') {
-          // Shiny diamond pickup chime
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(987.77, now); // B5
-          osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1); // E6
+          osc.frequency.setValueAtTime(987.77, now);
+          osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1);
           gain.gain.setValueAtTime(0.2, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
           osc.connect(gain);
@@ -1002,7 +1119,6 @@
           osc.stop(now + 0.13);
 
         } else if (type === 'crash') {
-          // 3D Ball crash noise
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'square';
@@ -1016,7 +1132,6 @@
           osc.stop(now + 0.33);
 
         } else if (type === 'win') {
-          // Victory fanfare arpeggio (C5 -> E5 -> G5 -> C6)
           const notes = [523.25, 659.25, 783.99, 1046.50];
           notes.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
@@ -1042,7 +1157,8 @@
       hub: document.getElementById('view-hub'),
       math: document.getElementById('view-math'),
       sudoku: document.getElementById('view-sudoku'),
-      ball: document.getElementById('view-ball')
+      ball: document.getElementById('view-ball'),
+      word: document.getElementById('view-word')
     };
 
     function openView(viewName) {
@@ -1059,6 +1175,8 @@
         startNewSudoku();
       } else if (viewName === 'ball') {
         init3DBallGame();
+      } else if (viewName === 'word') {
+        initWordGame();
       }
     }
 
@@ -1066,23 +1184,18 @@
     document.getElementById('btn-launch-math').addEventListener('click', () => openView('math'));
     document.getElementById('btn-launch-sudoku').addEventListener('click', () => openView('sudoku'));
     document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
+    document.getElementById('btn-launch-word').addEventListener('click', () => openView('word'));
 
     /* ========================================================
-       GAME 1: QUICK MATHS WITH SOUNDS
+       GAME 1: QUICK MATHS
        ======================================================== */
     const mathState = {
       inputMode: 'options',
       timerMode: 'on',
-      score: 0,
-      attempted: 0,
-      correct: 0,
-      timerRemaining: 60,
-      elapsedSeconds: 0,
-      timerInterval: null,
-      currentQuestion: null,
-      bestScore: 0,
-      optionsList: [],
-      isProcessingAnswer: false
+      score: 0, attempted: 0, correct: 0,
+      timerRemaining: 60, elapsedSeconds: 0,
+      timerInterval: null, currentQuestion: null, bestScore: 0,
+      optionsList: [], isProcessingAnswer: false
     };
 
     const mqScreens = {
@@ -1332,41 +1445,37 @@
       showMathSubScreen('end');
     }
 
-    // Toggle Listeners
-    const btnToggleOpt = document.getElementById('toggle-opt-mode');
-    const btnToggleType = document.getElementById('toggle-type-mode');
-    btnToggleOpt.addEventListener('click', () => {
+    document.getElementById('toggle-opt-mode').addEventListener('click', (e) => {
       playSfx('click');
       mathState.inputMode = 'options';
-      btnToggleOpt.classList.add('active');
-      btnToggleType.classList.remove('active');
-    });
-    btnToggleType.addEventListener('click', () => {
-      playSfx('click');
-      mathState.inputMode = 'type';
-      btnToggleType.classList.add('active');
-      btnToggleOpt.classList.remove('active');
+      e.target.classList.add('active');
+      document.getElementById('toggle-type-mode').classList.remove('active');
     });
 
-    const btnToggleTimerOn = document.getElementById('toggle-timer-on');
-    const btnToggleTimerOff = document.getElementById('toggle-timer-off');
-    btnToggleTimerOn.addEventListener('click', () => {
+    document.getElementById('toggle-type-mode').addEventListener('click', (e) => {
+      playSfx('click');
+      mathState.inputMode = 'type';
+      e.target.classList.add('active');
+      document.getElementById('toggle-opt-mode').classList.remove('active');
+    });
+
+    document.getElementById('toggle-timer-on').addEventListener('click', (e) => {
       playSfx('click');
       mathState.timerMode = 'on';
-      btnToggleTimerOn.classList.add('active');
-      btnToggleTimerOff.classList.remove('active');
+      e.target.classList.add('active');
+      document.getElementById('toggle-timer-off').classList.remove('active');
     });
-    btnToggleTimerOff.addEventListener('click', () => {
+
+    document.getElementById('toggle-timer-off').addEventListener('click', (e) => {
       playSfx('click');
       mathState.timerMode = 'off';
-      btnToggleTimerOff.classList.add('active');
-      btnToggleTimerOn.classList.remove('active');
+      e.target.classList.add('active');
+      document.getElementById('toggle-timer-on').classList.remove('active');
     });
 
     optButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.optIdx, 10);
-        handleOptionClick(idx);
+        handleOptionClick(parseInt(btn.dataset.optIdx, 10));
       });
     });
 
@@ -1379,7 +1488,7 @@
     });
 
     /* ========================================================
-       GAME 2: 6X6 SUDOKU WITH SOUNDS
+       GAME 2: 6X6 SUDOKU
        ======================================================== */
     const sdkState = {
       active: false, solution: [], initial: [], current: [],
@@ -1594,7 +1703,7 @@
     });
 
     /* ========================================================
-       GAME 3: 3D BALL RUNNER WITH SOUNDS
+       GAME 3: 3D BALL RUN (SMOOTH ACCELERATION & GENTLE START)
        ======================================================== */
     const canvas = document.getElementById('ball-canvas');
     const ctx = canvas.getContext('2d');
@@ -1604,13 +1713,14 @@
       running: false,
       score: 0,
       gems: 0,
-      speed: 3.5,
+      speed: 2.3,             // Gentle & slow start speed
       ballX: 0,
       targetBallX: 0,
       rollAngle: 0,
       zOffset: 0,
       obstacles: [],
-      collectibles: []
+      collectibles: [],
+      graceTime: 0            // Safe period with no obstacles
     };
 
     function init3DBallGame() {
@@ -1618,17 +1728,23 @@
       ballGame.running = true;
       ballGame.score = 0;
       ballGame.gems = 0;
-      ballGame.speed = 3.6;
+      ballGame.speed = 2.3;    // Gentle, comfortable starting speed
       ballGame.ballX = 0;
       ballGame.targetBallX = 0;
       ballGame.rollAngle = 0;
       ballGame.zOffset = 0;
       ballGame.obstacles = [];
       ballGame.collectibles = [];
+      ballGame.graceTime = performance.now() + 3000; // 3 seconds grace period
 
-      for (let z = 300; z < 1800; z += 240) {
+      // Collectibles start immediately to give reward
+      for (let z = 350; z < 1400; z += 180) {
+        spawnGem(z);
+      }
+
+      // Obstacles placed FAR AWAY so start is completely free
+      for (let z = 950; z < 2200; z += 260) {
         spawnObstacle(z);
-        if (Math.random() > 0.4) spawnGem(z + 100);
       }
 
       if (ballAnimId) cancelAnimationFrame(ballAnimId);
@@ -1675,15 +1791,20 @@
     function ballLoop() {
       if (!ballGame.running) return;
 
-      ballGame.score += Math.round(ballGame.speed * 0.3);
-      ballGame.speed += 0.0008;
+      ballGame.score += Math.round(ballGame.speed * 0.25);
+      
+      // Gradually and smoothly increase speed (melli melli ga speed up)
+      if (ballGame.speed < 5.8) {
+        ballGame.speed += 0.0004;
+      }
+      
       ballGame.rollAngle += ballGame.speed * 0.05;
       ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2;
-      ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.5) % 80;
+      ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.3) % 80;
 
       document.getElementById('ball-score').textContent = ballGame.score;
       document.getElementById('ball-gems').textContent = `💎 ${ballGame.gems}`;
-      document.getElementById('ball-speed').textContent = `${(ballGame.speed / 3.5).toFixed(1)}x`;
+      document.getElementById('ball-speed').textContent = `${(ballGame.speed / 2.3).toFixed(1)}x`;
 
       ctx.fillStyle = '#070a14';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1723,29 +1844,41 @@
       }
       ctx.restore();
 
+      // Grace period indicator on screen
+      if (performance.now() < ballGame.graceTime) {
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
+        ctx.font = 'bold 18px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('✨ FREE RUN START! GET READY ✨', cx, 140);
+      }
+
       // Obstacles update & collision
       for (let i = ballGame.obstacles.length - 1; i >= 0; i--) {
         const obs = ballGame.obstacles[i];
-        obs.z -= ballGame.speed * 2.5;
+        obs.z -= ballGame.speed * 2.3;
 
-        if (obs.z > 40 && obs.z < 85) {
-          if (Math.abs(ballGame.ballX - obs.x) < 26) {
-            triggerBallGameOver();
-            return;
+        // Collision Check only active after initial safe grace period
+        if (performance.now() > ballGame.graceTime) {
+          if (obs.z > 35 && obs.z < 75) {
+            if (Math.abs(ballGame.ballX - obs.x) < 24) {
+              triggerBallGameOver();
+              return;
+            }
           }
         }
+
         if (obs.z < 15) {
           ballGame.obstacles.splice(i, 1);
-          spawnObstacle(900 + Math.random() * 200);
+          spawnObstacle(900 + Math.random() * 220);
         }
       }
 
       // Collectibles
       for (let i = ballGame.collectibles.length - 1; i >= 0; i--) {
         const gem = ballGame.collectibles[i];
-        gem.z -= ballGame.speed * 2.5;
+        gem.z -= ballGame.speed * 2.3;
 
-        if (!gem.collected && gem.z > 45 && gem.z < 85) {
+        if (!gem.collected && gem.z > 40 && gem.z < 80) {
           if (Math.abs(ballGame.ballX - gem.x) < 28) {
             gem.collected = true;
             ballGame.gems++;
@@ -1755,7 +1888,7 @@
         }
         if (gem.z < 15) {
           ballGame.collectibles.splice(i, 1);
-          if (Math.random() > 0.4) spawnGem(950 + Math.random() * 200);
+          if (Math.random() > 0.3) spawnGem(950 + Math.random() * 200);
         }
       }
 
@@ -1856,6 +1989,203 @@
     document.getElementById('btn-ball-retry').addEventListener('click', () => {
       playSfx('click');
       init3DBallGame();
+    });
+
+    /* ========================================================
+       GAME 4: WORD BUILDER (ENGLISH WORDS ONLY)
+       ======================================================== */
+    const wordGameData = [
+      { word: "BRAIN", hint: "💡 Center of intelligence & thinking" },
+      { word: "FOCUS", hint: "💡 Paying complete attention to one thing" },
+      { word: "SMART", hint: "💡 Having quick-witted intelligence" },
+      { word: "LOGIC", hint: "💡 Clear, sound, rational reasoning" },
+      { word: "SPEED", hint: "💡 Rapid movement or quick performance" },
+      { word: "POWER", hint: "💡 Strength, energy and mental ability" },
+      { word: "PUZZLE", hint: "💡 A brain problem designed to test ingenuity" },
+      { word: "GENIUS", hint: "💡 Exceptional intellectual creative power" },
+      { word: "MASTER", hint: "💡 Highly skilled person in a craft" },
+      { word: "WINNER", hint: "💡 Champion who triumphs in a game" },
+      { word: "CLEVER", hint: "💡 Quick to understand, learn, and devise" },
+      { word: "ENERGY", hint: "💡 Strength and vitality for physical/mental activity" },
+      { word: "SHARP", hint: "💡 Keen, quick-thinking mental acuity" },
+      { word: "ACTION", hint: "💡 The process of doing something to achieve aim" },
+      { word: "TARGET", hint: "💡 Objective or goal to aim and hit" },
+      { word: "SILVER", hint: "💡 Precious shiny lustrous metal" },
+      { word: "SHINE", hint: "💡 Give out a bright light or excellence" },
+      { word: "QUEST", hint: "💡 A long or arduous search for something" },
+      { word: "FLIGHT", hint: "💡 The action or process of flying" },
+      { word: "CHAMP", hint: "💡 Victorious player who beats challenges" }
+    ];
+
+    const wordState = {
+      currentIndex: 0,
+      score: 0,
+      streak: 0,
+      currentWord: "",
+      currentHint: "",
+      scrambledLetters: [],
+      userLetters: [] // array of { letter, originalIndex }
+    };
+
+    const wordSlotsContainer = document.getElementById('word-slots-container');
+    const lettersBank = document.getElementById('letters-bank');
+    const wordAlert = document.getElementById('word-alert');
+    const wordHintText = document.getElementById('word-hint-text');
+
+    function initWordGame() {
+      wordState.currentIndex = 0;
+      wordState.score = 0;
+      wordState.streak = 0;
+      document.getElementById('word-score').textContent = '0';
+      document.getElementById('word-streak').textContent = '🔥 0';
+      loadWordChallenge();
+    }
+
+    function loadWordChallenge() {
+      const item = wordGameData[wordState.currentIndex];
+      wordState.currentWord = item.word.toUpperCase();
+      wordState.currentHint = item.hint;
+      wordState.userLetters = [];
+
+      document.getElementById('word-count-hud').textContent = `${wordState.currentIndex + 1} / ${wordGameData.length}`;
+      wordHintText.textContent = wordState.currentHint;
+      wordAlert.textContent = "Tap letters in correct order!";
+      wordAlert.className = "feedback-float-alert";
+
+      // Scramble letters
+      const lettersArr = wordState.currentWord.split('');
+      do {
+        lettersArr.sort(() => Math.random() - 0.5);
+      } while (lettersArr.join('') === wordState.currentWord && lettersArr.length > 2);
+
+      wordState.scrambledLetters = lettersArr;
+
+      renderWordSlots();
+      renderLettersBank();
+    }
+
+    function renderWordSlots() {
+      wordSlotsContainer.innerHTML = '';
+      const wordLen = wordState.currentWord.length;
+
+      for (let i = 0; i < wordLen; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'word-slot';
+        if (i < wordState.userLetters.length) {
+          slot.textContent = wordState.userLetters[i].letter;
+          slot.classList.add('filled');
+          // Clicking a filled slot removes it back to bank
+          slot.addEventListener('click', () => removeLetterFromSlot(i));
+        } else {
+          slot.textContent = '';
+        }
+        wordSlotsContainer.appendChild(slot);
+      }
+    }
+
+    function renderLettersBank() {
+      lettersBank.innerHTML = '';
+      wordState.scrambledLetters.forEach((letter, idx) => {
+        const tile = document.createElement('button');
+        tile.className = 'letter-tile';
+        tile.textContent = letter;
+        tile.type = 'button';
+
+        // Check if this letter instance has already been used in userLetters
+        const isUsed = wordState.userLetters.some(item => item.originalIndex === idx);
+        if (isUsed) {
+          tile.classList.add('used');
+        } else {
+          tile.addEventListener('click', () => addLetterToSlot(letter, idx));
+        }
+
+        lettersBank.appendChild(tile);
+      });
+    }
+
+    function addLetterToSlot(letter, originalIndex) {
+      if (wordState.userLetters.length >= wordState.currentWord.length) return;
+
+      playSfx('click');
+      wordState.userLetters.push({ letter, originalIndex });
+      renderWordSlots();
+      renderLettersBank();
+
+      // Check if full word formed
+      if (wordState.userLetters.length === wordState.currentWord.length) {
+        checkWordComplete();
+      }
+    }
+
+    function removeLetterFromSlot(slotIndex) {
+      if (slotIndex >= wordState.userLetters.length) return;
+
+      playSfx('click');
+      wordState.userLetters.splice(slotIndex, 1);
+      renderWordSlots();
+      renderLettersBank();
+    }
+
+    function checkWordComplete() {
+      const formedWord = wordState.userLetters.map(item => item.letter).join('');
+      const slots = wordSlotsContainer.querySelectorAll('.word-slot');
+
+      if (formedWord === wordState.currentWord) {
+        // Correct Word!
+        playSfx('correct');
+        wordState.score += 20;
+        wordState.streak++;
+        document.getElementById('word-score').textContent = wordState.score;
+        document.getElementById('word-streak').textContent = `🔥 ${wordState.streak}`;
+
+        slots.forEach(s => s.classList.add('correct-slot'));
+        wordAlert.textContent = `🎉 EXCELLENT! "${wordState.currentWord}" IS CORRECT!`;
+        wordAlert.className = 'feedback-float-alert show correct';
+
+        setTimeout(() => {
+          wordState.currentIndex = (wordState.currentIndex + 1) % wordGameData.length;
+          loadWordChallenge();
+        }, 850);
+      } else {
+        // Wrong Word
+        playSfx('wrong');
+        wordState.streak = 0;
+        document.getElementById('word-streak').textContent = '🔥 0';
+
+        slots.forEach(s => s.classList.add('wrong-slot'));
+        wordAlert.textContent = '❌ Not quite! Check order & try again.';
+        wordAlert.className = 'feedback-float-alert show wrong';
+
+        setTimeout(() => {
+          slots.forEach(s => s.classList.remove('wrong-slot'));
+        }, 500);
+      }
+    }
+
+    // Undo last letter
+    document.getElementById('btn-word-undo').addEventListener('click', () => {
+      if (wordState.userLetters.length > 0) {
+        playSfx('click');
+        wordState.userLetters.pop();
+        renderWordSlots();
+        renderLettersBank();
+      }
+    });
+
+    // Shuffle Bank Letters
+    document.getElementById('btn-word-shuffle').addEventListener('click', () => {
+      playSfx('gem');
+      wordState.userLetters = []; // clear current attempts
+      wordState.scrambledLetters.sort(() => Math.random() - 0.5);
+      renderWordSlots();
+      renderLettersBank();
+    });
+
+    // Skip Word
+    document.getElementById('btn-word-next').addEventListener('click', () => {
+      playSfx('click');
+      wordState.currentIndex = (wordState.currentIndex + 1) % wordGameData.length;
+      loadWordChallenge();
     });
 
   </script>
