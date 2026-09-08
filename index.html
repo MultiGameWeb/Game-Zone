@@ -52,14 +52,14 @@
       overflow-x: hidden;
     }
 
-    /* TOP HEADER & HUB NAVIGATION */
+    /* TOP HEADER */
     .top-header {
       width: 100%;
       max-width: 980px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 16px;
+      padding: 8px 14px;
       background: rgba(15, 23, 42, 0.85);
       border: 1px solid var(--card-border);
       border-radius: 18px;
@@ -69,7 +69,7 @@
     }
 
     .hub-brand {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 900;
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
@@ -80,7 +80,13 @@
       gap: 6px;
     }
 
-    .btn-nav-home {
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-header-action {
       appearance: none;
       border: 1px solid #334155;
       background: rgba(30, 41, 59, 0.8);
@@ -88,17 +94,17 @@
       font-family: var(--font-stack);
       font-size: 0.85rem;
       font-weight: 700;
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 10px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.2s ease;
     }
 
-    .btn-nav-home:active {
-      transform: scale(0.96);
+    .btn-header-action:active {
+      transform: scale(0.95);
       background: #3b82f6;
     }
 
@@ -107,7 +113,7 @@
       max-width: 980px;
     }
 
-    /* 3D PUSH BUTTON CORE */
+    /* 3D BUTTONS */
     .btn-3d {
       appearance: none;
       border: none;
@@ -181,9 +187,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========================================================
-       HUB VIEW: 3 INDIVIDUAL GAME BOXES IN A ROW
-       ======================================================== */
+    /* HUB (3 GAME BOXES IN A ROW) */
     .hub-intro {
       text-align: center;
       margin-bottom: 20px;
@@ -272,7 +276,7 @@
       min-height: 48px;
     }
 
-    /* COMMON GAME CONTAINER */
+    /* COMMON GAME CONTAINERS */
     .game-wrapper {
       max-width: 520px;
       margin: 0 auto;
@@ -287,13 +291,12 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s;
     }
 
     .screen-math { display: none; }
     .screen-math.active { display: block; }
 
-    /* MATH STATS & QUESTIONS */
+    /* MATH STATS & OPTIONS */
     .stat-header {
       display: flex;
       justify-content: space-between;
@@ -325,7 +328,6 @@
       margin: 14px 0;
     }
 
-    /* TOGGLE SWITCHES ON START SCREEN */
     .setting-row {
       background: rgba(15, 23, 42, 0.6);
       border: 1px solid #334155;
@@ -367,7 +369,7 @@
       color: #fff;
     }
 
-    /* PLAY WITH OPTIONS GRID (4 BUTTONS) */
+    /* 4 OPTIONS BUTTONS */
     .options-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -413,7 +415,6 @@
       animation: shake 0.3s both;
     }
 
-    /* TYPE INPUT BOX */
     .answer-input {
       width: 100%;
       background: #0b1120;
@@ -507,7 +508,7 @@
     }
     .key-btn:active { background: #10b981; }
 
-    /* 3D BALL GAME CANVAS */
+    /* 3D BALL RUNNER */
     .ball-game-container {
       width: 100%;
       max-width: 460px;
@@ -564,7 +565,7 @@
       padding: 8px 16px;
     }
 
-    /* MODALS & OVERLAYS */
+    /* MODALS */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -594,7 +595,6 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* RESPONSIVE */
     @media (max-width: 820px) {
       .games-row-grid { grid-template-columns: 1fr; gap: 14px; }
       .game-box-desc { min-height: auto; }
@@ -612,20 +612,26 @@
     <div class="hub-brand">
       <span>🕹️</span> BRAIN & ARCADE
     </div>
-    <button id="btn-back-hub" class="btn-nav-home" type="button">
-      🏠 Games Hub
-    </button>
+    <div class="header-actions">
+      <!-- Mute / Unmute Sound Toggle -->
+      <button id="btn-sound-toggle" class="btn-header-action" type="button" title="Toggle Sound">
+        🔊 Sound ON
+      </button>
+      <button id="btn-back-hub" class="btn-header-action" type="button">
+        🏠 Hub
+      </button>
+    </div>
   </header>
 
   <main id="app">
 
     <!-- ========================================================
-         VIEW 1: GAMES HUB (3 DISTINCT BOXES IN A ROW)
+         VIEW 1: GAMES HUB
          ======================================================== -->
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">Fast Mental Math, Sudoku & 3D Reflex Runner</p>
+        <p class="hub-subtitle">Mobile-Optimized Fast Mental & Reflex Games</p>
       </div>
 
       <div class="games-row-grid">
@@ -635,9 +641,9 @@
           <div>
             <div class="game-icon-large">🧮</div>
             <h2 class="game-box-title">QUICK MATHS</h2>
-            <span class="game-box-badge badge-blue">4 Options Mode Included</span>
+            <span class="game-box-badge badge-blue">Play with 4 Options</span>
             <p class="game-box-desc">
-              Rapid mental calculation! Type answers or play with 4 instant clickable options.
+              Sharpen mental arithmetic with 60s speed sprint & 4 clickable options mode.
             </p>
           </div>
           <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
@@ -652,7 +658,7 @@
             <h2 class="game-box-title">6×6 SUDOKU</h2>
             <span class="game-box-badge badge-green">2×3 Logic</span>
             <p class="game-box-desc">
-              Fast 6x6 grid with instant wrong number detection, smart hints and time tracking.
+              Fast 6x6 grid with instant wrong number alerts, smart hints & live timer.
             </p>
           </div>
           <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
@@ -679,21 +685,20 @@
     </section>
 
     <!-- ========================================================
-         VIEW 2: QUICK MATHS (WITH "PLAY WITH OPTIONS")
+         VIEW 2: QUICK MATHS
          ======================================================== -->
     <section id="view-math" class="view-section">
       <div class="game-wrapper">
         
-        <!-- Math Start Screen -->
+        <!-- Start Screen -->
         <div id="math-screen-start" class="card screen-math active">
           <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Mental Speed</div>
           <h2 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 12px;">QUICK MATHS</h2>
           
-          <!-- Mode Toggle: Play with Options vs Type Answer -->
           <div class="setting-row">
             <div>
               <div class="setting-title">🎮 Input Style</div>
-              <div class="setting-subtitle">Select 4 Options or Type</div>
+              <div class="setting-subtitle">Choose 4 Options or Type</div>
             </div>
             <div class="toggle-bar">
               <button id="toggle-opt-mode" class="toggle-btn active" type="button">🔘 4 Options</button>
@@ -701,7 +706,6 @@
             </div>
           </div>
 
-          <!-- Timer Toggle -->
           <div class="setting-row">
             <div>
               <div class="setting-title">⏱️ 60s Speed Timer</div>
@@ -721,7 +725,7 @@
           <button id="mq-btn-start" class="btn-3d btn-blue" type="button">Start Game</button>
         </div>
 
-        <!-- Math Gameplay Screen -->
+        <!-- Gameplay Screen -->
         <div id="math-screen-play" class="card screen-math">
           <div class="stat-header">
             <div>
@@ -742,7 +746,7 @@
           <div id="mq-precision-hint" style="font-size: 0.75rem; color: var(--accent-amber); display: none;">Round to 2 decimal places</div>
           <div id="mq-expression" class="math-expression">24 + 19</div>
 
-          <!-- CONTAINER A: 4 OPTIONS MODE ("PLAY WITH OPTIONS") -->
+          <!-- 4 Options Grid -->
           <div id="mq-container-options" class="options-grid">
             <button class="btn-option" data-opt-idx="0" type="button">0</button>
             <button class="btn-option" data-opt-idx="1" type="button">0</button>
@@ -750,7 +754,7 @@
             <button class="btn-option" data-opt-idx="3" type="button">0</button>
           </div>
 
-          <!-- CONTAINER B: MANUAL KEYBOARD INPUT MODE -->
+          <!-- Type Input Mode -->
           <div id="mq-container-type" style="display: none;">
             <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
             <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
@@ -761,7 +765,7 @@
           </div>
         </div>
 
-        <!-- Math Results Screen -->
+        <!-- Results Screen -->
         <div id="math-screen-end" class="card screen-math">
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px;">GAME OVER</h2>
           <p style="color: var(--text-muted); margin-bottom: 14px;">Great mental sprint performance!</p>
@@ -906,7 +910,133 @@
 
   <script>
     /* ========================================================
-       HUB & VIEW MANAGEMENT
+       SOUND EFFECTS ENGINE (WEB AUDIO API - ZERO EXTERNAL FILES)
+       ======================================================== */
+    let audioCtx = null;
+    let isSoundOn = true;
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Toggle Sound Button
+    const btnSoundToggle = document.getElementById('btn-sound-toggle');
+    btnSoundToggle.addEventListener('click', () => {
+      isSoundOn = !isSoundOn;
+      btnSoundToggle.textContent = isSoundOn ? '🔊 Sound ON' : '🔇 Sound OFF';
+      if (isSoundOn) playSfx('click');
+    });
+
+    // Sound Synthesizers
+    function playSfx(type) {
+      if (!isSoundOn) return;
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'click') {
+          // Subtle tap blip
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+
+        } else if (type === 'correct') {
+          // Pleasant high double chime (C5 -> G5)
+          const notes = [523.25, 783.99];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const startTime = now + (idx * 0.08);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0.2, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.16);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.18);
+          });
+
+        } else if (type === 'wrong') {
+          // Low warning buzz
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.linearRampToValueAtTime(90, now + 0.22);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.23);
+
+        } else if (type === 'gem') {
+          // Shiny diamond pickup chime
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(987.77, now); // B5
+          osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1); // E6
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.13);
+
+        } else if (type === 'crash') {
+          // 3D Ball crash noise
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(90, now);
+          osc.frequency.exponentialRampToValueAtTime(30, now + 0.3);
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.32);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.33);
+
+        } else if (type === 'win') {
+          // Victory fanfare arpeggio (C5 -> E5 -> G5 -> C6)
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const startTime = now + (idx * 0.1);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0.25, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.28);
+          });
+        }
+      } catch (e) {}
+    }
+
+    /* ========================================================
+       HUB NAVIGATION & ROUTING
        ======================================================== */
     const views = {
       hub: document.getElementById('view-hub'),
@@ -916,6 +1046,7 @@
     };
 
     function openView(viewName) {
+      playSfx('click');
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
       if (viewName !== 'sudoku') stopSudokuTimer();
@@ -937,11 +1068,11 @@
     document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
 
     /* ========================================================
-       GAME 1: QUICK MATHS WITH "PLAY WITH OPTIONS" (4 OPTIONS)
+       GAME 1: QUICK MATHS WITH SOUNDS
        ======================================================== */
     const mathState = {
-      inputMode: 'options', // 'options' (4 choices) or 'type'
-      timerMode: 'on',      // 'on' or 'off'
+      inputMode: 'options',
+      timerMode: 'on',
       score: 0,
       attempted: 0,
       correct: 0,
@@ -1013,7 +1144,6 @@
       return { str: `${a} ${op} ${b}`, target: ans, isDec };
     }
 
-    // Generate 4 Clever Options (1 correct, 3 realistic distractors)
     function generate4Options(target, isDec) {
       const opts = new Set();
       opts.add(target);
@@ -1079,7 +1209,7 @@
         : Math.abs(chosenVal - targetVal) < 0.001;
 
       if (isCorrect) {
-        // Correct Option Selected
+        playSfx('correct');
         mathState.correct++;
         mathState.score += 10;
         clickedBtn.classList.add('btn-opt-correct');
@@ -1089,12 +1219,11 @@
         updateMathHUD();
         setTimeout(nextMathQuestion, 280);
       } else {
-        // Wrong Option Selected -> Show Wrong & Advance immediately
+        playSfx('wrong');
         clickedBtn.classList.add('btn-opt-wrong');
         feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
         feedbackAlert.className = 'feedback-float-alert show wrong';
 
-        // Briefly show the correct one to help learning
         optButtons.forEach((btn, idx) => {
           if (mathState.optionsList[idx] === targetVal) {
             btn.classList.add('btn-opt-correct');
@@ -1102,7 +1231,7 @@
         });
 
         updateMathHUD();
-        setTimeout(nextMathQuestion, 450); // Move forward quickly
+        setTimeout(nextMathQuestion, 450);
       }
     }
 
@@ -1120,11 +1249,13 @@
         : Math.abs(val - targetVal) < 0.001;
 
       if (isCorrect) {
+        playSfx('correct');
         mathState.correct++;
         mathState.score += 10;
         feedbackAlert.textContent = '✅ CORRECT! +10';
         feedbackAlert.className = 'feedback-float-alert show correct';
       } else {
+        playSfx('wrong');
         feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
         feedbackAlert.className = 'feedback-float-alert show wrong';
       }
@@ -1140,6 +1271,7 @@
     }
 
     function startMathSession() {
+      playSfx('click');
       mathState.score = 0;
       mathState.attempted = 0;
       mathState.correct = 0;
@@ -1188,6 +1320,7 @@
 
     function finishMathQuiz() {
       stopMathTimer();
+      playSfx('win');
       if (mathState.score > mathState.bestScore) {
         mathState.bestScore = mathState.score;
         document.getElementById('mq-best-score').textContent = `${mathState.bestScore} PTS`;
@@ -1199,35 +1332,37 @@
       showMathSubScreen('end');
     }
 
-    // Input Mode Toggle Listeners
+    // Toggle Listeners
     const btnToggleOpt = document.getElementById('toggle-opt-mode');
     const btnToggleType = document.getElementById('toggle-type-mode');
     btnToggleOpt.addEventListener('click', () => {
+      playSfx('click');
       mathState.inputMode = 'options';
       btnToggleOpt.classList.add('active');
       btnToggleType.classList.remove('active');
     });
     btnToggleType.addEventListener('click', () => {
+      playSfx('click');
       mathState.inputMode = 'type';
       btnToggleType.classList.add('active');
       btnToggleOpt.classList.remove('active');
     });
 
-    // Timer Toggle Listeners
     const btnToggleTimerOn = document.getElementById('toggle-timer-on');
     const btnToggleTimerOff = document.getElementById('toggle-timer-off');
     btnToggleTimerOn.addEventListener('click', () => {
+      playSfx('click');
       mathState.timerMode = 'on';
       btnToggleTimerOn.classList.add('active');
       btnToggleTimerOff.classList.remove('active');
     });
     btnToggleTimerOff.addEventListener('click', () => {
+      playSfx('click');
       mathState.timerMode = 'off';
       btnToggleTimerOff.classList.add('active');
       btnToggleTimerOn.classList.remove('active');
     });
 
-    // 4 Options Click Listeners
     optButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.dataset.optIdx, 10);
@@ -1244,7 +1379,7 @@
     });
 
     /* ========================================================
-       GAME 2: 6X6 SUDOKU CODE
+       GAME 2: 6X6 SUDOKU WITH SOUNDS
        ======================================================== */
     const sdkState = {
       active: false, solution: [], initial: [], current: [],
@@ -1350,6 +1485,7 @@
             if (sdkState.initial[r][c] !== 0) cell.classList.add('clue');
           }
           cell.addEventListener('click', () => {
+            playSfx('click');
             sdkState.selectedR = r;
             sdkState.selectedC = c;
             highlightSudoku();
@@ -1375,12 +1511,14 @@
 
       const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
       if (num === sdkState.solution[r][c]) {
+        playSfx('correct');
         sdkState.current[r][c] = num;
         cell.textContent = num;
         cell.classList.remove('cell-wrong');
         document.getElementById('sdk-alert').textContent = '';
         checkSudokuWin();
       } else {
+        playSfx('wrong');
         sdkState.mistakes++;
         document.getElementById('sdk-mistakes').textContent = sdkState.mistakes;
         cell.classList.remove('cell-wrong');
@@ -1397,6 +1535,7 @@
         }
       }
       stopSudokuTimer();
+      playSfx('win');
       const m = String(Math.floor(sdkState.seconds / 60)).padStart(2, '0');
       const s = String(sdkState.seconds % 60).padStart(2, '0');
       document.getElementById('win-time').textContent = `${m}:${s}`;
@@ -1405,7 +1544,10 @@
     }
 
     document.querySelectorAll('.key-btn').forEach(b => {
-      b.addEventListener('click', () => inputSudoku(parseInt(b.dataset.num, 10)));
+      b.addEventListener('click', () => {
+        playSfx('click');
+        inputSudoku(parseInt(b.dataset.num, 10));
+      });
     });
 
     document.getElementById('sdk-btn-hint').addEventListener('click', () => {
@@ -1419,6 +1561,7 @@
         }
       }
       if (r >= 0 && c >= 0) {
+        playSfx('gem');
         sdkState.current[r][c] = sdkState.solution[r][c];
         sdkState.hints++;
         document.getElementById('sdk-hints').textContent = sdkState.hints;
@@ -1430,6 +1573,7 @@
     });
 
     document.getElementById('sdk-btn-erase').addEventListener('click', () => {
+      playSfx('click');
       const r = sdkState.selectedR, c = sdkState.selectedC;
       if (r >= 0 && c >= 0 && sdkState.initial[r][c] === 0) {
         sdkState.current[r][c] = 0;
@@ -1439,14 +1583,18 @@
       }
     });
 
-    document.getElementById('sdk-btn-new').addEventListener('click', startNewSudoku);
+    document.getElementById('sdk-btn-new').addEventListener('click', () => {
+      playSfx('click');
+      startNewSudoku();
+    });
     document.getElementById('btn-sdk-play-again').addEventListener('click', () => {
+      playSfx('click');
       document.getElementById('sudoku-win-modal').classList.remove('active');
       startNewSudoku();
     });
 
     /* ========================================================
-       GAME 3: 3D ROLLING BALL RUNNER
+       GAME 3: 3D BALL RUNNER WITH SOUNDS
        ======================================================== */
     const canvas = document.getElementById('ball-canvas');
     const ctx = canvas.getContext('2d');
@@ -1602,6 +1750,7 @@
             gem.collected = true;
             ballGame.gems++;
             ballGame.score += 50;
+            playSfx('gem');
           }
         }
         if (gem.z < 15) {
@@ -1694,13 +1843,20 @@
 
     function triggerBallGameOver() {
       stopBallGame();
+      playSfx('crash');
       document.getElementById('ball-final-dist').textContent = ballGame.score;
       document.getElementById('ball-final-gems').textContent = ballGame.gems;
       document.getElementById('ball-gameover-modal').classList.add('active');
     }
 
-    document.getElementById('btn-restart-ball').addEventListener('click', init3DBallGame);
-    document.getElementById('btn-ball-retry').addEventListener('click', init3DBallGame);
+    document.getElementById('btn-restart-ball').addEventListener('click', () => {
+      playSfx('click');
+      init3DBallGame();
+    });
+    document.getElementById('btn-ball-retry').addEventListener('click', () => {
+      playSfx('click');
+      init3DBallGame();
+    });
 
   </script>
 </body>
