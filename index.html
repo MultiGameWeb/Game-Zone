@@ -3,15 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Mini Games Hub - Math Challenge, 6x6 Sudoku and Offline Chess">
+<meta name="description" content="Mini Games Hub - Math Challenge, 6x6 Sudoku, Offline Chess, and 3D Ball Run">
 <title>Mini Games</title>
+<!-- Added Three.js r128 library required for 3D Ball Run -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0} :root{--bg:#07111f;--card:#102037;--soft:#172a40;--muted:#93a8bf;--text:#f7fbff;--green:#39d98a;--green2:#138a52;--blue:#4da3ff;--red:#ff5c68;--yellow:#ffc857;--light:#dfc79b;--dark:#785a41}
 body{min-height:100vh;overflow-x:hidden;color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top left,rgba(77,163,255,.13),transparent 30%),radial-gradient(circle at top right,rgba(57,217,138,.10),transparent 30%),linear-gradient(145deg,#06101b,#0c1c2e)}
 button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.hide{display:none!important}.app{width:100%;max-width:920px;margin:auto;padding:14px}.header{text-align:center;margin:10px 0 17px}.header h1{font-size:clamp(30px,7vw,46px);font-weight:950;letter-spacing:-1.4px}.header p{margin-top:5px;color:var(--muted);font-size:13px}.card{background:rgba(15,29,47,.97);border:1px solid rgba(255,255,255,.08);border-radius:25px;overflow:hidden;box-shadow:0 28px 75px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.03)}
 .btn{border:0;border-radius:13px;min-height:50px;padding:0 18px;color:#fff;font-weight:900;transition:transform .1s,filter .12s}.btn:active{transform:translateY(4px)}.green{background:linear-gradient(#45e89b,#1ebd72);box-shadow:0 6px 0 #128a52}.blue{background:linear-gradient(#579fff,#317fd8);box-shadow:0 6px 0 #205da3}.gray{background:linear-gradient(#435a72,#2b3f54);box-shadow:0 6px 0 #1b2a39}.red{background:linear-gradient(#ff6975,#db3948);box-shadow:0 6px 0 #922432}
 /* HOME */
-#home{display:block;padding:17px}.home-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.game-card{min-height:205px;padding:17px 12px;border-radius:20px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:space-between;text-align:center}.game-icon{font-size:clamp(34px,5vw,56px)}.game-card h2{margin:8px 0 5px;font-size:clamp(14px,2vw,21px)}.game-card p{color:var(--muted);font-size:clamp(9px,1.3vw,12px);line-height:1.4}.game-card .btn{width:100%;margin-top:12px;min-height:44px;padding:0 8px;font-size:clamp(10px,1.4vw,14px)}.home-foot{text-align:center;margin-top:15px;color:var(--muted);font-size:11px}
+#home{display:block;padding:17px}.home-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px}.game-card{min-height:205px;padding:17px 12px;border-radius:20px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:space-between;text-align:center}.game-icon{font-size:clamp(34px,5vw,56px)}.game-card h2{margin:8px 0 5px;font-size:clamp(14px,2vw,21px)}.game-card p{color:var(--muted);font-size:clamp(9px,1.3vw,12px);line-height:1.4}.game-card .btn{width:100%;margin-top:12px;min-height:44px;padding:0 8px;font-size:clamp(10px,1.4vw,14px)}.home-foot{text-align:center;margin-top:15px;color:var(--muted);font-size:11px}
 /* COMMON GAME */
 .game-page{display:none;height:calc(100dvh - 16px);overflow:hidden}.game-page>.header{flex:0 0 auto}.game-page>.card{max-height:calc(100dvh - 86px);overflow:hidden}.game-page .area{overflow:hidden}.game-top{padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:10px}.game-top h2{font-size:21px}.game-top .btn{min-height:41px;padding:0 13px;font-size:11px}.area{text-align:center;padding:20px 12px 25px}
 /* COUNTDOWN */
@@ -24,23 +26,48 @@ button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:tran
 .players{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:11px;border-bottom:1px solid rgba(255,255,255,.08)}.player{padding:9px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid transparent}.player.active{border-color:rgba(57,217,138,.4);background:rgba(57,217,138,.06)}.player-top{display:flex;justify-content:space-between;gap:5px}.pname{font-weight:950;font-size:13px}.pside{font-size:9px;color:var(--muted);text-transform:uppercase}.ptime{font-size:25px;font-weight:950;margin-top:3px}.pmiss{font-size:10px;color:var(--muted)}.cstatus{min-height:21px;margin-bottom:10px;color:var(--muted);font-size:12px;font-weight:800}.cboard{width:min(94vw,720px);aspect-ratio:1;margin:auto;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #283746;border-radius:12px;overflow:hidden;box-shadow:0 24px 45px rgba(0,0,0,.34)}.csq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}.light{background:linear-gradient(145deg,#e0c69a,#c3a16e)}.dark{background:linear-gradient(145deg,#8b6a4b,#634833)}.csq.sel{box-shadow:inset 0 0 0 5px var(--blue)}.csq.legal:after{content:"";width:20%;aspect-ratio:1;border-radius:50%;background:rgba(57,217,138,.76);position:absolute}.csq.capture:after{content:"";position:absolute;inset:7%;border:5px solid rgba(255,92,104,.72);border-radius:50%}.piece{font-family:"Segoe UI Symbol","Noto Sans Symbols 2",serif;font-size:clamp(29px,7vw,64px);line-height:1;filter:drop-shadow(0 5px 3px rgba(0,0,0,.45));position:relative;z-index:2}.wp{color:#fff;text-shadow:0 2px #aaa}.bp{color:#171b20;text-shadow:0 1px #515a63}.cpanel{width:min(94vw,720px);margin:14px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.prediction{width:min(94vw,720px);margin:15px auto 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.08)}.predhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;font-weight:850;text-transform:uppercase}.predbar{height:11px;margin-top:7px;background:#2a3947;border-radius:999px;overflow:hidden;position:relative}.predfill{height:100%;width:50%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .25s}.predcenter{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.4)}.predlabel{margin-top:6px;color:var(--muted);font-size:10px}.hintgrid{width:min(94vw,720px);margin:12px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:7px}.hbox{background:rgba(255,255,255,.035);border-radius:12px;padding:9px}.hbox small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase}.hbox strong{display:block;margin-top:3px;font-size:16px}
 /* promotion */
 .promo{position:fixed;inset:0;z-index:105;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.78);backdrop-filter:blur(7px)}.promo.show{display:flex}.promo-box{width:100%;max-width:360px;background:#112238;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:22px;text-align:center}.promo-box h3{font-size:23px}.promo-box p{margin-top:5px;color:var(--muted);font-size:12px}.promo-grid{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.promo-grid button{height:60px;border:0;border-radius:11px;background:linear-gradient(#435a72,#2b3f54);box-shadow:0 5px 0 #1b2a39;color:#fff;font-size:33px}
-@media(max-width:720px){.game-card{min-height:165px;padding:13px 8px}.home-grid{gap:8px}.game-card .btn{min-height:40px}.game-card p{min-height:34px}.cpanel{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.app{padding:8px}.area{padding:18px 6px 22px}.game-top{padding:11px 12px}.stats{padding:9px}.moptions{gap:8px}.mopt{min-height:60px;font-size:19px}.rgrid{gap:6px}.sboard{border-width:3px}.snum{min-height:44px}.tools{gap:6px}.stool{font-size:10px}.piece{font-size:clamp(26px,8vw,46px)}.cboard{border-width:3px}.cpanel{gap:6px}.players{padding:9px}.ptime{font-size:22px}.actions{flex-direction:column}.actions .btn{width:100%}}
 
-/* FINAL MOBILE-FIRST LAYOUT OVERRIDES */
-html,body{width:100%;overflow-x:hidden}
-body{overflow-y:auto}
-.app{width:100%;max-width:100vw;padding:8px}
-.page{width:100%;max-width:920px}
-.game-page{width:100%}
-.card{width:100%;max-width:100%;overflow:hidden}
-.game-top{min-height:48px}
-.area{width:100%;max-width:100%;overflow:hidden}
-.mquestion{font-size:clamp(30px,8vw,60px);min-height:82px;padding:0 4px}
-.math-progress,.minput,.moptions,.sboard,.spad,.tools,.sudoku-tools,.cpanel,.prediction,.hintgrid{max-width:100%}
-.sboard{width:min(92vw,500px);height:auto;aspect-ratio:1/1}
-.cboard{width:min(92vw,680px);height:auto;aspect-ratio:1/1}
-.scell,.csq{min-width:0;min-height:0}
+/* BALL RUN CSS */
+.ball-page{position:relative;width:100%;height:100%;min-height:0;overflow:hidden;border-radius:20px;background:#050b13;touch-action:none}
+#ball_gameContainer{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:linear-gradient(180deg,#07111f 0%,#10233a 52%,#06101b 100%)}
+.ball-page canvas{display:block;width:100%;height:100%}
+.ball-hud{position:absolute;top:0;left:0;right:0;z-index:20;padding:max(12px,env(safe-area-inset-top)) 14px 10px 14px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+.ball-hud-card{min-width:100px;padding:9px 12px;border-radius:13px;background:rgba(7,16,28,0.72);border:1px solid rgba(255,255,255,0.09);backdrop-filter:blur(12px);box-shadow:0 10px 22px rgba(0,0,0,0.24),inset 0 1px 0 rgba(255,255,255,0.03);text-align:center}
+.ball-hud-label{display:block;color:rgba(255,255,255,0.55);font-size:9px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.ball-hud-value{display:block;margin-top:2px;color:white;font-size:20px;font-weight:950}
+.ball-status{position:absolute;top:78px;left:50%;transform:translateX(-50%);z-index:20;color:rgba(255,255,255,0.82);font-size:12px;font-weight:800;padding:7px 11px;border-radius:999px;background:rgba(7,16,28,0.48);border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(8px);pointer-events:none;white-space:nowrap}
+.ball-bottom-ui{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:100%;z-index:20;padding:10px 12px max(12px,env(safe-area-inset-bottom)) 12px;display:flex;justify-content:center;align-items:center;pointer-events:none}
+.ball-control-hint{color:rgba(255,255,255,0.58);font-size:11px;font-weight:700;padding:8px 13px;border-radius:999px;background:rgba(7,16,28,0.60);border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(8px);text-align:center}
+.ball-overlay{position:absolute;inset:0;z-index:100;display:flex;justify-content:center;align-items:center;padding:18px;background:radial-gradient(circle at center,rgba(24,53,82,0.58),rgba(3,8,15,0.95));backdrop-filter:blur(10px)}
+.ball-overlay.hidden{display:none}
+.ball-overlay-box{width:min(92vw,430px);padding:30px 22px;border-radius:24px;background:rgba(9,21,35,0.96);border:1px solid rgba(255,255,255,0.09);box-shadow:0 30px 75px rgba(0,0,0,0.48),inset 0 1px 0 rgba(255,255,255,0.03);text-align:center}
+.ball-overlay-title{color:white;font-size:clamp(28px,7vw,42px);font-weight:950;letter-spacing:-1px}
+.ball-overlay-text{margin-top:8px;color:#93a8bf;font-size:13px;line-height:1.55}
+.ball-countdown{min-height:120px;display:flex;justify-content:center;align-items:center;margin:8px 0;color:#39d98a;font-size:clamp(76px,20vw,120px);font-weight:950;text-shadow:0 9px 35px rgba(57,217,138,0.22)}
+.ball-countdown.pop{animation:countdownPop 0.5s ease}
+@keyframes countdownPop{0%{opacity:0;transform:scale(0.55)}65%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+.ball-game-logo{font-size:42px;margin-bottom:7px}
+.ball-button{min-height:52px;border:0;border-radius:14px;padding:0 22px;color:white;font-size:14px;font-weight:900;cursor:pointer;transition:transform 0.1s ease,filter 0.12s ease;-webkit-tap-highlight-color:transparent}
+.ball-button:active{transform:translateY(4px)}
+.ball-button.green{background:linear-gradient(180deg,#45e89b,#1ebd72);box-shadow:0 6px 0 #128a52,0 12px 23px rgba(30,189,114,0.18)}
+.ball-button.gray{background:linear-gradient(180deg,#435a72,#2b3f54);box-shadow:0 6px 0 #1b2a39}
+.ball-button.blue{background:linear-gradient(180deg,#579fff,#317fd8);box-shadow:0 6px 0 #205da3}
+.ball-overlay-buttons{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.ball-result-main{margin-top:17px;color:#39d98a;font-size:clamp(58px,15vw,90px);font-weight:950;line-height:0.95}
+.ball-result-label{margin-top:8px;color:#93a8bf;font-size:10px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+.ball-result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:23px}
+.ball-result-box{padding:14px 8px;border-radius:14px;background:rgba(255,255,255,0.035)}
+.ball-result-box small{color:#93a8bf;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.ball-result-box strong{display:block;margin-top:5px;color:white;font-size:20px;font-weight:950}
+.ball-pause-button{position:absolute;right:13px;bottom:calc(max(52px,env(safe-area-inset-bottom) + 42px));z-index:25;width:44px;height:44px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;color:white;background:rgba(7,16,28,0.68);backdrop-filter:blur(10px);font-size:14px;cursor:pointer;display:none}
+.ball-pause-button.show{display:block}
+.ball-pause-overlay{position:absolute;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(3,8,15,0.58);backdrop-filter:blur(7px)}
+.ball-pause-overlay.show{display:flex}
+.ball-pause-box{width:min(88vw,350px);padding:28px 20px;border-radius:22px;background:#0d1c2d;border:1px solid rgba(255,255,255,0.08);text-align:center;box-shadow:0 28px 70px rgba(0,0,0,0.5)}
+.ball-pause-box h2{font-size:30px;font-weight:950}
+.ball-pause-box p{margin-top:7px;color:#93a8bf;font-size:13px}
+.ball-game-page>.card{height:calc(100dvh - 86px);max-height:none;padding:0;background:#050b13}
+
 @media(max-width:720px){
   .app{padding:6px}
   .header{margin:6px 0 10px}
@@ -53,8 +80,6 @@ body{overflow-y:auto}
   .mstats,.sstats{padding:8px;gap:6px}
   .stat{padding:8px 4px}
   .stat strong{font-size:18px}
-  .math-settings{gap:10px}
-  .setting{font-size:9px}
   .moptions{gap:7px}
   .mopt{min-height:57px;font-size:18px}
   .sboard{width:min(92vw,430px);border-width:3px}
@@ -64,693 +89,22 @@ body{overflow-y:auto}
   .tools{gap:5px}
   .stool{min-height:42px}
   .players{padding:8px;gap:6px}
-  .player{padding:8px}
   .pname{font-size:12px}
-  .pside{font-size:8px}
   .ptime{font-size:21px}
-  .pmiss{font-size:9px}
   .cboard{width:min(92vw,520px);border-width:3px}
   .piece{font-size:clamp(24px,7.4vw,43px)}
-  .cpanel{gap:5px}
+  .cpanel{grid-template-columns:repeat(2,1fr);gap:5px}
   .cpanel .btn{min-height:42px;padding:0 8px;font-size:10px}
-  .prediction{margin-top:11px}
-  .hintgrid{margin-top:9px}
-  .hbox{padding:8px}
-  .hbox strong{font-size:14px}
-  .result-grid{grid-template-columns:repeat(3,1fr)}
-  .rbox{padding:11px 3px}
-  .rbox strong{font-size:18px}
+  .game-page{height:calc(100dvh - 10px)}
+  .game-page>.card{max-height:calc(100dvh - 72px)}
+  .ball-game-page>.card{height:calc(100dvh - 72px)}
 }
-@media(min-width:721px){
-  .games-grid{grid-template-columns:repeat(3,1fr)}
-  .cboard{max-width:690px}
-  .sboard{max-width:500px}
-}
-
-
-/* ==========================================================
-   3D BALL RUN
-   Scoped so it cannot conflict with the other games.
-   ========================================================== */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .ball-page {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #050b13;
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Arial,
-                sans-serif;
-        }
-
-        .ball-page {
-            touch-action: none;
-            overscroll-behavior: none;
-        }
-
-        #ball_gameContainer {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background:
-                linear-gradient(
-                    180deg,
-                    #07111f 0%,
-                    #10233a 52%,
-                    #06101b 100%
-                );
-        }
-
-        .ball-page canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* --------------------------------------------------
-           TOP HUD
-        -------------------------------------------------- */
-
-        .ball-hud {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-
-            padding:
-                max(12px, env(safe-area-inset-top))
-                14px
-                10px
-                14px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-
-            pointer-events: none;
-        }
-
-        .ball-hud-card {
-            min-width: 100px;
-            padding: 9px 12px;
-
-            border-radius: 13px;
-
-            background: rgba(7, 16, 28, 0.72);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-
-            backdrop-filter: blur(12px);
-
-            box-shadow:
-                0 10px 22px rgba(0, 0, 0, 0.24),
-                inset 0 1px 0 rgba(255, 255, 255, 0.03);
-
-            text-align: center;
-        }
-
-        .ball-hud-label {
-            display: block;
-
-            color: rgba(255, 255, 255, 0.55);
-
-            font-size: 9px;
-            font-weight: 900;
-
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }
-
-        .ball-hud-value {
-            display: block;
-
-            margin-top: 2px;
-
-            color: white;
-
-            font-size: 20px;
-            font-weight: 950;
-        }
-
-        /* --------------------------------------------------
-           CENTER STATUS
-        -------------------------------------------------- */
-
-        .ball-status {
-            position: absolute;
-            top: 78px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            z-index: 20;
-
-            color: rgba(255, 255, 255, 0.82);
-
-            font-size: 12px;
-            font-weight: 800;
-
-            padding: 7px 11px;
-
-            border-radius: 999px;
-
-            background: rgba(7, 16, 28, 0.48);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-
-            backdrop-filter: blur(8px);
-
-            pointer-events: none;
-
-            white-space: nowrap;
-        }
-
-        /* --------------------------------------------------
-           BOTTOM CONTROLS
-        -------------------------------------------------- */
-
-        .ball-bottom-ui {
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-
-            transform: translateX(-50%);
-
-            width: 100%;
-
-            z-index: 20;
-
-            padding:
-                10px
-                12px
-                max(12px, env(safe-area-inset-bottom))
-                12px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            pointer-events: none;
-        }
-
-        .ball-control-hint {
-            color: rgba(255, 255, 255, 0.58);
-
-            font-size: 11px;
-            font-weight: 700;
-
-            padding: 8px 13px;
-
-            border-radius: 999px;
-
-            background: rgba(7, 16, 28, 0.60);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-
-            backdrop-filter: blur(8px);
-
-            text-align: center;
-        }
-
-        /* --------------------------------------------------
-           OVERLAY
-        -------------------------------------------------- */
-
-        .ball-overlay {
-            position: absolute;
-            inset: 0;
-
-            z-index: 100;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            padding: 18px;
-
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(24, 53, 82, 0.58),
-                    rgba(3, 8, 15, 0.95)
-                );
-
-            backdrop-filter: blur(10px);
-        }
-
-        .ball-overlay.hidden {
-            display: none;
-        }
-
-        .ball-overlay-box {
-            width: min(92vw, 430px);
-
-            padding: 30px 22px;
-
-            border-radius: 24px;
-
-            background: rgba(9, 21, 35, 0.96);
-
-            border: 1px solid rgba(255, 255, 255, 0.09);
-
-            box-shadow:
-                0 30px 75px rgba(0, 0, 0, 0.48),
-                inset 0 1px 0 rgba(255, 255, 255, 0.03);
-
-            text-align: center;
-        }
-
-        .ball-overlay-title {
-            color: white;
-
-            font-size: clamp(28px, 7vw, 42px);
-            font-weight: 950;
-
-            letter-spacing: -1px;
-        }
-
-        .ball-overlay-text {
-            margin-top: 8px;
-
-            color: #93a8bf;
-
-            font-size: 13px;
-            line-height: 1.55;
-        }
-
-        .ball-countdown {
-            min-height: 120px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            margin: 8px 0;
-
-            color: #39d98a;
-
-            font-size: clamp(76px, 20vw, 120px);
-            font-weight: 950;
-
-            text-shadow:
-                0 9px 35px rgba(57, 217, 138, 0.22);
-        }
-
-        .ball-countdown.pop {
-            animation: countdownPop 0.5s ease;
-        }
-
-        @keyframes countdownPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.55);
-            }
-
-            65% {
-                opacity: 1;
-                transform: scale(1.12);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* --------------------------------------------------
-           3D LOGO
-        -------------------------------------------------- */
-
-        .ball-game-logo {
-            font-size: 42px;
-            margin-bottom: 7px;
-        }
-
-        /* --------------------------------------------------
-           BUTTONS
-        -------------------------------------------------- */
-
-        .ball-button {
-            min-height: 52px;
-
-            border: 0;
-            border-radius: 14px;
-
-            padding: 0 22px;
-
-            color: white;
-
-            font-size: 14px;
-            font-weight: 900;
-
-            cursor: pointer;
-
-            transition:
-                transform 0.1s ease,
-                filter 0.12s ease;
-
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .ball-button:active {
-            transform: translateY(4px);
-        }
-
-        .ball-button.green {
-            background:
-                linear-gradient(
-                    180deg,
-                    #45e89b,
-                    #1ebd72
-                );
-
-            box-shadow:
-                0 6px 0 #128a52,
-                0 12px 23px rgba(30, 189, 114, 0.18);
-        }
-
-        .ball-button.gray {
-            background:
-                linear-gradient(
-                    180deg,
-                    #435a72,
-                    #2b3f54
-                );
-
-            box-shadow:
-                0 6px 0 #1b2a39;
-        }
-
-        .ball-button.blue {
-            background:
-                linear-gradient(
-                    180deg,
-                    #579fff,
-                    #317fd8
-                );
-
-            box-shadow:
-                0 6px 0 #205da3;
-        }
-
-        .ball-overlay-buttons {
-            display: flex;
-            gap: 9px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        /* --------------------------------------------------
-           RESULT
-        -------------------------------------------------- */
-
-        .ball-result-main {
-            margin-top: 17px;
-
-            color: #39d98a;
-
-            font-size: clamp(58px, 15vw, 90px);
-            font-weight: 950;
-
-            line-height: 0.95;
-        }
-
-        .ball-result-label {
-            margin-top: 8px;
-
-            color: #93a8bf;
-
-            font-size: 10px;
-            font-weight: 850;
-
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .ball-result-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 8px;
-
-            margin-top: 23px;
-        }
-
-        .ball-result-box {
-            padding: 14px 8px;
-
-            border-radius: 14px;
-
-            background: rgba(255, 255, 255, 0.035);
-        }
-
-        .ball-result-box small {
-            color: #93a8bf;
-
-            font-size: 9px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .ball-result-box strong {
-            display: block;
-
-            margin-top: 5px;
-
-            color: white;
-
-            font-size: 20px;
-            font-weight: 950;
-        }
-
-        /* --------------------------------------------------
-           PAUSE BUTTON
-        -------------------------------------------------- */
-
-        .ball-pause-button {
-            position: absolute;
-
-            right: 13px;
-            bottom:
-                calc(
-                    max(52px, env(safe-area-inset-bottom) + 42px)
-                );
-
-            z-index: 25;
-
-            width: 44px;
-            height: 44px;
-
-            border: 1px solid rgba(255, 255, 255, 0.10);
-
-            border-radius: 50%;
-
-            color: white;
-
-            background: rgba(7, 16, 28, 0.68);
-
-            backdrop-filter: blur(10px);
-
-            font-size: 14px;
-
-            cursor: pointer;
-
-            display: none;
-        }
-
-        .ball-pause-button.show {
-            display: block;
-        }
-
-        /* --------------------------------------------------
-           PAUSE SCREEN
-        -------------------------------------------------- */
-
-        .ball-pause-overlay {
-            position: absolute;
-            inset: 0;
-
-            z-index: 90;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            background: rgba(3, 8, 15, 0.58);
-
-            backdrop-filter: blur(7px);
-        }
-
-        .ball-pause-overlay.show {
-            display: flex;
-        }
-
-        .ball-pause-box {
-            width: min(88vw, 350px);
-
-            padding: 28px 20px;
-
-            border-radius: 22px;
-
-            background: #0d1c2d;
-
-            border: 1px solid rgba(255, 255, 255, 0.08);
-
-            text-align: center;
-
-            box-shadow:
-                0 28px 70px rgba(0, 0, 0, 0.5);
-        }
-
-        .ball-pause-box h2 {
-            font-size: 30px;
-            font-weight: 950;
-        }
-
-        .ball-pause-box p {
-            margin-top: 7px;
-
-            color: #93a8bf;
-
-            font-size: 13px;
-        }
-
-        /* --------------------------------------------------
-           DESKTOP
-        -------------------------------------------------- */
-
-        @media (min-width: 700px) {
-
-            .ball-hud {
-                padding-left: 22px;
-                padding-right: 22px;
-            }
-
-            .ball-hud-card {
-                min-width: 115px;
-                padding: 10px 15px;
-            }
-
-            .ball-control-hint {
-                font-size: 12px;
-            }
-
-            .ball-status {
-                top: 86px;
-            }
-        }
-
-        /* --------------------------------------------------
-           SMALL MOBILE
-        -------------------------------------------------- */
-
-        @media (max-width: 520px) {
-
-            .ball-hud {
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-
-            .ball-hud-card {
-                min-width: 88px;
-                padding: 8px 9px;
-                border-radius: 11px;
-            }
-
-            .ball-hud-label {
-                font-size: 8px;
-            }
-
-            .ball-hud-value {
-                font-size: 17px;
-            }
-
-            .ball-status {
-                top: 68px;
-                font-size: 10px;
-            }
-
-            .ball-bottom-ui {
-                padding-left: 7px;
-                padding-right: 7px;
-            }
-
-            .ball-control-hint {
-                font-size: 9px;
-                padding: 7px 10px;
-            }
-
-            .ball-pause-button {
-                right: 8px;
-            }
-        }
-    
-
-.ball-page {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    overflow: hidden;
-    border-radius: 20px;
-    background: #050b13;
-    touch-action: none;
-}
-
-.ball-page .ball-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 100;
-}
-
-.ball-game-page > .card {
-    height: calc(100dvh - 86px);
-    max-height: none;
-    padding: 0;
-    background: #050b13;
-}
-
-.ball-game-page .ball-page {
-    height: 100%;
-}
-
-@media (max-width: 700px) {
-    .ball-game-page > .card {
-        height: calc(100dvh - 72px);
-    }
-}
-
-@media (max-width: 700px) {
-    .game-page{height:calc(100dvh - 10px)}
-    .game-page>.card{max-height:calc(100dvh - 72px)}
-    .ball-page {
-        height: 100%;
-        min-height: 0;
-        border-radius: 18px;
-    }
-}
-
 </style>
 </head>
 <body>
 <div class="app">
 
+  <!-- HOME PAGE -->
   <div id="homePage">
     <div class="header"><h1>Mini Games</h1><p>Pick a game and play.</p></div>
     <div class="card" id="home">
@@ -768,13 +122,8 @@ body{overflow-y:auto}
           <button class="btn green" id="openChessBtn">Play Game</button>
         </div>
         <div class="game-card">
-          <div>
-            <div class="game-icon">⚽</div>
-            <h2>3D Ball Run</h2>
-            <p>Control the ball, avoid obstacles and beat your distance record.</p>
-          </div>
+          <div><div class="game-icon">⚽</div><h2>3D Ball Run</h2><p>Control the ball, avoid obstacles and beat your distance record.</p></div>
           <button class="btn green" id="openBallBtn">Play Game</button>
-        </div>
         </div>
       </div>
       <div class="home-foot">Fast games. Clean design.</div>
@@ -844,7 +193,7 @@ body{overflow-y:auto}
 
   <!-- CHESS -->
   <section id="chessPage" class="game-page">
-    <div class="header"><h1>3D Chess</h1><p>Offline • 2 Players • 15 Seconds Per Turn</p></div>
+    <div class="header"><h1>Chess</h1><p>Offline • 2 Players • 15 Seconds Per Turn</p></div>
     <div class="card">
       <div class="players">
         <div id="whitePlayer" class="player active"><div class="player-top"><span class="pname">White</span><span class="pside">Player 1</span></div><div id="cwTime" class="ptime">15</div><div class="pmiss">Missed: <strong id="cwMiss">0</strong></div></div>
@@ -861,7 +210,6 @@ body{overflow-y:auto}
       <div id="chessResult" class="cresult"><div class="result-title">Game Over</div><div id="cWinner" style="margin-top:16px;color:var(--green);font-size:31px;font-weight:950">White Wins</div><div id="cReason" style="margin-top:5px;color:var(--muted);font-size:12px">Checkmate</div><div class="rgrid"><div class="rbox"><small>White Misses</small><strong id="cfw">0</strong></div><div class="rbox"><small>Black Misses</small><strong id="cfb">0</strong></div><div class="rbox"><small>Moves</small><strong id="cfm">0</strong></div></div><div class="actions"><button class="btn green" id="cAgain">Play Again</button><button class="btn blue" id="cResultNew">New Game</button><button class="btn gray backBtn">Games</button></div></div>
     </div>
   </section>
-</div>
 
   <!-- 3D BALL RUN -->
   <section id="ballPage" class="game-page ball-game-page">
@@ -881,16 +229,16 @@ body{overflow-y:auto}
         <button id="ball_pauseButton" class="ball-pause-button" aria-label="Pause game">❚❚</button>
 
         <div class="ball-bottom-ui">
-          <div class="ball-control-hint">Swipe / Drag ← → • Swipe Up to Jump</div>
+          <div class="ball-control-hint">Swipe / Drag ← → • Swipe Up to Jump • Press 'P' to Pause</div>
         </div>
 
         <div id="ball_startOverlay" class="ball-overlay hidden">
           <div class="ball-overlay-box">
             <div class="ball-game-logo">⚽</div>
             <div id="ball_overlayTitle" class="ball-overlay-title">3D Ball Run</div>
-            <div id="ball_overlayText" class="ball-overlay-text">Control the ball with your finger.<br>Stay on the track and avoid obstacles.</div>
+            <div id="ball_overlayText" class="ball-overlay-text">Control the ball with finger or keyboard.<br>Stay on track and avoid obstacles.</div>
             <div id="ball_countdown" class="ball-countdown"><button id="ball_startButton" class="ball-button green">Start Game</button></div>
-            <div class="ball-overlay-text">Mobile + Laptop</div>
+            <div class="ball-overlay-text">Mobile + Desktop</div>
           </div>
         </div>
 
@@ -922,35 +270,98 @@ body{overflow-y:auto}
       </div>
     </div>
   </section>
+</div>
 
 <!-- COMMON COUNTDOWN -->
 <div id="overlay" class="overlay hide"><div class="overlay-box"><h2 id="overlayTitle">Ready</h2><p id="overlayText">Get ready.</p><div id="count" class="count">3</div><p>Starting now...</p></div></div>
 
-<!-- PROMOTION -->
+<!-- PROMOTION MODAL -->
 <div id="promo" class="promo"><div class="promo-box"><h3>Promote Pawn</h3><p>Choose a piece</p><div class="promo-grid"><button data-promo="Q">♛</button><button data-promo="R">♜</button><button data-promo="B">♝</button><button data-promo="N">♞</button></div></div></div>
 
 <script>
 /* ==========================================================
-   NAVIGATION + COUNTDOWN
+   NAVIGATION + COMMON
 ========================================================== */
 const homePage=document.getElementById('homePage');
 const mathPage=document.getElementById('mathPage');
 const sudokuPage=document.getElementById('sudokuPage');
 const chessPage=document.getElementById('chessPage');
 const ballPage=document.getElementById('ballPage');
-
-if (typeof window.stopBallGame !== "function") {
-    window.stopBallGame = function () {};
-}
-
 const overlay=document.getElementById('overlay');
 const overlayTitle=document.getElementById('overlayTitle');
 const overlayText=document.getElementById('overlayText');
 const countEl=document.getElementById('count');
-function hidePages(){homePage.style.display='none';mathPage.style.display='none';sudokuPage.style.display='none';chessPage.style.display='none';ballPage.style.display='none';document.body.classList.remove('ball-active');document.body.classList.remove('game-active')}
-function showHome(){stopMath();stopSudoku();stopChess();stopBallGame();hidePages();document.body.classList.remove('game-active');homePage.style.display='block';overlay.classList.add('hide');$('mathResult').classList.remove('show');$('sudokuResult').classList.remove('show');$('chessResult').classList.remove('show')}
-function countdown(title,text,callback){overlay.classList.remove('hide');overlayTitle.textContent=title;overlayText.textContent=text;let n=3;countEl.textContent=n;function tick(){countEl.classList.remove('pop');void countEl.offsetWidth;countEl.classList.add('pop');countEl.textContent=n;if(n===0){countEl.textContent='GO!';setTimeout(()=>{overlay.classList.add('hide');callback()},420);return}n--;setTimeout(tick,720)}tick()}
-function openGame(name){hidePages();document.body.classList.add('game-active');if(name==='math'){mathPage.style.display='block';startNewMathRound()}if(name==='sudoku'){sudokuPage.style.display='block';$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');newSudokuPuzzle();countdown('6×6 Sudoku','Your time starts after the countdown.',startSudoku)}if(name==='chess'){chessPage.style.display='block';resetChess();countdown('3D Chess','15 seconds for every turn.',startChess)}if(name==='ball'){ballPage.style.display='block';document.body.classList.add('ball-active');startNewBallRun()}}
+
+function hidePages(){
+  homePage.style.display='none';
+  mathPage.style.display='none';
+  sudokuPage.style.display='none';
+  chessPage.style.display='none';
+  ballPage.style.display='none';
+  document.body.classList.remove('ball-active','game-active');
+}
+
+function showHome(){
+  stopMath();
+  stopSudoku();
+  stopChess();
+  if(window.stopBallGame) window.stopBallGame();
+  hidePages();
+  homePage.style.display='block';
+  overlay.classList.add('hide');
+  document.getElementById('mathResult').classList.remove('show');
+  document.getElementById('sudokuResult').classList.remove('show');
+  document.getElementById('chessResult').classList.remove('show');
+}
+
+function countdown(title,text,callback){
+  overlay.classList.remove('hide');
+  overlayTitle.textContent=title;
+  overlayText.textContent=text;
+  let n=3;
+  countEl.textContent=n;
+  function tick(){
+    countEl.classList.remove('pop');
+    void countEl.offsetWidth;
+    countEl.classList.add('pop');
+    countEl.textContent=n;
+    if(n===0){
+      countEl.textContent='GO!';
+      setTimeout(()=>{overlay.classList.add('hide');callback()},420);
+      return;
+    }
+    n--;
+    setTimeout(tick,720);
+  }
+  tick();
+}
+
+function openGame(name){
+  hidePages();
+  document.body.classList.add('game-active');
+  if(name==='math'){
+    mathPage.style.display='block';
+    startNewMathRound();
+  }
+  if(name==='sudoku'){
+    sudokuPage.style.display='block';
+    document.getElementById('sudokuArea').style.display='block';
+    document.getElementById('sudokuResult').classList.remove('show');
+    newSudokuPuzzle();
+    countdown('6×6 Sudoku','Your time starts after the countdown.',startSudoku);
+  }
+  if(name==='chess'){
+    chessPage.style.display='block';
+    resetChess();
+    countdown('Chess','15 seconds for every turn.',startChess);
+  }
+  if(name==='ball'){
+    ballPage.style.display='block';
+    document.body.classList.add('ball-active');
+    if(window.startNewBallRun) window.startNewBallRun();
+  }
+}
+
 document.getElementById('openMathBtn').addEventListener('click',()=>openGame('math'));
 document.getElementById('openSudokuBtn').addEventListener('click',()=>openGame('sudoku'));
 document.getElementById('openChessBtn').addEventListener('click',()=>openGame('chess'));
@@ -958,2605 +369,947 @@ document.getElementById('openBallBtn').addEventListener('click',()=>openGame('ba
 document.querySelectorAll('.backBtn').forEach(b=>b.addEventListener('click',showHome));
 document.getElementById('ballBackButton').addEventListener('click',showHome);
 
-
-window.addEventListener('keydown', event => {
-  if(document.body.classList.contains('game-active') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code || event.key)){
-    event.preventDefault();
-  }
-});
-
 /* ==========================================================
-   MATH QUIZ
+   MATH CHALLENGE
 ========================================================== */
 let mRun=false,mTimer=null,mTime=60,mScore=0,mSolved=0,mCorrectCount=0,mCurrent=null,mUsed=new Set();
 const $=id=>document.getElementById(id);
 function mRand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function mChoice(a){return a[Math.floor(Math.random()*a.length)]}
-function mNeg(n,p=.25){return Math.random()<p?-Math.abs(n):Math.abs(n)}
-function mGen(){const op=mChoice(['+','-','×','÷']),count=Math.random()<.75?2:3;let nums=[],ans=0;for(let i=0;i<count;i++){let n;if(op==='×'&&count===3)n=mRand(2,25);else n=mRand(2,999);nums.push(mNeg(n,op==='+'?.3:.2))}if(op==='+')ans=nums.reduce((a,b)=>a+b,0);if(op==='-'){ans=nums[0];for(let i=1;i<nums.length;i++)ans-=nums[i]}if(op==='×')ans=nums.reduce((a,b)=>a*b,1);if(op==='÷'){nums[1]=mNeg(mRand(2,99),.15);if(count===3)nums[2]=mNeg(mRand(2,12),.15);ans=nums[0];for(let i=1;i<nums.length;i++)ans/=nums[i]}
-let exp='';if(op==='+')exp=nums.join(' + ');if(op==='-')exp=nums.map((n,i)=>i===0?String(n):(n<0?'− ('+Math.abs(n)+')':'− '+n)).join(' ');if(op==='×')exp=nums.map(n=>n<0?'('+n+')':String(n)).join(' × ');if(op==='÷')exp=nums.map((n,i)=>i===0?String(n):(n<0?'÷ ('+n+')':'÷ '+n)).join(' ');return{exp,ans,key:op+'|'+nums.join(',')+'|'+ans.toPrecision(15)}}
-function mUnique(){for(let i=0;i<1000;i++){const q=mGen();if(!mUsed.has(q.key)){mUsed.add(q.key);return q}}return{exp:'27 + 13',ans:40,key:'fallback'}}
-function mText(n){return Number.isInteger(n)?String(n):n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')}
+
+function mGen(){
+  const op=mChoice(['+','-','×','÷']);
+  let exp='', ans=0;
+  if(op==='+'){
+    const a=mRand(5,99), b=mRand(5,99);
+    ans=a+b; exp=`${a} + ${b}`;
+  } else if(op==='-'){
+    const a=mRand(10,120), b=mRand(5,a);
+    ans=a-b; exp=`${a} − ${b}`;
+  } else if(op==='×'){
+    const a=mRand(3,15), b=mRand(3,12);
+    ans=a*b; exp=`${a} × ${b}`;
+  } else if(op==='÷'){
+    // Clean integer division suitable for mental math
+    const b=mRand(2,12), q=mRand(2,15);
+    const a=b*q;
+    ans=q; exp=`${a} ÷ ${b}`;
+  }
+  return {exp, ans, key: exp};
+}
+
+function mUnique(){
+  for(let i=0;i<200;i++){
+    const q=mGen();
+    if(!mUsed.has(q.key)){ mUsed.add(q.key); return q; }
+  }
+  return {exp:'12 + 15', ans:27, key:'fallback'};
+}
+
+function mText(n){return String(n)}
 function mParse(v){v=v.trim().replace(/,/g,'').replace(/−/g,'-');if(!v)return null;const n=Number(v);return Number.isFinite(n)?n:null}
-function isMathCorrect(v,e){if(v===null)return false;if(Number.isInteger(v)&&Number.isInteger(e))return v===e;return Math.abs(v-e)<=.0005}
-function mOptions(ans){const s=new Set([ans]);for(let i=0;i<300&&s.size<4;i++){let w;if(Number.isInteger(ans)){switch(mRand(1,6)){case 1:w=ans+mRand(1,9);break;case 2:w=ans-mRand(1,9);break;case 3:w=ans+mRand(10,20);break;case 4:w=ans-mRand(10,20);break;case 5:w=ans*2;break;default:w=-ans}}else{switch(mRand(1,6)){case 1:w=ans+mRand(1,9)/10;break;case 2:w=ans-mRand(1,9)/10;break;case 3:w=ans+mRand(1,20)/100;break;case 4:w=ans-mRand(1,20)/100;break;case 5:w=ans*1.5;break;default:w=-ans}w=Math.round(w*10000)/10000}if(Number.isFinite(w))s.add(w)}let k=1;while(s.size<4)s.add(ans+k++);return [...s].sort(()=>Math.random()-.5)}
-function updateMath(){ $('mTime').textContent=mTime;$('mScore').textContent=mScore;$('mSolved').textContent=mSolved;$('mProgress').style.width=Math.max(0,mTime/60*100)+'%';$('mTime').classList.toggle('badtext',mTime<=10);}
-function showMathQuestion(){if(!mRun)return;mCurrent=mUnique();$('mQuestion').textContent=mCurrent.exp;$('mQNo').textContent='Question '+(mSolved+1);$('mFeedback').textContent='';$('mFeedback').className='mfeedback';if($('mOptionsToggle').checked){$('mTyping').style.display='none';$('mOptions').style.display='grid';$('mOptions').innerHTML='';mOptions(mCurrent.ans).forEach(v=>{const b=document.createElement('button');b.className='mopt';b.textContent=mText(v);b.addEventListener('click',()=>submitMathOption(v,b));$('mOptions').appendChild(b)})}else{$('mTyping').style.display='block';$('mOptions').style.display='none';$('mInput').disabled=false;$('mSubmit').disabled=false;$('mInput').value='';$('mInput').focus()}}
+
+function mOptions(ans){
+  const s=new Set([ans]);
+  while(s.size<4){
+    const delta=mRand(1,5)*(Math.random()<0.5?-1:1);
+    const fake=ans+delta;
+    if(fake>=0 && fake!==ans) s.add(fake);
+  }
+  return [...s].sort(()=>Math.random()-.5);
+}
+
+function updateMath(){
+  $('mTime').textContent=mTime;
+  $('mScore').textContent=mScore;
+  $('mSolved').textContent=mSolved;
+  $('mProgress').style.width=Math.max(0,mTime/60*100)+'%';
+  $('mTime').classList.toggle('badtext',mTime<=10);
+}
+
+function showMathQuestion(){
+  if(!mRun)return;
+  mCurrent=mUnique();
+  $('mQuestion').textContent=mCurrent.exp;
+  $('mQNo').textContent='Question '+(mSolved+1);
+  $('mFeedback').textContent='';
+  $('mFeedback').className='mfeedback';
+
+  if($('mOptionsToggle').checked){
+    $('mTyping').style.display='none';
+    $('mOptions').style.display='grid';
+    $('mOptions').innerHTML='';
+    mOptions(mCurrent.ans).forEach(v=>{
+      const b=document.createElement('button');
+      b.className='mopt';
+      b.textContent=mText(v);
+      b.addEventListener('click',()=>submitMathOption(v,b));
+      $('mOptions').appendChild(b);
+    });
+  } else {
+    $('mTyping').style.display='block';
+    $('mOptions').style.display='none';
+    $('mInput').disabled=false;
+    $('mSubmit').disabled=false;
+    $('mInput').value='';
+    $('mInput').focus();
+  }
+}
+
 function processMath(ok,el){
   if(!mRun||!mCurrent)return;
   mSolved++;
   if(ok){
-    mCorrectCount++;
-    mScore++;
+    mCorrectCount++; mScore++;
     $('mFeedback').textContent='Correct +1';
     $('mFeedback').className='mfeedback ok';
-    if(el)el.classList.add('good');
-  }else{
-    $('mFeedback').textContent='Answer: '+mText(mCurrent.ans);
+    if(el) el.classList.add('good');
+  } else {
+    $('mFeedback').textContent='Answer: '+mCurrent.ans;
     $('mFeedback').className='mfeedback badtext';
-    if(el)el.classList.add('bad');
+    if(el) el.classList.add('bad');
   }
   $('mInput').disabled=true;
   $('mSubmit').disabled=true;
-  document.querySelectorAll('#mOptions .mopt').forEach(b=>b.classList.add('disabled'));
   updateMath();
-  setTimeout(()=>{if(mRun)showMathQuestion()},180);
+  setTimeout(()=>{if(mRun)showMathQuestion()},280);
 }
-function submitMath(){if(!mRun||!mCurrent)return;const v=mParse($('mInput').value);if(v===null){$('mFeedback').textContent='Enter a valid number.';$('mFeedback').className='mfeedback badtext';return}processMath(isMathCorrect(v,mCurrent.ans),null)}
-function submitMathOption(v,b){if(!mRun||!mCurrent)return;const ok=isMathCorrect(v,mCurrent.ans);if(!ok){document.querySelectorAll('#mOptions .mopt').forEach(x=>{if(isMathCorrect(mParse(x.textContent),mCurrent.ans))x.classList.add('good')})}processMath(ok,b)}
-function startMath(){clearInterval(mTimer);mRun=true;mTime=60;mScore=0;mSolved=0;mCorrectCount=0;mUsed.clear();$('mathResult').classList.remove('show');$('mathArea').style.display='block';updateMath();showMathQuestion();mTimer=setInterval(()=>{if(!mRun)return;mTime--;updateMath();if(mTime<=0)endMath()},1000)}
-function endMath(){if(!mRun)return;mRun=false;clearInterval(mTimer);$('mInput').disabled=true;$('mSubmit').disabled=true;$('mFinalScore').textContent=mScore;$('mFinalSolved').textContent=mSolved;$('mFinalCorrect').textContent=mCorrectCount;$('mFinalAccuracy').textContent=(mSolved?Math.round(mCorrectCount/mSolved*100):0)+'%';$('mathArea').style.display='none';$('mathResult').classList.add('show')}
+
+function submitMath(){
+  if(!mRun||!mCurrent)return;
+  const v=mParse($('mInput').value);
+  if(v===null){
+    $('mFeedback').textContent='Enter a valid number.';
+    $('mFeedback').className='mfeedback badtext';
+    return;
+  }
+  processMath(v===mCurrent.ans, null);
+}
+
+function submitMathOption(v,b){
+  if(!mRun||!mCurrent)return;
+  processMath(v===mCurrent.ans, b);
+}
+
+function startMath(){
+  clearInterval(mTimer);
+  mRun=true; mTime=60; mScore=0; mSolved=0; mCorrectCount=0; mUsed.clear();
+  $('mathResult').classList.remove('show');
+  $('mathArea').style.display='block';
+  updateMath();
+  showMathQuestion();
+  mTimer=setInterval(()=>{
+    if(!mRun)return;
+    if($('mTimerToggle').checked){
+      mTime--;
+      updateMath();
+      if(mTime<=0) endMath();
+    }
+  },1000);
+}
+
+function endMath(){
+  if(!mRun)return;
+  mRun=false;
+  clearInterval(mTimer);
+  $('mInput').disabled=true;
+  $('mSubmit').disabled=true;
+  $('mFinalScore').textContent=mScore;
+  $('mFinalSolved').textContent=mSolved;
+  $('mFinalCorrect').textContent=mCorrectCount;
+  $('mFinalAccuracy').textContent=(mSolved?Math.round(mCorrectCount/mSolved*100):0)+'%';
+  $('mathArea').style.display='none';
+  $('mathResult').classList.add('show');
+}
+
 function stopMath(){mRun=false;clearInterval(mTimer)}
 function startNewMathRound(){stopMath();$('mathResult').classList.remove('show');$('mathArea').style.display='block';countdown('Math Challenge','60 seconds. Solve as many as possible.',startMath)}
-$('mSubmit').addEventListener('click',submitMath);$('mInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitMath()}});$('mTimerToggle').addEventListener('change',e=>{$('mTimerWord').textContent=e.target.checked?'ON':'OFF';$('mTime').style.visibility=e.target.checked?'visible':'hidden'});$('mOptionsToggle').addEventListener('change',e=>{$('mOptionsWord').textContent=e.target.checked?'ON':'OFF';if(mRun)showMathQuestion()});$('mRestart').addEventListener('click',startNewMathRound);
+
+$('mSubmit').addEventListener('click',submitMath);
+$('mInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitMath()}});
+$('mTimerToggle').addEventListener('change',e=>{$('mTimerWord').textContent=e.target.checked?'ON':'OFF';$('mTime').style.visibility=e.target.checked?'visible':'hidden'});
+$('mOptionsToggle').addEventListener('change',e=>{$('mOptionsWord').textContent=e.target.checked?'ON':'OFF';if(mRun)showMathQuestion()});
+$('mRestart').addEventListener('click',startNewMathRound);
 
 /* ==========================================================
-   SUDOKU
+   SUDOKU (6x6)
 ========================================================== */
 let sRun=false,sInterval=null,sSolution=[],sPuzzle=[],sState=[],sNotes=[],sR=-1,sC=-1,sHints=3,sHintUsed=0,sMistakes=0,sElapsed=0,sStart=0,sNotesMode=false;
-function sClone(g){return g.map(r=>[...r])} function sEmpty(){return Array.from({length:6},()=>Array(6).fill(0))} function sShuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function sSafe(g,r,c,n){for(let x=0;x<6;x++)if(g[r][x]===n||g[x][c]===n)return false;const sr=Math.floor(r/2)*2,sc=Math.floor(c/3)*3;for(let rr=sr;rr<sr+2;rr++)for(let cc=sc;cc<sc+3;cc++)if(g[rr][cc]===n)return false;return true}
-function sSolve(g){for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(g[r][c]===0){for(const n of sShuffle([1,2,3,4,5,6]))if(sSafe(g,r,c,n)){g[r][c]=n;if(sSolve(g))return true;g[r][c]=0}return false}return true}
-function newSudokuPuzzle(){const sol=sEmpty();sSolve(sol);const pu=sClone(sol),cells=[];for(let r=0;r<6;r++)for(let c=0;c<6;c++)cells.push([r,c]);sShuffle(cells);for(let i=17;i<cells.length;i++){const [r,c]=cells[i];pu[r][c]=0}sSolution=sClone(sol);sPuzzle=sClone(pu);sState=sClone(pu);sNotes=Array.from({length:6},()=>Array.from({length:6},()=>new Set()));sR=sC=-1;sHints=3;sHintUsed=0;sMistakes=0;sElapsed=0;sNotesMode=false;updateSNote();renderSudoku();updateSudokuStats();$('sStatus').textContent='Select a cell and enter a number.';$('sStatus').className='sstatus'}
-function resetSameSudoku(){sState=sClone(sPuzzle);sNotes=Array.from({length:6},()=>Array.from({length:6},()=>new Set()));sR=sC=-1;sHints=3;sHintUsed=0;sMistakes=0;sElapsed=0;sNotesMode=false;updateSNote();renderSudoku();updateSudokuStats();$('sStatus').textContent='Same puzzle restarted.';$('sStatus').className='sstatus'}
-function renderSudoku(){const el=$('sBoard');el.innerHTML='';const selectedVal=(sR>=0&&sC>=0)?sState[sR][sC]:0;for(let r=0;r<6;r++)for(let c=0;c<6;c++){const cell=document.createElement('div');cell.className='scell';if(sPuzzle[r][c]){cell.classList.add('fixed');cell.textContent=sPuzzle[r][c]}else{cell.classList.add('user');if(sState[r][c])cell.textContent=sState[r][c];else if(sNotes[r][c].size){const ng=document.createElement('div');ng.className='notes';for(let n=1;n<=6;n++){const d=document.createElement('div');d.className='note';d.textContent=sNotes[r][c].has(n)?n:'';ng.appendChild(d)}cell.appendChild(ng)}}if(r===sR&&c===sC)cell.classList.add('sel');if(selectedVal&&sState[r][c]===selectedVal)cell.classList.add('same');if(sPuzzle[r][c]===0&&sState[r][c]&&sState[r][c]!==sSolution[r][c])cell.classList.add('wrong');cell.addEventListener('click',()=>{if(!sRun)return;sR=r;sC=c;renderSudoku();$('sStatus').textContent=sNotesMode?'Notes mode: choose a number.':'Choose a number.';$('sStatus').className='sstatus'});el.appendChild(cell)}}
-function enterSudoku(n){if(!sRun||sR<0||sC<0)return;if(sPuzzle[sR][sC]){$('sStatus').textContent='That number is fixed.';$('sStatus').className='sstatus badtext';return}if(sNotesMode){const set=sNotes[sR][sC];set.has(n)?set.delete(n):set.add(n);renderSudoku();return}if(n!==sSolution[sR][sC]){sMistakes++;sState[sR][sC]=n;$('sStatus').textContent='Wrong — try another number.';$('sStatus').className='sstatus badtext';renderSudoku();updateSudokuStats();return}sState[sR][sC]=n;sNotes[sR][sC].clear();$('sStatus').textContent='Correct!';$('sStatus').className='sstatus ok';renderSudoku();updateSudokuStats();if(isSudokuSolved())finishSudoku()}
-function eraseSudoku(){if(!sRun||sR<0||sC<0||sPuzzle[sR][sC])return;sState[sR][sC]=0;sNotes[sR][sC].clear();renderSudoku();updateSudokuStats()}
-function hintSudoku(){if(!sRun||sHints<=0)return;const empty=[];for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(!sPuzzle[r][c]&&!sState[r][c])empty.push([r,c]);if(!empty.length)return;const [r,c]=empty[Math.floor(Math.random()*empty.length)];sState[r][c]=sSolution[r][c];sNotes[r][c].clear();sHints--;sHintUsed++;sR=r;sC=c;$('sStatus').textContent='Hint used — one number filled.';$('sStatus').className='sstatus ok';renderSudoku();updateSudokuStats();if(isSudokuSolved())finishSudoku()}
-function isSudokuSolved(){for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(sState[r][c]!==sSolution[r][c])return false;return true}
+function sClone(g){return g.map(r=>[...r])}
+function sEmpty(){return Array.from({length:6},()=>Array(6).fill(0))}
+function sShuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function sSafe(g,r,c,n){
+  for(let x=0;x<6;x++)if(g[r][x]===n||g[x][c]===n)return false;
+  const sr=Math.floor(r/2)*2,sc=Math.floor(c/3)*3;
+  for(let rr=sr;rr<sr+2;rr++)for(let cc=sc;cc<sc+3;cc++)if(g[rr][cc]===n)return false;
+  return true;
+}
+function sSolve(g){
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(g[r][c]===0){
+    for(const n of sShuffle([1,2,3,4,5,6]))if(sSafe(g,r,c,n)){
+      g[r][c]=n;
+      if(sSolve(g))return true;
+      g[r][c]=0;
+    }
+    return false;
+  }
+  return true;
+}
+
+function newSudokuPuzzle(){
+  const sol=sEmpty(); sSolve(sol);
+  const pu=sClone(sol),cells=[];
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)cells.push([r,c]);
+  sShuffle(cells);
+  for(let i=17;i<cells.length;i++){const [r,c]=cells[i];pu[r][c]=0}
+  sSolution=sClone(sol); sPuzzle=sClone(pu); sState=sClone(pu);
+  sNotes=Array.from({length:6},()=>Array.from({length:6},()=>new Set()));
+  sR=sC=-1; sHints=3; sHintUsed=0; sMistakes=0; sElapsed=0; sNotesMode=false;
+  updateSNote(); renderSudoku(); updateSudokuStats();
+  $('sStatus').textContent='Select a cell and enter a number.';
+  $('sStatus').className='sstatus';
+}
+
+function resetSameSudoku(){
+  sState=sClone(sPuzzle);
+  sNotes=Array.from({length:6},()=>Array.from({length:6},()=>new Set()));
+  sR=sC=-1; sHints=3; sHintUsed=0; sMistakes=0; sElapsed=0; sNotesMode=false;
+  updateSNote(); renderSudoku(); updateSudokuStats();
+  $('sStatus').textContent='Same puzzle restarted.';
+  $('sStatus').className='sstatus';
+}
+
+function renderSudoku(){
+  const el=$('sBoard'); el.innerHTML='';
+  const selectedVal=(sR>=0&&sC>=0)?sState[sR][sC]:0;
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++){
+    const cell=document.createElement('div'); cell.className='scell';
+    if(sPuzzle[r][c]){
+      cell.classList.add('fixed'); cell.textContent=sPuzzle[r][c];
+    } else {
+      cell.classList.add('user');
+      if(sState[r][c]) cell.textContent=sState[r][c];
+      else if(sNotes[r][c].size){
+        const ng=document.createElement('div'); ng.className='notes';
+        for(let n=1;n<=6;n++){
+          const d=document.createElement('div'); d.className='note';
+          d.textContent=sNotes[r][c].has(n)?n:''; ng.appendChild(d);
+        }
+        cell.appendChild(ng);
+      }
+    }
+    if(r===sR&&c===sC) cell.classList.add('sel');
+    if(selectedVal&&sState[r][c]===selectedVal) cell.classList.add('same');
+    if(sPuzzle[r][c]===0&&sState[r][c]&&sState[r][c]!==sSolution[r][c]) cell.classList.add('wrong');
+    cell.addEventListener('click',()=>{if(!sRun)return;sR=r;sC=c;renderSudoku()});
+    el.appendChild(cell);
+  }
+}
+
+function enterSudoku(n){
+  if(!sRun||sR<0||sC<0)return;
+  if(sPuzzle[sR][sC]){$('sStatus').textContent='That cell is fixed.';$('sStatus').className='sstatus badtext';return}
+  if(sNotesMode){
+    const set=sNotes[sR][sC];
+    set.has(n)?set.delete(n):set.add(n);
+    renderSudoku(); return;
+  }
+  if(n!==sSolution[sR][sC]){
+    sMistakes++; sState[sR][sC]=n;
+    $('sStatus').textContent='Wrong — try another number.';
+    $('sStatus').className='sstatus badtext';
+    renderSudoku(); updateSudokuStats(); return;
+  }
+  sState[sR][sC]=n; sNotes[sR][sC].clear();
+  $('sStatus').textContent='Correct!'; $('sStatus').className='sstatus ok';
+  renderSudoku(); updateSudokuStats();
+  if(isSudokuSolved()) finishSudoku();
+}
+
+function eraseSudoku(){
+  if(!sRun||sR<0||sC<0||sPuzzle[sR][sC])return;
+  sState[sR][sC]=0; sNotes[sR][sC].clear();
+  renderSudoku(); updateSudokuStats();
+}
+
+function hintSudoku(){
+  if(!sRun||sHints<=0)return;
+  const empty=[];
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(!sPuzzle[r][c]&&!sState[r][c])empty.push([r,c]);
+  if(!empty.length)return;
+  const [r,c]=empty[Math.floor(Math.random()*empty.length)];
+  sState[r][c]=sSolution[r][c]; sNotes[r][c].clear();
+  sHints--; sHintUsed++; sR=r; sC=c;
+  $('sStatus').textContent='Hint used — cell filled.'; $('sStatus').className='sstatus ok';
+  renderSudoku(); updateSudokuStats();
+  if(isSudokuSolved()) finishSudoku();
+}
+
+function isSudokuSolved(){
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(sState[r][c]!==sSolution[r][c])return false;
+  return true;
+}
+
 function formatTime(sec){return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')}
-function updateSudokuStats(){let f=0;for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(sState[r][c])f++;$('sFilled').textContent=f+' / 36';$('sHints').textContent=sHints;$('sTime').textContent=formatTime(sElapsed)}
-function startSudoku(){clearInterval(sInterval);sRun=true;sStart=Date.now();sElapsed=0;$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');updateSudokuStats();renderSudoku();sInterval=setInterval(()=>{if(!sRun)return;sElapsed=Math.floor((Date.now()-sStart)/1000);updateSudokuStats()},1000)}
-function finishSudoku(){if(!sRun)return;sRun=false;clearInterval(sInterval);$('sFinalTime').textContent=formatTime(sElapsed);$('sFinalHints').textContent=sHintUsed;$('sFinalMistakes').textContent=sMistakes;$('sudokuArea').style.display='none';$('sudokuResult').classList.add('show')}
+function updateSudokuStats(){
+  let f=0;
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)if(sState[r][c])f++;
+  $('sFilled').textContent=f+' / 36';
+  $('sHints').textContent=sHints;
+  $('sTime').textContent=formatTime(sElapsed);
+}
+
+function startSudoku(){
+  clearInterval(sInterval); sRun=true; sStart=Date.now(); sElapsed=0;
+  $('sudokuArea').style.display='block'; $('sudokuResult').classList.remove('show');
+  updateSudokuStats(); renderSudoku();
+  sInterval=setInterval(()=>{if(!sRun)return;sElapsed=Math.floor((Date.now()-sStart)/1000);updateSudokuStats()},1000);
+}
+
+function finishSudoku(){
+  if(!sRun)return;
+  sRun=false; clearInterval(sInterval);
+  $('sFinalTime').textContent=formatTime(sElapsed);
+  $('sFinalHints').textContent=sHintUsed;
+  $('sFinalMistakes').textContent=sMistakes;
+  $('sudokuArea').style.display='none';
+  $('sudokuResult').classList.add('show');
+}
+
 function stopSudoku(){sRun=false;clearInterval(sInterval)}
-function updateSNote(){$('sNotes').textContent=sNotesMode?'Notes: ON':'Notes: OFF';$('sNotes').classList.toggle('active',sNotesMode);$('sNoteText').textContent=sNotesMode?'Notes mode active.':''}
-document.querySelectorAll('.snum').forEach(b=>b.addEventListener('click',()=>enterSudoku(Number(b.dataset.n))));$('sNotes').addEventListener('click',()=>{if(sRun){sNotesMode=!sNotesMode;updateSNote()}});$('sErase').addEventListener('click',eraseSudoku);$('sHint').addEventListener('click',hintSudoku);$('sTimerToggle').addEventListener('change',e=>{$('sTimerWord').textContent=e.target.checked?'ON':'OFF';$('sTime').style.visibility=e.target.checked?'visible':'hidden'});$('sPlayAgain').addEventListener('click',()=>{$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');resetSameSudoku();countdown('Same Sudoku','Replay the same puzzle.',startSudoku)});$('sNew').addEventListener('click',()=>{$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');newSudokuPuzzle();countdown('New Sudoku','A fresh puzzle is ready.',startSudoku)});
-document.addEventListener('keydown',e=>{if(sRun&&e.key>='1'&&e.key<='6')enterSudoku(Number(e.key));if(sRun&&(e.key==='Backspace'||e.key==='Delete'))eraseSudoku()});
+function updateSNote(){$('sNotes').textContent=sNotesMode?'Notes: ON':'Notes: OFF';$('sNotes').classList.toggle('active',sNotesMode)}
+
+document.querySelectorAll('.snum').forEach(b=>b.addEventListener('click',()=>enterSudoku(Number(b.dataset.n))));
+$('sNotes').addEventListener('click',()=>{if(sRun){sNotesMode=!sNotesMode;updateSNote()}});
+$('sErase').addEventListener('click',eraseSudoku);
+$('sHint').addEventListener('click',hintSudoku);
+$('sTimerToggle').addEventListener('change',e=>{$('sTimerWord').textContent=e.target.checked?'ON':'OFF';$('sTime').style.visibility=e.target.checked?'visible':'hidden'});
+$('sPlayAgain').addEventListener('click',()=>{$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');resetSameSudoku();countdown('Same Sudoku','Replay the same puzzle.',startSudoku)});
+$('sNew').addEventListener('click',()=>{$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');newSudokuPuzzle();countdown('New Sudoku','A fresh puzzle is ready.',startSudoku)});
 
 /* ==========================================================
-   CHESS - offline 2 player
+   CHESS
 ========================================================== */
 const PIECES={w:{K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙'},b:{K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'}};
 const START=[['bR','bN','bB','bQ','bK','bB','bN','bR'],['bP','bP','bP','bP','bP','bP','bP','bP'],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null],['wP','wP','wP','wP','wP','wP','wP','wP'],['wR','wN','wB','wQ','wK','wB','wN','wR']];
 let cb=[],ct='w',csel=null,cmoves=[],cRun=false,cInt=null,cSec=15,cMiss={w:0,b:0},cHints={w:3,b:3},cMoveCount=0,cFlipBoard=false,cPromo=null;
-function cc(p){return p?p[0]:null} function ctType(p){return p?p[1]:null} function cOpp(x){return x==='w'?'b':'w'} function cin(r,c){return r>=0&&r<8&&c>=0&&c<8} function cClone(g){return g.map(r=>[...r])}
+
+function cc(p){return p?p[0]:null}
+function ctType(p){return p?p[1]:null}
+function cOpp(x){return x==='w'?'b':'w'}
+function cin(r,c){return r>=0&&r<8&&c>=0&&c<8}
+function cClone(g){return g.map(r=>[...r])}
 function cKing(g,col){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(g[r][c]===col+'K')return{r,c};return null}
-function attacked(g,r,c,by){const d=by==='w'?-1:1,pr=r-d;for(const dc of[-1,1])if(cin(pr,c-dc)&&g[pr][c-dc]===by+'P')return true;for(const[a,b]of[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]])if(cin(r+a,c+b)&&g[r+a][c+b]===by+'N')return true;for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)if((a||b)&&cin(r+a,c+b)&&g[r+a][c+b]===by+'K')return true;for(const[a,b]of[[-1,0],[1,0],[0,-1],[0,1]]){let x=r+a,y=c+b;while(cin(x,y)){const p=g[x][y];if(p){if(cc(p)===by&&(ctType(p)==='R'||ctType(p)==='Q'))return true;break}x+=a;y+=b}}for(const[a,b]of[[-1,-1],[-1,1],[1,-1],[1,1]]){let x=r+a,y=c+b;while(cin(x,y)){const p=g[x][y];if(p){if(cc(p)===by&&(ctType(p)==='B'||ctType(p)==='Q'))return true;break}x+=a;y+=b}}return false}
+
+function attacked(g,r,c,by){
+  const d=by==='w'?-1:1,pr=r-d;
+  for(const dc of[-1,1])if(cin(pr,c-dc)&&g[pr][c-dc]===by+'P')return true;
+  for(const[a,b]of[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]])if(cin(r+a,c+b)&&g[r+a][c+b]===by+'N')return true;
+  for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)if((a||b)&&cin(r+a,c+b)&&g[r+a][c+b]===by+'K')return true;
+  for(const[a,b]of[[-1,0],[1,0],[0,-1],[0,1]]){let x=r+a,y=c+b;while(cin(x,y)){const p=g[x][y];if(p){if(cc(p)===by&&(ctType(p)==='R'||ctType(p)==='Q'))return true;break}x+=a;y+=b}}
+  for(const[a,b]of[[-1,-1],[-1,1],[1,-1],[1,1]]){let x=r+a,y=c+b;while(cin(x,y)){const p=g[x][y];if(p){if(cc(p)===by&&(ctType(p)==='B'||ctType(p)==='Q'))return true;break}x+=a;y+=b}}
+  return false;
+}
+
 function inCheck(g,col){const k=cKing(g,col);return !k||attacked(g,k.r,k.c,cOpp(col))}
-function pseudo(g,r,c){const p=g[r][c];if(!p)return[];const col=cc(p),t=ctType(p),m=[];if(t==='P'){const d=col==='w'?-1:1,start=col==='w'?6:1,nr=r+d;if(cin(nr,c)&&!g[nr][c]){m.push({r:nr,c,prom:nr===0||nr===7});if(r===start&&!g[r+2*d][c])m.push({r:r+2*d,c})}for(const dc of[-1,1]){const x=c+dc;if(cin(nr,x)&&g[nr][x]&&cc(g[nr][x])!==col&&ctType(g[nr][x])!=='K')m.push({r:nr,c:x,prom:nr===0||nr===7})}}if(t==='N'){for(const[a,b]of[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]){const x=r+a,y=c+b;if(cin(x,y)&&(!g[x][y]||(cc(g[x][y])!==col&&ctType(g[x][y])!=='K')))m.push({r:x,c:y})}}if(['B','R','Q'].includes(t)){const dirs=[];if(t==='B'||t==='Q')dirs.push([-1,-1],[-1,1],[1,-1],[1,1]);if(t==='R'||t==='Q')dirs.push([-1,0],[1,0],[0,-1],[0,1]);for(const[a,b]of dirs){let x=r+a,y=c+b;while(cin(x,y)){if(!g[x][y])m.push({r:x,c:y});else{if(cc(g[x][y])!==col&&ctType(g[x][y])!=='K')m.push({r:x,c:y});break}x+=a;y+=b}}}if(t==='K'){for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)if((a||b)&&cin(r+a,c+b)&&(!g[r+a][c+b]||(cc(g[r+a][c+b])!==col&&ctType(g[r+a][c+b])!=='K')))m.push({r:r+a,c:c+b})}return m}
-function sim(g,fr,fc,m,promo='Q'){const n=cClone(g),p=n[fr][fc];n[fr][fc]=null;n[m.r][m.c]=p;if(m.prom)n[m.r][m.c]=cc(p)+promo;return n}
-function legalFor(r,c){const p=cb[r][c];if(!p)return[];const out=[];for(const m of pseudo(cb,r,c)){const n=sim(cb,r,c,m);if(!inCheck(n,cc(p)))out.push(m)}return out}
-function allMoves(col){const out=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(cb[r][c]&&cc(cb[r][c])===col)legalFor(r,c).forEach(m=>out.push({fr:r,fc:c,...m}));return out}
-function renderChess(){const el=$('cBoard');el.innerHTML='';for(let dr=0;dr<8;dr++)for(let dc=0;dc<8;dc++){const r=cFlipBoard?7-dr:dr,c=cFlipBoard?7-dc:dc,s=document.createElement('div');s.className='csq '+((r+c)%2?'dark':'light');if(csel&&csel.r===r&&csel.c===c)s.classList.add('sel');const mv=cmoves.find(x=>x.r===r&&x.c===c);if(mv)s.classList.add(cb[r][c]?'capture':'legal');const p=cb[r][c];if(p){const pe=document.createElement('div');pe.className='piece '+(cc(p)==='w'?'wp':'bp');pe.textContent=PIECES[cc(p)][ctType(p)];s.appendChild(pe)}s.addEventListener('click',()=>chessClick(r,c));el.appendChild(s)}updatePred()}
-function chessClick(r,c){if(!cRun||cPromo)return;const m=cmoves.find(x=>x.r===r&&x.c===c);if(csel&&m){makeChess(csel.r,csel.c,m);return}const p=cb[r][c];if(p&&cc(p)===ct){csel={r,c};cmoves=legalFor(r,c);$('cStatus').textContent=(ct==='w'?'White':'Black')+' piece selected.';renderChess()}else{csel=null;cmoves=[];renderChess()}}
-function makeChess(fr,fc,m){const p=cb[fr][fc];if(m.prom){cPromo={fr,fc,m};$('promo').classList.add('show');return}applyChess(fr,fc,m,'Q')}
-function applyChess(fr,fc,m,promo){cb=sim(cb,fr,fc,m,promo);cMoveCount++;csel=null;cmoves=[];cPromo=null;$('promo').classList.remove('show');ct=cOpp(ct);cSec=15;updateChessUI();renderChess();checkChessState()}
-function checkChessState(){const ms=allMoves(ct),check=inCheck(cb,ct);if(!ms.length){stopChess();endChess(check?cOpp(ct):null,check?'Checkmate':'Draw by stalemate');return}$('cStatus').textContent=(ct==='w'?'White':'Black')+(check?' is in check!':' to move.');$('cStatus').className='cstatus'+(check?' badtext':'')}
-function resetChess(){stopChess();cb=cClone(START);ct='w';csel=null;cmoves=[];cSec=15;cMiss={w:0,b:0};cHints={w:3,b:3};cMoveCount=0;cFlipBoard=false;cPromo=null;$('chessArea').style.display='block';$('chessResult').classList.remove('show');$('promo').classList.remove('show');$('cStatus').textContent='White to move.';$('cStatus').className='cstatus';updateChessUI();renderChess()}
-function startChess(){$('chessArea').style.display='block';$('chessResult').classList.remove('show');cRun=true;cSec=15;startChessTimer();updateChessUI();renderChess();checkChessState()}
-function startChessTimer(){clearInterval(cInt);cInt=setInterval(()=>{if(!cRun||cPromo)return;cSec--;updateChessUI();if(cSec<=0)missChess()},1000)}
+
+function pseudo(g,r,c){
+  const p=g[r][c];if(!p)return[];
+  const col=cc(p),t=ctType(p),m=[];
+  if(t==='P'){
+    const d=col==='w'?-1:1,start=col==='w'?6:1,nr=r+d;
+    if(cin(nr,c)&&!g[nr][c]){
+      m.push({r:nr,c,prom:nr===0||nr===7});
+      if(r===start&&!g[r+2*d][c])m.push({r:r+2*d,c});
+    }
+    for(const dc of[-1,1]){
+      const x=c+dc;
+      if(cin(nr,x)&&g[nr][x]&&cc(g[nr][x])!==col&&ctType(g[nr][x])!=='K')m.push({r:nr,c:x,prom:nr===0||nr===7});
+    }
+  }
+  if(t==='N'){
+    for(const[a,b]of[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]){
+      const x=r+a,y=c+b;
+      if(cin(x,y)&&(!g[x][y]||(cc(g[x][y])!==col&&ctType(g[x][y])!=='K')))m.push({r:x,c:y});
+    }
+  }
+  if(['B','R','Q'].includes(t)){
+    const dirs=[];
+    if(t==='B'||t==='Q')dirs.push([-1,-1],[-1,1],[1,-1],[1,1]);
+    if(t==='R'||t==='Q')dirs.push([-1,0],[1,0],[0,-1],[0,1]);
+    for(const[a,b]of dirs){
+      let x=r+a,y=c+b;
+      while(cin(x,y)){
+        if(!g[x][y])m.push({r:x,c:y});
+        else{if(cc(g[x][y])!==col&&ctType(g[x][y])!=='K')m.push({r:x,c:y});break}
+        x+=a;y+=b;
+      }
+    }
+  }
+  if(t==='K'){
+    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)if((a||b)&&cin(r+a,c+b)&&(!g[r+a][c+b]||(cc(g[r+a][c+b])!==col&&ctType(g[r+a][c+b])!=='K')))m.push({r:r+a,c:c+b});
+  }
+  return m;
+}
+
+function sim(g,fr,fc,m,promo='Q'){
+  const n=cClone(g),p=n[fr][fc];
+  n[fr][fc]=null; n[m.r][m.c]=p;
+  if(m.prom)n[m.r][m.c]=cc(p)+promo;
+  return n;
+}
+
+function legalFor(r,c){
+  const p=cb[r][c];if(!p)return[];
+  const out=[];
+  for(const m of pseudo(cb,r,c)){
+    const n=sim(cb,r,c,m);
+    if(!inCheck(n,cc(p)))out.push(m);
+  }
+  return out;
+}
+
+function allMoves(col){
+  const out=[];
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(cb[r][c]&&cc(cb[r][c])===col)legalFor(r,c).forEach(m=>out.push({fr:r,fc:c,...m}));
+  return out;
+}
+
+function renderChess(){
+  const el=$('cBoard'); el.innerHTML='';
+  for(let dr=0;dr<8;dr++)for(let dc=0;dc<8;dc++){
+    const r=cFlipBoard?7-dr:dr,c=cFlipBoard?7-dc:dc,s=document.createElement('div');
+    s.className='csq '+((r+c)%2?'dark':'light');
+    if(csel&&csel.r===r&&csel.c===c) s.classList.add('sel');
+    const mv=cmoves.find(x=>x.r===r&&x.c===c);
+    if(mv) s.classList.add(cb[r][c]?'capture':'legal');
+    const p=cb[r][c];
+    if(p){
+      const pe=document.createElement('div');
+      pe.className='piece '+(cc(p)==='w'?'wp':'bp');
+      pe.textContent=PIECES[cc(p)][ctType(p)];
+      s.appendChild(pe);
+    }
+    s.addEventListener('click',()=>chessClick(r,c));
+    el.appendChild(s);
+  }
+  updatePred();
+}
+
+function chessClick(r,c){
+  if(!cRun||cPromo)return;
+  const m=cmoves.find(x=>x.r===r&&x.c===c);
+  if(csel&&m){makeChess(csel.r,csel.c,m);return}
+  const p=cb[r][c];
+  if(p&&cc(p)===ct){
+    csel={r,c}; cmoves=legalFor(r,c);
+    $('cStatus').textContent=(ct==='w'?'White':'Black')+' piece selected.';
+    renderChess();
+  } else {
+    csel=null; cmoves=[]; renderChess();
+  }
+}
+
+function makeChess(fr,fc,m){
+  if(m.prom){cPromo={fr,fc,m};$('promo').classList.add('show');return}
+  applyChess(fr,fc,m,'Q');
+}
+
+function applyChess(fr,fc,m,promo){
+  cb=sim(cb,fr,fc,m,promo);
+  cMoveCount++; csel=null; cmoves=[]; cPromo=null;
+  $('promo').classList.remove('show');
+  ct=cOpp(ct); cSec=15;
+  updateChessUI(); renderChess(); checkChessState();
+}
+
+function checkChessState(){
+  const ms=allMoves(ct),check=inCheck(cb,ct);
+  if(!ms.length){
+    stopChess();
+    endChess(check?cOpp(ct):null,check?'Checkmate':'Draw by stalemate');
+    return;
+  }
+  $('cStatus').textContent=(ct==='w'?'White':'Black')+(check?' is in check!':' to move.');
+  $('cStatus').className='cstatus'+(check?' badtext':'');
+}
+
+function resetChess(){
+  stopChess(); cb=cClone(START); ct='w'; csel=null; cmoves=[]; cSec=15;
+  cMiss={w:0,b:0}; cHints={w:3,b:3}; cMoveCount=0; cFlipBoard=false; cPromo=null;
+  $('chessArea').style.display='block'; $('chessResult').classList.remove('show'); $('promo').classList.remove('show');
+  $('cStatus').textContent='White to move.'; $('cStatus').className='cstatus';
+  updateChessUI(); renderChess();
+}
+
+function startChess(){
+  $('chessArea').style.display='block'; $('chessResult').classList.remove('show');
+  cRun=true; cSec=15;
+  startChessTimer(); updateChessUI(); renderChess(); checkChessState();
+}
+
+function startChessTimer(){
+  clearInterval(cInt);
+  cInt=setInterval(()=>{
+    if(!cRun||cPromo)return;
+    cSec--; updateChessUI();
+    if(cSec<=0) missChess();
+  },1000);
+}
+
 function stopChess(){cRun=false;clearInterval(cInt)}
-function missChess(){stopChess();const col=ct;cMiss[col]++;if(cMiss[col]>=5){endChess(cOpp(col),(col==='w'?'White':'Black')+' missed 5 turns');return}$('cStatus').textContent=(col==='w'?'White':'Black')+' missed turn ('+cMiss[col]+'/5).';ct=cOpp(col);cSec=15;updateChessUI();renderChess();setTimeout(()=>{if(cRun)return;startChessTimer();cRun=true;checkChessState()},350)}
-function updateChessUI(){$('cwTime').textContent=ct==='w'?cSec:'—';$('cbTime').textContent=ct==='b'?cSec:'—';$('cwMiss').textContent=cMiss.w;$('cbMiss').textContent=cMiss.b;$('cwHints').textContent=cHints.w+' / 3';$('cbHints').textContent=cHints.b+' / 3';$('whitePlayer').classList.toggle('active',ct==='w');$('blackPlayer').classList.toggle('active',ct==='b')}
+
+function missChess(){
+  stopChess(); const col=ct; cMiss[col]++;
+  if(cMiss[col]>=5){
+    endChess(cOpp(col),(col==='w'?'White':'Black')+' missed 5 turns');
+    return;
+  }
+  $('cStatus').textContent=(col==='w'?'White':'Black')+' missed turn ('+cMiss[col]+'/5).';
+  ct=cOpp(col); cSec=15;
+  updateChessUI(); renderChess();
+  setTimeout(()=>{if(cRun)return;startChessTimer();cRun=true;checkChessState()},350);
+}
+
+function updateChessUI(){
+  $('cwTime').textContent=ct==='w'?cSec:'—';
+  $('cbTime').textContent=ct==='b'?cSec:'—';
+  $('cwMiss').textContent=cMiss.w;
+  $('cbMiss').textContent=cMiss.b;
+  $('cwHints').textContent=cHints.w+' / 3';
+  $('cbHints').textContent=cHints.b+' / 3';
+  $('whitePlayer').classList.toggle('active',ct==='w');
+  $('blackPlayer').classList.toggle('active',ct==='b');
+}
+
 function pieceVal(t){return{P:1,N:3,B:3,R:5,Q:9,K:0}[t]||0}
-function updatePred(){let w=0,b=0;for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=cb[r][c];if(!p)continue;if(cc(p)==='w')w+=pieceVal(ctType(p));else b+=pieceVal(ctType(p))}const a=w-b;const pc=Math.max(5,Math.min(95,50+a*3));$('pFill').style.width=pc+'%';$('pText').textContent=a>1?'White':a<-1?'Black':'Even';$('pLabel').textContent=a>1?'White has the material edge.':a<-1?'Black has the material edge.':'Material balance is approximately even.'}
-function useChessHint(){if(!cRun||cHints[ct]<=0)return;const ms=allMoves(ct);if(!ms.length)return;const captures=ms.filter(m=>cb[m.r][m.c]);const pick=(captures.length?captures:ms)[Math.floor(Math.random()*(captures.length?captures:ms).length)];cHints[ct]--;csel={r:pick.fr,c:pick.fc};cmoves=[pick];$('cStatus').textContent='Hint: highlighted move.';$('cStatus').className='cstatus ok';updateChessUI();renderChess()}
-function endChess(winner,reason){if(!cRun)return;stopChess();$('cWinner').textContent=winner?(winner==='w'?'White':'Black')+' Wins':'Draw';$('cWinner').style.color=winner?'var(--green)':'var(--yellow)';$('cReason').textContent=reason;$('cfw').textContent=cMiss.w;$('cfb').textContent=cMiss.b;$('cfm').textContent=cMoveCount;$('chessArea').style.display='none';$('chessResult').classList.add('show')}
-$('cFlip').addEventListener('click',()=>{if(cRun){cFlipBoard=!cFlipBoard;renderChess()}});$('cHint').addEventListener('click',useChessHint);$('cResign').addEventListener('click',()=>{if(cRun)endChess(cOpp(ct),(ct==='w'?'White':'Black')+' resigned')});$('cNew').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('New Chess Game','Fresh starting position.',startChess)});$('cAgain').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('Play Again','Same starting position.',startChess)});$('cResultNew').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('New Chess Game','Fresh starting position.',startChess)});document.querySelectorAll('[data-promo]').forEach(b=>b.addEventListener('click',()=>{if(cPromo)applyChess(cPromo.fr,cPromo.fc,cPromo.m,b.dataset.promo)}));
+function updatePred(){
+  let w=0,b=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const p=cb[r][c];if(!p)continue;
+    if(cc(p)==='w')w+=pieceVal(ctType(p)); else b+=pieceVal(ctType(p));
+  }
+  const a=w-b;
+  const pc=Math.max(5,Math.min(95,50+a*3));
+  $('pFill').style.width=pc+'%';
+  $('pText').textContent=a>1?'White':a<-1?'Black':'Even';
+  $('pLabel').textContent=a>1?'White has the material edge.':a<-1?'Black has the material edge.':'Material balance is approximately even.';
+}
+
+function useChessHint(){
+  if(!cRun||cHints[ct]<=0)return;
+  const ms=allMoves(ct);if(!ms.length)return;
+  const captures=ms.filter(m=>cb[m.r][m.c]);
+  const pick=(captures.length?captures:ms)[Math.floor(Math.random()*(captures.length?captures:ms).length)];
+  cHints[ct]--; csel={r:pick.fr,c:pick.fc}; cmoves=[pick];
+  $('cStatus').textContent='Hint: suggested move highlighted.'; $('cStatus').className='cstatus ok';
+  updateChessUI(); renderChess();
+}
+
+function endChess(winner,reason){
+  if(!cRun)return;
+  stopChess();
+  $('cWinner').textContent=winner?(winner==='w'?'White':'Black')+' Wins':'Draw';
+  $('cWinner').style.color=winner?'var(--green)':'var(--yellow)';
+  $('cReason').textContent=reason;
+  $('cfw').textContent=cMiss.w; $('cfb').textContent=cMiss.b; $('cfm').textContent=cMoveCount;
+  $('chessArea').style.display='none'; $('chessResult').classList.add('show');
+}
+
+$('cFlip').addEventListener('click',()=>{if(cRun){cFlipBoard=!cFlipBoard;renderChess()}});
+$('cHint').addEventListener('click',useChessHint);
+$('cResign').addEventListener('click',()=>{if(cRun)endChess(cOpp(ct),(ct==='w'?'White':'Black')+' resigned')});
+$('cNew').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('Chess','Fresh starting position.',startChess)});
+$('cAgain').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('Chess','Same starting position.',startChess)});
+$('cResultNew').addEventListener('click',()=>{$('chessArea').style.display='block';$('chessResult').classList.remove('show');resetChess();countdown('Chess','Fresh starting position.',startChess)});
+document.querySelectorAll('[data-promo]').forEach(b=>b.addEventListener('click',()=>{if(cPromo)applyChess(cPromo.fr,cPromo.fc,cPromo.m,b.dataset.promo)}));
 
 /* ==========================================================
-   INITIAL STATE
+   3D BALL RUN (THREE.JS)
 ========================================================== */
-showHome();
-</script>
-<script>
-
-/* ==========================================================
-   3D BALL RUN JAVASCRIPT
-   Wrapped in an IIFE so its variables cannot collide
-   with Math, Sudoku or Chess.
-   ========================================================== */
 (() => {
-
-        /* ==================================================
-           3D BALL RUN
-           ==================================================
-
-           Main idea:
-           - Ball moves continuously forward.
-           - Camera follows the ball.
-           - Finger drag controls horizontal movement.
-           - Swipe up makes the ball jump.
-           - Obstacles appear ahead.
-           - Falling off the track or hitting an obstacle
-             ends the run.
-           - Speed gradually increases.
-        */
-
-
-        /* ==================================================
-           DOM
-        ================================================== */
-
-        const gameContainer =
-            document.getElementById("ball_gameContainer");
-
-        const distanceValue =
-            document.getElementById("ball_distanceValue");
-
-        const speedValue =
-            document.getElementById("ball_speedValue");
-
-        const bestValue =
-            document.getElementById("ball_bestValue");
-
-        const statusText =
-            document.getElementById("ball_statusText");
-
-        const startOverlay =
-            document.getElementById("ball_startOverlay");
-
-        const overlayTitle =
-            document.getElementById("ball_overlayTitle");
-
-        const overlayText =
-            document.getElementById("ball_overlayText");
-
-        const countdown =
-            document.getElementById("ball_countdown");
-
-        const startButton =
-            document.getElementById("ball_startButton");
-
-        const resultOverlay =
-            document.getElementById("ball_resultOverlay");
-
-        const resultDistance =
-            document.getElementById("ball_resultDistance");
-
-        const resultBest =
-            document.getElementById("ball_resultBest");
-
-        const resultSpeed =
-            document.getElementById("ball_resultSpeed");
-
-        const restartButton =
-            document.getElementById("ball_restartButton");
-
-        const newRunButton =
-            document.getElementById("ball_newRunButton");
-
-        const pauseButton =
-            document.getElementById("ball_pauseButton");
-
-        const pauseOverlay =
-            document.getElementById("ball_pauseOverlay");
-
-        const resumeButton =
-            document.getElementById("ball_resumeButton");
-
-
-        /* ==================================================
-           GAME SETTINGS
-        ================================================== */
-
-        const GAME = {
-
-            baseSpeed: 0.28,
-
-            maxSpeed: 0.72,
-
-            speedIncrease: 0.000018,
-
-            trackWidth: 8,
-
-            trackLength: 180,
-
-            ballRadius: 0.48,
-
-            gravity: 0.018,
-
-            jumpPower: 0.32,
-
-            laneMoveSpeed: 0.16,
-
-            obstacleFrequency: 13,
-
-            coinFrequency: 9,
-
-            cameraDistance: 9,
-
-            cameraHeight: 4.7
-        };
-
-
-        /* ==================================================
-           THREE.JS SCENE
-        ================================================== */
-
-        const scene =
-            new THREE.Scene();
-
-        scene.fog =
-            new THREE.Fog(
-                0x07111f,
-                18,
-                105
-            );
-
-
-        /* ==================================================
-           CAMERA
-        ================================================== */
-
-        const camera =
-            new THREE.PerspectiveCamera(
-                58,
-                window.innerWidth /
-                window.innerHeight,
-                0.1,
-                180
-            );
-
-        camera.position.set(
-            0,
-            GAME.cameraHeight,
-            GAME.cameraDistance
-        );
-
-
-        /* ==================================================
-           RENDERER
-        ================================================== */
-
-        const renderer =
-            new THREE.WebGLRenderer({
-                antialias: true,
-                powerPreference: "high-performance"
-            });
-
-        renderer.setPixelRatio(
-            Math.min(
-                window.devicePixelRatio,
-                1.7
-            )
-        );
-
-        renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-
-        renderer.shadowMap.enabled = true;
-
-        renderer.shadowMap.type =
-            THREE.PCFSoftShadowMap;
-
-        renderer.outputColorSpace =
-            THREE.SRGBColorSpace;
-
-        gameContainer.appendChild(
-            renderer.domElement
-        );
-
-
-        /* ==================================================
-           LIGHTING
-        ================================================== */
-
-        const hemisphereLight =
-            new THREE.HemisphereLight(
-                0x9ec9ff,
-                0x122033,
-                1.8
-            );
-
-        scene.add(
-            hemisphereLight
-        );
-
-
-        const directionalLight =
-            new THREE.DirectionalLight(
-                0xffffff,
-                2.1
-            );
-
-        directionalLight.position.set(
-            8,
-            14,
-            12
-        );
-
-        directionalLight.castShadow = true;
-
-        directionalLight.shadow.mapSize.width =
-            1024;
-
-        directionalLight.shadow.mapSize.height =
-            1024;
-
-        directionalLight.shadow.camera.left =
-            -20;
-
-        directionalLight.shadow.camera.right =
-            20;
-
-        directionalLight.shadow.camera.top =
-            25;
-
-        directionalLight.shadow.camera.bottom =
-            -20;
-
-        scene.add(
-            directionalLight
-        );
-
-
-        /* ==================================================
-           WORLD GROUPS
-        ================================================== */
-
-        const worldGroup =
-            new THREE.Group();
-
-        scene.add(
-            worldGroup
-        );
-
-
-        const obstacleGroup =
-            new THREE.Group();
-
-        scene.add(
-            obstacleGroup
-        );
-
-
-        const coinGroup =
-            new THREE.Group();
-
-        scene.add(
-            coinGroup
-        );
-
-
-        /* ==================================================
-           GROUND
-        ================================================== */
-
-        const groundGeometry =
-            new THREE.PlaneGeometry(
-                150,
-                150
-            );
-
-        const groundMaterial =
-            new THREE.MeshStandardMaterial({
-                color: 0x0a1724,
-                roughness: 0.95,
-                metalness: 0.02
-            });
-
-        const ground =
-            new THREE.Mesh(
-                groundGeometry,
-                groundMaterial
-            );
-
-        ground.rotation.x =
-            -Math.PI / 2;
-
-        ground.position.y =
-            -0.55;
-
-        ground.receiveShadow = true;
-
-        scene.add(
-            ground
-        );
-
-
-        /* ==================================================
-           TRACK
-        ================================================== */
-
-        const trackMaterial =
-            new THREE.MeshStandardMaterial({
-                color: 0x1a3148,
-                roughness: 0.58,
-                metalness: 0.15
-            });
-
-
-        const sideMaterial =
-            new THREE.MeshStandardMaterial({
-                color: 0x284964,
-                roughness: 0.55,
-                metalness: 0.2
-            });
-
-
-        const trackSections = [];
-
-
-        function createTrackSection(
-            zPosition
-        ) {
-
-            const trackGeometry =
-                new THREE.BoxGeometry(
-                    GAME.trackWidth,
-                    0.55,
-                    GAME.trackLength
-                );
-
-            const track =
-                new THREE.Mesh(
-                    trackGeometry,
-                    trackMaterial
-                );
-
-            track.position.set(
-                0,
-                -0.28,
-                zPosition
-            );
-
-            track.receiveShadow = true;
-
-            worldGroup.add(
-                track
-            );
-
-
-            /*
-                Raised side rails.
-            */
-
-            const leftRailGeometry =
-                new THREE.BoxGeometry(
-                    0.18,
-                    0.7,
-                    GAME.trackLength
-                );
-
-            const leftRail =
-                new THREE.Mesh(
-                    leftRailGeometry,
-                    sideMaterial
-                );
-
-            leftRail.position.set(
-                -GAME.trackWidth / 2,
-                0.10,
-                zPosition
-            );
-
-            leftRail.castShadow = true;
-            leftRail.receiveShadow = true;
-
-            worldGroup.add(
-                leftRail
-            );
-
-
-            const rightRail =
-                leftRail.clone();
-
-            rightRail.position.x =
-                GAME.trackWidth / 2;
-
-            worldGroup.add(
-                rightRail
-            );
-
-
-            /*
-                Decorative center markers.
-            */
-
-            const markerMaterial =
-                new THREE.MeshStandardMaterial({
-                    color: 0x3d6485,
-                    roughness: 0.7
-                });
-
-
-            for (
-                let i = -4;
-                i < GAME.trackLength;
-                i += 8
-            ) {
-
-                const marker =
-                    new THREE.Mesh(
-                        new THREE.BoxGeometry(
-                            0.18,
-                            0.025,
-                            2.8
-                        ),
-                        markerMaterial
-                    );
-
-                marker.position.set(
-                    0,
-                    0.02,
-                    zPosition + i
-                );
-
-                worldGroup.add(
-                    marker
-                );
-            }
-
-
-            trackSections.push(
-                zPosition
-            );
-
-            return track;
-        }
-
-
-        /*
-            Create multiple long sections.
-        */
-
-        createTrackSection(-60);
-        createTrackSection(-240);
-        createTrackSection(-420);
-        createTrackSection(-600);
-
-
-        /* ==================================================
-           BALL
-        ================================================== */
-
-        const ballGroup =
-            new THREE.Group();
-
-        scene.add(
-            ballGroup
-        );
-
-
-        const ballGeometry =
-            new THREE.SphereGeometry(
-                GAME.ballRadius,
-                32,
-                24
-            );
-
-        const ballMaterial =
-            new THREE.MeshStandardMaterial({
-                color: 0xffffff,
-                roughness: 0.28,
-                metalness: 0.18
-            });
-
-        const ball =
-            new THREE.Mesh(
-                ballGeometry,
-                ballMaterial
-            );
-
-        ball.castShadow = true;
-        ball.receiveShadow = true;
-
-        ballGroup.add(
-            ball
-        );
-
-
-        /*
-            Small shadow under the ball.
-        */
-
-        const ballShadow =
-            new THREE.Mesh(
-                new THREE.CircleGeometry(
-                    0.55,
-                    24
-                ),
-                new THREE.MeshBasicMaterial({
-                    color: 0x000000,
-                    transparent: true,
-                    opacity: 0.25,
-                    depthWrite: false
-                })
-            );
-
-        ballShadow.rotation.x =
-            -Math.PI / 2;
-
-        ballShadow.position.y =
-            -0.45;
-
-        ballGroup.add(
-            ballShadow
-        );
-
-
-        /* ==================================================
-           BALL STATE
-        ================================================== */
-
-        let ballX = 0;
-        let ballY = GAME.ballRadius;
-
-        let ballVelocityY = 0;
-
-        let ballZ = 0;
-
-        let targetX = 0;
-
-        let currentSpeed =
-            GAME.baseSpeed;
-
-        let distance =
-            0;
-
-        let gameRunning =
-            false;
-
-        let gamePaused =
-            false;
-
-        let runStarted =
-            false;
-
-
-        /* ==================================================
-           BEST SCORE
-        ================================================== */
-
-        const BEST_SCORE_KEY =
-            "threeDBallRunBest";
-
-        let bestDistance =
-            Number(
-                localStorage.getItem(
-                    BEST_SCORE_KEY
-                ) || 0
-            );
-
-        bestValue.textContent =
-            bestDistance;
-
-
-        /* ==================================================
-           OBSTACLES
-        ================================================== */
-
-        const obstacles = [];
-
-
-        function createObstacle(
-            x,
-            z,
-            type
-        ) {
-
-            let obstacle;
-
-            if (
-                type === "block"
-            ) {
-
-                const geometry =
-                    new THREE.BoxGeometry(
-                        1.5,
-                        1.15,
-                        1.3
-                    );
-
-                const material =
-                    new THREE.MeshStandardMaterial({
-                        color: 0xc7464f,
-                        roughness: 0.46,
-                        metalness: 0.14
-                    });
-
-                obstacle =
-                    new THREE.Mesh(
-                        geometry,
-                        material
-                    );
-
-                obstacle.position.y =
-                    0.57;
-
-            } else {
-
-                /*
-                    Wide wall.
-                */
-
-                const geometry =
-                    new THREE.BoxGeometry(
-                        2.7,
-                        1.0,
-                        1.0
-                    );
-
-                const material =
-                    new THREE.MeshStandardMaterial({
-                        color: 0xde8e43,
-                        roughness: 0.5,
-                        metalness: 0.1
-                    });
-
-                obstacle =
-                    new THREE.Mesh(
-                        geometry,
-                        material
-                    );
-
-                obstacle.position.y =
-                    0.50;
-            }
-
-
-            obstacle.position.x =
-                x;
-
-            obstacle.position.z =
-                z;
-
-            obstacle.castShadow =
-                true;
-
-            obstacle.receiveShadow =
-                true;
-
-            obstacle.userData.type =
-                type;
-
-            obstacleGroup.add(
-                obstacle
-            );
-
-            obstacles.push(
-                obstacle
-            );
-        }
-
-
-        /* ==================================================
-           COINS
-        ================================================== */
-
-        const coins = [];
-
-
-        function createCoin(
-            x,
-            z
-        ) {
-
-            const geometry =
-                new THREE.TorusGeometry(
-                    0.32,
-                    0.09,
-                    12,
-                    24
-                );
-
-            const material =
-                new THREE.MeshStandardMaterial({
-                    color: 0xffca45,
-                    emissive: 0x6b3f00,
-                    emissiveIntensity: 0.5,
-                    metalness: 0.6,
-                    roughness: 0.22
-                });
-
-            const coin =
-                new THREE.Mesh(
-                    geometry,
-                    material
-                );
-
-            coin.rotation.y =
-                Math.PI / 2;
-
-            coin.position.set(
-                x,
-                1.1,
-                z
-            );
-
-            coin.castShadow =
-                true;
-
-            coinGroup.add(
-                coin
-            );
-
-            coins.push(
-                coin
-            );
-        }
-
-
-        /* ==================================================
-           INITIAL OBSTACLES
-        ================================================== */
-
-        function seedWorld() {
-
-            /*
-                Clear existing objects.
-            */
-
-            while (
-                obstacleGroup.children.length
-            ) {
-
-                obstacleGroup.remove(
-                    obstacleGroup.children[0]
-                );
-            }
-
-            while (
-                coinGroup.children.length
-            ) {
-
-                coinGroup.remove(
-                    coinGroup.children[0]
-                );
-            }
-
-            obstacles.length = 0;
-            coins.length = 0;
-
-
-            /*
-                Starting world.
-            */
-
-            const startingZ =
-                -12;
-
-
-            for (
-                let i = 0;
-                i < 30;
-                i++
-            ) {
-
-                const z =
-                    startingZ -
-                    i * GAME.obstacleFrequency;
-
-                const lane =
-                    [-2.4, 0, 2.4][
-                        Math.floor(
-                            Math.random() * 3
-                        )
-                    ];
-
-                /*
-                    Do not put an obstacle
-                    too close to the start.
-                */
-
-                if (i < 2) {
-
-                    createCoin(
-                        lane,
-                        z
-                    );
-
-                    continue;
-                }
-
-
-                /*
-                    Some segments have two
-                    obstacles with one safe gap.
-                */
-
-                if (
-                    i % 7 === 0
-                ) {
-
-                    const safeLane =
-                        [-2.4, 0, 2.4][
-                            Math.floor(
-                                Math.random() * 3
-                            )
-                        ];
-
-
-                    [-2.4, 0, 2.4].forEach(
-                        laneValue => {
-
-                            if (
-                                laneValue !== safeLane
-                            ) {
-
-                                createObstacle(
-                                    laneValue,
-                                    z,
-                                    "block"
-                                );
-                            }
-
-                        }
-                    );
-
-                    createCoin(
-                        safeLane,
-                        z - 3
-                    );
-
-                } else {
-
-                    const type =
-                        i % 5 === 0
-                            ? "wall"
-                            : "block";
-
-                    createObstacle(
-                        lane,
-                        z,
-                        type
-                    );
-
-
-                    /*
-                        Coin in a different lane
-                        encourages movement.
-                    */
-
-                    const coinLane =
-                        [-2.4, 0, 2.4][
-                            Math.floor(
-                                Math.random() * 3
-                            )
-                        ];
-
-                    createCoin(
-                        coinLane,
-                        z - 4
-                    );
-                }
-            }
-        }
-
-
-        /* ==================================================
-           WORLD EXTENSION
-        ================================================== */
-
-        let nextSpawnZ =
-            -470;
-
-
-        function extendWorldIfNeeded() {
-
-            if (
-                ballZ <
-                nextSpawnZ + 330
-            ) {
-
-                for (
-                    let i = 0;
-                    i < 24;
-                    i++
-                ) {
-
-                    const z =
-                        nextSpawnZ -
-                        i * GAME.obstacleFrequency;
-
-                    const lane =
-                        [-2.4, 0, 2.4][
-                            Math.floor(
-                                Math.random() * 3
-                            )
-                        ];
-
-
-                    if (
-                        i % 8 === 0
-                    ) {
-
-                        const safeLane =
-                            [-2.4, 0, 2.4][
-                                Math.floor(
-                                    Math.random() * 3
-                                )
-                            ];
-
-
-                        [-2.4, 0, 2.4].forEach(
-                            laneValue => {
-
-                                if (
-                                    laneValue !==
-                                    safeLane
-                                ) {
-
-                                    createObstacle(
-                                        laneValue,
-                                        z,
-                                        "block"
-                                    );
-                                }
-
-                            }
-                        );
-
-                        createCoin(
-                            safeLane,
-                            z - 3
-                        );
-
-                    } else {
-
-                        createObstacle(
-                            lane,
-                            z,
-                            i % 5 === 0
-                                ? "wall"
-                                : "block"
-                        );
-
-                        const coinLane =
-                            [-2.4, 0, 2.4][
-                                Math.floor(
-                                    Math.random() * 3
-                                )
-                            ];
-
-                        createCoin(
-                            coinLane,
-                            z - 3
-                        );
-                    }
-                }
-
-                nextSpawnZ -=
-                    24 * GAME.obstacleFrequency;
-            }
-        }
-
-
-        /* ==================================================
-           CLEAN OLD OBJECTS
-        ================================================== */
-
-        function cleanOldObjects() {
-
-            /*
-                Objects far behind the camera
-                can be safely removed.
-            */
-
-            for (
-                let i = obstacles.length - 1;
-                i >= 0;
-                i--
-            ) {
-
-                const obstacle =
-                    obstacles[i];
-
-                if (
-                    obstacle.position.z >
-                    ballZ + 20
-                ) {
-
-                    obstacleGroup.remove(
-                        obstacle
-                    );
-
-                    obstacles.splice(
-                        i,
-                        1
-                    );
-                }
-            }
-
-
-            for (
-                let i = coins.length - 1;
-                i >= 0;
-                i--
-            ) {
-
-                const coin =
-                    coins[i];
-
-                if (
-                    coin.position.z >
-                    ballZ + 20
-                ) {
-
-                    coinGroup.remove(
-                        coin
-                    );
-
-                    coins.splice(
-                        i,
-                        1
-                    );
-                }
-            }
-        }
-
-
-        /* ==================================================
-           INPUT
-        ================================================== */
-
-        let pointerActive =
-            false;
-
-        let pointerStartX =
-            0;
-
-        let pointerStartY =
-            0;
-
-        let lastPointerX =
-            0;
-
-
-        function onPointerDown(
-            event
-        ) {
-
-            if (
-                !gameRunning ||
-                gamePaused
-            ) {
-                return;
-            }
-
-            pointerActive =
-                true;
-
-            pointerStartX =
-                event.clientX;
-
-            pointerStartY =
-                event.clientY;
-
-            lastPointerX =
-                event.clientX;
-        }
-
-
-        function onPointerMove(
-            event
-        ) {
-
-            if (
-                !pointerActive ||
-                !gameRunning ||
-                gamePaused
-            ) {
-                return;
-            }
-
-            const deltaX =
-                event.clientX -
-                lastPointerX;
-
-            lastPointerX =
-                event.clientX;
-
-
-            /*
-                Horizontal drag.
-
-                Different screens are normalized
-                using viewport width.
-            */
-
-            const movement =
-                deltaX /
-                window.innerWidth *
-                9.5;
-
-            targetX +=
-                movement;
-
-            targetX =
-                THREE.MathUtils.clamp(
-                    targetX,
-                    -3.25,
-                    3.25
-                );
-        }
-
-
-        function onPointerUp(
-            event
-        ) {
-
-            if (
-                !pointerActive
-            ) {
-                return;
-            }
-
-            pointerActive =
-                false;
-
-
-            if (
-                !gameRunning ||
-                gamePaused
-            ) {
-                return;
-            }
-
-
-            const deltaY =
-                event.clientY -
-                pointerStartY;
-
-
-            /*
-                Swipe up = jump.
-
-                Small upward movement is enough
-                on mobile.
-            */
-
-            if (
-                deltaY < -45
-            ) {
-
-                jumpBall();
-            }
-        }
-
-
-        renderer.domElement.addEventListener(
-            "pointerdown",
-            onPointerDown
-        );
-
-        window.addEventListener(
-            "pointermove",
-            onPointerMove
-        );
-
-        window.addEventListener(
-            "pointerup",
-            onPointerUp
-        );
-
-
-        /* ==================================================
-           KEYBOARD
-        ================================================== */
-
-        const keys = {
-            left: false,
-            right: false
-        };
-
-
-        window.addEventListener(
-            "keydown",
-            event => {
-
-                if (
-                    event.key === "ArrowLeft" ||
-                    event.key.toLowerCase() === "a"
-                ) {
-
-                    keys.left = true;
-                }
-
-                if (
-                    event.key === "ArrowRight" ||
-                    event.key.toLowerCase() === "d"
-                ) {
-
-                    keys.right = true;
-                }
-
-                if (
-                    event.key === "ArrowUp" ||
-                    event.key === " " ||
-                    event.key.toLowerCase() === "w"
-                ) {
-
-                    jumpBall();
-                }
-
-                if (
-                    event.key.toLowerCase() === "p"
-                ) {
-
-                    togglePause();
-                }
-            }
-        );
-
-
-        window.addEventListener(
-            "keyup",
-            event => {
-
-                if (
-                    event.key === "ArrowLeft" ||
-                    event.key.toLowerCase() === "a"
-                ) {
-
-                    keys.left = false;
-                }
-
-                if (
-                    event.key === "ArrowRight" ||
-                    event.key.toLowerCase() === "d"
-                ) {
-
-                    keys.right = false;
-                }
-            }
-        );
-
-
-        /* ==================================================
-           JUMP
-        ================================================== */
-
-        function jumpBall() {
-
-            if (
-                !gameRunning ||
-                gamePaused
-            ) {
-                return;
-            }
-
-
-            /*
-                Only jump when touching the ground.
-            */
-
-            if (
-                ballY <=
-                GAME.ballRadius + 0.03
-            ) {
-
-                ballVelocityY =
-                    GAME.jumpPower;
-            }
-        }
-
-
-        /* ==================================================
-           COLLISION HELPERS
-        ================================================== */
-
-        function ballTouchesObstacle(
-            obstacle
-        ) {
-
-            const dx =
-                Math.abs(
-                    ballX -
-                    obstacle.position.x
-                );
-
-            const dz =
-                Math.abs(
-                    ballZ -
-                    obstacle.position.z
-                );
-
-
-            /*
-                Simple horizontal collision.
-            */
-
-            const obstacleHalfWidth =
-                obstacle.scale.x *
-                0.85;
-
-
-            const obstacleHalfDepth =
-                obstacle.scale.z *
-                0.75;
-
-
-            const horizontalCollision =
-                dx <
-                (
-                    GAME.ballRadius +
-                    obstacleHalfWidth
-                );
-
-
-            const depthCollision =
-                dz <
-                (
-                    GAME.ballRadius +
-                    obstacleHalfDepth
-                );
-
-
-            /*
-                If the ball is high enough,
-                it can jump over the obstacle.
-            */
-
-            const obstacleHeight =
-                obstacle.geometry.parameters.height ||
-                1;
-
-
-            const verticalCollision =
-                ballY <
-                obstacleHeight +
-                GAME.ballRadius * 0.65;
-
-
-            return (
-                horizontalCollision &&
-                depthCollision &&
-                verticalCollision
-            );
-        }
-
-
-        /* ==================================================
-           UPDATE BALL PHYSICS
-        ================================================== */
-
-        function updateBall() {
-
-            /*
-                Keyboard movement.
-            */
-
-            if (
-                keys.left
-            ) {
-
-                targetX -=
-                    0.10;
-            }
-
-            if (
-                keys.right
-            ) {
-
-                targetX +=
-                    0.10;
-            }
-
-
-            targetX =
-                THREE.MathUtils.clamp(
-                    targetX,
-                    -3.25,
-                    3.25
-                );
-
-
-            /*
-                Smooth horizontal movement.
-            */
-
-            ballX +=
-                (
-                    targetX -
-                    ballX
-                ) *
-                GAME.laneMoveSpeed;
-
-
-            /*
-                Automatic forward movement.
-
-                Negative Z means forward.
-            */
-
-            ballZ -=
-                currentSpeed;
-
-
-            /*
-                Gravity and vertical movement.
-            */
-
-            ballVelocityY -=
-                GAME.gravity;
-
-            ballY +=
-                ballVelocityY;
-
-
-            /*
-                Track surface.
-            */
-
-            const groundY =
-                GAME.ballRadius;
-
-
-            if (
-                ballY <
-                groundY
-            ) {
-
-                ballY =
-                    groundY;
-
-                ballVelocityY =
-                    0;
-            }
-
-
-            /*
-                Visual ball rotation.
-            */
-
-            ball.rotation.x -=
-                currentSpeed *
-                1.35;
-
-            ball.rotation.z +=
-                (
-                    targetX -
-                    ballX
-                ) *
-                0.16;
-
-
-            /*
-                Apply ball position.
-            */
-
-            ballGroup.position.set(
-                ballX,
-                ballY,
-                ballZ
-            );
-
-
-            /*
-                Ball shadow gets smaller
-                while jumping.
-            */
-
-            const jumpHeight =
-                Math.max(
-                    0,
-                    ballY -
-                    GAME.ballRadius
-                );
-
-
-            const shadowScale =
-                Math.max(
-                    0.45,
-                    1 -
-                    jumpHeight * 0.38
-                );
-
-
-            ballShadow.scale.set(
-                shadowScale,
-                shadowScale,
-                shadowScale
-            );
-
-            ballShadow.material.opacity =
-                Math.max(
-                    0.08,
-                    0.25 -
-                    jumpHeight * 0.08
-                );
-        }
-
-
-        /* ==================================================
-           COLLISION CHECK
-        ================================================== */
-
-        function checkObstacleCollisions() {
-
-            for (
-                const obstacle of obstacles
-            ) {
-
-                /*
-                    Only test objects close
-                    to the ball.
-                */
-
-                if (
-                    Math.abs(
-                        obstacle.position.z -
-                        ballZ
-                    ) > 3
-                ) {
-
-                    continue;
-                }
-
-
-                if (
-                    ballTouchesObstacle(
-                        obstacle
-                    )
-                ) {
-
-                    endGame(
-                        "You hit an obstacle."
-                    );
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-
-        /* ==================================================
-           COINS
-        ================================================== */
-
-        function checkCoinCollisions() {
-
-            for (
-                let i = coins.length - 1;
-                i >= 0;
-                i--
-            ) {
-
-                const coin =
-                    coins[i];
-
-
-                if (
-                    Math.abs(
-                        coin.position.z -
-                        ballZ
-                    ) > 2.5
-                ) {
-
-                    continue;
-                }
-
-
-                const dx =
-                    ballX -
-                    coin.position.x;
-
-                const dy =
-                    ballY -
-                    coin.position.y;
-
-                const dz =
-                    ballZ -
-                    coin.position.z;
-
-
-                const distanceToCoin =
-                    Math.sqrt(
-                        dx * dx +
-                        dy * dy +
-                        dz * dz
-                    );
-
-
-                if (
-                    distanceToCoin <
-                    0.85
-                ) {
-
-                    coinGroup.remove(
-                        coin
-                    );
-
-                    coins.splice(
-                        i,
-                        1
-                    );
-
-                    /*
-                        Small score boost.
-                        Distance is still the
-                        primary score.
-                    */
-
-                    distance += 5;
-                }
-            }
-        }
-
-
-        /* ==================================================
-           FALL OFF TRACK
-        ================================================== */
-
-        function checkTrackBounds() {
-
-            if (
-                Math.abs(ballX) >
-                4.05
-            ) {
-
-                endGame(
-                    "You left the track."
-                );
-
-                return true;
-            }
-
-            return false;
-        }
-
-
-        /* ==================================================
-           SPEED
-        ================================================== */
-
-        function updateSpeed() {
-
-            currentSpeed =
-                Math.min(
-                    GAME.maxSpeed,
-                    GAME.baseSpeed +
-                    distance *
-                    GAME.speedIncrease
-                );
-
-
-            const speedMultiplier =
-                currentSpeed /
-                GAME.baseSpeed;
-
-
-            speedValue.textContent =
-                speedMultiplier.toFixed(1) +
-                "x";
-        }
-
-
-        /* ==================================================
-           DISTANCE / HUD
-        ================================================== */
-
-        function updateHud() {
-
-            distanceValue.textContent =
-                Math.floor(
-                    distance
-                );
-
-            bestValue.textContent =
-                bestDistance;
-
-            const speedMultiplier =
-                currentSpeed /
-                GAME.baseSpeed;
-
-            speedValue.textContent =
-                speedMultiplier.toFixed(1) +
-                "x";
-        }
-
-
-        /* ==================================================
-           CAMERA
-        ================================================== */
-
-        function updateCamera() {
-
-            const desiredX =
-                ballX * 0.62;
-
-            const desiredY =
-                GAME.cameraHeight +
-                Math.max(
-                    0,
-                    ballY -
-                    GAME.ballRadius
-                ) *
-                0.28;
-
-
-            camera.position.x +=
-                (
-                    desiredX -
-                    camera.position.x
-                ) *
-                0.07;
-
-
-            camera.position.y +=
-                (
-                    desiredY -
-                    camera.position.y
-                ) *
-                0.07;
-
-
-            camera.position.z =
-                ballZ +
-                GAME.cameraDistance;
-
-
-            const lookAt =
-                new THREE.Vector3(
-                    ballX * 0.35,
-                    0.5,
-                    ballZ - 7
-                );
-
-
-            camera.lookAt(
-                lookAt
-            );
-        }
-
-
-        /* ==================================================
-           DECORATIVE SKY OBJECTS
-        ================================================== */
-
-        const decorativeGroup =
-            new THREE.Group();
-
-        scene.add(
-            decorativeGroup
-        );
-
-
-        function createBackgroundBlocks() {
-
-            const material =
-                new THREE.MeshStandardMaterial({
-                    color: 0x17304a,
-                    roughness: 0.95,
-                    metalness: 0.02
-                });
-
-
-            for (
-                let i = 0;
-                i < 35;
-                i++
-            ) {
-
-                const height =
-                    1 +
-                    Math.random() * 7;
-
-                const width =
-                    1.5 +
-                    Math.random() * 4;
-
-                const depth =
-                    3 +
-                    Math.random() * 8;
-
-
-                const building =
-                    new THREE.Mesh(
-                        new THREE.BoxGeometry(
-                            width,
-                            height,
-                            depth
-                        ),
-                        material
-                    );
-
-
-                const side =
-                    Math.random() < 0.5
-                        ? -1
-                        : 1;
-
-
-                building.position.set(
-                    side *
-                    (
-                        7 +
-                        Math.random() * 16
-                    ),
-                    height / 2 -
-                    0.5,
-                    -Math.random() * 120
-                );
-
-
-                building.castShadow =
-                    false;
-
-                building.receiveShadow =
-                    true;
-
-                decorativeGroup.add(
-                    building
-                );
-            }
-        }
-
-
-        createBackgroundBlocks();
-
-
-        /* ==================================================
-           GAME RESET
-        ================================================== */
-
-        function resetGameState() {
-
-            gameRunning =
-                false;
-
-            gamePaused =
-                false;
-
-            runStarted =
-                false;
-
-            ballX =
-                0;
-
-            ballY =
-                GAME.ballRadius;
-
-            ballVelocityY =
-                0;
-
-            ballZ =
-                0;
-
-            targetX =
-                0;
-
-            currentSpeed =
-                GAME.baseSpeed;
-
-            distance =
-                0;
-
-            nextSpawnZ =
-                -470;
-
-
-            ballGroup.position.set(
-                0,
-                GAME.ballRadius,
-                0
-            );
-
-
-            camera.position.set(
-                0,
-                GAME.cameraHeight,
-                GAME.cameraDistance
-            );
-
-
-            pauseOverlay.classList.remove(
-                "show"
-            );
-
-            pauseButton.classList.remove(
-                "show"
-            );
-
-
-            updateHud();
-        }
-
-
-        /* ==================================================
-           START COUNTDOWN
-        ================================================== */
-
-        function showCountdown(
-            title,
-            description,
-            callback
-        ) {
-
-            startOverlay.classList.remove(
-                "hidden"
-            );
-
-            overlayTitle.textContent =
-                title;
-
-            overlayText.textContent =
-                description;
-
-
-            countdown.innerHTML =
-                "";
-
-
-            let count =
-                3;
-
-
-            function tick() {
-
-                countdown.classList.remove(
-                    "pop"
-                );
-
-                void countdown.offsetWidth;
-
-                countdown.classList.add(
-                    "pop"
-                );
-
-
-                countdown.textContent =
-                    count;
-
-
-                if (
-                    count === 0
-                ) {
-
-                    countdown.textContent =
-                        "GO!";
-
-
-                    setTimeout(
-                        () => {
-
-                            startOverlay.classList.add(
-                                "hidden"
-                            );
-
-                            callback();
-                        },
-                        420
-                    );
-
-                    return;
-                }
-
-
-                count--;
-
-                setTimeout(
-                    tick,
-                    720
-                );
-            }
-
-
-            tick();
-        }
-
-
-        /* ==================================================
-           START BUTTON
-        ================================================== */
-
-        startButton.addEventListener(
-            "click",
-            () => {
-
-                startNewRun();
-            }
-        );
-
-
-        /* ==================================================
-           NEW RUN
-        ================================================== */
-
-        function startNewRun() {
-
-            resetGameState();
-
-            seedWorld();
-
-            /*
-                Starting message.
-            */
-
-            statusText.textContent =
-                "Stay on the track. Avoid the red blocks.";
-
-
-            showCountdown(
-                "3D Ball Run",
-                "Get ready. The ball moves automatically.",
-                () => {
-
-                    startRunning();
-                }
-            );
-        }
-
-
-        /* ==================================================
-           START RUNNING
-        ================================================== */
-
-        function startRunning() {
-
-            gameRunning =
-                true;
-
-            runStarted =
-                true;
-
-            gamePaused =
-                false;
-
-            pauseButton.classList.add(
-                "show"
-            );
-
-            statusText.textContent =
-                "Drag left / right • Swipe up to jump";
-        }
-
-
-        /* ==================================================
-           END GAME
-        ================================================== */
-
-        function endGame(
-            reason
-        ) {
-
-            if (
-                !gameRunning
-            ) {
-
-                return;
-            }
-
-
-            gameRunning =
-                false;
-
-            gamePaused =
-                false;
-
-            pauseButton.classList.remove(
-                "show"
-            );
-
-
-            const finalDistance =
-                Math.floor(
-                    distance
-                );
-
-
-            if (
-                finalDistance >
-                bestDistance
-            ) {
-
-                bestDistance =
-                    finalDistance;
-
-                localStorage.setItem(
-                    BEST_SCORE_KEY,
-                    String(
-                        bestDistance
-                    )
-                );
-            }
-
-
-            resultDistance.textContent =
-                finalDistance;
-
-            resultBest.textContent =
-                bestDistance;
-
-            resultSpeed.textContent =
-                (
-                    currentSpeed /
-                    GAME.baseSpeed
-                ).toFixed(1) +
-                "x";
-
-
-            resultOverlay.classList.remove(
-                "hidden"
-            );
-
-
-            statusText.textContent =
-                reason;
-        }
-
-
-        /* ==================================================
-           RESTART
-        ================================================== */
-
-        restartButton.addEventListener(
-            "click",
-            () => {
-
-                resultOverlay.classList.add(
-                    "hidden"
-                );
-
-                startNewRun();
-            }
-        );
-
-
-        /* ==================================================
-           NEW RUN
-        ================================================== */
-
-        newRunButton.addEventListener(
-            "click",
-            () => {
-
-                resultOverlay.classList.add(
-                    "hidden"
-                );
-
-                startNewRun();
-            }
-        );
-
-
-        /* ==================================================
-           PAUSE
-        ================================================== */
-
-        function togglePause() {
-
-            if (
-                !gameRunning &&
-                !gamePaused
-            ) {
-
-                return;
-            }
-
-
-            if (
-                gamePaused
-            ) {
-
-                gamePaused =
-                    false;
-
-                pauseOverlay.classList.remove(
-                    "show"
-                );
-
-                pauseButton.textContent =
-                    "❚❚";
-
-                statusText.textContent =
-                    "Run resumed.";
-
-            } else {
-
-                gamePaused =
-                    true;
-
-                pauseOverlay.classList.add(
-                    "show"
-                );
-
-                pauseButton.textContent =
-                    "▶";
-
-                statusText.textContent =
-                    "Game paused.";
-            }
-        }
-
-
-        pauseButton.addEventListener(
-            "click",
-            togglePause
-        );
-
-
-        resumeButton.addEventListener(
-            "click",
-            togglePause
-        );
-
-
-        /* ==================================================
-           RESIZE
-        ================================================== */
-
-        window.addEventListener(
-            "resize",
-            () => {
-
-                camera.aspect =
-                    window.innerWidth /
-                    window.innerHeight;
-
-                camera.updateProjectionMatrix();
-
-                renderer.setPixelRatio(
-                    Math.min(
-                        window.devicePixelRatio,
-                        1.7
-                    )
-                );
-
-                renderer.setSize(
-                    window.innerWidth,
-                    window.innerHeight
-                );
-            }
-        );
-
-
-        /* ==================================================
-           PREVENT PAGE SCROLL / GESTURES
-        ================================================== */
-
-        document.addEventListener(
-            "touchmove",
-            event => {
-
-                event.preventDefault();
-            },
-            {
-                passive: false
-            }
-        );
-
-
-        document.addEventListener(
-            "gesturestart",
-            event => {
-
-                event.preventDefault();
-            }
-        );
-
-
-        /* ==================================================
-           ANIMATION LOOP
-        ================================================== */
-
-        let previousTime =
-            performance.now();
-
-
-        function animate(
-            currentTime
-        ) {
-
-            requestAnimationFrame(
-                animate
-            );
-
-
-            const elapsedMs =
-                currentTime -
-                previousTime;
-
-            previousTime =
-                currentTime;
-
-
-            /*
-                Cap the delta time.
-
-                This helps avoid huge physics
-                jumps after switching tabs.
-            */
-
-            const deltaFactor =
-                Math.min(
-                    2,
-                    elapsedMs / 16.67
-                );
-
-
-            if (
-                gameRunning &&
-                !gamePaused
-            ) {
-
-                /*
-                    Increase distance
-                    based on forward speed.
-                */
-
-                distance +=
-                    currentSpeed *
-                    deltaFactor *
-                    0.82;
-
-
-                updateSpeed();
-
-                updateBall();
-
-                checkCoinCollisions();
-
-                if (
-                    checkObstacleCollisions()
-                ) {
-
-                    renderer.render(
-                        scene,
-                        camera
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    checkTrackBounds()
-                ) {
-
-                    renderer.render(
-                        scene,
-                        camera
-                    );
-
-                    return;
-                }
-
-
-                extendWorldIfNeeded();
-
-                cleanOldObjects();
-
-                updateCamera();
-
-                updateHud();
-            }
-
-
-            /*
-                Coins spin all the time.
-            */
-
-            for (
-                const coin of coins
-            ) {
-
-                coin.rotation.z +=
-                    0.045;
-
-                coin.rotation.y +=
-                    0.025;
-            }
-
-
-            /*
-                Tiny environmental animation.
-            */
-
-            decorativeGroup.children.forEach(
-                building => {
-
-                    building.rotation.y +=
-                        0.00008;
-                }
-            );
-
-
-            renderer.render(
-                scene,
-                camera
-            );
-        }
-
-
-        /* ==================================================
-           INITIAL WORLD
-        ================================================== */
-
-        resetGameState();
-
-        seedWorld();
-
-        updateHud();
-
-        animate(
-            performance.now()
-        );
-
-    
-
-/* ==========================================================
-   BALL GAME HUB HOOKS
-========================================================== */
-
-function startNewBallRun() {
+  const gameContainer = document.getElementById("ball_gameContainer");
+  const distanceValue = document.getElementById("ball_distanceValue");
+  const speedValue = document.getElementById("ball_speedValue");
+  const bestValue = document.getElementById("ball_bestValue");
+  const statusText = document.getElementById("ball_statusText");
+  const startOverlay = document.getElementById("ball_startOverlay");
+  const overlayTitle = document.getElementById("ball_overlayTitle");
+  const overlayText = document.getElementById("ball_overlayText");
+  const countdownEl = document.getElementById("ball_countdown");
+  const startButton = document.getElementById("ball_startButton");
+  const resultOverlay = document.getElementById("ball_resultOverlay");
+  const resultDistance = document.getElementById("ball_resultDistance");
+  const resultBest = document.getElementById("ball_resultBest");
+  const resultSpeed = document.getElementById("ball_resultSpeed");
+  const restartButton = document.getElementById("ball_restartButton");
+  const newRunButton = document.getElementById("ball_newRunButton");
+  const pauseButton = document.getElementById("ball_pauseButton");
+  const pauseOverlay = document.getElementById("ball_pauseOverlay");
+  const resumeButton = document.getElementById("ball_resumeButton");
+
+  const GAME = {
+    baseSpeed: 0.28,
+    maxSpeed: 0.72,
+    speedIncrease: 0.000018,
+    trackWidth: 8,
+    trackLength: 180,
+    ballRadius: 0.48,
+    gravity: 0.018,
+    jumpPower: 0.32,
+    laneMoveSpeed: 0.16,
+    obstacleFrequency: 13,
+    coinFrequency: 9,
+    cameraDistance: 9,
+    cameraHeight: 4.7
+  };
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x07111f, 18, 105);
+
+  const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 180);
+  camera.position.set(0, GAME.cameraHeight, GAME.cameraDistance);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  gameContainer.appendChild(renderer.domElement);
+
+  const hemisphereLight = new THREE.HemisphereLight(0x9ec9ff, 0x122033, 1.8);
+  scene.add(hemisphereLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 2.1);
+  directionalLight.position.set(8, 14, 12);
+  directionalLight.castShadow = true;
+  scene.add(directionalLight);
+
+  const worldGroup = new THREE.Group(); scene.add(worldGroup);
+  const obstacleGroup = new THREE.Group(); scene.add(obstacleGroup);
+  const coinGroup = new THREE.Group(); scene.add(coinGroup);
+
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(150, 150),
+    new THREE.MeshStandardMaterial({ color: 0x0a1724, roughness: 0.95, metalness: 0.02 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.55;
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  const trackMaterial = new THREE.MeshStandardMaterial({ color: 0x1a3148, roughness: 0.58, metalness: 0.15 });
+  const sideMaterial = new THREE.MeshStandardMaterial({ color: 0x284964, roughness: 0.55, metalness: 0.2 });
+
+  function createTrackSection(zPosition) {
+    const track = new THREE.Mesh(new THREE.BoxGeometry(GAME.trackWidth, 0.55, GAME.trackLength), trackMaterial);
+    track.position.set(0, -0.28, zPosition);
+    track.receiveShadow = true;
+    worldGroup.add(track);
+
+    const leftRail = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.7, GAME.trackLength), sideMaterial);
+    leftRail.position.set(-GAME.trackWidth / 2, 0.10, zPosition);
+    worldGroup.add(leftRail);
+
+    const rightRail = leftRail.clone();
+    rightRail.position.x = GAME.trackWidth / 2;
+    worldGroup.add(rightRail);
+  }
+
+  createTrackSection(-60);
+  createTrackSection(-240);
+  createTrackSection(-420);
+  createTrackSection(-600);
+
+  const ballGroup = new THREE.Group();
+  scene.add(ballGroup);
+
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(GAME.ballRadius, 32, 24),
+    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.28, metalness: 0.18 })
+  );
+  ball.castShadow = true;
+  ballGroup.add(ball);
+
+  const ballShadow = new THREE.Mesh(
+    new THREE.CircleGeometry(0.55, 24),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.25, depthWrite: false })
+  );
+  ballShadow.rotation.x = -Math.PI / 2;
+  ballShadow.position.y = -0.45;
+  ballGroup.add(ballShadow);
+
+  let ballX = 0, ballY = GAME.ballRadius, ballVelocityY = 0, ballZ = 0, targetX = 0;
+  let currentSpeed = GAME.baseSpeed, distance = 0, gameRunning = false, gamePaused = false;
+  const BEST_KEY = "threeDBallRunBest";
+  let bestDistance = Number(localStorage.getItem(BEST_KEY) || 0);
+  bestValue.textContent = bestDistance;
+
+  const obstacles = [], coins = [];
+
+  function createObstacle(x, z, type) {
+    const geo = type === "block" ? new THREE.BoxGeometry(1.5, 1.15, 1.3) : new THREE.BoxGeometry(2.7, 1.0, 1.0);
+    const mat = new THREE.MeshStandardMaterial({ color: type === "block" ? 0xc7464f : 0xde8e43 });
+    const obs = new THREE.Mesh(geo, mat);
+    obs.position.set(x, type === "block" ? 0.57 : 0.5, z);
+    obs.castShadow = true;
+    obs.userData.type = type;
+    obstacleGroup.add(obs);
+    obstacles.push(obs);
+  }
+
+  function createCoin(x, z) {
+    const coin = new THREE.Mesh(
+      new THREE.TorusGeometry(0.32, 0.09, 12, 24),
+      new THREE.MeshStandardMaterial({ color: 0xffca45, emissive: 0x6b3f00, emissiveIntensity: 0.5, metalness: 0.6 })
+    );
+    coin.rotation.y = Math.PI / 2;
+    coin.position.set(x, 1.1, z);
+    coinGroup.add(coin);
+    coins.push(coin);
+  }
+
+  function seedWorld() {
+    while (obstacleGroup.children.length) obstacleGroup.remove(obstacleGroup.children[0]);
+    while (coinGroup.children.length) coinGroup.remove(coinGroup.children[0]);
+    obstacles.length = 0; coins.length = 0;
+    for (let i = 0; i < 30; i++) {
+      const z = -12 - i * GAME.obstacleFrequency;
+      const lane = [-2.4, 0, 2.4][Math.floor(Math.random() * 3)];
+      if (i < 2) { createCoin(lane, z); continue; }
+      createObstacle(lane, z, i % 5 === 0 ? "wall" : "block");
+      createCoin([-2.4, 0, 2.4][Math.floor(Math.random() * 3)], z - 3);
+    }
+  }
+
+  let pointerActive = false, lastPointerX = 0, pointerStartY = 0;
+
+  function onPointerDown(e) {
+    if (!gameRunning || gamePaused) return;
+    pointerActive = true;
+    pointerStartY = e.clientY;
+    lastPointerX = e.clientX;
+  }
+
+  function onPointerMove(e) {
+    if (!pointerActive || !gameRunning || gamePaused) return;
+    const deltaX = e.clientX - lastPointerX;
+    lastPointerX = e.clientX;
+    const rect = gameContainer.getBoundingClientRect();
+    targetX += (deltaX / (rect.width || 360)) * 9.5;
+    targetX = THREE.MathUtils.clamp(targetX, -3.25, 3.25);
+  }
+
+  function onPointerUp(e) {
+    if (!pointerActive) return;
+    pointerActive = false;
+    if (!gameRunning || gamePaused) return;
+    if (e.clientY - pointerStartY < -45) jumpBall();
+  }
+
+  gameContainer.addEventListener("pointerdown", onPointerDown);
+  window.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointerup", onPointerUp);
+
+  window.addEventListener("keydown", e => {
+    if (!document.body.classList.contains('ball-active')) return;
+    if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") targetX = Math.max(-3.25, targetX - 0.7);
+    if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") targetX = Math.min(3.25, targetX + 0.7);
+    if (e.key === "ArrowUp" || e.key === " " || e.key.toLowerCase() === "w") jumpBall();
+    if (e.key.toLowerCase() === "p") togglePause();
+  });
+
+  function jumpBall() {
+    if (!gameRunning || gamePaused) return;
+    if (ballY <= GAME.ballRadius + 0.03) ballVelocityY = GAME.jumpPower;
+  }
+
+  function updateBall() {
+    ballX += (targetX - ballX) * GAME.laneMoveSpeed;
+    ballZ -= currentSpeed;
+    ballVelocityY -= GAME.gravity;
+    ballY += ballVelocityY;
+    if (ballY < GAME.ballRadius) { ballY = GAME.ballRadius; ballVelocityY = 0; }
+    ball.rotation.x -= currentSpeed * 1.35;
+    ballGroup.position.set(ballX, ballY, ballZ);
+  }
+
+  function checkCollisions() {
+    for (const obs of obstacles) {
+      if (Math.abs(obs.position.z - ballZ) > 2) continue;
+      const dx = Math.abs(ballX - obs.position.x);
+      const dz = Math.abs(ballZ - obs.position.z);
+      const halfW = (obs.userData.type === "wall" ? 2.7 : 1.5) / 2;
+      if (dx < GAME.ballRadius + halfW && dz < GAME.ballRadius + 0.6 && ballY < 1.05) {
+        endGame("You hit an obstacle.");
+        return true;
+      }
+    }
+    if (Math.abs(ballX) > 4.05) {
+      endGame("You fell off the track.");
+      return true;
+    }
+    return false;
+  }
+
+  function checkCoins() {
+    for (let i = coins.length - 1; i >= 0; i--) {
+      const c = coins[i];
+      if (Math.abs(c.position.z - ballZ) > 2) continue;
+      if (Math.hypot(ballX - c.position.x, ballY - c.position.y, ballZ - c.position.z) < 0.9) {
+        coinGroup.remove(c); coins.splice(i, 1);
+        distance += 5;
+      }
+    }
+  }
+
+  function updateCamera() {
+    camera.position.x += (ballX * 0.62 - camera.position.x) * 0.07;
+    camera.position.y = GAME.cameraHeight + (ballY - GAME.ballRadius) * 0.28;
+    camera.position.z = ballZ + GAME.cameraDistance;
+    camera.lookAt(ballX * 0.35, 0.5, ballZ - 7);
+  }
+
+  function updateHud() {
+    distanceValue.textContent = Math.floor(distance);
+    bestValue.textContent = bestDistance;
+    speedValue.textContent = (currentSpeed / GAME.baseSpeed).toFixed(1) + "x";
+  }
+
+  function resetGameState() {
+    gameRunning = false; gamePaused = false;
+    ballX = 0; ballY = GAME.ballRadius; ballVelocityY = 0; ballZ = 0; targetX = 0;
+    currentSpeed = GAME.baseSpeed; distance = 0;
+    ballGroup.position.set(0, GAME.ballRadius, 0);
+    camera.position.set(0, GAME.cameraHeight, GAME.cameraDistance);
+    pauseOverlay.classList.remove("show");
+    pauseButton.classList.remove("show");
+    updateHud();
+  }
+
+  function resizeBallRenderer() {
+    const w = gameContainer.clientWidth || window.innerWidth;
+    const h = gameContainer.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+
+  window.addEventListener("resize", resizeBallRenderer);
+
+  function startRunning() {
+    gameRunning = true; gamePaused = false;
+    pauseButton.classList.add("show");
+    statusText.textContent = "Drag left / right • Swipe up to jump";
+  }
+
+  function endGame(reason) {
+    if (!gameRunning) return;
+    gameRunning = false;
+    pauseButton.classList.remove("show");
+    const finalDist = Math.floor(distance);
+    if (finalDist > bestDistance) {
+      bestDistance = finalDist;
+      localStorage.setItem(BEST_KEY, String(bestDistance));
+    }
+    resultDistance.textContent = finalDist;
+    resultBest.textContent = bestDistance;
+    resultSpeed.textContent = (currentSpeed / GAME.baseSpeed).toFixed(1) + "x";
+    resultOverlay.classList.remove("hidden");
+    statusText.textContent = reason;
+  }
+
+  function togglePause() {
+    if (!gameRunning && !gamePaused) return;
+    gamePaused = !gamePaused;
+    pauseOverlay.classList.toggle("show", gamePaused);
+    pauseButton.textContent = gamePaused ? "▶" : "❚❚";
+    statusText.textContent = gamePaused ? "Game paused." : "Run resumed.";
+  }
+
+  pauseButton.addEventListener("click", togglePause);
+  resumeButton.addEventListener("click", togglePause);
+
+  function startNewRun() {
     resetGameState();
     seedWorld();
-
-    if (typeof startOverlay !== "undefined") {
-        startOverlay.classList.add("hidden");
+    resizeBallRenderer();
+    startOverlay.classList.remove("hidden");
+    countdownEl.innerHTML = "";
+    let c = 3;
+    function tick() {
+      countdownEl.textContent = c === 0 ? "GO!" : c;
+      if (c === 0) {
+        setTimeout(() => {
+          startOverlay.classList.add("hidden");
+          startRunning();
+        }, 400);
+        return;
+      }
+      c--;
+      setTimeout(tick, 700);
     }
+    tick();
+  }
 
-    if (typeof resultOverlay !== "undefined") {
-        resultOverlay.classList.add("hidden");
+  startButton.addEventListener("click", startNewRun);
+  restartButton.addEventListener("click", () => { resultOverlay.classList.add("hidden"); startNewRun(); });
+  newRunButton.addEventListener("click", () => { resultOverlay.classList.add("hidden"); startNewRun(); });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    if (gameRunning && !gamePaused) {
+      currentSpeed = Math.min(GAME.maxSpeed, GAME.baseSpeed + distance * GAME.speedIncrease);
+      distance += currentSpeed * 0.82;
+      updateBall();
+      checkCoins();
+      if (checkCollisions()) return;
+      updateCamera();
+      updateHud();
+      for (const coin of coins) coin.rotation.y += 0.03;
     }
+    renderer.render(scene, camera);
+  }
+  animate();
 
-    showCountdown(
-        "3D Ball Run",
-        "Get ready. The ball moves automatically.",
-        () => {
-            startRunning();
-        }
-    );
-}
+  // EXPOSE GLOBAL BALL HOOKS TO WINDOW
+  window.startNewBallRun = function() {
+    resetGameState();
+    seedWorld();
+    resizeBallRenderer();
+    startOverlay.classList.add("hidden");
+    resultOverlay.classList.add("hidden");
+    startRunning();
+  };
 
-function stopBallGame() {
-    if (typeof gameRunning !== "undefined") {
-        gameRunning = false;
-    }
-
-    if (typeof pauseOverlay !== "undefined") {
-        pauseOverlay.classList.remove("show");
-    }
-
-    if (typeof pauseButton !== "undefined") {
-        pauseButton.classList.remove("show");
-    }
-
-    if (typeof startOverlay !== "undefined") {
-        startOverlay.classList.add("hidden");
-    }
-
-    if (typeof resultOverlay !== "undefined") {
-        resultOverlay.classList.add("hidden");
-    }
-
-    if (typeof gamePaused !== "undefined") {
-        gamePaused = false;
-    }
-}
-
-window.stopBallGame = stopBallGame;
-
-
+  window.stopBallGame = function() {
+    gameRunning = false;
+    gamePaused = false;
+    pauseOverlay.classList.remove("show");
+    pauseButton.classList.remove("show");
+  };
 })();
 
+// START HOME
+showHome();
 </script>
 </body>
 </html>
+
+What Was Fixed
+
+1.  Three.js Included: Added <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    in <head>.
+2.  Game 4 Hook Registered: Exported window.startNewBallRun and
+    window.stopBallGame so the home button and back buttons can start and stop
+    the 3D run without scope errors.
+3.  Responsive WebGL Resizing: Added resizeBallRenderer() that synchronizes the
+    canvas aspect ratio and dimensions with #ball_gameContainer whenever the
+    game is opened or resized.
+4.  Isolated Touch Events: Removed the global document-wide touch preventions
+    that were freezing mobile page scrolling.
+5.  Math Division & Timer Repaired:
+      - Division now computes integer dividends and divisors (e.g. 24 ÷ 6 = 4),
+        allowing real mental math.
+      - The Timer Toggle actually pauses/unpauses the countdown now instead of
+        just hiding the text.
