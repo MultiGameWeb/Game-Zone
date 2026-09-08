@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain & Arcade Games Hub - All 6 Games</title>
+  <title>Brain & Arcade Games Hub - All 7 Games</title>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -13,7 +13,6 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
-      /* 6 Distinct 3D Button Themes */
       --btn-blue: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
       --btn-blue-shadow: #1e40af;
       --btn-green: linear-gradient(180deg, #10b981 0%, #059669 100%);
@@ -59,7 +58,6 @@
       overflow-x: hidden;
     }
 
-    /* TOP HEADER */
     .top-header {
       width: 100%;
       max-width: 1080px;
@@ -120,7 +118,6 @@
       max-width: 1080px;
     }
 
-    /* 3D BUTTONS */
     .btn-3d {
       appearance: none;
       border: none;
@@ -163,7 +160,6 @@
     .btn-secondary { background: var(--btn-gray); box-shadow: 0 4px 0 var(--btn-gray-shadow); color: var(--text-main); }
     .btn-secondary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--btn-gray-shadow); }
 
-    /* VIEW MANAGEMENT */
     .view-section {
       display: none;
       animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -178,7 +174,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* HUB (6 BOXES) */
     .hub-intro {
       text-align: center;
       margin-bottom: 18px;
@@ -231,6 +226,7 @@
     .card-word-box { border-top: 4px solid #a855f7; }
     .card-bodmas-box { border-top: 4px solid #06b6d4; }
     .card-series-box { border-top: 4px solid #f59e0b; }
+    .card-ttt-box { border-top: 4px solid #ec4899; }
 
     .game-icon-large {
       font-size: 2.6rem;
@@ -264,6 +260,7 @@
     .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
     .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
     .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f9a8d4; border: 1px solid rgba(236, 72, 153, 0.3); }
 
     .game-box-desc {
       color: var(--text-muted);
@@ -273,7 +270,6 @@
       min-height: 44px;
     }
 
-    /* COMMON CARD WRAPPER */
     .game-wrapper {
       max-width: 500px;
       margin: 0 auto;
@@ -323,6 +319,25 @@
       color: #fff;
       margin: 12px 0;
       line-height: 1.2;
+    }
+
+    .math-mode-note {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin: -4px 0 12px;
+    }
+
+    .math-question-type {
+      background: rgba(6, 182, 212, 0.09);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-size: 0.72rem;
+      color: #67e8f9;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
     }
 
     .setting-row {
@@ -420,7 +435,6 @@
     .feedback-float-alert.correct { color: var(--accent-green); }
     .feedback-float-alert.wrong { color: var(--accent-red); }
 
-    /* SUDOKU BOARD */
     .sudoku-board {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -447,8 +461,9 @@
       cursor: pointer;
     }
 
-    .sudoku-cell[data-row="1"], .sudoku-cell[data-row="3"] { border-bottom: 3px solid #10b981; }
-    .sudoku-cell[data-col="2"] { border-right: 3px solid #10b981; }
+    .sudoku-cell[data-r="1"], .sudoku-cell[data-r="3"] { border-bottom: 4px solid #10b981; }
+    .sudoku-cell[data-c="2"] { border-right: 4px solid #10b981; }
+    .sudoku-cell[data-r="1"], .sudoku-cell[data-r="3"], .sudoku-cell[data-c="2"] { position: relative; z-index: 2; }
     .sudoku-cell.clue { color: #34d399; background: #0c1825; }
     .sudoku-cell.selected { background: #064e3b !important; box-shadow: inset 0 0 0 2px #34d399; }
     .sudoku-cell.cell-wrong { background: rgba(239, 68, 68, 0.4) !important; color: #fca5a5 !important; animation: shake 0.3s both; }
@@ -476,7 +491,6 @@
     }
     .key-btn:active { background: #10b981; }
 
-    /* 3D BALL RUNNER */
     .ball-game-container {
       width: 100%;
       max-width: 460px;
@@ -527,9 +541,6 @@
       padding: 8px 16px;
     }
 
-    /* ========================================================
-       GAME 4: FULL WORD BOX (8-DIRECTION SWIPE • 20 BOXES)
-       ======================================================== */
     .word-preview-wrapper {
       min-height: 44px;
       display: flex;
@@ -568,7 +579,7 @@
       max-width: 350px;
       aspect-ratio: 1;
       margin: 0 auto 12px;
-      touch-action: none; /* Prevents mobile scroll while swiping across tiles */
+      touch-action: none;
     }
 
     .letter-grid {
@@ -676,7 +687,6 @@
       border-radius: 6px;
     }
 
-    /* NUMBER SERIES & BODMAS BANNER */
     .series-display-box {
       background: #0f172a;
       border: 2px dashed #f59e0b;
@@ -704,7 +714,6 @@
     .rule-explanation-box.cyan { background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.4); color: #67e8f9; }
     .rule-explanation-box.amber { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); color: #fde68a; }
 
-    /* MODALS */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -734,7 +743,6 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* RESPONSIVE LAYOUT */
     @media (max-width: 980px) {
       .games-row-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
@@ -746,13 +754,7 @@
       .btn-option { padding: 14px 8px; font-size: 1.4rem; }
       #ball-canvas { height: 370px; }
     }
-  
 
-    /* ========================================================
-       GAME 7: TIC-TAC-TOE
-       ======================================================== */
-    .card-ttt-box { border-top: 4px solid #ec4899; }
-    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f9a8d4; border: 1px solid rgba(236, 72, 153, 0.3); }
     .ttt-board-wrap { width: min(100%, 360px); margin: 0 auto 14px; position: relative; }
     .ttt-board { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; aspect-ratio: 1; padding: 8px; background: #0f172a; border: 2px solid #334155; border-radius: 22px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.4); }
     .ttt-cell { appearance: none; border: 2px solid #334155; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); color: #fff; border-radius: 16px; font-family: var(--font-stack); font-size: clamp(2.6rem, 12vw, 4rem); font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 0 #090e17, 0 8px 16px rgba(0,0,0,0.3); transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
@@ -776,147 +778,103 @@
     .btn-ttt-restart { background: linear-gradient(180deg, #ec4899 0%, #be185d 100%); box-shadow: 0 5px 0 #9d174d, 0 8px 16px rgba(236,72,153,0.35); }
     .btn-ttt-restart:active { transform: translateY(3px); box-shadow: 0 2px 0 #9d174d; }
     @media (max-width: 580px) { .ttt-board { gap: 6px; padding: 6px; border-radius: 18px; } .ttt-cell { border-radius: 12px; } }
-
   </style>
 </head>
 <body>
 
-  <!-- TOP HEADER -->
   <header class="top-header">
     <div class="hub-brand">
       <span>🕹️</span> BRAIN & ARCADE
     </div>
     <div class="header-actions">
-      <button id="btn-sound-toggle" class="btn-header-action" type="button">
-        🔊 Sound ON
-      </button>
-      <button id="btn-back-hub" class="btn-header-action" type="button">
-        🏠 Hub
-      </button>
+      <button id="btn-sound-toggle" class="btn-header-action" type="button">🔊 Sound ON</button>
+      <button id="btn-back-hub" class="btn-header-action" type="button">🏠 Hub</button>
     </div>
   </header>
 
   <main id="app">
 
-    <!-- ========================================================
-         VIEW 1: GAMES HUB (6 BOXES)
-         ======================================================== -->
+    <!-- VIEW 1: HUB -->
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">6 Serious Brain-Sharpening & Reflex Games (Zero Repeats)</p>
+        <p class="hub-subtitle">7 Serious Brain-Sharpening & Reflex Games (Zero Repeats)</p>
       </div>
 
       <div class="games-row-grid">
-        
-        <!-- BOX 1: QUICK MATHS -->
         <div class="game-card-box card-math-box">
           <div>
             <div class="game-icon-large">🧮</div>
             <h2 class="game-box-title">QUICK MATHS</h2>
             <span class="game-box-badge badge-blue">4 Options Mode</span>
-            <p class="game-box-desc">
-              Rapid mental calculation sprint with 4 clickable options & 60s timer.
-            </p>
+            <p class="game-box-desc">Arithmetic & Percentage challenge with 4 options or direct answer, 20 fresh questions.</p>
           </div>
-          <button id="btn-launch-math" class="btn-3d btn-blue" type="button">
-            Play Maths
-          </button>
+          <button id="btn-launch-math" class="btn-3d btn-blue" type="button">Play Maths</button>
         </div>
 
-        <!-- BOX 2: 6X6 SUDOKU -->
         <div class="game-card-box card-sudoku-box">
           <div>
             <div class="game-icon-large">🧩</div>
             <h2 class="game-box-title">6×6 SUDOKU</h2>
             <span class="game-box-badge badge-green">2×3 Logic</span>
-            <p class="game-box-desc">
-              Fast 6x6 grid with instant wrong detection, smart hints & live timer.
-            </p>
+            <p class="game-box-desc">Fast 6x6 grid with unique solutions, instant wrong detection & 3 hints limit.</p>
           </div>
-          <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">
-            Play Sudoku
-          </button>
+          <button id="btn-launch-sudoku" class="btn-3d btn-green" type="button">Play Sudoku</button>
         </div>
 
-        <!-- BOX 3: 3D BALL RUN -->
         <div class="game-card-box card-ball-box">
           <div>
             <div class="game-icon-large">🔴</div>
             <h2 class="game-box-title">3D BALL RUN</h2>
             <span class="game-box-badge badge-orange">Smooth Start</span>
-            <p class="game-box-desc">
-              Gentle start & smooth speed-up! Slide finger to dodge & collect gems.
-            </p>
+            <p class="game-box-desc">Retina crisp rendering & smooth speed-up! Slide finger to dodge & collect gems.</p>
           </div>
-          <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">
-            Play 3D Ball
-          </button>
+          <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">Play 3D Ball</button>
         </div>
 
-        <!-- BOX 4: WORD BOX (20 PUZZLE BOXES - 8-DIRECTION SWIPE) -->
         <div class="game-card-box card-word-box">
           <div>
             <div class="game-icon-large">📦</div>
             <h2 class="game-box-title">WORD BOX</h2>
             <span class="game-box-badge badge-purple">8-Way Swipe • 20 Boxes</span>
-            <p class="game-box-desc">
-              Swipe adjacent letters in 8 directions to discover words. Auto-advances across 20 boxes!
-            </p>
+            <p class="game-box-desc">Touch-boundary swipe across letters in 8 directions. Advances through 20 boxes!</p>
           </div>
-          <button id="btn-launch-word" class="btn-3d btn-purple" type="button">
-            Play Word Box
-          </button>
+          <button id="btn-launch-word" class="btn-3d btn-purple" type="button">Play Word Box</button>
         </div>
 
-        <!-- BOX 5: BODMAS MASTER -->
         <div class="game-card-box card-bodmas-box">
           <div>
             <div class="game-icon-large">📐</div>
             <h2 class="game-box-title">BODMAS MASTER</h2>
             <span class="game-box-badge badge-cyan">Dynamic • No Repeats</span>
-            <p class="game-box-desc">
-              Order of operations! Brackets & Multiply first with zero repeated questions.
-            </p>
+            <p class="game-box-desc">Order of operations! Brackets & Multiply first with zero repeated equations.</p>
           </div>
-          <button id="btn-launch-bodmas" class="btn-3d btn-cyan" type="button">
-            Play BODMAS
-          </button>
+          <button id="btn-launch-bodmas" class="btn-3d btn-cyan" type="button">Play BODMAS</button>
         </div>
 
-        <!-- BOX 6: NUMBER SERIES -->
         <div class="game-card-box card-series-box">
           <div>
             <div class="game-icon-large">🔢</div>
             <h2 class="game-box-title">NUMBER SERIES</h2>
             <span class="game-box-badge badge-amber">Dynamic • No Repeats</span>
-            <p class="game-box-desc">
-              Unique math patterns & sequences! Fresh questions without repetition.
-            </p>
+            <p class="game-box-desc">Unique math patterns & sequences with positive unique choice generator.</p>
           </div>
-          <button id="btn-launch-series" class="btn-3d btn-amber" type="button">
-            Play Series
-          </button>
+          <button id="btn-launch-series" class="btn-3d btn-amber" type="button">Play Series</button>
         </div>
 
-      </div>
-
-        <!-- BOX 7: TIC-TAC-TOE -->
         <div class="game-card-box card-ttt-box">
           <div>
             <div class="game-icon-large">⭕</div>
             <h2 class="game-box-title">TIC-TAC-TOE</h2>
-            <span class="game-box-badge badge-pink">2 Player • 3×3</span>
-            <p class="game-box-desc">Classic X vs O strategy game with winning-line highlight & round scoreboard.</p>
+            <span class="game-box-badge badge-pink">vs AI & 2 Player</span>
+            <p class="game-box-desc">Classic X vs O strategy game. Play against Smart Bot AI or with a Friend!</p>
           </div>
           <button id="btn-launch-ttt" class="btn-3d btn-ttt-restart" type="button">Play Tic-Tac-Toe</button>
         </div>
-
+      </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 2: QUICK MATHS
-         ======================================================== -->
+    <!-- VIEW 2: QUICK MATHS -->
     <section id="view-math" class="view-section">
       <div class="game-wrapper">
         <div id="math-screen-start" class="card screen-math active">
@@ -933,6 +891,19 @@
               <button id="toggle-type-mode" class="toggle-btn" type="button">⌨️ Type</button>
             </div>
           </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">🧠 Question Type</div>
+              <div class="setting-subtitle">Arithmetic or Percentage • 20 Questions</div>
+            </div>
+            <div class="toggle-bar">
+              <button id="toggle-arithmetic" class="toggle-btn active" type="button">➕ Arithmetic</button>
+              <button id="toggle-percentage" class="toggle-btn" type="button">％ Percentage</button>
+            </div>
+          </div>
+
+          <div class="math-mode-note">20 questions per round • Easy → Medium → Hard → Expert • Zero repeats</div>
 
           <div class="setting-row">
             <div>
@@ -955,21 +926,14 @@
 
         <div id="math-screen-play" class="card screen-math">
           <div class="stat-header">
-            <div>
-              <span class="stat-label">Score</span>
-              <span id="mq-score" class="stat-val">0</span>
-            </div>
-            <div>
-              <span id="mq-timer-label" class="stat-label">Time</span>
-              <span id="mq-timer" class="stat-val" style="color: #38bdf8;">01:00</span>
-            </div>
-            <div>
-              <span class="stat-label">Acc</span>
-              <span id="mq-acc" class="stat-val">100%</span>
-            </div>
+            <div><span class="stat-label">Score</span><span id="mq-score" class="stat-val">0</span></div>
+            <div><span id="mq-timer-label" class="stat-label">Time</span><span id="mq-timer" class="stat-val" style="color: #38bdf8;">01:00</span></div>
+            <div><span class="stat-label">Q</span><span id="mq-progress" class="stat-val" style="color: #fbbf24;">1/20</span></div>
+            <div><span class="stat-label">Acc</span><span id="mq-acc" class="stat-val">100%</span></div>
           </div>
 
           <div id="mq-feedback-alert" class="feedback-float-alert">❌ WRONG! / తప్పు!</div>
+          <div id="mq-type-label" class="math-question-type">ARITHMETIC</div>
           <div id="mq-precision-hint" style="font-size: 0.75rem; color: var(--accent-amber); display: none;">Round to 2 decimal places</div>
           <div id="mq-expression" class="math-expression">24 + 19</div>
 
@@ -992,7 +956,7 @@
 
         <div id="math-screen-end" class="card screen-math">
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px;">GAME OVER</h2>
-          <p style="color: var(--text-muted); margin-bottom: 14px;">Great mental sprint performance!</p>
+          <p id="mq-result-subtitle" style="color: var(--text-muted); margin-bottom: 14px;">20-question mental sprint performance!</p>
           <div style="font-family: var(--font-mono); font-size: 3.5rem; font-weight: 900; color: #fff; margin-bottom: 14px;" id="mq-final-score">0</div>
           
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
@@ -1008,9 +972,7 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 3: 6x6 SUDOKU
-         ======================================================== -->
+    <!-- VIEW 3: 6x6 SUDOKU -->
     <section id="view-sudoku" class="view-section">
       <div class="game-wrapper">
         <div class="card">
@@ -1018,22 +980,12 @@
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">6×6 SUDOKU</h2>
 
           <div class="stat-header">
-            <div>
-              <span class="stat-label">Time</span>
-              <span id="sdk-timer" class="stat-val" style="color: #34d399;">00:00</span>
-            </div>
-            <div>
-              <span class="stat-label">Mistakes</span>
-              <span id="sdk-mistakes" class="stat-val" style="color: var(--accent-red);">0</span>
-            </div>
-            <div>
-              <span class="stat-label">Hints</span>
-              <span id="sdk-hints" class="stat-val" style="color: var(--accent-amber);">0</span>
-            </div>
+            <div><span class="stat-label">Time</span><span id="sdk-timer" class="stat-val" style="color: #34d399;">00:00</span></div>
+            <div><span class="stat-label">Mistakes</span><span id="sdk-mistakes" class="stat-val" style="color: var(--accent-red);">0</span></div>
+            <div><span class="stat-label">Hints (Max 3)</span><span id="sdk-hints" class="stat-val" style="color: var(--accent-amber);">3</span></div>
           </div>
 
           <div id="sdk-alert" style="min-height: 22px; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--accent-red);"></div>
-
           <div id="sudoku-board" class="sudoku-board"></div>
 
           <div class="sudoku-keypad">
@@ -1054,24 +1006,13 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 4: 3D BALL RUN
-         ======================================================== -->
+    <!-- VIEW 4: 3D BALL RUN -->
     <section id="view-ball" class="view-section">
       <div class="ball-game-container">
         <div class="ball-stats-hud">
-          <div>
-            <span class="stat-label">Score</span>
-            <span id="ball-score" class="stat-val" style="color: #fb923c;">0</span>
-          </div>
-          <div>
-            <span class="stat-label">Diamonds</span>
-            <span id="ball-gems" class="stat-val" style="color: #38bdf8;">💎 0</span>
-          </div>
-          <div>
-            <span class="stat-label">Speed</span>
-            <span id="ball-speed" class="stat-val">1.0x</span>
-          </div>
+          <div><span class="stat-label">Score</span><span id="ball-score" class="stat-val" style="color: #fb923c;">0</span></div>
+          <div><span class="stat-label">Diamonds</span><span id="ball-gems" class="stat-val" style="color: #38bdf8;">💎 0</span></div>
+          <div><span class="stat-label">Speed</span><span id="ball-speed" class="stat-val">1.0x</span></div>
         </div>
 
         <div class="canvas-wrapper">
@@ -1086,61 +1027,38 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 5: WORD BOX (8-DIRECTION SWIPE • 20 PROGRESSIVE BOXES)
-         ======================================================== -->
+    <!-- VIEW 5: WORD BOX -->
     <section id="view-word" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <!-- Top HUD -->
           <div class="stat-header">
-            <div>
-              <span class="stat-label">Box</span>
-              <span id="wb-hud-box" class="stat-val" style="color: var(--accent-violet);">1 / 20</span>
-            </div>
-            <div>
-              <span class="stat-label">Score</span>
-              <span id="wb-hud-score" class="stat-val">0</span>
-            </div>
-            <div>
-              <span class="stat-label">Time</span>
-              <span id="wb-hud-time" class="stat-val" style="color: var(--accent-cyan);">00:00</span>
-            </div>
-            <div>
-              <span class="stat-label">Target</span>
-              <span id="wb-hud-target" class="stat-val" style="color: var(--accent-green);">0 / 5</span>
-            </div>
+            <div><span class="stat-label">Box</span><span id="wb-hud-box" class="stat-val" style="color: var(--accent-violet);">1 / 20</span></div>
+            <div><span class="stat-label">Score</span><span id="wb-hud-score" class="stat-val">0</span></div>
+            <div><span class="stat-label">Time</span><span id="wb-hud-time" class="stat-val" style="color: var(--accent-cyan);">00:00</span></div>
+            <div><span class="stat-label">Target</span><span id="wb-hud-target" class="stat-val" style="color: var(--accent-green);">0 / 5</span></div>
           </div>
 
-          <!-- Word Forming Bubble Display -->
           <div class="word-preview-wrapper">
             <div id="wb-floating-feedback" class="feedback-float-alert">VALID +20</div>
             <div id="wb-preview-bubble" class="word-preview-bubble empty">SWIPE LETTERS</div>
           </div>
 
-          <!-- Square Letter Grid with SVG Line Overlay -->
           <div id="wb-grid-wrapper" class="grid-container-wrapper">
             <svg id="wb-grid-svg" class="grid-svg-overlay">
               <polyline id="wb-svg-trace" points="" fill="none" stroke="#a855f7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
               <line id="wb-svg-pointer" x1="0" y1="0" x2="0" y2="0" stroke="#c084fc" stroke-width="5" stroke-linecap="round" stroke-dasharray="4,4" opacity="0.8" />
             </svg>
-            <div id="wb-letter-grid" class="letter-grid grid-3x3">
-              <!-- Dynamically generated tiles -->
-            </div>
+            <div id="wb-letter-grid" class="letter-grid grid-3x3"></div>
           </div>
 
-          <!-- Discovered Words List -->
           <div class="found-container">
             <div class="found-header-row">
               <span>Discovered Words</span>
               <span id="wb-found-count">0 found</span>
             </div>
-            <div id="wb-found-list" class="found-list">
-              <!-- Word chips inserted here -->
-            </div>
+            <div id="wb-found-list" class="found-list"></div>
           </div>
 
-          <!-- Controls -->
           <div style="display: flex; gap: 8px;">
             <button id="wb-btn-hint" class="btn-3d btn-cyan" style="flex: 1.2; padding: 10px;" type="button">💡 Hint (<span id="wb-hint-badge">3</span>)</button>
             <button id="wb-btn-next-box" class="btn-3d btn-purple" style="flex: 1; padding: 10px;" type="button">Skip Box ⏭️</button>
@@ -1150,9 +1068,7 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 6: BODMAS MASTER
-         ======================================================== -->
+    <!-- VIEW 6: BODMAS MASTER -->
     <section id="view-bodmas" class="view-section">
       <div class="game-wrapper">
         <div class="card">
@@ -1160,27 +1076,14 @@
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">BODMAS MASTER</h2>
 
           <div class="stat-header">
-            <div>
-              <span class="stat-label">Score</span>
-              <span id="bodmas-score" class="stat-val" style="color: #22d3ee;">0</span>
-            </div>
-            <div>
-              <span class="stat-label">Question</span>
-              <span id="bodmas-q-count" class="stat-val">#1</span>
-            </div>
-            <div>
-              <span class="stat-label">Streak</span>
-              <span id="bodmas-streak" class="stat-val" style="color: #34d399;">🔥 0</span>
-            </div>
+            <div><span class="stat-label">Score</span><span id="bodmas-score" class="stat-val" style="color: #22d3ee;">0</span></div>
+            <div><span class="stat-label">Question</span><span id="bodmas-q-count" class="stat-val">#1</span></div>
+            <div><span class="stat-label">Streak</span><span id="bodmas-streak" class="stat-val" style="color: #34d399;">🔥 0</span></div>
           </div>
 
           <div id="bodmas-alert" class="feedback-float-alert">Follow: ( ) first, then ÷ ×, then + -</div>
-
           <div id="bodmas-expression" class="math-expression">6 + 4 × 2</div>
-
-          <div id="bodmas-rule-box" class="rule-explanation-box cyan">
-            💡 Rule: Multiplications (4 × 2 = 8) happen before Addition! 6 + 8 = 14.
-          </div>
+          <div id="bodmas-rule-box" class="rule-explanation-box cyan"></div>
 
           <div id="bodmas-options" class="options-grid">
             <button class="btn-option bodmas-opt" data-idx="0" type="button">0</button>
@@ -1197,9 +1100,7 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         VIEW 7: NUMBER SERIES
-         ======================================================== -->
+    <!-- VIEW 7: NUMBER SERIES -->
     <section id="view-series" class="view-section">
       <div class="game-wrapper">
         <div class="card">
@@ -1207,29 +1108,14 @@
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">NUMBER SERIES</h2>
 
           <div class="stat-header">
-            <div>
-              <span class="stat-label">Score</span>
-              <span id="series-score" class="stat-val" style="color: #fbbf24;">0</span>
-            </div>
-            <div>
-              <span class="stat-label">Puzzle</span>
-              <span id="series-q-count" class="stat-val">#1</span>
-            </div>
-            <div>
-              <span class="stat-label">Accuracy</span>
-              <span id="series-acc" class="stat-val" style="color: #34d399;">100%</span>
-            </div>
+            <div><span class="stat-label">Score</span><span id="series-score" class="stat-val" style="color: #fbbf24;">0</span></div>
+            <div><span class="stat-label">Puzzle</span><span id="series-q-count" class="stat-val">#1</span></div>
+            <div><span class="stat-label">Accuracy</span><span id="series-acc" class="stat-val" style="color: #34d399;">100%</span></div>
           </div>
 
           <div id="series-alert" class="feedback-float-alert">Find the number that replaces ?</div>
-
-          <div id="series-display" class="series-display-box">
-            2, 4, 8, 16, ?
-          </div>
-
-          <div id="series-rule-box" class="rule-explanation-box amber">
-            💡 Pattern: Multiply previous number by 2 (16 × 2 = 32)!
-          </div>
+          <div id="series-display" class="series-display-box">2, 4, 8, 16, ?</div>
+          <div id="series-rule-box" class="rule-explanation-box amber"></div>
 
           <div id="series-options" class="options-grid">
             <button class="btn-option series-opt" data-idx="0" type="button">0</button>
@@ -1246,23 +1132,32 @@
       </div>
     </section>
 
-
-
-    <!-- ========================================================
-         VIEW 8: TIC-TAC-TOE
-         ======================================================== -->
+    <!-- VIEW 8: TIC-TAC-TOE -->
     <section id="view-ttt" class="view-section">
       <div class="game-wrapper">
         <div class="card">
-          <div style="font-size: 0.75rem; color: #f9a8d4; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Classic 2-Player Game</div>
+          <div style="font-size: 0.75rem; color: #f9a8d4; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Classic Game</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">TIC-TAC-TOE</h2>
-          <div id="ttt-turn-banner" class="ttt-turn-banner x-turn">❌ Player X's Turn</div>
-          <div class="ttt-scoreboard">
-            <div class="ttt-score-box"><span class="ttt-score-label">X Wins</span><span id="ttt-score-x" class="ttt-score-value" style="color:#60a5fa;">0</span></div>
-            <div class="ttt-score-box"><span class="ttt-score-label">Draws</span><span id="ttt-score-draws" class="ttt-score-value" style="color:#fbbf24;">0</span></div>
-            <div class="ttt-score-box"><span class="ttt-score-label">O Wins</span><span id="ttt-score-o" class="ttt-score-value" style="color:#f9a8d4;">0</span></div>
+
+          <!-- Mode Selection: 2-Player or vs AI -->
+          <div class="setting-row" style="margin-bottom: 10px;">
+            <div>
+              <div class="setting-title">🎮 Game Mode</div>
+              <div class="setting-subtitle">Play with Friend or Smart AI</div>
+            </div>
+            <div class="toggle-bar">
+              <button id="ttt-mode-ai" class="toggle-btn active" type="button">🤖 vs AI</button>
+              <button id="ttt-mode-pvp" class="toggle-btn" type="button">👥 2 Player</button>
+            </div>
           </div>
-          <div class="ttt-board-wrap"><div id="ttt-board" class="ttt-board" aria-label="Tic-Tac-Toe board"></div></div>
+
+          <div id="ttt-turn-banner" class="ttt-turn-banner x-turn">❌ Your Turn (X)</div>
+          <div class="ttt-scoreboard">
+            <div class="ttt-score-box"><span id="ttt-lbl-x" class="ttt-score-label">X (You)</span><span id="ttt-score-x" class="ttt-score-value" style="color:#60a5fa;">0</span></div>
+            <div class="ttt-score-box"><span class="ttt-score-label">Draws</span><span id="ttt-score-draws" class="ttt-score-value" style="color:#fbbf24;">0</span></div>
+            <div class="ttt-score-box"><span id="ttt-lbl-o" class="ttt-score-label">O (Bot)</span><span id="ttt-score-o" class="ttt-score-value" style="color:#f9a8d4;">0</span></div>
+          </div>
+          <div class="ttt-board-wrap"><div id="ttt-board" class="ttt-board"></div></div>
           <div class="ttt-action-row">
             <button id="ttt-btn-restart" class="btn-3d btn-ttt-restart" type="button">Restart Game</button>
             <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
@@ -1273,79 +1168,53 @@
 
   </main>
 
-  <!-- WORD BOX COMPLETE MODAL (AUTOMATIC TRANSITION) -->
+  <!-- MODALS -->
   <div id="wb-modal-box-complete" class="modal-overlay">
     <div class="modal-box" style="border: 2px solid var(--accent-green);">
       <div style="font-size: 3rem; margin-bottom: 4px;">🎉</div>
       <h2 id="wb-complete-title" style="font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 4px;">BOX 1 COMPLETE!</h2>
       <div style="color: var(--accent-green); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;">+150 BOX BONUS</div>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
-        Advancing to next box automatically...
-      </p>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">Advancing to next box automatically...</p>
       <div style="width: 100%; height: 6px; background: #1e293b; border-radius: 999px; overflow: hidden;">
         <div id="wb-auto-progress" style="width: 0%; height: 100%; background: var(--accent-green); transition: width 1.5s linear;"></div>
       </div>
     </div>
   </div>
 
-  <!-- WORD BOX 20 VICTORY MODAL -->
   <div id="wb-modal-victory" class="modal-overlay">
     <div class="modal-box" style="border: 2px solid var(--accent-amber);">
       <div style="font-size: 3.5rem; margin-bottom: 4px;">🏆</div>
       <h2 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 12px;">GAME COMPLETE!</h2>
       <div style="background: #0f172a; border-radius: 14px; padding: 14px; text-align: left; margin-bottom: 18px; font-size: 0.95rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>Total Score:</span>
-          <b id="wb-res-score" style="font-family: var(--font-mono); color: var(--accent-cyan);">0</b>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>Words Discovered:</span>
-          <b id="wb-res-words" style="font-family: var(--font-mono); color: var(--accent-green);">0</b>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span>Total Time:</span>
-          <b id="wb-res-time" style="font-family: var(--font-mono); color: var(--accent-amber);">00:00</b>
-        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total Score:</span><b id="wb-res-score" style="font-family: var(--font-mono); color: var(--accent-cyan);">0</b></div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Words Discovered:</span><b id="wb-res-words" style="font-family: var(--font-mono); color: var(--accent-green);">0</b></div>
+        <div style="display: flex; justify-content: space-between;"><span>Total Time:</span><b id="wb-res-time" style="font-family: var(--font-mono); color: var(--accent-amber);">00:00</b></div>
       </div>
       <button id="wb-btn-restart-all" class="btn-3d btn-purple" type="button">Play 20 Boxes Again</button>
     </div>
   </div>
 
-  <!-- SUDOKU WIN MODAL -->
   <div id="sudoku-win-modal" class="modal-overlay">
     <div class="modal-box" style="border: 2px solid #10b981;">
       <div style="font-size: 3rem; margin-bottom: 6px;">🏆</div>
       <h2 style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 4px;">CONGRATULATIONS!</h2>
       <div style="color: #34d399; font-size: 0.95rem; margin-bottom: 16px;">పజిల్ విజయవంతంగా పూర్తయింది!</div>
       <div style="background: #0f172a; border-radius: 12px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.9rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <span>Time Taken (సమయం):</span>
-          <span id="win-time" style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">00:00</span>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span>Mistakes (తప్పులు):</span>
-          <span id="win-mistakes" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-red);">0</span>
-        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span>Time Taken:</span><span id="win-time" style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">00:00</span></div>
+        <div style="display: flex; justify-content: space-between;"><span>Mistakes:</span><span id="win-mistakes" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-red);">0</span></div>
       </div>
       <button id="btn-sdk-play-again" class="btn-3d btn-green" type="button">Play Again</button>
     </div>
   </div>
 
-  <!-- 3D BALL GAME OVER MODAL -->
   <div id="ball-gameover-modal" class="modal-overlay">
     <div class="modal-box" style="border: 2px solid #f97316;">
       <div style="font-size: 3rem; margin-bottom: 6px;">💥</div>
       <h2 style="font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 4px;">CRASHED!</h2>
       <div style="color: #fb923c; font-size: 0.95rem; margin-bottom: 16px;">Good Reflex Run!</div>
       <div style="background: #0f172a; border-radius: 12px; padding: 14px; margin-bottom: 18px; text-align: left;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>Distance Score:</span>
-          <span id="ball-final-dist" style="font-family: var(--font-mono); font-weight: 700; color: #fb923c;">0</span>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span>Gems Collected:</span>
-          <span id="ball-final-gems" style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">0</span>
-        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Distance Score:</span><span id="ball-final-dist" style="font-family: var(--font-mono); font-weight: 700; color: #fb923c;">0</span></div>
+        <div style="display: flex; justify-content: space-between;"><span>Gems Collected:</span><span id="ball-final-gems" style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">0</span></div>
       </div>
       <button id="btn-ball-retry" class="btn-3d btn-orange" type="button">Try Again</button>
     </div>
@@ -1363,7 +1232,9 @@
         const AudioClass = window.AudioContext || window.webkitAudioContext;
         if (AudioClass) audioCtx = new AudioClass();
       }
-      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
       return audioCtx;
     }
 
@@ -1521,9 +1392,11 @@
        GAME 1: QUICK MATHS
        ======================================================== */
     const mathState = {
-      inputMode: 'options', timerMode: 'on', score: 0, attempted: 0, correct: 0,
-      timerRemaining: 60, elapsedSeconds: 0, timerInterval: null, currentQuestion: null,
-      bestScore: 0, optionsList: [], isProcessingAnswer: false
+      inputMode: 'options', timerMode: 'on', questionType: 'arithmetic',
+      totalQuestions: 20, score: 0, attempted: 0, correct: 0,
+      timerRemaining: 60, elapsedSeconds: 0, timerInterval: null,
+      currentQuestion: null, bestScore: 0, optionsList: [],
+      isProcessingAnswer: false, sessionUsed: new Set()
     };
 
     const mqScreens = {
@@ -1543,75 +1416,155 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function generateMathQ() {
+    function getMathDifficulty() {
+      if (mathState.attempted < 5) return 1;
+      if (mathState.attempted < 10) return 2;
+      if (mathState.attempted < 15) return 3;
+      return 4;
+    }
+
+    function roundAnswer(value) {
+      return Math.round(value * 100) / 100;
+    }
+
+    function generateArithmeticQ() {
       const ops = ['+', '-', '×', '÷'];
+      const difficulty = getMathDifficulty();
       const op = ops[Math.floor(Math.random() * ops.length)];
       let a, b, ans, isDec = false;
-      const level = mathState.attempted < 5 ? 1 : (mathState.attempted < 15 ? 2 : 3);
 
-      if (level === 1) {
+      if (difficulty === 1) {
         if (op === '+') { a = getRandomInt(10, 45); b = getRandomInt(10, 35); ans = a + b; }
         else if (op === '-') { a = getRandomInt(20, 75); b = getRandomInt(5, a - 3); ans = a - b; }
         else if (op === '×') { a = getRandomInt(3, 10); b = getRandomInt(3, 9); ans = a * b; }
         else { const q = getRandomInt(2, 9); b = getRandomInt(2, 8); a = q * b; ans = q; }
-      } else if (level === 2) {
+      } else if (difficulty === 2) {
         if (op === '+') { a = getRandomInt(35, 180); b = getRandomInt(20, 140); ans = a + b; }
-        else if (op === '-') { a = getRandomInt(20, 160); b = getRandomInt(15, 190); ans = a - b; }
+        else if (op === '-') { a = getRandomInt(50, 240); b = getRandomInt(15, Math.max(15, a - 1)); ans = a - b; }
         else if (op === '×') { a = getRandomInt(8, 18); b = getRandomInt(5, 15); ans = a * b; }
         else {
-          if (Math.random() > 0.4) {
+          if (Math.random() > 0.35) {
             const q = getRandomInt(4, 18); b = getRandomInt(4, 14); a = q * b; ans = q;
           } else {
-            b = [2, 4, 5][Math.floor(Math.random() * 3)];
-            a = getRandomInt(5, 45);
+            b = [2, 4, 5, 8][Math.floor(Math.random() * 4)];
+            a = getRandomInt(10, 80);
             if (a % b === 0) a++;
-            ans = Number((a / b).toFixed(2));
-            isDec = true;
+            ans = roundAnswer(a / b); isDec = true;
           }
         }
-      } else {
+      } else if (difficulty === 3) {
         if (op === '+') { a = getRandomInt(120, 550); b = getRandomInt(90, 450); ans = a + b; }
-        else if (op === '-') { a = getRandomInt(50, 600); b = getRandomInt(50, 700); ans = a - b; }
+        else if (op === '-') { a = getRandomInt(200, 800); b = getRandomInt(50, Math.max(50, a - 1)); ans = a - b; }
         else if (op === '×') { a = getRandomInt(14, 55); b = getRandomInt(11, 45); ans = a * b; }
         else {
-          b = getRandomInt(3, 16); a = getRandomInt(9, 75);
+          b = getRandomInt(3, 16); a = getRandomInt(20, 140);
           if (a % b === 0) a++;
-          ans = Number((a / b).toFixed(2));
-          isDec = true;
+          ans = roundAnswer(a / b); isDec = true;
+        }
+      } else {
+        if (op === '+') { a = getRandomInt(250, 1200); b = getRandomInt(180, 1100); ans = a + b; }
+        else if (op === '-') { a = getRandomInt(300, 1600); b = getRandomInt(120, Math.max(120, a - 1)); ans = a - b; }
+        else if (op === '×') { a = getRandomInt(25, 85); b = getRandomInt(18, 65); ans = a * b; }
+        else {
+          b = getRandomInt(4, 24); a = getRandomInt(50, 320);
+          if (a % b === 0) a++;
+          ans = roundAnswer(a / b); isDec = true;
         }
       }
-      return { str: `${a} ${op} ${b}`, target: ans, isDec };
+      return { str: `${a} ${op} ${b}`, target: ans, isDec, difficulty };
+    }
+
+    function generatePercentageQ() {
+      const difficulty = getMathDifficulty();
+      let percent, base, ans;
+
+      if (difficulty === 1) {
+        const easyPercent = [5, 10, 15, 20, 25, 30, 40, 50];
+        percent = easyPercent[Math.floor(Math.random() * easyPercent.length)];
+        const easyBase = [40, 50, 60, 80, 90, 100, 120, 150, 200];
+        base = easyBase[Math.floor(Math.random() * easyBase.length)];
+        ans = roundAnswer((percent / 100) * base);
+      } else if (difficulty === 2) {
+        const mediumPercent = [12, 15, 18, 20, 24, 25, 30, 35, 40, 45, 50];
+        percent = mediumPercent[Math.floor(Math.random() * mediumPercent.length)];
+        base = getRandomInt(60, 500);
+        ans = roundAnswer((percent / 100) * base);
+      } else if (difficulty === 3) {
+        const hardPercent = [7.5, 12.5, 17.5, 22.5, 24, 27.5, 32.5, 37.5, 42.5, 48, 55, 62.5, 75];
+        percent = hardPercent[Math.floor(Math.random() * hardPercent.length)];
+        base = getRandomInt(80, 1000);
+        ans = roundAnswer((percent / 100) * base);
+      } else {
+        const expertPercent = [6.25, 8, 12, 16.5, 22.5, 24, 27, 33.33, 37.5, 45, 52.5, 62.5, 72, 87.5];
+        percent = expertPercent[Math.floor(Math.random() * expertPercent.length)];
+        base = getRandomInt(120, 2500);
+        ans = roundAnswer((percent / 100) * base);
+      }
+
+      return { str: `${percent}% of ${base} = ?`, target: ans, isDec: !Number.isInteger(ans), difficulty };
+    }
+
+    function generateMathQ() {
+      for (let attempts = 0; attempts < 100; attempts++) {
+        const q = mathState.questionType === 'percentage' ? generatePercentageQ() : generateArithmeticQ();
+        const signature = `${mathState.questionType}|${q.str}|${q.target}`;
+        if (!mathState.sessionUsed.has(signature)) {
+          mathState.sessionUsed.add(signature);
+          return q;
+        }
+      }
+      return mathState.questionType === 'percentage'
+        ? { str: `10% of ${100 + mathState.attempted * 10} = ?`, target: roundAnswer((100 + mathState.attempted * 10) / 10), isDec: false }
+        : { str: `${10 + mathState.attempted} + 5 = ?`, target: 15 + mathState.attempted, isDec: false };
     }
 
     function generate4Options(target, isDec) {
       const opts = new Set();
-      opts.add(target);
-      const offsets = isDec ? [0.1, -0.1, 0.2, -0.2, 0.5, -0.5, 1, -1] : [1, -1, 2, -2, 5, -5, 10, -10, 3, -3];
-      offsets.sort(() => Math.random() - 0.5);
-      for (const off of offsets) {
-        const val = isDec ? Number((target + off).toFixed(2)) : target + off;
-        if (val !== target) opts.add(val);
+      const normTarget = isDec ? roundAnswer(target) : Math.round(target);
+      opts.add(normTarget);
+
+      const deltas = isDec
+        ? [0.25, -0.25, 0.5, -0.5, 0.75, -0.75, 1, -1, 1.5, -1.5, 2, -2]
+        : [1, -1, 2, -2, 3, -3, 5, -5, 7, -7, 10, -10, 15, -15];
+      deltas.sort(() => Math.random() - 0.5);
+
+      for (const d of deltas) {
+        const val = isDec ? roundAnswer(normTarget + d) : normTarget + d;
+        if (val > 0 && val !== normTarget) opts.add(val);
         if (opts.size === 4) break;
       }
-      let fallback = 1;
+
+      let step = isDec ? 0.5 : 1;
       while (opts.size < 4) {
-        opts.add(isDec ? Number((target + fallback * 0.15).toFixed(2)) : target + fallback);
-        fallback++;
+        const c1 = isDec ? roundAnswer(normTarget + step) : normTarget + step;
+        const c2 = isDec ? roundAnswer(normTarget - step) : normTarget - step;
+        if (c1 > 0 && c1 !== normTarget) opts.add(c1);
+        if (opts.size < 4 && c2 > 0 && c2 !== normTarget) opts.add(c2);
+        step += isDec ? 0.5 : 1;
       }
       return Array.from(opts).sort(() => Math.random() - 0.5);
     }
 
     function nextMathQuestion() {
+      if (mathState.attempted >= mathState.totalQuestions) {
+        finishMathQuiz();
+        return;
+      }
+
       mathState.isProcessingAnswer = false;
       feedbackAlert.className = 'feedback-float-alert';
       mathState.currentQuestion = generateMathQ();
+
       document.getElementById('mq-expression').textContent = mathState.currentQuestion.str;
       document.getElementById('mq-precision-hint').style.display = mathState.currentQuestion.isDec ? 'block' : 'none';
+      document.getElementById('mq-type-label').textContent = mathState.questionType === 'percentage' ? 'PERCENTAGE CALCULATION' : 'ARITHMETIC CALCULATION';
+      document.getElementById('mq-progress').textContent = `${Math.min(mathState.attempted + 1, mathState.totalQuestions)}/${mathState.totalQuestions}`;
 
       if (mathState.inputMode === 'options') {
         document.getElementById('mq-container-options').style.display = 'grid';
         document.getElementById('mq-container-type').style.display = 'none';
         mathState.optionsList = generate4Options(mathState.currentQuestion.target, mathState.currentQuestion.isDec);
+
         optButtons.forEach((btn, idx) => {
           btn.textContent = mathState.optionsList[idx];
           btn.className = 'btn-option mq-opt';
@@ -1622,19 +1575,31 @@
         document.getElementById('mq-container-type').style.display = 'block';
         const input = document.getElementById('mq-input');
         input.value = '';
+        input.disabled = false;
+        document.getElementById('mq-btn-submit').disabled = false;
         input.focus();
       }
+    }
+
+    function queueNextMathQuestion(delay) {
+      setTimeout(() => {
+        if (mathState.attempted >= mathState.totalQuestions) finishMathQuiz();
+        else nextMathQuestion();
+      }, delay);
     }
 
     function handleOptionClick(selectedIdx) {
       if (mathState.isProcessingAnswer) return;
       mathState.isProcessingAnswer = true;
+      optButtons.forEach(btn => btn.disabled = true);
+
       const chosenVal = mathState.optionsList[selectedIdx];
       const targetVal = mathState.currentQuestion.target;
       const clickedBtn = optButtons[selectedIdx];
       mathState.attempted++;
 
-      const isCorrect = mathState.currentQuestion.isDec ? Math.abs(chosenVal - targetVal) <= 0.02 : Math.abs(chosenVal - targetVal) < 0.001;
+      const isCorrect = (mathState.currentQuestion.isDec ? roundAnswer(chosenVal) : chosenVal) ===
+                        (mathState.currentQuestion.isDec ? roundAnswer(targetVal) : targetVal);
 
       if (isCorrect) {
         playSfx('correct');
@@ -1644,17 +1609,19 @@
         feedbackAlert.textContent = '✅ CORRECT! +10';
         feedbackAlert.className = 'feedback-float-alert show correct';
         updateMathHUD();
-        setTimeout(nextMathQuestion, 280);
+        queueNextMathQuestion(300);
       } else {
         playSfx('wrong');
         clickedBtn.classList.add('btn-opt-wrong');
         feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
         feedbackAlert.className = 'feedback-float-alert show wrong';
+
         optButtons.forEach((btn, idx) => {
           if (mathState.optionsList[idx] === targetVal) btn.classList.add('btn-opt-correct');
         });
+
         updateMathHUD();
-        setTimeout(nextMathQuestion, 450);
+        queueNextMathQuestion(500);
       }
     }
 
@@ -1662,11 +1629,18 @@
       if (mathState.isProcessingAnswer) return;
       const raw = document.getElementById('mq-input').value.trim();
       if (raw === '' || isNaN(raw)) return;
+
+      mathState.isProcessingAnswer = true;
+      document.getElementById('mq-input').disabled = true;
+      document.getElementById('mq-btn-submit').disabled = true;
+
       const val = parseFloat(raw);
       const targetVal = mathState.currentQuestion.target;
       mathState.attempted++;
 
-      const isCorrect = mathState.currentQuestion.isDec ? Math.abs(val - targetVal) <= 0.02 : Math.abs(val - targetVal) < 0.001;
+      const isCorrect = (mathState.currentQuestion.isDec ? roundAnswer(val) : val) ===
+                        (mathState.currentQuestion.isDec ? roundAnswer(targetVal) : targetVal);
+
       if (isCorrect) {
         playSfx('correct');
         mathState.correct++;
@@ -1675,35 +1649,37 @@
         feedbackAlert.className = 'feedback-float-alert show correct';
       } else {
         playSfx('wrong');
-        feedbackAlert.textContent = '❌ WRONG! / తప్పు!';
+        feedbackAlert.textContent = `❌ WRONG! Answer: ${targetVal}`;
         feedbackAlert.className = 'feedback-float-alert show wrong';
       }
+
       updateMathHUD();
-      setTimeout(nextMathQuestion, 300);
+      queueNextMathQuestion(500);
     }
 
     function updateMathHUD() {
       document.getElementById('mq-score').textContent = mathState.score;
       const acc = mathState.attempted > 0 ? Math.round((mathState.correct / mathState.attempted) * 100) : 100;
       document.getElementById('mq-acc').textContent = `${acc}%`;
+      document.getElementById('mq-progress').textContent = `${Math.min(mathState.attempted + 1, mathState.totalQuestions)}/${mathState.totalQuestions}`;
     }
 
     function startMathSession() {
       playSfx('click');
+      mathState.sessionUsed.clear();
       mathState.score = 0;
       mathState.attempted = 0;
       mathState.correct = 0;
+      mathState.isProcessingAnswer = false;
       mathState.timerRemaining = 60;
       mathState.elapsedSeconds = 0;
       updateMathHUD();
+      document.getElementById('mq-progress').textContent = `1/${mathState.totalQuestions}`;
       showMathSubScreen('play');
-      if (mathState.timerMode === 'on') {
-        document.getElementById('mq-timer-label').textContent = 'Time Left';
-        document.getElementById('mq-timer').textContent = '01:00';
-      } else {
-        document.getElementById('mq-timer-label').textContent = 'Elapsed';
-        document.getElementById('mq-timer').textContent = '00:00';
-      }
+
+      document.getElementById('mq-timer-label').textContent = mathState.timerMode === 'on' ? 'Time Left' : 'Elapsed';
+      document.getElementById('mq-timer').textContent = mathState.timerMode === 'on' ? '01:00' : '00:00';
+
       nextMathQuestion();
       startMathTimer();
     }
@@ -1752,6 +1728,10 @@
       mathState.inputMode = 'options';
       e.target.classList.add('active');
       document.getElementById('toggle-type-mode').classList.remove('active');
+      // FIXED: Unlock buttons when mode is toggled back
+      optButtons.forEach(btn => btn.disabled = false);
+      document.getElementById('mq-container-options').style.display = 'grid';
+      document.getElementById('mq-container-type').style.display = 'none';
     });
 
     document.getElementById('toggle-type-mode').addEventListener('click', (e) => {
@@ -1759,6 +1739,26 @@
       mathState.inputMode = 'type';
       e.target.classList.add('active');
       document.getElementById('toggle-opt-mode').classList.remove('active');
+      document.getElementById('mq-container-options').style.display = 'none';
+      document.getElementById('mq-container-type').style.display = 'block';
+      const input = document.getElementById('mq-input');
+      input.disabled = false;
+      document.getElementById('mq-btn-submit').disabled = false;
+      input.focus();
+    });
+
+    document.getElementById('toggle-arithmetic').addEventListener('click', (e) => {
+      playSfx('click');
+      mathState.questionType = 'arithmetic';
+      e.target.classList.add('active');
+      document.getElementById('toggle-percentage').classList.remove('active');
+    });
+
+    document.getElementById('toggle-percentage').addEventListener('click', (e) => {
+      playSfx('click');
+      mathState.questionType = 'percentage';
+      e.target.classList.add('active');
+      document.getElementById('toggle-arithmetic').classList.remove('active');
     });
 
     document.getElementById('toggle-timer-on').addEventListener('click', (e) => {
@@ -1792,7 +1792,7 @@
        ======================================================== */
     const sdkState = {
       active: false, solution: [], initial: [], current: [],
-      selectedR: -1, selectedC: -1, mistakes: 0, hints: 0,
+      selectedR: -1, selectedC: -1, mistakes: 0, hints: 3,
       seconds: 0, timerInterval: null
     };
 
@@ -1829,31 +1829,78 @@
       return true;
     }
 
-    function startNewSudoku() {
-      stopSudokuTimer();
+    function count6x6Solutions(grid, limit = 2) {
+      let count = 0;
+      function search() {
+        if (count >= limit) return;
+        let bestR = -1, bestC = -1, bestCandidates = null;
+        for (let r = 0; r < 6; r++) {
+          for (let c = 0; c < 6; c++) {
+            if (grid[r][c] !== 0) continue;
+            const candidates = [];
+            for (let v = 1; v <= 6; v++) {
+              if (isValid6x6(grid, r, c, v)) candidates.push(v);
+            }
+            if (candidates.length === 0) return;
+            if (!bestCandidates || candidates.length < bestCandidates.length) {
+              bestR = r; bestC = c; bestCandidates = candidates;
+              if (candidates.length === 1) break;
+            }
+          }
+          if (bestCandidates && bestCandidates.length === 1) break;
+        }
+
+        if (!bestCandidates) { count++; return; }
+
+        for (const v of bestCandidates) {
+          grid[bestR][bestC] = v;
+          search();
+          grid[bestR][bestC] = 0;
+          if (count >= limit) return;
+        }
+      }
+      search();
+      return count;
+    }
+
+    function createUniqueSudokuPuzzle() {
       const sol = Array.from({ length: 6 }, () => Array(6).fill(0));
       solve6x6(sol);
 
       const puz = sol.map(row => [...row]);
+      const indices = Array.from({ length: 36 }, (_, i) => i).sort(() => Math.random() - 0.5);
       let removed = 0;
-      while (removed < 18) {
-        const r = Math.floor(Math.random() * 6);
-        const c = Math.floor(Math.random() * 6);
-        if (puz[r][c] !== 0) { puz[r][c] = 0; removed++; }
-      }
 
-      sdkState.solution = sol;
-      sdkState.initial = puz.map(r => [...r]);
-      sdkState.current = puz.map(r => [...r]);
+      for (const idx of indices) {
+        if (removed >= 18) break;
+        const r = Math.floor(idx / 6), c = idx % 6;
+        const backup = puz[r][c];
+        puz[r][c] = 0;
+
+        if (count6x6Solutions(puz.map(row => [...row]), 2) === 1) {
+          removed++;
+        } else {
+          puz[r][c] = backup;
+        }
+      }
+      return { sol, puz };
+    }
+
+    function startNewSudoku() {
+      stopSudokuTimer();
+      const puzzle = createUniqueSudokuPuzzle();
+      sdkState.solution = puzzle.sol;
+      sdkState.initial = puzzle.puz.map(r => [...r]);
+      sdkState.current = puzzle.puz.map(r => [...r]);
       sdkState.selectedR = -1;
       sdkState.selectedC = -1;
       sdkState.mistakes = 0;
-      sdkState.hints = 0;
+      sdkState.hints = 3;
       sdkState.seconds = 0;
       sdkState.active = true;
 
       document.getElementById('sdk-mistakes').textContent = '0';
-      document.getElementById('sdk-hints').textContent = '0';
+      document.getElementById('sdk-hints').textContent = '3';
       document.getElementById('sdk-timer').textContent = '00:00';
       document.getElementById('sdk-alert').textContent = '';
       document.getElementById('sudoku-win-modal').classList.remove('active');
@@ -1915,6 +1962,7 @@
       if (r < 0 || c < 0 || sdkState.initial[r][c] !== 0) return;
 
       const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
+
       if (num === sdkState.solution[r][c]) {
         playSfx('correct');
         sdkState.current[r][c] = num;
@@ -1956,6 +2004,12 @@
     });
 
     document.getElementById('sdk-btn-hint').addEventListener('click', () => {
+      if (sdkState.hints <= 0) {
+        playSfx('wrong');
+        document.getElementById('sdk-alert').textContent = 'No hints left! / హింట్స్ పూర్తయ్యాయి!';
+        return;
+      }
+
       let r = sdkState.selectedR, c = sdkState.selectedC;
       if (r < 0 || c < 0 || sdkState.current[r][c] !== 0) {
         for (let i = 0; i < 6; i++) {
@@ -1968,10 +2022,13 @@
       if (r >= 0 && c >= 0) {
         playSfx('gem');
         sdkState.current[r][c] = sdkState.solution[r][c];
-        sdkState.hints++;
+        sdkState.hints--;
         document.getElementById('sdk-hints').textContent = sdkState.hints;
         const cell = document.querySelector(`.sudoku-cell[data-r="${r}"][data-c="${c}"]`);
         cell.textContent = sdkState.solution[r][c];
+        // FIXED: Clear mistake highlight and error message when hint is taken!
+        cell.classList.remove('cell-wrong');
+        document.getElementById('sdk-alert').textContent = '';
         cell.classList.add('cell-hint');
         checkSudokuWin();
       }
@@ -2001,6 +2058,15 @@
     const canvas = document.getElementById('ball-canvas');
     const ctx = canvas.getContext('2d');
     let ballAnimId = null;
+
+    function resizeBallCanvas() {
+      const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+      canvas.width = Math.round(440 * dpr);
+      canvas.height = Math.round(460 * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeBallCanvas();
+    window.addEventListener('resize', resizeBallCanvas);
 
     const ballGame = {
       running: false, score: 0, gems: 0, speed: 2.3,
@@ -2032,6 +2098,7 @@
     function stopBallGame() {
       ballGame.running = false;
       if (ballAnimId) cancelAnimationFrame(ballAnimId);
+      ballAnimId = null;
     }
 
     function spawnObstacle(z) {
@@ -2080,9 +2147,10 @@
       document.getElementById('ball-speed').textContent = `${(ballGame.speed / 2.3).toFixed(1)}x`;
 
       ctx.fillStyle = '#070a14';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, 440, 460);
 
-      const cx = canvas.width / 2;
+      // FIXED: Constant logical center (220)
+      const cx = 220;
       const horizonY = 90;
       const fov = 220;
 
@@ -2090,8 +2158,8 @@
       ctx.beginPath();
       ctx.moveTo(cx - 35, horizonY);
       ctx.lineTo(cx + 35, horizonY);
-      ctx.lineTo(cx + 190, canvas.height);
-      ctx.lineTo(cx - 190, canvas.height);
+      ctx.lineTo(cx + 190, 460);
+      ctx.lineTo(cx - 190, 460);
       ctx.closePath();
       ctx.fillStyle = '#0b1329';
       ctx.fill();
@@ -2103,8 +2171,8 @@
         const visualZ = z - ballGame.zOffset;
         if (visualZ <= 10) continue;
         const scale = fov / (visualZ + fov);
-        const y = horizonY + (canvas.height - horizonY) * scale * 1.35;
-        if (y > canvas.height) continue;
+        const y = horizonY + (460 - horizonY) * scale * 1.35;
+        if (y > 460) continue;
         const w = (visualZ < 50 ? 380 : 70 + (340 - 70) * scale);
         ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
         ctx.lineWidth = 1.5;
@@ -2160,27 +2228,20 @@
         if (obs.z < 20 || obs.z > 900) return;
         const scale = fov / (obs.z + fov);
         const sx = cx + obs.x * scale * 2.2;
-        const sy = horizonY + (canvas.height - horizonY) * scale * 1.35;
+        const sy = horizonY + (460 - horizonY) * scale * 1.35;
         const size = obs.w * scale * 2.1;
 
         ctx.fillStyle = '#ef4444';
         ctx.fillRect(sx - size / 2, sy - size, size, size);
         ctx.strokeStyle = '#fca5a5';
         ctx.strokeRect(sx - size / 2, sy - size, size, size);
-        ctx.fillStyle = '#f87171';
-        ctx.beginPath();
-        ctx.moveTo(sx - size / 2, sy - size);
-        ctx.lineTo(sx - size / 4, sy - size - size * 0.4);
-        ctx.lineTo(sx + size * 0.75, sy - size - size * 0.4);
-        ctx.lineTo(sx + size / 2, sy - size);
-        ctx.fill();
       });
 
       ballGame.collectibles.forEach(gem => {
         if (gem.collected || gem.z < 20 || gem.z > 900) return;
         const scale = fov / (gem.z + fov);
         const sx = cx + gem.x * scale * 2.2;
-        const sy = horizonY + (canvas.height - horizonY) * scale * 1.35 - (18 * scale);
+        const sy = horizonY + (460 - horizonY) * scale * 1.35 - (18 * scale);
         const r = 12 * scale * 2.2;
 
         ctx.save();
@@ -2202,7 +2263,7 @@
 
       const ballRadius = 24;
       const ballScreenX = cx + ballGame.ballX * 1.6;
-      const ballScreenY = canvas.height - 58;
+      const ballScreenY = 460 - 58;
 
       ctx.beginPath();
       ctx.ellipse(ballScreenX, ballScreenY + ballRadius - 4, ballRadius * 1.1, 7, 0, 0, Math.PI * 2);
@@ -2244,8 +2305,12 @@
     document.getElementById('btn-restart-ball').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
     document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
 
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopBallGame();
+    });
+
     /* ========================================================
-       GAME 4: WORD BOX (8-DIRECTION SWIPE • 20 BOXES • AUTO-ADVANCE)
+       GAME 4: WORD BOX (20 BOXES • 8-WAY SWIPE)
        ======================================================== */
     const RAW_DICTIONARY = [
       "ACT","ACE","AGE","AIR","ALL","AND","ANT","APE","ARC","ARM","ART","ASH","ASK","BAD","BAG","BAR","BAT","BAY","BED","BEE","BET",
@@ -2277,27 +2342,10 @@
       "TOP","TORE","TORN","TOUR","TOWN","TRAP","TREE","TRIP","TRUE","TUBE","TUNE","TURN","TWIN","TWO","TYPE","UGLY","UNIT","UPON","URGE",
       "VAIN","VAST","VEIL","VENT","VERB","VERY","VIEW","VINE","VOICE","VOLT","VOTE","WAIT","WAKE","WALK","WALL","WANT","WARM","WARN","WASH",
       "WASP","WAVE","WEAK","WEAR","WEEK","WENT","WEST","WHAT","WHEN","WIDE","WILD","WILL","WIND","WING","WINK","WINS","WIPE","WIRE","WISE",
-      "WISH","WITH","WOLF","WOOD","WOOL","WORD","WORK","WORM","WORN","YARD","YARN","YEAR","YELL","ZERO","ZONE","BRAIN","BREAD","BRICK","BRIDGE",
-      "BRUSH","BUILD","CANDLE","CASTLE","CHAIR","CHARM","CHASE","CLEAN","CLEAR","CLIMB","CLOCK","CLOUD","COAST","COUNT","CRAFT","CRANE","CRISP",
-      "CROWD","CROWN","DANCE","DRIVE","EAGLE","EARLY","FAVOR","FIGHT","FLAME","FLASH","FLOAT","FLOOR","FLOWER","FORCE","FOREST","FRESH","FRONT",
-      "FRUIT","GIANT","GLASS","GLOVE","GRACE","GRAIN","GRAPE","GRASS","GREAT","GREEN","GUARD","GUIDE","HAPPY","HEART","HEAVY","HORSE","HOTEL",
-      "HOUSE","IMAGE","JUICE","KNIFE","LEMON","LUNCH","MAGIC","MANGO","MARCH","METAL","MONEY","MONKEY","MOTOR","MOUNT","MUSIC","NIGHT","NORTH",
-      "OCEAN","ONION","ORDER","PAINT","PAPER","PEACE","PEACH","PHONE","PILOT","PIZZA","PLANE","PLANT","PLATE","POINT","POWER","PRICE","PRIDE",
-      "PRINCE","PRIZE","QUEEN","QUICK","QUIET","RADIO","RIVER","ROBOT","ROUND","SCALE","SCENE","SHARK","SHIRT","SHORE","SIGHT","SKILL","SLATE",
-      "SMILE","SMOKE","SNAKE","SPACE","SPARK","SPEED","SPICE","SPOON","SPORT","STAGE","STAMP","STAND","START","STEAM","STEEL","STONE","STORM",
-      "STREET","SUGAR","SWEET","TABLE","TASTE","TEACH","TIGER","TOOTH","TOWER","TRACK","TRAIN","TRUCK","UNCLE","VOICE","WATER","WHEEL","WHITE",
-      "WHOLE","WINTER","WOMAN","WORLD","ZEBRA","ACTION","BRANCH","BREEZE","BRIDGE","BRIGHT","BUTTON","CANDLE","CASTLE","CHANCE","CHURCH","CIRCLE",
-      "CLOVER","COPPER","CORNER","COUSIN","CREDIT","DANGER","DOCTOR","DRAGON","DRAWER","ENERGY","ENGINE","FAMILY","FARMER","FEATHER","FINGER",
-      "FLIGHT","FLOWER","FOREST","FRIEND","GARDEN","GENTLE","GIFTED","GLANCE","GOLDEN","GUITAR","HAMMER","HARBOR","HEALTH","HEAVEN","HOLLOW",
-      "HUNTER","ISLAND","JACKET","JUNGLE","KITTEN","KNIGHT","LADDER","LEADER","LEGEND","LESSON","LIZARD","MARKET","MASTER","MIRROR","MONKEY",
-      "MORNING","MOTHER","NATURE","NEEDLE","NUMBER","ORANGE","PALACE","PARROT","PLANET","POCKET","POETRY","POTATO","PRINCE","PRISON","PUPPY",
-      "RABBIT","REASON","RIVER","ROCKET","SAILOR","SCHOOL","SHADOW","SILVER","SISTER","SPRING","STREAM","STREET","SUMMER","TEMPLE","THREAD",
-      "TICKET","TIMBER","TRAVEL","VALLEY","VILLAGE","VIOLET","VISION","WINDOW","WINTER","WONDER","YELLOW"
+      "WISH","WITH","WOLF","WOOD","WOOL","WORD","WORK","WORM","WORN","YARD","YARN","YEAR","YELL","ZERO","ZONE","BRAIN","BREAD","BRICK","BRIDGE"
     ];
 
-    class WordTrieNode {
-      constructor() { this.children = {}; this.isWord = false; }
-    }
+    class WordTrieNode { constructor() { this.children = {}; this.isWord = false; } }
     const wbTrie = new WordTrieNode();
     const wbDictSet = new Set();
 
@@ -2366,8 +2414,7 @@
           if (!map.has(str)) map.set(str, [...path]);
         }
         visited[idx] = true;
-        const nbrs = getNeighbors8(idx, size);
-        for (const nIdx of nbrs) {
+        for (const nIdx of getNeighbors8(idx, size)) {
           if (!visited[nIdx]) {
             const ch = letters[nIdx];
             if (node.children[ch]) {
@@ -2386,8 +2433,8 @@
       return map;
     }
 
-    const VOWELS_POOL = ["A", "E", "I", "O", "U"];
-    const CONSONANTS_POOL = ["T", "N", "S", "R", "H", "L", "D", "C", "M", "P", "F", "G", "W", "B", "Y"];
+    const VOWELS = ["A", "E", "I", "O", "U"];
+    const CONSONANTS = ["T", "N", "S", "R", "H", "L", "D", "C", "M", "P", "F", "G", "W", "B", "Y"];
 
     function generateSolvableBox(boxNum) {
       let size = 3, targetWords = 5, minLen = 3;
@@ -2397,18 +2444,11 @@
       else { size = 5; targetWords = 8; minLen = 5; }
 
       const totalCells = size * size;
-      const seedPool = RAW_DICTIONARY.filter(w => {
-        if (boxNum <= 5) return w.length >= 3 && w.length <= 4;
-        if (boxNum <= 10) return w.length >= 4 && w.length <= 5;
-        if (boxNum <= 15) return w.length >= 4 && w.length <= 6;
-        return w.length >= 5 && w.length <= 7;
-      });
+      const seedPool = RAW_DICTIONARY.filter(w => w.length >= minLen && w.length <= minLen + 2);
 
-      let attempts = 0;
-      while (attempts < 80) {
-        attempts++;
+      for (let attempts = 0; attempts < 60; attempts++) {
         const grid = new Array(totalCells).fill(null);
-        const seedsCount = size === 3 ? 2 : (size === 4 ? 3 : 4);
+        const seedsCount = size === 3 ? 2 : 3;
 
         for (let s = 0; s < seedsCount; s++) {
           const word = seedPool[Math.floor(Math.random() * seedPool.length)];
@@ -2427,11 +2467,7 @@
         }
 
         for (let i = 0; i < totalCells; i++) {
-          if (!grid[i]) {
-            grid[i] = (Math.random() > 0.42)
-              ? VOWELS_POOL[Math.floor(Math.random() * VOWELS_POOL.length)]
-              : CONSONANTS_POOL[Math.floor(Math.random() * CONSONANTS_POOL.length)];
-          }
+          if (!grid[i]) grid[i] = (Math.random() > 0.4) ? VOWELS[Math.floor(Math.random() * 5)] : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
         }
 
         const map = solveGridWords8(grid, size, minLen);
@@ -2440,14 +2476,8 @@
         }
       }
 
-      // Fallback valid box
-      const fbGrid = size === 3
-        ? ["C","A","T","R","E","D","P","I","N"]
-        : (size === 4
-          ? ["C","A","T","R","E","D","O","P","L","I","N","K","M","E","S","T"]
-          : ["S","P","R","I","N","G","L","O","V","E","W","A","T","E","R","S","M","A","R","T","F","L","A","M","E"]);
-      const fbMap = solveGridWords8(fbGrid, size, minLen);
-      return { size, targetWords, minLen, letters: fbGrid, solvableWords: fbMap };
+      const fbGrid = ["C","A","T","R","E","D","P","I","N"];
+      return { size: 3, targetWords: 4, minLen: 3, letters: fbGrid, solvableWords: solveGridWords8(fbGrid, 3, 3) };
     }
 
     function initWordBox20() {
@@ -2518,8 +2548,7 @@
     function updateWbSvg() {
       if (wbState.currentPath.length === 0) { clearWbSvg(); return; }
       const points = wbState.currentPath.map(idx => {
-        const tile = wbEls.letterGrid.children[idx];
-        const pt = getTileCenter(tile);
+        const pt = getTileCenter(wbEls.letterGrid.children[idx]);
         return `${pt.x},${pt.y}`;
       }).join(' ');
       wbEls.svgTrace.setAttribute('points', points);
@@ -2536,9 +2565,7 @@
     function showWbAlert(text, isOk) {
       wbEls.floatingFeedback.textContent = text;
       wbEls.floatingFeedback.className = `feedback-float-alert show ${isOk ? 'correct' : 'wrong'}`;
-      setTimeout(() => {
-        wbEls.floatingFeedback.classList.remove('show');
-      }, 700);
+      setTimeout(() => wbEls.floatingFeedback.classList.remove('show'), 700);
     }
 
     function areNbrs8(i1, i2, sz) {
@@ -2548,15 +2575,19 @@
     }
 
     function getTileIdxFromCoords(clientX, clientY) {
-      const el = document.elementFromPoint(clientX, clientY);
-      if (el && el.classList.contains('tile')) return parseInt(el.dataset.index, 10);
+      const tiles = wbEls.letterGrid.children;
+      for (let i = 0; i < tiles.length; i++) {
+        const rect = tiles[i].getBoundingClientRect();
+        if (clientX >= rect.left && clientX <= rect.right &&
+            clientY >= rect.top && clientY <= rect.bottom) return i;
+      }
       return null;
     }
 
-    // Touch & Mouse Drag Listeners on Word Box Grid
     wbEls.gridWrapper.addEventListener('pointerdown', (e) => {
       const idx = getTileIdxFromCoords(e.clientX, e.clientY);
       if (idx !== null) {
+        try { wbEls.gridWrapper.setPointerCapture(e.pointerId); } catch (err) {}
         wbState.isDragging = true;
         wbState.currentPath = [idx];
         wbState.currentWord = wbState.gridLetters[idx];
@@ -2582,7 +2613,6 @@
       const idx = getTileIdxFromCoords(e.clientX, e.clientY);
       if (idx === null) return;
 
-      // Backtrack / Undo tile
       if (wbState.currentPath.length > 1 && idx === wbState.currentPath[wbState.currentPath.length - 2]) {
         const popped = wbState.currentPath.pop();
         wbEls.letterGrid.children[popped].classList.remove('selected');
@@ -2593,7 +2623,6 @@
         return;
       }
 
-      // Add neighbor tile (no reuse within same word)
       if (!wbState.currentPath.includes(idx)) {
         const lastIdx = wbState.currentPath[wbState.currentPath.length - 1];
         if (areNbrs8(lastIdx, idx, wbState.gridSize)) {
@@ -2620,7 +2649,6 @@
             showWbAlert(`"${word}" already found!`, false);
             shakeWbTiles();
           } else {
-            // Valid word found!
             submitValidWbWord(word);
           }
         } else {
@@ -2647,9 +2675,7 @@
     }
 
     function clearWbSelection() {
-      wbState.currentPath.forEach(idx => {
-        wbEls.letterGrid.children[idx].classList.remove('selected');
-      });
+      wbState.currentPath.forEach(idx => wbEls.letterGrid.children[idx].classList.remove('selected'));
       wbState.currentPath = [];
       wbState.currentWord = "";
     }
@@ -2659,12 +2685,11 @@
       wbState.totalWordsFound++;
       wbState.consecutiveFinds++;
 
-      let pts = word.length === 3 ? 10 : (word.length === 4 ? 20 : (word.length === 5 ? 30 : 45));
-      if (wbState.consecutiveFinds > 1) pts += (wbState.consecutiveFinds - 1) * 5;
+      let pts = word.length === 3 ? 10 : (word.length === 4 ? 20 : 35);
       wbState.score += pts;
 
       playSfx('valid');
-      showWbAlert(`+${pts} ${wbState.consecutiveFinds > 1 ? 'COMBO!' : ''}`, true);
+      showWbAlert(`+${pts}`, true);
 
       wbEls.hudScore.textContent = wbState.score;
       wbEls.hudTarget.textContent = `${wbState.discoveredWords.size} / ${wbState.targetWordCount}`;
@@ -2678,33 +2703,25 @@
       clearWbSelection();
       updateWbPreview("");
 
-      // AUTOMATIC PROGRESSION CHECK!
       if (wbState.discoveredWords.size >= wbState.targetWordCount) {
         triggerAutomaticNextBox();
       }
     }
 
-    // AUTOMATIC ADVANCE TO NEXT BOX
     function triggerAutomaticNextBox() {
       playSfx('box');
-      wbState.score += 150; // Box completion bonus
+      wbState.score += 150;
       wbEls.hudScore.textContent = wbState.score;
-
       wbEls.completeTitle.textContent = `BOX ${wbState.currentBox} COMPLETE!`;
       wbEls.autoProgress.style.width = '0%';
       wbEls.modalComplete.classList.add('active');
 
-      // Animate progress bar
       setTimeout(() => { wbEls.autoProgress.style.width = '100%'; }, 40);
 
-      // Automatically move to the next box after 1.5 seconds!
       setTimeout(() => {
         wbEls.modalComplete.classList.remove('active');
-        if (wbState.currentBox < wbState.totalBoxes) {
-          loadWordBoxLevel(wbState.currentBox + 1);
-        } else {
-          finishWordBox20();
-        }
+        if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1);
+        else finishWordBox20();
       }, 1500);
     }
 
@@ -2742,9 +2759,7 @@
       }
       let targetWord = null, targetPath = null;
       for (const [w, p] of wbState.allSolvableWords.entries()) {
-        if (!wbState.discoveredWords.has(w)) {
-          targetWord = w; targetPath = p; break;
-        }
+        if (!wbState.discoveredWords.has(w)) { targetWord = w; targetPath = p; break; }
       }
       if (!targetWord) return;
 
@@ -2762,11 +2777,8 @@
 
     wbEls.btnNextBox.addEventListener('click', () => {
       playSfx('click');
-      if (wbState.currentBox < wbState.totalBoxes) {
-        loadWordBoxLevel(wbState.currentBox + 1);
-      } else {
-        finishWordBox20();
-      }
+      if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1);
+      else finishWordBox20();
     });
 
     wbEls.btnRestartAll.addEventListener('click', () => {
@@ -2776,7 +2788,28 @@
     });
 
     /* ========================================================
-       GAME 5: BODMAS MASTER (NO REPEATS)
+       SHARED CHOICE BUILDER (FOR BODMAS & SERIES)
+       ======================================================== */
+    function buildUniquePositiveOptions(target) {
+      const opts = new Set([target]);
+      const offsets = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 7, -7, 10, -10, 12, -12];
+      offsets.sort(() => Math.random() - 0.5);
+      for (const off of offsets) {
+        const val = target + off;
+        if (Number.isFinite(val) && val > 0 && val !== target) opts.add(val);
+        if (opts.size === 4) break;
+      }
+      let step = 1;
+      while (opts.size < 4) {
+        const val = target + step;
+        if (val > 0 && val !== target) opts.add(val);
+        step++;
+      }
+      return Array.from(opts).slice(0, 4).sort(() => Math.random() - 0.5);
+    }
+
+    /* ========================================================
+       GAME 5: BODMAS MASTER
        ======================================================== */
     const bodmasState = {
       score: 0, streak: 0, attempted: 0, usedSet: new Set(),
@@ -2788,10 +2821,8 @@
     const bodmasRuleBox = document.getElementById('bodmas-rule-box');
 
     function generateUniqueBodmas() {
-      let attempts = 0;
-      while (attempts < 150) {
-        attempts++;
-        const patternType = getRandomInt(1, 8);
+      for (let attempts = 0; attempts < 100; attempts++) {
+        const patternType = getRandomInt(1, 4);
         let exp = "", ans = 0, rule = "";
 
         if (patternType === 1) {
@@ -2806,45 +2837,16 @@
           rule = `💡 Rule: Brackets first (${a} + ${b} = ${a + b}), then multiply ${a + b} × ${c} = ${ans}!`;
         } else if (patternType === 3) {
           const c = getRandomInt(2, 6), q = getRandomInt(2, 8);
-          const b = c * q;
-          const a = getRandomInt(b + 5, b + 30);
+          const b = c * q, a = getRandomInt(b + 5, b + 30);
           exp = `${a} - ${b} ÷ ${c}`;
           ans = a - q;
           rule = `💡 Rule: Divide first (${b} ÷ ${c} = ${q}), then subtract ${a} - ${q} = ${ans}!`;
-        } else if (patternType === 4) {
+        } else {
           const c = getRandomInt(2, 8), q = getRandomInt(2, 10);
-          const diff = c * q;
-          const b = getRandomInt(5, 30);
-          const a = b + diff;
+          const diff = c * q, b = getRandomInt(5, 30), a = b + diff;
           exp = `(${a} - ${b}) ÷ ${c}`;
           ans = q;
           rule = `💡 Rule: Brackets first (${a} - ${b} = ${diff}), then divide ${diff} ÷ ${c} = ${ans}!`;
-        } else if (patternType === 5) {
-          const d = getRandomInt(2, 5), q = getRandomInt(2, 6);
-          const c = d * q, a = getRandomInt(3, 8), b = getRandomInt(3, 7);
-          exp = `${a} × ${b} + ${c} ÷ ${d}`;
-          ans = (a * b) + q;
-          rule = `💡 Rule: Multiply (${a}×${b}=${a*b}) & Divide (${c}÷${d}=${q}) first, then add = ${ans}!`;
-        } else if (patternType === 6) {
-          const b = getRandomInt(1, 5), c = getRandomInt(1, 5), d = getRandomInt(2, 4);
-          const mult = (b + c) * d;
-          const a = mult + getRandomInt(5, 25);
-          exp = `${a} - (${b} + ${c}) × ${d}`;
-          ans = a - mult;
-          rule = `💡 Rule: Brackets first (${b}+${c}=${b+c}), then Multiply (${b+c}×${d}=${mult}), then ${a} - ${mult} = ${ans}!`;
-        } else if (patternType === 7) {
-          const c = getRandomInt(2, 5), q = getRandomInt(2, 6);
-          const b = c * q, d = getRandomInt(2, 5), a = getRandomInt(5, 20);
-          exp = `${a} + ${b} ÷ ${c} × ${d}`;
-          ans = a + (q * d);
-          rule = `💡 Rule: Left-to-right for ÷ & × (${b}÷${c}=${q}, ${q}×${d}=${q*d}), then ${a} + ${q*d} = ${ans}!`;
-        } else {
-          const denom = getRandomInt(2, 5), d = getRandomInt(1, 4);
-          const c = d + denom, q = getRandomInt(2, 8), num = denom * q;
-          const a = getRandomInt(2, num - 2), b = num - a;
-          exp = `(${a} + ${b}) ÷ (${c} - ${d})`;
-          ans = q;
-          rule = `💡 Rule: Both Brackets first: (${a}+${b}=${num}) ÷ (${c}-${d}=${denom}) = ${ans}!`;
         }
 
         if (!bodmasState.usedSet.has(exp)) {
@@ -2852,12 +2854,7 @@
           return { exp, ans, rule };
         }
       }
-      const fbA = getRandomInt(10, 30), fbB = getRandomInt(2, 6), fbC = getRandomInt(2, 5);
-      return {
-        exp: `${fbA} + ${fbB} × ${fbC}`,
-        ans: fbA + (fbB * fbC),
-        rule: `💡 Rule: Multiply first (${fbB} × ${fbC} = ${fbB * fbC}), then add = ${fbA + (fbB * fbC)}!`
-      };
+      return { exp: "12 + 4 × 3", ans: 24, rule: "💡 Rule: Multiply first (4 × 3 = 12), then add 12 + 12 = 24!" };
     }
 
     function initBodmasGame() {
@@ -2880,24 +2877,7 @@
 
       bodmasState.current = generateUniqueBodmas();
       document.getElementById('bodmas-expression').textContent = bodmasState.current.exp;
-
-      const target = bodmasState.current.ans;
-      const opts = new Set([target]);
-
-      const offsets = [target + 2, target - 2, target + 10, Math.abs(target - 8), target * 2, target + 5];
-      offsets.sort(() => Math.random() - 0.5);
-
-      for (const off of offsets) {
-        if (off !== target && off >= 0) opts.add(off);
-        if (opts.size === 4) break;
-      }
-      let step = 1;
-      while (opts.size < 4) {
-        opts.add(target + step);
-        step += 3;
-      }
-
-      bodmasState.options = Array.from(opts).sort(() => Math.random() - 0.5);
+      bodmasState.options = buildUniquePositiveOptions(bodmasState.current.ans);
 
       bodmasButtons.forEach((btn, i) => {
         btn.textContent = bodmasState.options[i];
@@ -2909,6 +2889,7 @@
     function handleBodmasChoice(idx) {
       if (bodmasState.isAnswered) return;
       bodmasState.isAnswered = true;
+      bodmasButtons.forEach(btn => btn.disabled = true);
 
       const chosen = bodmasState.options[idx];
       const correct = bodmasState.current.ans;
@@ -2950,7 +2931,7 @@
     });
 
     /* ========================================================
-       GAME 6: NUMBER SERIES (NO REPEATS)
+       GAME 6: NUMBER SERIES
        ======================================================== */
     const seriesState = {
       score: 0, attempted: 0, correct: 0, usedSet: new Set(),
@@ -2962,89 +2943,36 @@
     const seriesRuleBox = document.getElementById('series-rule-box');
 
     function generateUniqueSeries() {
-      let attempts = 0;
-      while (attempts < 150) {
-        attempts++;
-        const patternType = getRandomInt(1, 7);
+      for (let attempts = 0; attempts < 100; attempts++) {
+        const patternType = getRandomInt(1, 4);
         let seqArr = [], ans = 0, rule = "";
 
         if (patternType === 1) {
-          const start = getRandomInt(3, 40);
-          const diff = getRandomInt(3, 12);
+          const start = getRandomInt(3, 40), diff = getRandomInt(3, 12);
           seqArr = [start, start + diff, start + diff * 2, start + diff * 3, start + diff * 4];
           ans = start + diff * 5;
           rule = `💡 Pattern: Add ${diff} each time (+${diff})! Next is ${ans}.`;
         } else if (patternType === 2) {
-          const mult = getRandomInt(2, 3);
-          const start = getRandomInt(2, 6);
-          let curr = start;
-          seqArr = [curr];
-          for (let i = 0; i < 4; i++) {
-            curr *= mult;
-            seqArr.push(curr);
-          }
+          const mult = getRandomInt(2, 3), start = getRandomInt(2, 6);
+          let curr = start; seqArr = [curr];
+          for (let i = 0; i < 4; i++) { curr *= mult; seqArr.push(curr); }
           ans = curr * mult;
           rule = `💡 Pattern: Multiply previous number by ${mult} (×${mult})! Next is ${ans}.`;
         } else if (patternType === 3) {
-          const start = getRandomInt(2, 20);
-          const step = getRandomInt(1, 3);
-          let curr = start;
-          let diff = getRandomInt(2, 5);
-          seqArr = [curr];
-          for (let i = 0; i < 4; i++) {
-            curr += diff;
-            seqArr.push(curr);
-            diff += step;
-          }
-          ans = curr + diff;
-          rule = `💡 Pattern: Difference increases by +${step} each step! Next difference is +${diff} (${curr} + ${diff} = ${ans}).`;
-        } else if (patternType === 4) {
-          const addVal = getRandomInt(5, 12);
-          const subVal = getRandomInt(2, addVal - 2);
-          const start = getRandomInt(10, 30);
-          let curr = start;
-          seqArr = [curr];
-          for (let i = 0; i < 2; i++) {
-            curr += addVal;
-            seqArr.push(curr);
-            curr -= subVal;
-            seqArr.push(curr);
-          }
-          ans = curr + addVal;
-          rule = `💡 Pattern: Alternating sequence (+${addVal}, -${subVal}, +${addVal}, -${subVal})! Next is +${addVal} (${curr} + ${addVal} = ${ans}).`;
-        } else if (patternType === 5) {
-          const offset = getRandomInt(-2, 3);
-          const startN = getRandomInt(1, 3);
+          const startN = getRandomInt(1, 4);
           seqArr = [];
-          for (let n = startN; n < startN + 5; n++) {
-            seqArr.push(n * n + offset);
-          }
+          for (let n = startN; n < startN + 5; n++) seqArr.push(n * n);
           const nextN = startN + 5;
-          ans = nextN * nextN + offset;
-          rule = offset === 0 
-            ? `💡 Pattern: Perfect squares (${nextN}² = ${ans})!` 
-            : `💡 Pattern: n² ${offset > 0 ? '+' : ''}${offset} (${nextN}² ${offset > 0 ? '+' : ''}${offset} = ${ans})!`;
-        } else if (patternType === 6) {
-          const c = getRandomInt(1, 3);
-          const start = getRandomInt(2, 6);
-          let curr = start;
-          seqArr = [curr];
-          for (let i = 0; i < 4; i++) {
-            curr = curr * 2 + c;
-            seqArr.push(curr);
-          }
-          ans = curr * 2 + c;
-          rule = `💡 Pattern: Multiply by 2 and add ${c} (× 2 + ${c})! Next is ${ans}.`;
+          ans = nextN * nextN;
+          rule = `💡 Pattern: Perfect squares (${nextN}² = ${ans})!`;
         } else {
-          const a = getRandomInt(1, 5);
-          const b = getRandomInt(a, a + 4);
+          const a = getRandomInt(1, 5), b = getRandomInt(a, a + 4);
           let n1 = a, n2 = b;
           seqArr = [n1, n2];
           for (let i = 0; i < 3; i++) {
             const next = n1 + n2;
             seqArr.push(next);
-            n1 = n2;
-            n2 = next;
+            n1 = n2; n2 = next;
           }
           ans = n1 + n2;
           rule = `💡 Pattern: Fibonacci sum of previous two numbers (${n1} + ${n2} = ${ans})!`;
@@ -3056,12 +2984,7 @@
           return { seq: seqArr.join(', ') + ', ?', ans, rule };
         }
       }
-
-      return {
-        seq: "4, 8, 12, 16, 20, ?",
-        ans: 24,
-        rule: "💡 Pattern: Add 4 each time (+4)!"
-      };
+      return { seq: "4, 8, 12, 16, 20, ?", ans: 24, rule: "💡 Pattern: Add 4 each time (+4)!" };
     }
 
     function initSeriesGame() {
@@ -3079,29 +3002,10 @@
       seriesAlert.className = 'feedback-float-alert';
       seriesRuleBox.classList.remove('show');
 
-      const qNum = seriesState.attempted + 1;
-      document.getElementById('series-q-count').textContent = `#${qNum}`;
-
+      document.getElementById('series-q-count').textContent = `#${seriesState.attempted + 1}`;
       seriesState.current = generateUniqueSeries();
       document.getElementById('series-display').textContent = seriesState.current.seq;
-
-      const target = seriesState.current.ans;
-      const opts = new Set([target]);
-
-      const offsets = [target + 2, target - 2, target + 4, target - 4, target + 8, target - 5];
-      offsets.sort(() => Math.random() - 0.5);
-
-      for (const off of offsets) {
-        if (off !== target && off >= 0) opts.add(off);
-        if (opts.size === 4) break;
-      }
-      let step = 1;
-      while (opts.size < 4) {
-        opts.add(target + step * 3);
-        step++;
-      }
-
-      seriesState.options = Array.from(opts).sort(() => Math.random() - 0.5);
+      seriesState.options = buildUniquePositiveOptions(seriesState.current.ans);
 
       seriesButtons.forEach((btn, i) => {
         btn.textContent = seriesState.options[i];
@@ -3114,6 +3018,7 @@
       if (seriesState.isAnswered) return;
       seriesState.isAnswered = true;
       seriesState.attempted++;
+      seriesButtons.forEach(btn => btn.disabled = true);
 
       const chosen = seriesState.options[idx];
       const correct = seriesState.current.ans;
@@ -3154,16 +3059,27 @@
       loadSeriesQuestion();
     });
 
-
     /* ========================================================
-       GAME 7: TIC-TAC-TOE
+       GAME 7: TIC-TAC-TOE (AI BOT & 2-PLAYER SUPPORT)
        ======================================================== */
-    const tttState = { board: Array(9).fill(''), currentPlayer: 'X', gameOver: false, winsX: 0, winsO: 0, draws: 0, winningCombo: [] };
+    const tttState = {
+      board: Array(9).fill(''),
+      currentPlayer: 'X',
+      gameOver: false,
+      isAiMode: true,
+      winsX: 0,
+      winsO: 0,
+      draws: 0,
+      winningCombo: []
+    };
+
     const tttBoardEl = document.getElementById('ttt-board');
     const tttTurnBanner = document.getElementById('ttt-turn-banner');
     const tttScoreX = document.getElementById('ttt-score-x');
     const tttScoreO = document.getElementById('ttt-score-o');
     const tttScoreDraws = document.getElementById('ttt-score-draws');
+    const tttLblX = document.getElementById('ttt-lbl-x');
+    const tttLblO = document.getElementById('ttt-lbl-o');
     const TTT_WIN_PATTERNS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
     function renderTttBoard() {
@@ -3173,7 +3089,6 @@
         cell.type = 'button';
         cell.className = 'ttt-cell';
         cell.dataset.index = idx;
-        cell.setAttribute('aria-label', mark ? `Cell ${idx + 1}: ${mark}` : `Cell ${idx + 1}: empty`);
         cell.textContent = mark;
         if (mark) cell.classList.add('filled', mark === 'X' ? 'x-mark' : 'o-mark');
         if (tttState.winningCombo.includes(idx)) cell.classList.add('win-cell');
@@ -3188,16 +3103,16 @@
         tttTurnBanner.textContent = '🤝 Draw Game! Board is full.';
         tttTurnBanner.classList.add('draw-state');
       } else if (stateOverride === 'X') {
-        tttTurnBanner.textContent = '🏆 Player X Wins!';
+        tttTurnBanner.textContent = tttState.isAiMode ? '🏆 You Win (X)!' : '🏆 Player X Wins!';
         tttTurnBanner.classList.add('win-state');
       } else if (stateOverride === 'O') {
-        tttTurnBanner.textContent = '🏆 Player O Wins!';
+        tttTurnBanner.textContent = tttState.isAiMode ? '🤖 Smart Bot Wins (O)!' : '🏆 Player O Wins!';
         tttTurnBanner.classList.add('win-state');
       } else if (tttState.currentPlayer === 'X') {
-        tttTurnBanner.textContent = "❌ Player X's Turn";
+        tttTurnBanner.textContent = tttState.isAiMode ? "❌ Your Turn (X)" : "❌ Player X's Turn";
         tttTurnBanner.classList.add('x-turn');
       } else {
-        tttTurnBanner.textContent = "⭕ Player O's Turn";
+        tttTurnBanner.textContent = tttState.isAiMode ? "🤖 Bot is thinking..." : "⭕ Player O's Turn";
         tttTurnBanner.classList.add('o-turn');
       }
     }
@@ -3206,6 +3121,8 @@
       tttScoreX.textContent = tttState.winsX;
       tttScoreO.textContent = tttState.winsO;
       tttScoreDraws.textContent = tttState.draws;
+      tttLblX.textContent = tttState.isAiMode ? "X (You)" : "Player X";
+      tttLblO.textContent = tttState.isAiMode ? "O (Bot)" : "Player O";
     }
 
     function getTttWinner(board) {
@@ -3216,10 +3133,72 @@
       return null;
     }
 
+    function findBestMove() {
+      // 1. Can Bot win in this move?
+      for (let i = 0; i < 9; i++) {
+        if (!tttState.board[i]) {
+          tttState.board[i] = 'O';
+          if (getTttWinner(tttState.board)) { tttState.board[i] = ''; return i; }
+          tttState.board[i] = '';
+        }
+      }
+      // 2. Can User win in next move? Block them!
+      for (let i = 0; i < 9; i++) {
+        if (!tttState.board[i]) {
+          tttState.board[i] = 'X';
+          if (getTttWinner(tttState.board)) { tttState.board[i] = ''; return i; }
+          tttState.board[i] = '';
+        }
+      }
+      // 3. Take Center if available
+      if (!tttState.board[4]) return 4;
+      // 4. Take Corners
+      const corners = [0, 2, 6, 8].filter(idx => !tttState.board[idx]);
+      if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+      // 5. Take any open cell
+      const openCells = tttState.board.map((v, i) => v ? null : i).filter(v => v !== null);
+      return openCells[Math.floor(Math.random() * openCells.length)];
+    }
+
+    function makeAiMove() {
+      if (tttState.gameOver) return;
+      const move = findBestMove();
+      if (move !== undefined && move !== null) {
+        tttState.board[move] = 'O';
+        playSfx('tile');
+        const winner = getTttWinner(tttState.board);
+        if (winner) {
+          tttState.gameOver = true;
+          tttState.winningCombo = winner.combo;
+          tttState.winsO++;
+          playSfx('wrong');
+          updateTttScoreboard();
+          updateTttTurnBanner('O');
+          renderTttBoard();
+          return;
+        }
+        if (tttState.board.every(Boolean)) {
+          tttState.gameOver = true;
+          tttState.draws++;
+          playSfx('box');
+          updateTttScoreboard();
+          updateTttTurnBanner('draw');
+          renderTttBoard();
+          return;
+        }
+        tttState.currentPlayer = 'X';
+        updateTttTurnBanner();
+        renderTttBoard();
+      }
+    }
+
     function handleTttCellClick(index) {
       if (tttState.gameOver || tttState.board[index]) return;
+      if (tttState.isAiMode && tttState.currentPlayer !== 'X') return;
+
       playSfx('click');
       tttState.board[index] = tttState.currentPlayer;
+
       const winner = getTttWinner(tttState.board);
       if (winner) {
         tttState.gameOver = true;
@@ -3240,9 +3219,17 @@
         renderTttBoard();
         return;
       }
-      tttState.currentPlayer = tttState.currentPlayer === 'X' ? 'O' : 'X';
-      updateTttTurnBanner();
-      renderTttBoard();
+
+      if (tttState.isAiMode) {
+        tttState.currentPlayer = 'O';
+        updateTttTurnBanner();
+        renderTttBoard();
+        setTimeout(makeAiMove, 350);
+      } else {
+        tttState.currentPlayer = tttState.currentPlayer === 'X' ? 'O' : 'X';
+        updateTttTurnBanner();
+        renderTttBoard();
+      }
     }
 
     function restartTttRound() {
@@ -3260,9 +3247,26 @@
       updateTttScoreboard();
     }
 
+    document.getElementById('ttt-mode-ai').addEventListener('click', (e) => {
+      playSfx('click');
+      tttState.isAiMode = true;
+      e.target.classList.add('active');
+      document.getElementById('ttt-mode-pvp').classList.remove('active');
+      restartTttRound();
+      updateTttScoreboard();
+    });
+
+    document.getElementById('ttt-mode-pvp').addEventListener('click', (e) => {
+      playSfx('click');
+      tttState.isAiMode = false;
+      e.target.classList.add('active');
+      document.getElementById('ttt-mode-ai').classList.remove('active');
+      restartTttRound();
+      updateTttScoreboard();
+    });
+
     document.getElementById('ttt-btn-restart').addEventListener('click', restartTttRound);
     renderTttBoard();
-
   </script>
 </body>
 </html>
