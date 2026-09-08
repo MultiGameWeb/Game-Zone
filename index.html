@@ -7,13 +7,13 @@
 <title>Mini Games</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0} :root{--bg:#07111f;--card:#102037;--soft:#172a40;--muted:#93a8bf;--text:#f7fbff;--green:#39d98a;--green2:#138a52;--blue:#4da3ff;--red:#ff5c68;--yellow:#ffc857;--light:#dfc79b;--dark:#785a41}
-body{min-height:100vh;color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top left,rgba(77,163,255,.13),transparent 30%),radial-gradient(circle at top right,rgba(57,217,138,.10),transparent 30%),linear-gradient(145deg,#06101b,#0c1c2e)}
+body{min-height:100vh;overflow-x:hidden;color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top left,rgba(77,163,255,.13),transparent 30%),radial-gradient(circle at top right,rgba(57,217,138,.10),transparent 30%),linear-gradient(145deg,#06101b,#0c1c2e)}
 button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.hide{display:none!important}.app{width:100%;max-width:920px;margin:auto;padding:14px}.header{text-align:center;margin:10px 0 17px}.header h1{font-size:clamp(30px,7vw,46px);font-weight:950;letter-spacing:-1.4px}.header p{margin-top:5px;color:var(--muted);font-size:13px}.card{background:rgba(15,29,47,.97);border:1px solid rgba(255,255,255,.08);border-radius:25px;overflow:hidden;box-shadow:0 28px 75px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.03)}
 .btn{border:0;border-radius:13px;min-height:50px;padding:0 18px;color:#fff;font-weight:900;transition:transform .1s,filter .12s}.btn:active{transform:translateY(4px)}.green{background:linear-gradient(#45e89b,#1ebd72);box-shadow:0 6px 0 #128a52}.blue{background:linear-gradient(#579fff,#317fd8);box-shadow:0 6px 0 #205da3}.gray{background:linear-gradient(#435a72,#2b3f54);box-shadow:0 6px 0 #1b2a39}.red{background:linear-gradient(#ff6975,#db3948);box-shadow:0 6px 0 #922432}
 /* HOME */
-#home{display:block;padding:17px}.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.game-card{min-height:210px;padding:20px;border-radius:20px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:space-between;text-align:center}.game-icon{font-size:57px}.game-card h2{margin:10px 0 5px;font-size:21px}.game-card p{color:var(--muted);font-size:12px;line-height:1.45}.game-card .btn{width:100%;margin-top:14px}.home-foot{text-align:center;margin-top:15px;color:var(--muted);font-size:11px}
+#home{display:block;padding:17px}.home-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.game-card{min-height:205px;padding:17px 12px;border-radius:20px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:space-between;text-align:center}.game-icon{font-size:clamp(34px,5vw,56px)}.game-card h2{margin:8px 0 5px;font-size:clamp(14px,2vw,21px)}.game-card p{color:var(--muted);font-size:clamp(9px,1.3vw,12px);line-height:1.4}.game-card .btn{width:100%;margin-top:12px;min-height:44px;padding:0 8px;font-size:clamp(10px,1.4vw,14px)}.home-foot{text-align:center;margin-top:15px;color:var(--muted);font-size:11px}
 /* COMMON GAME */
-.game-page{display:none}.game-top{padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:10px}.game-top h2{font-size:21px}.game-top .btn{min-height:41px;padding:0 13px;font-size:11px}.area{text-align:center;padding:20px 12px 25px}
+.game-page{display:none;height:calc(100dvh - 16px);overflow:hidden}.game-page>.header{flex:0 0 auto}.game-page>.card{max-height:calc(100dvh - 86px);overflow:hidden}.game-page .area{overflow:hidden}.game-top{padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:10px}.game-top h2{font-size:21px}.game-top .btn{min-height:41px;padding:0 13px;font-size:11px}.area{text-align:center;padding:20px 12px 25px}
 /* COUNTDOWN */
 .overlay{position:fixed;inset:0;z-index:99;background:rgba(2,7,13,.95);display:flex;align-items:center;justify-content:center;padding:18px}.overlay-box{width:100%;max-width:480px;background:#0d1c2d;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:33px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}.overlay-box h2{font-size:clamp(29px,7vw,45px);font-weight:950}.overlay-box p{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.5}.count{min-height:120px;display:flex;align-items:center;justify-content:center;font-size:92px;font-weight:950;color:var(--green);text-shadow:0 8px 35px rgba(57,217,138,.2)}.pop{animation:pop .5s ease}@keyframes pop{0%{opacity:0;transform:scale(.5)}70%{opacity:1;transform:scale(1.12)}100%{transform:scale(1)}}
 /* MATH */
@@ -24,7 +24,7 @@ button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:tran
 .players{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:11px;border-bottom:1px solid rgba(255,255,255,.08)}.player{padding:9px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid transparent}.player.active{border-color:rgba(57,217,138,.4);background:rgba(57,217,138,.06)}.player-top{display:flex;justify-content:space-between;gap:5px}.pname{font-weight:950;font-size:13px}.pside{font-size:9px;color:var(--muted);text-transform:uppercase}.ptime{font-size:25px;font-weight:950;margin-top:3px}.pmiss{font-size:10px;color:var(--muted)}.cstatus{min-height:21px;margin-bottom:10px;color:var(--muted);font-size:12px;font-weight:800}.cboard{width:min(94vw,720px);aspect-ratio:1;margin:auto;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #283746;border-radius:12px;overflow:hidden;box-shadow:0 24px 45px rgba(0,0,0,.34)}.csq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}.light{background:linear-gradient(145deg,#e0c69a,#c3a16e)}.dark{background:linear-gradient(145deg,#8b6a4b,#634833)}.csq.sel{box-shadow:inset 0 0 0 5px var(--blue)}.csq.legal:after{content:"";width:20%;aspect-ratio:1;border-radius:50%;background:rgba(57,217,138,.76);position:absolute}.csq.capture:after{content:"";position:absolute;inset:7%;border:5px solid rgba(255,92,104,.72);border-radius:50%}.piece{font-family:"Segoe UI Symbol","Noto Sans Symbols 2",serif;font-size:clamp(29px,7vw,64px);line-height:1;filter:drop-shadow(0 5px 3px rgba(0,0,0,.45));position:relative;z-index:2}.wp{color:#fff;text-shadow:0 2px #aaa}.bp{color:#171b20;text-shadow:0 1px #515a63}.cpanel{width:min(94vw,720px);margin:14px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.prediction{width:min(94vw,720px);margin:15px auto 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.08)}.predhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;font-weight:850;text-transform:uppercase}.predbar{height:11px;margin-top:7px;background:#2a3947;border-radius:999px;overflow:hidden;position:relative}.predfill{height:100%;width:50%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .25s}.predcenter{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.4)}.predlabel{margin-top:6px;color:var(--muted);font-size:10px}.hintgrid{width:min(94vw,720px);margin:12px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:7px}.hbox{background:rgba(255,255,255,.035);border-radius:12px;padding:9px}.hbox small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase}.hbox strong{display:block;margin-top:3px;font-size:16px}
 /* promotion */
 .promo{position:fixed;inset:0;z-index:105;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.78);backdrop-filter:blur(7px)}.promo.show{display:flex}.promo-box{width:100%;max-width:360px;background:#112238;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:22px;text-align:center}.promo-box h3{font-size:23px}.promo-box p{margin-top:5px;color:var(--muted);font-size:12px}.promo-grid{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.promo-grid button{height:60px;border:0;border-radius:11px;background:linear-gradient(#435a72,#2b3f54);box-shadow:0 5px 0 #1b2a39;color:#fff;font-size:33px}
-@media(max-width:720px){.home-grid{grid-template-columns:1fr}.game-card{min-height:185px}.cpanel{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.game-card{min-height:165px;padding:13px 8px}.home-grid{gap:8px}.game-card .btn{min-height:40px}.game-card p{min-height:34px}.cpanel{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.app{padding:8px}.area{padding:18px 6px 22px}.game-top{padding:11px 12px}.stats{padding:9px}.moptions{gap:8px}.mopt{min-height:60px;font-size:19px}.rgrid{gap:6px}.sboard{border-width:3px}.snum{min-height:44px}.tools{gap:6px}.stool{font-size:10px}.piece{font-size:clamp(26px,8vw,46px)}.cboard{border-width:3px}.cpanel{gap:6px}.players{padding:9px}.ptime{font-size:22px}.actions{flex-direction:column}.actions .btn{width:100%}}
 
 /* FINAL MOBILE-FIRST LAYOUT OVERRIDES */
@@ -121,7 +121,7 @@ body{overflow-y:auto}
         }
 
         #ball_gameContainer {
-            position: fixed;
+            position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
@@ -146,7 +146,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-hud {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -211,7 +211,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-status {
-            position: fixed;
+            position: absolute;
             top: 78px;
             left: 50%;
 
@@ -243,7 +243,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-bottom-ui {
-            position: fixed;
+            position: absolute;
             left: 50%;
             bottom: 0;
 
@@ -289,7 +289,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-overlay {
-            position: fixed;
+            position: absolute;
             inset: 0;
 
             z-index: 100;
@@ -543,7 +543,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-pause-button {
-            position: fixed;
+            position: absolute;
 
             right: 13px;
             bottom:
@@ -582,7 +582,7 @@ body{overflow-y:auto}
         -------------------------------------------------- */
 
         .ball-pause-overlay {
-            position: fixed;
+            position: absolute;
             inset: 0;
 
             z-index: 90;
@@ -705,8 +705,8 @@ body{overflow-y:auto}
 .ball-page {
     position: relative;
     width: 100%;
-    height: calc(100vh - 120px);
-    min-height: 520px;
+    height: 100%;
+    min-height: 0;
     overflow: hidden;
     border-radius: 20px;
     background: #050b13;
@@ -719,10 +719,29 @@ body{overflow-y:auto}
     z-index: 100;
 }
 
+.ball-game-page > .card {
+    height: calc(100dvh - 86px);
+    max-height: none;
+    padding: 0;
+    background: #050b13;
+}
+
+.ball-game-page .ball-page {
+    height: 100%;
+}
+
 @media (max-width: 700px) {
+    .ball-game-page > .card {
+        height: calc(100dvh - 72px);
+    }
+}
+
+@media (max-width: 700px) {
+    .game-page{height:calc(100dvh - 10px)}
+    .game-page>.card{max-height:calc(100dvh - 72px)}
     .ball-page {
-        height: calc(100vh - 95px);
-        min-height: 500px;
+        height: 100%;
+        min-height: 0;
         border-radius: 18px;
     }
 }
@@ -747,7 +766,7 @@ body{overflow-y:auto}
         <div class="game-card">
           <div><div class="game-icon">♟️</div><h2>Chess</h2><p>Offline two-player chess with 15 seconds per turn.</p></div>
           <button class="btn green" id="openChessBtn">Play Game</button>
-
+        </div>
         <div class="game-card">
           <div>
             <div class="game-icon">⚽</div>
@@ -844,6 +863,66 @@ body{overflow-y:auto}
   </section>
 </div>
 
+  <!-- 3D BALL RUN -->
+  <section id="ballPage" class="game-page ball-game-page">
+    <div class="header ball-header"><h1>3D Ball Run</h1><p>Drag left / right • Swipe up to jump</p></div>
+    <div class="card ball-card">
+      <div class="ball-page" id="ball_gamePage">
+        <div id="ball_gameContainer"></div>
+
+        <div class="ball-hud">
+          <div class="ball-hud-card"><span class="ball-hud-label">Distance</span><span id="ball_distanceValue" class="ball-hud-value">0</span></div>
+          <div class="ball-hud-card"><span class="ball-hud-label">Speed</span><span id="ball_speedValue" class="ball-hud-value">1.0x</span></div>
+          <div class="ball-hud-card"><span class="ball-hud-label">Best</span><span id="ball_bestValue" class="ball-hud-value">0</span></div>
+        </div>
+
+        <div id="ball_statusText" class="ball-status">Drag left or right to control the ball.</div>
+
+        <button id="ball_pauseButton" class="ball-pause-button" aria-label="Pause game">❚❚</button>
+
+        <div class="ball-bottom-ui">
+          <div class="ball-control-hint">Swipe / Drag ← → • Swipe Up to Jump</div>
+        </div>
+
+        <div id="ball_startOverlay" class="ball-overlay hidden">
+          <div class="ball-overlay-box">
+            <div class="ball-game-logo">⚽</div>
+            <div id="ball_overlayTitle" class="ball-overlay-title">3D Ball Run</div>
+            <div id="ball_overlayText" class="ball-overlay-text">Control the ball with your finger.<br>Stay on the track and avoid obstacles.</div>
+            <div id="ball_countdown" class="ball-countdown"><button id="ball_startButton" class="ball-button green">Start Game</button></div>
+            <div class="ball-overlay-text">Mobile + Laptop</div>
+          </div>
+        </div>
+
+        <div id="ball_resultOverlay" class="ball-overlay hidden">
+          <div class="ball-overlay-box">
+            <div class="ball-game-logo">💥</div>
+            <div class="ball-overlay-title">Run Over</div>
+            <div id="ball_resultDistance" class="ball-result-main">0</div>
+            <div class="ball-result-label">Distance</div>
+            <div class="ball-result-grid">
+              <div class="ball-result-box"><small>Best</small><strong id="ball_resultBest">0</strong></div>
+              <div class="ball-result-box"><small>Speed</small><strong id="ball_resultSpeed">1.0x</strong></div>
+            </div>
+            <div class="ball-overlay-buttons">
+              <button id="ball_restartButton" class="ball-button green">Restart</button>
+              <button id="ball_newRunButton" class="ball-button blue">New Run</button>
+              <button id="ballBackButton" class="ball-button gray">Games</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="ball_pauseOverlay" class="ball-pause-overlay">
+          <div class="ball-pause-box">
+            <h2>Paused</h2>
+            <p>Tap resume when you're ready.</p>
+            <div style="margin-top:18px"><button id="ball_resumeButton" class="ball-button green">Resume</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 <!-- COMMON COUNTDOWN -->
 <div id="overlay" class="overlay hide"><div class="overlay-box"><h2 id="overlayTitle">Ready</h2><p id="overlayText">Get ready.</p><div id="count" class="count">3</div><p>Starting now...</p></div></div>
 
@@ -868,16 +947,23 @@ const overlay=document.getElementById('overlay');
 const overlayTitle=document.getElementById('overlayTitle');
 const overlayText=document.getElementById('overlayText');
 const countEl=document.getElementById('count');
-function hidePages(){homePage.style.display='none';mathPage.style.display='none';sudokuPage.style.display='none';chessPage.style.display='none';ballPage.style.display='none';document.body.classList.remove('ball-active')}
-function showHome(){stopMath();stopSudoku();stopChess();stopBallGame();hidePages();homePage.style.display='block';overlay.classList.add('hide');$('mathResult').classList.remove('show');$('sudokuResult').classList.remove('show');$('chessResult').classList.remove('show')}
+function hidePages(){homePage.style.display='none';mathPage.style.display='none';sudokuPage.style.display='none';chessPage.style.display='none';ballPage.style.display='none';document.body.classList.remove('ball-active');document.body.classList.remove('game-active')}
+function showHome(){stopMath();stopSudoku();stopChess();stopBallGame();hidePages();document.body.classList.remove('game-active');homePage.style.display='block';overlay.classList.add('hide');$('mathResult').classList.remove('show');$('sudokuResult').classList.remove('show');$('chessResult').classList.remove('show')}
 function countdown(title,text,callback){overlay.classList.remove('hide');overlayTitle.textContent=title;overlayText.textContent=text;let n=3;countEl.textContent=n;function tick(){countEl.classList.remove('pop');void countEl.offsetWidth;countEl.classList.add('pop');countEl.textContent=n;if(n===0){countEl.textContent='GO!';setTimeout(()=>{overlay.classList.add('hide');callback()},420);return}n--;setTimeout(tick,720)}tick()}
-function openGame(name){hidePages();if(name==='math'){mathPage.style.display='block';startNewMathRound()}if(name==='sudoku'){sudokuPage.style.display='block';$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');newSudokuPuzzle();countdown('6×6 Sudoku','Your time starts after the countdown.',startSudoku)}if(name==='chess'){chessPage.style.display='block';resetChess();countdown('3D Chess','15 seconds for every turn.',startChess)}if(name==='ball'){ballPage.style.display='block';document.body.classList.add('ball-active');startNewBallRun()}}
+function openGame(name){hidePages();document.body.classList.add('game-active');if(name==='math'){mathPage.style.display='block';startNewMathRound()}if(name==='sudoku'){sudokuPage.style.display='block';$('sudokuArea').style.display='block';$('sudokuResult').classList.remove('show');newSudokuPuzzle();countdown('6×6 Sudoku','Your time starts after the countdown.',startSudoku)}if(name==='chess'){chessPage.style.display='block';resetChess();countdown('3D Chess','15 seconds for every turn.',startChess)}if(name==='ball'){ballPage.style.display='block';document.body.classList.add('ball-active');startNewBallRun()}}
 document.getElementById('openMathBtn').addEventListener('click',()=>openGame('math'));
 document.getElementById('openSudokuBtn').addEventListener('click',()=>openGame('sudoku'));
 document.getElementById('openChessBtn').addEventListener('click',()=>openGame('chess'));
 document.getElementById('openBallBtn').addEventListener('click',()=>openGame('ball'));
 document.querySelectorAll('.backBtn').forEach(b=>b.addEventListener('click',showHome));
 document.getElementById('ballBackButton').addEventListener('click',showHome);
+
+
+window.addEventListener('keydown', event => {
+  if(document.body.classList.contains('game-active') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code || event.key)){
+    event.preventDefault();
+  }
+});
 
 /* ==========================================================
    MATH QUIZ
