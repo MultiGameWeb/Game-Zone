@@ -746,6 +746,37 @@
       .btn-option { padding: 14px 8px; font-size: 1.4rem; }
       #ball-canvas { height: 370px; }
     }
+  
+
+    /* ========================================================
+       GAME 7: TIC-TAC-TOE
+       ======================================================== */
+    .card-ttt-box { border-top: 4px solid #ec4899; }
+    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f9a8d4; border: 1px solid rgba(236, 72, 153, 0.3); }
+    .ttt-board-wrap { width: min(100%, 360px); margin: 0 auto 14px; position: relative; }
+    .ttt-board { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; aspect-ratio: 1; padding: 8px; background: #0f172a; border: 2px solid #334155; border-radius: 22px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.4); }
+    .ttt-cell { appearance: none; border: 2px solid #334155; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); color: #fff; border-radius: 16px; font-family: var(--font-stack); font-size: clamp(2.6rem, 12vw, 4rem); font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 0 #090e17, 0 8px 16px rgba(0,0,0,0.3); transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
+    .ttt-cell:hover:not(.filled) { transform: translateY(-2px) scale(1.02); border-color: #64748b; background: linear-gradient(180deg, #263449 0%, #101827 100%); }
+    .ttt-cell:active:not(.filled) { transform: translateY(3px) scale(0.98); box-shadow: 0 2px 0 #090e17; }
+    .ttt-cell.filled { cursor: default; }
+    .ttt-cell.x-mark { color: #60a5fa; text-shadow: 0 0 18px rgba(96,165,250,0.45); }
+    .ttt-cell.o-mark { color: #f9a8d4; text-shadow: 0 0 18px rgba(249,168,212,0.45); }
+    .ttt-cell.win-cell { background: linear-gradient(180deg, #10b981 0%, #047857 100%); border-color: #6ee7b7; color: #fff; animation: tttWinPulse 0.85s ease-in-out infinite alternate; box-shadow: 0 0 24px rgba(16,185,129,0.45), 0 5px 0 #065f46; }
+    @keyframes tttWinPulse { from { transform: scale(1); } to { transform: scale(1.04); } }
+    .ttt-turn-banner { min-height: 30px; margin-bottom: 10px; font-weight: 800; font-size: 1rem; color: var(--text-muted); }
+    .ttt-turn-banner.x-turn { color: #60a5fa; }
+    .ttt-turn-banner.o-turn { color: #f9a8d4; }
+    .ttt-turn-banner.win-state { color: #34d399; }
+    .ttt-turn-banner.draw-state { color: #fbbf24; }
+    .ttt-scoreboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+    .ttt-score-box { background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.7); border-radius: 12px; padding: 9px 6px; }
+    .ttt-score-label { display: block; font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; font-weight: 700; }
+    .ttt-score-value { display: block; font-family: var(--font-mono); font-size: 1.35rem; font-weight: 900; }
+    .ttt-action-row { display: flex; gap: 10px; }
+    .btn-ttt-restart { background: linear-gradient(180deg, #ec4899 0%, #be185d 100%); box-shadow: 0 5px 0 #9d174d, 0 8px 16px rgba(236,72,153,0.35); }
+    .btn-ttt-restart:active { transform: translateY(3px); box-shadow: 0 2px 0 #9d174d; }
+    @media (max-width: 580px) { .ttt-board { gap: 6px; padding: 6px; border-radius: 18px; } .ttt-cell { border-radius: 12px; } }
+
   </style>
 </head>
 <body>
@@ -869,6 +900,18 @@
         </div>
 
       </div>
+
+        <!-- BOX 7: TIC-TAC-TOE -->
+        <div class="game-card-box card-ttt-box">
+          <div>
+            <div class="game-icon-large">⭕</div>
+            <h2 class="game-box-title">TIC-TAC-TOE</h2>
+            <span class="game-box-badge badge-pink">2 Player • 3×3</span>
+            <p class="game-box-desc">Classic X vs O strategy game with winning-line highlight & round scoreboard.</p>
+          </div>
+          <button id="btn-launch-ttt" class="btn-3d btn-ttt-restart" type="button">Play Tic-Tac-Toe</button>
+        </div>
+
     </section>
 
     <!-- ========================================================
@@ -1203,6 +1246,31 @@
       </div>
     </section>
 
+
+
+    <!-- ========================================================
+         VIEW 8: TIC-TAC-TOE
+         ======================================================== -->
+    <section id="view-ttt" class="view-section">
+      <div class="game-wrapper">
+        <div class="card">
+          <div style="font-size: 0.75rem; color: #f9a8d4; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Classic 2-Player Game</div>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">TIC-TAC-TOE</h2>
+          <div id="ttt-turn-banner" class="ttt-turn-banner x-turn">❌ Player X's Turn</div>
+          <div class="ttt-scoreboard">
+            <div class="ttt-score-box"><span class="ttt-score-label">X Wins</span><span id="ttt-score-x" class="ttt-score-value" style="color:#60a5fa;">0</span></div>
+            <div class="ttt-score-box"><span class="ttt-score-label">Draws</span><span id="ttt-score-draws" class="ttt-score-value" style="color:#fbbf24;">0</span></div>
+            <div class="ttt-score-box"><span class="ttt-score-label">O Wins</span><span id="ttt-score-o" class="ttt-score-value" style="color:#f9a8d4;">0</span></div>
+          </div>
+          <div class="ttt-board-wrap"><div id="ttt-board" class="ttt-board" aria-label="Tic-Tac-Toe board"></div></div>
+          <div class="ttt-action-row">
+            <button id="ttt-btn-restart" class="btn-3d btn-ttt-restart" type="button">Restart Game</button>
+            <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- WORD BOX COMPLETE MODAL (AUTOMATIC TRANSITION) -->
@@ -1410,7 +1478,8 @@
       ball: document.getElementById('view-ball'),
       word: document.getElementById('view-word'),
       bodmas: document.getElementById('view-bodmas'),
-      series: document.getElementById('view-series')
+      series: document.getElementById('view-series'),
+      ttt: document.getElementById('view-ttt')
     };
 
     function openView(viewName) {
@@ -1434,6 +1503,8 @@
         initBodmasGame();
       } else if (viewName === 'series') {
         initSeriesGame();
+      } else if (viewName === 'ttt') {
+        initTicTacToe();
       }
     }
 
@@ -1444,6 +1515,7 @@
     document.getElementById('btn-launch-word').addEventListener('click', () => openView('word'));
     document.getElementById('btn-launch-bodmas').addEventListener('click', () => openView('bodmas'));
     document.getElementById('btn-launch-series').addEventListener('click', () => openView('series'));
+    document.getElementById('btn-launch-ttt').addEventListener('click', () => openView('ttt'));
 
     /* ========================================================
        GAME 1: QUICK MATHS
@@ -3081,6 +3153,115 @@
       playSfx('click');
       loadSeriesQuestion();
     });
+
+
+    /* ========================================================
+       GAME 7: TIC-TAC-TOE
+       ======================================================== */
+    const tttState = { board: Array(9).fill(''), currentPlayer: 'X', gameOver: false, winsX: 0, winsO: 0, draws: 0, winningCombo: [] };
+    const tttBoardEl = document.getElementById('ttt-board');
+    const tttTurnBanner = document.getElementById('ttt-turn-banner');
+    const tttScoreX = document.getElementById('ttt-score-x');
+    const tttScoreO = document.getElementById('ttt-score-o');
+    const tttScoreDraws = document.getElementById('ttt-score-draws');
+    const TTT_WIN_PATTERNS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+    function renderTttBoard() {
+      tttBoardEl.innerHTML = '';
+      tttState.board.forEach((mark, idx) => {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'ttt-cell';
+        cell.dataset.index = idx;
+        cell.setAttribute('aria-label', mark ? `Cell ${idx + 1}: ${mark}` : `Cell ${idx + 1}: empty`);
+        cell.textContent = mark;
+        if (mark) cell.classList.add('filled', mark === 'X' ? 'x-mark' : 'o-mark');
+        if (tttState.winningCombo.includes(idx)) cell.classList.add('win-cell');
+        cell.addEventListener('click', () => handleTttCellClick(idx));
+        tttBoardEl.appendChild(cell);
+      });
+    }
+
+    function updateTttTurnBanner(stateOverride = null) {
+      tttTurnBanner.className = 'ttt-turn-banner';
+      if (stateOverride === 'draw') {
+        tttTurnBanner.textContent = '🤝 Draw Game! Board is full.';
+        tttTurnBanner.classList.add('draw-state');
+      } else if (stateOverride === 'X') {
+        tttTurnBanner.textContent = '🏆 Player X Wins!';
+        tttTurnBanner.classList.add('win-state');
+      } else if (stateOverride === 'O') {
+        tttTurnBanner.textContent = '🏆 Player O Wins!';
+        tttTurnBanner.classList.add('win-state');
+      } else if (tttState.currentPlayer === 'X') {
+        tttTurnBanner.textContent = "❌ Player X's Turn";
+        tttTurnBanner.classList.add('x-turn');
+      } else {
+        tttTurnBanner.textContent = "⭕ Player O's Turn";
+        tttTurnBanner.classList.add('o-turn');
+      }
+    }
+
+    function updateTttScoreboard() {
+      tttScoreX.textContent = tttState.winsX;
+      tttScoreO.textContent = tttState.winsO;
+      tttScoreDraws.textContent = tttState.draws;
+    }
+
+    function getTttWinner(board) {
+      for (const combo of TTT_WIN_PATTERNS) {
+        const [a,b,c] = combo;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) return { player: board[a], combo };
+      }
+      return null;
+    }
+
+    function handleTttCellClick(index) {
+      if (tttState.gameOver || tttState.board[index]) return;
+      playSfx('click');
+      tttState.board[index] = tttState.currentPlayer;
+      const winner = getTttWinner(tttState.board);
+      if (winner) {
+        tttState.gameOver = true;
+        tttState.winningCombo = winner.combo;
+        if (winner.player === 'X') tttState.winsX++; else tttState.winsO++;
+        playSfx('win');
+        updateTttScoreboard();
+        updateTttTurnBanner(winner.player);
+        renderTttBoard();
+        return;
+      }
+      if (tttState.board.every(Boolean)) {
+        tttState.gameOver = true;
+        tttState.draws++;
+        playSfx('box');
+        updateTttScoreboard();
+        updateTttTurnBanner('draw');
+        renderTttBoard();
+        return;
+      }
+      tttState.currentPlayer = tttState.currentPlayer === 'X' ? 'O' : 'X';
+      updateTttTurnBanner();
+      renderTttBoard();
+    }
+
+    function restartTttRound() {
+      playSfx('click');
+      tttState.board = Array(9).fill('');
+      tttState.currentPlayer = 'X';
+      tttState.gameOver = false;
+      tttState.winningCombo = [];
+      updateTttTurnBanner();
+      renderTttBoard();
+    }
+
+    function initTicTacToe() {
+      restartTttRound();
+      updateTttScoreboard();
+    }
+
+    document.getElementById('ttt-btn-restart').addEventListener('click', restartTttRound);
+    renderTttBoard();
 
   </script>
 </body>
