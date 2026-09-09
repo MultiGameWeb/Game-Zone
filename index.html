@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Brain & Arcade Games Hub - All 13 Games</title>
+  <title>Brain & Arcade Games Hub - All 12 Games</title>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -83,7 +83,6 @@
     .card-math-box { border-top: 4px solid #3b82f6; }
     .card-sudoku-box { border-top: 4px solid #10b981; }
     .card-ball-box { border-top: 4px solid #f97316; }
-    .card-word-box { border-top: 4px solid #a855f7; }
     .card-bodmas-box { border-top: 4px solid #06b6d4; }
     .card-series-box { border-top: 4px solid #f59e0b; }
     .card-ttt-box { border-top: 4px solid #ec4899; }
@@ -149,27 +148,6 @@
     #ball-canvas { display: block; width: 100%; height: 420px; touch-action: none; }
     .touch-hint-bar { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; color: #fed7aa; white-space: nowrap; pointer-events: none; }
     .ball-stats-hud { display: flex; justify-content: space-between; margin-bottom: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 12px; padding: 8px 16px; }
-    .word-preview-wrapper { min-height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; position: relative; }
-    .word-preview-bubble { min-width: 150px; padding: 6px 20px; background: #1e1b4b; border: 2px solid var(--accent-violet); box-shadow: 0 0 18px rgba(139, 92, 246, 0.35); border-radius: 999px; font-family: var(--font-mono); font-size: 1.4rem; font-weight: 900; letter-spacing: 0.15em; color: #ffffff; transition: transform 0.1s ease; }
-    .word-preview-bubble.empty { color: var(--text-muted); font-size: 0.95rem; letter-spacing: 0.05em; border-color: #334155; box-shadow: none; }
-    .grid-container-wrapper { position: relative; width: 100%; max-width: 350px; aspect-ratio: 1; margin: 0 auto 12px; touch-action: none; }
-    .letter-grid { display: grid; width: 100%; height: 100%; gap: 8px; padding: 8px; background: #0f172a; border: 2px solid #334155; border-radius: 24px; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6), 0 10px 25px rgba(0, 0, 0, 0.4); }
-    .grid-3x3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-4x4 { grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 7px; }
-    .grid-5x5 { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 5px; }
-    .grid-6x6 { grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 4px; }
-    .grid-6x6 .tile { font-size: 1rem; border-radius: 9px; }
-    .tile { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #334155; border-radius: 16px; font-family: var(--font-mono); font-weight: 900; font-size: 1.8rem; color: #ffffff; box-shadow: 0 4px 0 #090e17, 0 6px 12px rgba(0, 0, 0, 0.4); cursor: pointer; position: relative; z-index: 10; transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease; }
-    .grid-4x4 .tile { font-size: 1.45rem; border-radius: 13px; }
-    .grid-5x5 .tile { font-size: 1.2rem; border-radius: 10px; }
-    .tile.selected { background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%); border-color: #f8fafc; transform: scale(1.06); box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 4px 0 #4c1d95; color: #ffffff; z-index: 15; }
-    .tile.hint-pulse { animation: hintFlash 0.5s ease 3; }
-    @keyframes hintFlash { 0%, 100% { background: #1e293b; border-color: #334155; } 50% { background: #059669; border-color: #34d399; transform: scale(1.08); } }
-    .grid-svg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-    .found-container { width: 100%; max-width: 350px; background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 14px; padding: 8px 12px; margin: 0 auto 12px; min-height: 60px; max-height: 85px; overflow-y: auto; text-align: left; }
-    .found-header-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; text-transform: uppercase; }
-    .found-list { display: flex; flex-wrap: wrap; gap: 5px; }
-    .word-chip { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
     .series-display-box { background: #0f172a; border: 2px dashed #f59e0b; border-radius: 16px; padding: 18px 12px; margin: 14px 0; font-family: var(--font-mono); font-size: 2.1rem; font-weight: 900; color: #fbbf24; letter-spacing: 0.05em; text-shadow: 0 0 16px rgba(245, 158, 11, 0.3); }
     .rule-explanation-box { font-size: 0.85rem; line-height: 1.4; border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; display: none; }
     .rule-explanation-box.show { display: block; }
@@ -309,10 +287,11 @@
     <section id="view-hub" class="view-section active">
       <div class="hub-intro">
         <h1 class="hub-title">CHOOSE YOUR CHALLENGE</h1>
-        <p class="hub-subtitle">13 High-Octane Cognitive, Reflex & Memory Challenges (Zero Repeats)</p>
+        <p class="hub-subtitle">12 High-Octane Cognitive, Reflex & Memory Challenges (Zero Repeats)</p>
       </div>
 
       <div class="games-row-grid">
+        <!-- WORD BOX REMOVED: reserved for future 3D Chess version -->
         <div class="game-card-box card-math-box">
           <div>
             <div class="game-icon-large">🧮</div>
@@ -342,18 +321,7 @@
           </div>
           <button id="btn-launch-ball" class="btn-3d btn-orange" type="button">Play 3D Ball</button>
         </div>
-
-        <div class="game-card-box card-word-box">
-          <div>
-            <div class="game-icon-large">📦</div>
-            <h2 class="game-box-title">WORD BOX</h2>
-            <span class="game-box-badge badge-purple">8-Way Swipe • 20 Boxes</span>
-            <p class="game-box-desc">Touch-boundary swipe across letters in 8 directions. Advances through 20 boxes!</p>
-          </div>
-          <button id="btn-launch-word" class="btn-3d btn-purple" type="button">Play Word Box</button>
-        </div>
-
-        <div class="game-card-box card-bodmas-box">
+<div class="game-card-box card-bodmas-box">
           <div>
             <div class="game-icon-large">📐</div>
             <h2 class="game-box-title">BODMAS MASTER</h2>
@@ -612,49 +580,7 @@
         </div>
       </div>
     </section>
-
-    <!-- VIEW 5: WORD BOX -->
-    <section id="view-word" class="view-section">
-      <div class="game-wrapper">
-        <div class="card">
-          <div class="stat-header">
-            <div><span class="stat-label">Box</span><span id="wb-hud-box" class="stat-val" style="color: var(--accent-violet);">1 / 20</span></div>
-            <div><span class="stat-label">Score</span><span id="wb-hud-score" class="stat-val">0</span></div>
-            <div><span class="stat-label">Time</span><span id="wb-hud-time" class="stat-val" style="color: var(--accent-cyan);">00:00</span></div>
-            <div><span class="stat-label">Target</span><span id="wb-hud-target" class="stat-val" style="color: var(--accent-green);">0 / 5</span></div>
-          </div>
-
-          <div class="word-preview-wrapper">
-            <div id="wb-floating-feedback" class="feedback-float-alert">VALID +20</div>
-            <div id="wb-preview-bubble" class="word-preview-bubble empty">SWIPE LETTERS</div>
-          </div>
-
-          <div id="wb-grid-wrapper" class="grid-container-wrapper">
-            <svg id="wb-grid-svg" class="grid-svg-overlay">
-              <polyline id="wb-svg-trace" points="" fill="none" stroke="#a855f7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-              <line id="wb-svg-pointer" x1="0" y1="0" x2="0" y2="0" stroke="#c084fc" stroke-width="5" stroke-linecap="round" stroke-dasharray="4,4" opacity="0.8" />
-            </svg>
-            <div id="wb-letter-grid" class="letter-grid grid-3x3"></div>
-          </div>
-
-          <div class="found-container">
-            <div class="found-header-row">
-              <span>Discovered Words</span>
-              <span id="wb-found-count">0 found</span>
-            </div>
-            <div id="wb-found-list" class="found-list"></div>
-          </div>
-
-          <div style="display: flex; gap: 8px;">
-            <button id="wb-btn-hint" class="btn-3d btn-cyan" style="flex: 1.2; padding: 10px;" type="button">💡 Hint (<span id="wb-hint-badge">3</span>)</button>
-            <button id="wb-btn-next-box" class="btn-3d btn-purple" style="flex: 1; padding: 10px;" type="button">Skip Box ⏭️</button>
-            <button class="btn-3d btn-secondary" style="flex: 0.8; padding: 10px;" onclick="openView('hub')" type="button">Menu</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 6: BODMAS MASTER -->
+<!-- VIEW 6: BODMAS MASTER -->
     <section id="view-bodmas" class="view-section">
       <div class="game-wrapper">
         <div class="card">
@@ -1105,33 +1031,7 @@
       </div>
     </div>
   </div>
-
-  <div id="wb-modal-box-complete" class="modal-overlay">
-    <div class="modal-box" style="border: 2px solid var(--accent-green);">
-      <div style="font-size: 3rem; margin-bottom: 4px;">🎉</div>
-      <h2 id="wb-complete-title" style="font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 4px;">BOX 1 COMPLETE!</h2>
-      <div style="color: var(--accent-green); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;">+150 BOX BONUS</div>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">Advancing to next box automatically...</p>
-      <div style="width: 100%; height: 6px; background: #1e293b; border-radius: 999px; overflow: hidden;">
-        <div id="wb-auto-progress" style="width: 0%; height: 100%; background: var(--accent-green); transition: width 1.5s linear;"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="wb-modal-victory" class="modal-overlay">
-    <div class="modal-box" style="border: 2px solid var(--accent-amber);">
-      <div style="font-size: 3.5rem; margin-bottom: 4px;">🏆</div>
-      <h2 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 12px;">GAME COMPLETE!</h2>
-      <div style="background: #0f172a; border-radius: 14px; padding: 14px; text-align: left; margin-bottom: 18px; font-size: 0.95rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total Score:</span><b id="wb-res-score" style="font-family: var(--font-mono); color: var(--accent-cyan);">0</b></div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Words Discovered:</span><b id="wb-res-words" style="font-family: var(--font-mono); color: var(--accent-green);">0</b></div>
-        <div style="display: flex; justify-content: space-between;"><span>Total Time:</span><b id="wb-res-time" style="font-family: var(--font-mono); color: var(--accent-amber);">00:00</b></div>
-      </div>
-      <button id="wb-btn-restart-all" class="btn-3d btn-purple" type="button">Play 20 Boxes Again</button>
-    </div>
-  </div>
-
-  <div id="sudoku-win-modal" class="modal-overlay">
+<div id="sudoku-win-modal" class="modal-overlay">
     <div class="modal-box" style="border: 2px solid #10b981;">
       <div style="font-size: 3rem; margin-bottom: 6px;">🏆</div>
       <h2 style="font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 4px;">CONGRATULATIONS!</h2>
@@ -1400,7 +1300,6 @@
       math: document.getElementById('view-math'),
       sudoku: document.getElementById('view-sudoku'),
       ball: document.getElementById('view-ball'),
-      word: document.getElementById('view-word'),
       bodmas: document.getElementById('view-bodmas'),
       series: document.getElementById('view-series'),
       ttt: document.getElementById('view-ttt'),
@@ -1418,7 +1317,6 @@
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
       if (viewName !== 'sudoku') stopSudokuTimer();
-      if (viewName !== 'word') stopWordBoxTimer();
       if (viewName !== 'reaction') resetReactionState();
       if (viewName !== 'memory') stopMemoryTimer();
       if (viewName !== 'nflash') resetNumberFlashState();
@@ -1433,7 +1331,6 @@
       if (viewName === 'math') resetMathToStart();
       else if (viewName === 'sudoku' && !sdkState.active) startNewSudoku();
       else if (viewName === 'ball') init3DBallGame();
-      else if (viewName === 'word') initWordBox20();
       else if (viewName === 'bodmas') initBodmasGame();
       else if (viewName === 'series') initSeriesGame();
       else if (viewName === 'ttt') initTicTacToe();
@@ -1449,7 +1346,6 @@
     document.getElementById('btn-launch-math').addEventListener('click', () => openView('math'));
     document.getElementById('btn-launch-sudoku').addEventListener('click', () => openView('sudoku'));
     document.getElementById('btn-launch-ball').addEventListener('click', () => openView('ball'));
-    document.getElementById('btn-launch-word').addEventListener('click', () => openView('word'));
     document.getElementById('btn-launch-bodmas').addEventListener('click', () => openView('bodmas'));
     document.getElementById('btn-launch-series').addEventListener('click', () => openView('series'));
     document.getElementById('btn-launch-ttt').addEventListener('click', () => openView('ttt'));
@@ -1939,283 +1835,8 @@
     }
     document.getElementById('btn-restart-ball').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
     document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
-
     /* ========================================================
-       GAME 4: WORD BOX
-       ======================================================== */
-    const RAW_DICTIONARY = "ACT,ACE,AGE,AIR,ALL,AND,ANT,APE,ARC,ARM,ART,ASH,ASK,BAD,BAG,BAR,BAT,BAY,BED,BEE,BET,BIG,BIN,BIRD,BIT,BLOW,BLUE,BOAT,BODY,BOIL,BONE,BOOK,BORN,BOWL,BOY,BOX,BUS,BUSY,BUT,BUY,CAMP,CAN,CAP,CAR,CARE,CART,CASE,CAST,CAT,CAVE,CHEF,CITY,CLAP,CLAY,CLAW,CLIP,COAL,COAT,COLD,COME,COOK,COOL,CORN,COST,CRAB,CROP,CROW,CURE,CUP,CUT,DARK,DAWN,DAYS,DEAL,DEAR,DEEP,DEER,DESK,DIET,DINT,DIRT,DISH,DIVE,DOCK,DOG,DOOR,DOT,DOWN,DRAW,DREAM,DROP,DRUM,DRY,DUCK,DUST,EACH,EAR,EARN,EARTH,EAST,EAT,EDGE,EGG,ENVY,EYE,FACE,FACT,FAIR,FALL,FAME,FARM,FAST,FAT,FEAR,FEED,FEEL,FEET,FILL,FILM,FIND,FINE,FIRE,FISH,FIST,FIT,FIVE,FLAT,FLOW,FLY,FOG,FOLD,FOOD,FOOT,FOR,FORK,FORT,FOUL,FOUR,FOX,FREE,FROG,FROM,FULL,GAME,GATE,GAVE,GEAR,GIFT,GIRL,GIVE,GLAD,GLOW,GOAL,GOAT,GOLD,GOOD,GRAB,GRAY,GREW,GRID,GROW,GULF,HAIR,HALF,HALL,HAND,HANG,HARD,HARM,HAT,HATE,HAVE,HEAD,HEAL,HEAR,HEAT,HELP,HERO,HIDE,HIGH,HILL,HINT,HOLD,HOLE,HOME,HONEY,HOPE,HORN,HORSE,HOST,HOUR,HOUSE,HUGE,HUNT,HURT,ICE,IDEA,IRON,ITEM,JARS,JAW,JEAN,JOIN,JOKE,JOY,JUMP,JUST,KEEP,KEPT,KICK,KID,KIND,KING,KISS,KITE,KNEE,KNEW,KNOT,KNOW,LADY,LAKE,LAMP,LAND,LANE,LAST,LATE,LAWN,LEAD,LEAF,LEAP,LEARN,LEFT,LEGS,LEND,LENS,LESS,LIFE,LIFT,LIGHT,LIKE,LIME,LINE,LION,LIPS,LIST,LIVE,LOAD,LOAF,LOCK,LONG,LOOK,LOOP,LORD,LOSE,LOST,LOUD,LOVE,LUCK,LUNG,MADE,MAIL,MAIN,MAKE,MALE,MANY,MAP,MARK,MASK,MASS,MAST,MATE,MEAL,MEAN,MEAT,MEET,MELT,MEND,MILE,MILK,MILL,MIND,MINE,MINT,MISS,MIST,MOON,MORE,MOST,MOTH,MOVE,MUCH,MUD,MULE,MUST,NAME,NEAR,NEAT,NECK,NEED,NEST,NET,NEWS,NEXT,NICE,NIGHT,NINE,NOON,NOSE,NOTE,OAK,OAR,OCEAN,OFF,OIL,OLD,ONCE,ONE,OPEN,ORAL,OVEN,OVER,OWL,PACE,PACK,PAGE,PAIN,PAIR,PALE,PALM,PAN,PARK,PART,PASS,PAST,PATH,PEAK,PEAR,PECK,PEEL,PET,PICK,PIG,PILE,PIN,PINE,PINK,PINT,PIPE,PLAN,PLANT,PLAY,PLUG,POEM,POET,POINT,POLE,POND,POOL,POOR,PORK,PORT,POST,POT,POUR,PRAY,PULL,PURE,PUSH,RACE,RAIN,RAKE,RAMP,RANK,RARE,RATE,READ,REAL,REAP,RED,REST,RICE,RICH,RIDE,RING,RIPE,RISE,RISK,ROAD,ROAR,ROBE,ROCK,ROD,ROOF,ROOT,ROPE,ROSE,ROUT,ROW,RUDE,RULE,RUSH,RUST,SAFE,SAIL,SALE,SALT,SAME,SAND,SAVE,SEAL,SEAM,SEAT,SEED,SEEK,SEEM,SEEN,SELF,SELL,SEND,SHIP,SHOE,SHOP,SHOT,SHOW,SHUT,SICK,SIDE,SIGN,SILK,SILVER,SING,SINK,SITE,SIZE,SKIN,SKIP,SKY,SLAP,SLID,SLIM,SLOW,SNOW,SOAP,SOIL,SOLAR,SOLD,SOLE,SOME,SONG,SOON,SORE,SOUP,SOUR,SPIN,SPOT,STAR,STAY,STEM,STEP,STIR,STOP,STORM,SUCH,SUIT,SUN,SURE,SWAN,SWIM,TALE,TALK,TALL,TANK,TAPE,TASK,TEAM,TEAR,TENT,TERM,TEST,TEXT,THAT,THEM,THEN,THEY,THIN,THIS,TIDE,TIDY,TIE,TIME,TINY,TIRE,TOAD,TOLL,TONE,TOOK,TOOL,TOP,TORE,TORN,TOUR,TOWN,TRAP,TREE,TRIP,TRUE,TUBE,TUNE,TURN,TWIN,TWO,TYPE,UGLY,UNIT,UPON,URGE,VAIN,VAST,VEIL,VENT,VERB,VERY,VIEW,VINE,VOICE,VOLT,VOTE,WAIT,WAKE,WALK,WALL,WANT,WARM,WARN,WASH,WASP,WAVE,WEAK,WEAR,WEEK,WENT,WEST,WHAT,WHEN,WIDE,WILD,WILL,WIND,WING,WINK,WINS,WIPE,WIRE,WISE,WISH,WITH,WOLF,WOOD,WOOL,WORD,WORK,WORM,WORN,YARD,YARN,YEAR,YELL,ZERO,ZONE".split(",");
-    class WordTrieNode { constructor() { this.children = {}; this.isWord = false; } }
-    const wbTrie = new WordTrieNode();
-    const wbDictSet = new Set();
-    RAW_DICTIONARY.forEach(w => { wbDictSet.add(w); let curr = wbTrie; for (const ch of w) { if (!curr.children[ch]) curr.children[ch] = new WordTrieNode(); curr = curr.children[ch]; } curr.isWord = true; });
-    /* ========================================================
-       FIXED WORD BOX LEVEL DATA
-       20 handcrafted levels • Easy → Expert
-       Each level has a stable puzzle board and a small target set.
-       The board is visually transformed on replay (rotate/flip) so
-       repeated plays do not look identical, while the target words
-       remain the same for that level.
-       ======================================================== */
-    const WORD_BOX_FIXED_LEVELS = [
-      { size:3, words:["CAT","DOG","SUN"], letters:["CAT","DOG","SUN"] },
-      { size:3, words:["MAP","RED","PIN"], letters:["MAP","RED","PIN"] },
-      { size:3, words:["FOX","BEE","JOY"], letters:["FOX","BEE","JOY"] },
-      { size:3, words:["AIR","HAT","ICE"], letters:["AIR","HAT","ICE"] },
-      { size:3, words:["ANT","OAK","TOP"], letters:["ANT","OAK","TOP"] },
-
-      { size:4, words:["BOOK","FISH","HOME","ROAD"], letters:["BOOK","FISH","HOME","ROAD"] },
-      { size:4, words:["LION","STAR","TREE","WIND"], letters:["LION","STAR","TREE","WIND"] },
-      { size:4, words:["COLD","FIRE","GAME","KING"], letters:["COLD","FIRE","GAME","KING"] },
-      { size:4, words:["LOVE","TIME","WORD","WORK"], letters:["LOVE","TIME","WORD","WORK"] },
-      { size:4, words:["FAST","GOLD","HELP","PLAY"], letters:["FAST","GOLD","HELP","PLAY"] },
-
-      { size:5, words:["ABOUT","BEACH","BRAIN","CROWN","DREAM"], letters:["ABOUT","BEACH","BRAIN","CROWN","DREAM"] },
-      { size:5, words:["DRIVE","EARTH","FIELD","FOCUS","GRACE"], letters:["DRIVE","EARTH","FIELD","FOCUS","GRACE"] },
-      { size:5, words:["HEART","HORSE","HOTEL","HOUSE","LIGHT"], letters:["HEART","HORSE","HOTEL","HOUSE","LIGHT"] },
-      { size:5, words:["MAGIC","MAJOR","MONEY","MUSIC","PARTY"], letters:["MAGIC","MAJOR","MONEY","MUSIC","PARTY"] },
-      { size:5, words:["PEACE","PHONE","PLACE","QUICK","ROUND"], letters:["PEACE","PHONE","PLACE","QUICK","ROUND"] },
-
-      { size:6, words:["ACTION","ACTIVE","ADMIRE","ADVICE","ANSWER","AFFECT"], letters:["ACTION","ACTIVE","ADMIRE","ADVICE","ANSWER","AFFECT"] },
-      { size:6, words:["BEAUTY","BOTTLE","BRIGHT","CAMERA","CANDLE","CREATE"], letters:["BEAUTY","BOTTLE","BRIGHT","CAMERA","CANDLE","CREATE"] },
-      { size:6, words:["DANGER","DECIDE","DINNER","DRIVER","EFFECT","EFFORT"], letters:["DANGER","DECIDE","DINNER","DRIVER","EFFECT","EFFORT"] },
-      { size:6, words:["ENOUGH","ESCAPE","EXCITE","FAMILY","FAMOUS","FINGER"], letters:["ENOUGH","ESCAPE","EXCITE","FAMILY","FAMOUS","FINGER"] },
-      { size:6, words:["FINISH","FOLLOW","GLOBAL","GROWTH","HIDDEN","HONEST"], letters:["FINISH","FOLLOW","GLOBAL","GROWTH","HIDDEN","HONEST"] }
-    ];
-
-    const wbState = {
-      currentBox: 1, totalBoxes: 20, score: 0, totalWordsFound: 0,
-      elapsedSeconds: 0, timerInterval: null, hintsLeft: 3,
-      gridSize: 3, targetWordCount: 3, minWordLength: 3,
-      gridLetters: [], discoveredWords: new Set(),
-      allSolvableWords: new Map(), targetWords: new Set(),
-      isDragging: false, currentPath: [], currentWord: "",
-      currentTransform: 0
-    };
-
-    const wbEls = {
-      hudBox: document.getElementById('wb-hud-box'),
-      hudScore: document.getElementById('wb-hud-score'), hudTime: document.getElementById('wb-hud-time'),
-      hudTarget: document.getElementById('wb-hud-target'), previewBubble: document.getElementById('wb-preview-bubble'),
-      floatingFeedback: document.getElementById('wb-floating-feedback'), gridWrapper: document.getElementById('wb-grid-wrapper'),
-      letterGrid: document.getElementById('wb-letter-grid'), svgTrace: document.getElementById('wb-svg-trace'), svgPointer: document.getElementById('wb-svg-pointer'),
-      foundList: document.getElementById('wb-found-list'), foundCount: document.getElementById('wb-found-count'),
-      hintBadge: document.getElementById('wb-hint-badge'), btnHint: document.getElementById('wb-btn-hint'), btnNextBox: document.getElementById('wb-btn-next-box'),
-      modalComplete: document.getElementById('wb-modal-box-complete'), completeTitle: document.getElementById('wb-complete-title'),
-      autoProgress: document.getElementById('wb-auto-progress'), modalVictory: document.getElementById('wb-modal-victory'),
-      resScore: document.getElementById('wb-res-score'), resWords: document.getElementById('wb-res-words'), resTime: document.getElementById('wb-res-time'), btnRestartAll: document.getElementById('wb-btn-restart-all')
-    };
-
-    function getNeighbors8(idx, size) {
-      const r = Math.floor(idx / size), c = idx % size, out = [];
-      for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-          if (dr === 0 && dc === 0) continue;
-          const nr = r + dr, nc = c + dc;
-          if (nr >= 0 && nr < size && nc >= 0 && nc < size) out.push(nr * size + nc);
-        }
-      }
-      return out;
-    }
-
-    function transformWordBoxLevel(levelData, transform) {
-      const n = levelData.size;
-      const out = Array(n * n);
-      const src = levelData.letters;
-      function map(r, c) {
-        switch (transform % 8) {
-          case 1: return [c, n - 1 - r];
-          case 2: return [n - 1 - r, n - 1 - c];
-          case 3: return [n - 1 - c, r];
-          case 4: return [r, n - 1 - c];
-          case 5: return [n - 1 - r, c];
-          case 6: return [c, r];
-          case 7: return [n - 1 - c, n - 1 - r];
-          default: return [r, c];
-        }
-      }
-      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
-        const [nr, nc] = map(r, c); out[nr * n + nc] = src[r * n + c];
-      }
-      return out;
-    }
-
-    function findWordPath8(letters, size, word) {
-      const target = word.toUpperCase();
-      const visited = new Array(size * size).fill(false);
-      for (let start = 0; start < letters.length; start++) {
-        if (letters[start] !== target[0]) continue;
-        const path = [];
-        function dfs(idx, pos) {
-          if (letters[idx] !== target[pos] || visited[idx]) return false;
-          visited[idx] = true; path.push(idx);
-          if (pos === target.length - 1) return true;
-          for (const next of getNeighbors8(idx, size)) {
-            if (dfs(next, pos + 1)) return true;
-          }
-          visited[idx] = false; path.pop(); return false;
-        }
-        if (dfs(start, 0)) return path.slice();
-        visited.fill(false);
-      }
-      return null;
-    }
-
-    function prepareWordBoxVariant(levelData, variant) {
-      const letters = transformWordBoxLevel(levelData, variant);
-      const map = new Map();
-      levelData.words.forEach(word => {
-        const path = findWordPath8(letters, levelData.size, word);
-        if (path) map.set(word, path);
-      });
-      return { letters, map };
-    }
-
-    function getNextWordBoxVariant(boxNum) {
-      const key = `wordBoxVariant_${boxNum}`;
-      let last = -1;
-      try { last = parseInt(localStorage.getItem(key), 10); if (Number.isNaN(last)) last = -1; } catch (e) {}
-      const next = (last + 1) % 8;
-      try { localStorage.setItem(key, String(next)); } catch (e) {}
-      return next;
-    }
-
-    function loadWordBoxLevel(boxNum) {
-      const level = WORD_BOX_FIXED_LEVELS[boxNum - 1] || WORD_BOX_FIXED_LEVELS[0];
-      const variant = getNextWordBoxVariant(boxNum);
-      const prepared = prepareWordBoxVariant(level, variant);
-      wbState.currentBox = boxNum;
-      wbState.gridSize = level.size;
-      wbState.targetWordCount = level.words.length;
-      wbState.minWordLength = level.words.reduce((m,w) => Math.min(m, w.length), 99);
-      wbState.gridLetters = prepared.letters;
-      wbState.allSolvableWords = prepared.map;
-      wbState.targetWords = new Set(level.words);
-      wbState.currentTransform = variant;
-      wbState.discoveredWords.clear(); wbState.currentPath = []; wbState.currentWord = ''; wbState.isDragging = false;
-      wbEls.hudBox.textContent = `${boxNum} / ${wbState.totalBoxes}`;
-      wbEls.hudTarget.textContent = `0 / ${wbState.targetWordCount}`;
-      wbEls.hudScore.textContent = wbState.score;
-      wbEls.hintBadge.textContent = wbState.hintsLeft;
-      wbEls.foundCount.textContent = `0 found`;
-      wbEls.foundList.innerHTML = '';
-      renderWbGrid();
-      wbEls.previewBubble.textContent = 'SWIPE LETTERS'; wbEls.previewBubble.classList.add('empty');
-    }
-
-    function renderWbGrid() {
-      wbEls.letterGrid.className = `letter-grid grid-${wbState.gridSize}x${wbState.gridSize}`;
-      wbEls.letterGrid.innerHTML = '';
-      wbState.gridLetters.forEach((letter, i) => {
-        const tile = document.createElement('div'); tile.className = 'tile'; tile.textContent = letter; tile.dataset.index = i; wbEls.letterGrid.appendChild(tile);
-      });
-    }
-
-    function getTileCenter(tile) {
-      const r = tile.getBoundingClientRect(), p = wbEls.gridWrapper.getBoundingClientRect();
-      return { x: r.left - p.left + r.width / 2, y: r.top - p.top + r.height / 2 };
-    }
-    function updateWbSvg() {
-      if (!wbState.currentPath.length) { wbEls.svgTrace.setAttribute('points', ''); return; }
-      wbEls.svgTrace.setAttribute('points', wbState.currentPath.map(idx => { const pt = getTileCenter(wbEls.letterGrid.children[idx]); return `${pt.x},${pt.y}`; }).join(' '));
-    }
-    function getTileIdxFromCoords(clientX, clientY) {
-      const tiles = wbEls.letterGrid.children;
-      for (let i = 0; i < tiles.length; i++) { const rect = tiles[i].getBoundingClientRect(); if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) return i; }
-      return null;
-    }
-    wbEls.gridWrapper.addEventListener('pointerdown', (e) => {
-      const idx = getTileIdxFromCoords(e.clientX, e.clientY); if (idx === null) return;
-      try { wbEls.gridWrapper.setPointerCapture(e.pointerId); } catch (err) {}
-      wbState.isDragging = true; wbState.currentPath = [idx]; wbState.currentWord = wbState.gridLetters[idx];
-      wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile');
-      wbEls.previewBubble.textContent = wbState.currentWord; wbEls.previewBubble.classList.remove('empty'); updateWbSvg();
-    });
-    window.addEventListener('pointermove', (e) => {
-      if (!wbState.isDragging) return;
-      const idx = getTileIdxFromCoords(e.clientX, e.clientY); if (idx === null || wbState.currentPath.includes(idx)) return;
-      const lastIdx = wbState.currentPath[wbState.currentPath.length - 1];
-      const r1 = Math.floor(lastIdx / wbState.gridSize), c1 = lastIdx % wbState.gridSize, r2 = Math.floor(idx / wbState.gridSize), c2 = idx % wbState.gridSize;
-      if (Math.abs(r1 - r2) <= 1 && Math.abs(c1 - c2) <= 1) {
-        wbState.currentPath.push(idx); wbState.currentWord += wbState.gridLetters[idx];
-        wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile'); wbEls.previewBubble.textContent = wbState.currentWord; updateWbSvg();
-      }
-    });
-
-    function showWbFeedback(text, correct) {
-      wbEls.floatingFeedback.textContent = text; wbEls.floatingFeedback.className = `feedback-float-alert show ${correct ? 'correct' : 'wrong'}`;
-      setTimeout(() => wbEls.floatingFeedback.classList.remove('show'), 500);
-    }
-
-    function completeCurrentWordBox() {
-      playSfx('box'); wbState.score += 150;
-      wbEls.hudScore.textContent = wbState.score;
-      wbEls.completeTitle.textContent = `BOX ${wbState.currentBox} COMPLETE!`;
-      wbEls.modalComplete.classList.add('active');
-      setTimeout(() => {
-        wbEls.modalComplete.classList.remove('active');
-        if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1);
-        else {
-          stopWordBoxTimer(); playSfx('win');
-          wbEls.resScore.textContent = wbState.score; wbEls.resWords.textContent = wbState.totalWordsFound;
-          const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0');
-          wbEls.resTime.textContent = `${m}:${s}`; wbEls.modalVictory.classList.add('active');
-        }
-      }, 1400);
-    }
-
-    function finishWbSwipe() {
-      if (!wbState.isDragging) return;
-      wbState.isDragging = false; wbEls.svgTrace.setAttribute('points', '');
-      const word = wbState.currentWord.toUpperCase();
-      const target = wbState.targetWords.has(word) && !wbState.discoveredWords.has(word);
-      if (target && wbState.allSolvableWords.has(word)) {
-        wbState.discoveredWords.add(word); wbState.totalWordsFound++;
-        const pts = word.length <= 3 ? 10 : (word.length === 4 ? 20 : (word.length === 5 ? 30 : 40));
-        wbState.score += pts; playSfx('valid'); showWbFeedback(`VALID +${pts}`, true);
-        wbEls.hudScore.textContent = wbState.score; wbEls.hudTarget.textContent = `${wbState.discoveredWords.size} / ${wbState.targetWordCount}`; wbEls.foundCount.textContent = `${wbState.discoveredWords.size} found`;
-        const chip = document.createElement('span'); chip.className = 'word-chip'; chip.textContent = `✓ ${word}`; wbEls.foundList.appendChild(chip);
-        if (wbState.discoveredWords.size >= wbState.targetWordCount) completeCurrentWordBox();
-      } else if (word.length >= wbState.minWordLength) {
-        playSfx('invalid'); showWbFeedback(wbState.targetWords.has(word) ? 'ALREADY FOUND' : 'NOT A TARGET WORD', false);
-      }
-      wbState.currentPath.forEach(idx => { if (wbEls.letterGrid.children[idx]) wbEls.letterGrid.children[idx].classList.remove('selected'); });
-      wbState.currentPath = []; wbState.currentWord = ''; wbEls.previewBubble.textContent = 'SWIPE LETTERS'; wbEls.previewBubble.classList.add('empty');
-    }
-    window.addEventListener('pointerup', finishWbSwipe);
-
-    function startWordBoxTimer() {
-      if (wbState.timerInterval) clearInterval(wbState.timerInterval);
-      wbState.timerInterval = setInterval(() => {
-        wbState.elapsedSeconds++;
-        const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0');
-        wbEls.hudTime.textContent = `${m}:${s}`;
-      }, 1000);
-    }
-    function stopWordBoxTimer() {
-      if (wbState.timerInterval) { clearInterval(wbState.timerInterval); wbState.timerInterval = null; }
-      wbState.isDragging = false; wbState.currentPath = []; wbState.currentWord = '';
-      if (wbEls && wbEls.svgTrace) wbEls.svgTrace.setAttribute('points', '');
-    }
-    function initWordBox20() {
-      stopWordBoxTimer(); wbState.currentBox = 1; wbState.score = 0; wbState.elapsedSeconds = 0; wbState.totalWordsFound = 0; wbState.hintsLeft = 3;
-      wbState.discoveredWords.clear(); loadWordBoxLevel(1); wbEls.modalVictory.classList.remove('active'); startWordBoxTimer();
-    }
-
-    wbEls.btnHint.addEventListener('click', () => {
-      playSfx('hint');
-      if (wbState.hintsLeft <= 0) { showWbFeedback('NO HINTS LEFT', false); return; }
-      const remaining = [...wbState.targetWords].filter(w => !wbState.discoveredWords.has(w));
-      const word = remaining[0];
-      const path = word ? wbState.allSolvableWords.get(word) : null;
-      if (!path) return;
-      wbState.hintsLeft--; wbEls.hintBadge.textContent = wbState.hintsLeft;
-      path.forEach(idx => { const el = wbEls.letterGrid.children[idx]; if (el) { el.classList.add('hint-pulse'); setTimeout(() => el.classList.remove('hint-pulse'), 1600); } });
-    });
-    wbEls.btnNextBox.addEventListener('click', () => { playSfx('click'); if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1); });
-    wbEls.btnRestartAll.addEventListener('click', () => { playSfx('click'); wbEls.modalVictory.classList.remove('active'); initWordBox20(); });
-
-    /* ========================================================
-       GAME 5: BODMAS MASTER
+       GAME 4: BODMAS MASTER
        ======================================================== */
     const bodmasState = { score: 0, streak: 0, attempted: 0, usedSet: new Set(), current: null, options: [], isAnswered: false };
     const bodmasButtons = document.querySelectorAll('.bodmas-opt');
