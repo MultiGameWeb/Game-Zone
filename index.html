@@ -1192,6 +1192,34 @@
 
   <script>
     /* ========================================================
+       GLOBAL ASYNC CLEANUP
+       Prevent old-game delayed callbacks from firing after navigation.
+       ======================================================== */
+    const nativeSetTimeout = window.setTimeout.bind(window);
+    const nativeClearTimeout = window.clearTimeout.bind(window);
+    const pendingTimeouts = new Set();
+
+    window.setTimeout = function (fn, delay, ...args) {
+      let id = null;
+      id = nativeSetTimeout(() => {
+        pendingTimeouts.delete(id);
+        try { fn(...args); } catch (err) { console.error(err); }
+      }, delay);
+      pendingTimeouts.add(id);
+      return id;
+    };
+
+    window.clearTimeout = function (id) {
+      pendingTimeouts.delete(id);
+      nativeClearTimeout(id);
+    };
+
+    function clearAllPendingTimeouts() {
+      [...pendingTimeouts].forEach(id => nativeClearTimeout(id));
+      pendingTimeouts.clear();
+    }
+
+    /* ========================================================
        SOUND EFFECTS ENGINE (WEB AUDIO API)
        ======================================================== */
     let audioCtx = null;
@@ -1383,6 +1411,7 @@
     };
 
     function openView(viewName) {
+      clearAllPendingTimeouts();
       playSfx('click');
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
@@ -1399,7 +1428,8 @@
         views[k].classList.toggle('active', k === viewName);
       });
 
-      if (viewName === 'sudoku' && !sdkState.active) startNewSudoku();
+      if (viewName === 'math') resetMathToStart();
+      else if (viewName === 'sudoku' && !sdkState.active) startNewSudoku();
       else if (viewName === 'ball') init3DBallGame();
       else if (viewName === 'word') initWordBox20();
       else if (viewName === 'bodmas') initBodmasGame();
@@ -1630,7 +1660,24 @@
       }, 1000);
     }
 
-    function stopMathTimer() { if (mathState.timerInterval) clearInterval(mathState.timerInterval); }
+    function stopMathTimer() {
+      if (mathState.timerInterval) { clearInterval(mathState.timerInterval); mathState.timerInterval = null; }
+    }
+
+    function resetMathToStart() {
+      if (mathState.transitionTimeout) { clearTimeout(mathState.transitionTimeout); mathState.transitionTimeout = null; }
+      mathState.sessionId++;
+      stopMathTimer();
+      mathState.score = 0; mathState.attempted = 0; mathState.correct = 0;
+      mathState.sessionUsed.clear(); mathState.isProcessingAnswer = false;
+      mathState.timerRemaining = 60; mathState.elapsedSeconds = 0;
+      feedbackAlert.className = 'feedback-float-alert';
+      document.getElementById('mq-input').value = '';
+      document.getElementById('mq-container-options').style.display = 'grid';
+      document.getElementById('mq-container-type').style.display = 'none';
+      showMathSubScreen('start');
+      updateMathHUD();
+    }
     function finishMathQuiz() {
       if (mathState.transitionTimeout) { clearTimeout(mathState.transitionTimeout); mathState.transitionTimeout = null; }
       mathState.sessionId++;
@@ -1654,7 +1701,7 @@
     document.getElementById('toggle-timer-off').addEventListener('click', (e) => { playSfx('click'); mathState.timerMode = 'off'; e.target.classList.add('active'); document.getElementById('toggle-timer-on').classList.remove('active'); });
     optButtons.forEach(btn => btn.addEventListener('click', () => handleOptionClick(parseInt(btn.dataset.optIdx, 10))));
     document.getElementById('mq-btn-start').addEventListener('click', startMathSession);
-    document.getElementById('mq-btn-restart').addEventListener('click', startMathSession);
+    document.getElementById('mq-btn-restart').addEventListener('click', resetMathToStart);
     document.getElementById('mq-btn-quit').addEventListener('click', finishMathQuiz);
     document.getElementById('mq-btn-submit').addEventListener('click', submitTypeAnswer);
     document.getElementById('mq-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitTypeAnswer(); });
@@ -1902,6 +1949,18 @@
     const wbState = { currentBox: 1, totalBoxes: 20, score: 0, totalWordsFound: 0, elapsedSeconds: 0, timerInterval: null, hintsLeft: 3, gridSize: 3, targetWordCount: 5, minWordLength: 3, gridLetters: [], discoveredWords: new Set(), allSolvableWords: new Map(), isDragging: false, currentPath: [], currentWord: "" };
     const wbEls = { hudBox: document.getElementById('wb-hud-box'), hudScore: document.getElementById('wb-hud-score'), hudTime: document.getElementById('wb-hud-time'), hudTarget: document.getElementById('wb-hud-target'), previewBubble: document.getElementById('wb-preview-bubble'), floatingFeedback: document.getElementById('wb-floating-feedback'), gridWrapper: document.getElementById('wb-grid-wrapper'), letterGrid: document.getElementById('wb-letter-grid'), svgTrace: document.getElementById('wb-svg-trace'), svgPointer: document.getElementById('wb-svg-pointer'), foundList: document.getElementById('wb-found-list'), foundCount: document.getElementById('wb-found-count'), hintBadge: document.getElementById('wb-hint-badge'), btnHint: document.getElementById('wb-btn-hint'), btnNextBox: document.getElementById('wb-btn-next-box'), modalComplete: document.getElementById('wb-modal-box-complete'), completeTitle: document.getElementById('wb-complete-title'), autoProgress: document.getElementById('wb-auto-progress'), modalVictory: document.getElementById('wb-modal-victory'), resScore: document.getElementById('wb-res-score'), resWords: document.getElementById('wb-res-words'), resTime: document.getElementById('wb-res-time'), btnRestartAll: document.getElementById('wb-btn-restart-all') };
 
+    function getNeighbors8(idx, size) {
+      const r = Math.floor(idx / size), c = idx % size, out = [];
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          if (dr === 0 && dc === 0) continue;
+          const nr = r + dr, nc = c + dc;
+          if (nr >= 0 && nr < size && nc >= 0 && nc < size) out.push(nr * size + nc);
+        }
+      }
+      return out;
+    }
+
     function solveGridWords8(letters, size, minLen) {
       const totalCells = size * size, map = new Map(), visited = new Array(totalCells).fill(false);
       function dfs(idx, node, path, str) {
@@ -1931,9 +1990,16 @@
         const map = solveGridWords8(grid, size, minLen);
         if (map.size >= targetWords + 2) return { size, targetWords, minLen, letters: grid, solvableWords: map };
       }
-      const fb = ["C","A","T","R","E","D","P","I","N"]; return { size: 3, targetWords: 4, minLen: 3, letters: fb, solvableWords: solveGridWords8(fb, 3, 3) };
+      const fb = ["C","A","T","R","E","D","P","I","N"];
+      const fbMap = solveGridWords8(fb, 3, 3);
+      return { size: 3, targetWords: Math.min(4, Math.max(1, fbMap.size)), minLen: 3, letters: fb, solvableWords: fbMap };
     }
-    function initWordBox20() { wbState.currentBox = 1; wbState.score = 0; wbState.elapsedSeconds = 0; wbState.totalWordsFound = 0; wbState.hintsLeft = 3; loadWordBoxLevel(1); startWordBoxTimer(); }
+    function initWordBox20() {
+      stopWordBoxTimer();
+      wbState.currentBox = 1; wbState.score = 0; wbState.elapsedSeconds = 0; wbState.totalWordsFound = 0; wbState.hintsLeft = 3;
+      wbState.currentPath = []; wbState.currentWord = ''; wbState.isDragging = false;
+      loadWordBoxLevel(1); startWordBoxTimer();
+    }
     function loadWordBoxLevel(boxNum) {
       wbState.currentBox = boxNum; wbState.discoveredWords.clear(); wbState.currentPath = []; wbState.currentWord = ""; wbState.isDragging = false;
       const puz = generateSolvableBox(boxNum);
@@ -2018,7 +2084,11 @@
       if (wbState.timerInterval) clearInterval(wbState.timerInterval);
       wbState.timerInterval = setInterval(() => { wbState.elapsedSeconds++; const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0'); wbEls.hudTime.textContent = `${m}:${s}`; }, 1000);
     }
-    function stopWordBoxTimer() { if (wbState.timerInterval) clearInterval(wbState.timerInterval); }
+    function stopWordBoxTimer() {
+      if (wbState.timerInterval) { clearInterval(wbState.timerInterval); wbState.timerInterval = null; }
+      wbState.isDragging = false; wbState.currentPath = []; wbState.currentWord = '';
+      if (wbEls && wbEls.svgTrace) wbEls.svgTrace.setAttribute('points', '');
+    }
     wbEls.btnNextBox.addEventListener('click', () => { playSfx('click'); if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1); });
     wbEls.btnRestartAll.addEventListener('click', () => { playSfx('click'); wbEls.modalVictory.classList.remove('active'); initWordBox20(); });
 
@@ -2560,7 +2630,9 @@
       generateMemoryDeck();
       memState.timerInterval = setInterval(() => { memState.seconds++; const m = String(Math.floor(memState.seconds/60)).padStart(2,'0'), s = String(memState.seconds%60).padStart(2,'0'); document.getElementById('mem-hud-time').textContent = `${m}:${s}`; }, 1000);
     }
-    function stopMemoryTimer() { if (memState.timerInterval) clearInterval(memState.timerInterval); }
+    function stopMemoryTimer() {
+      if (memState.timerInterval) { clearInterval(memState.timerInterval); memState.timerInterval = null; }
+    }
     document.getElementById('mem-diff-easy').addEventListener('click', (e) => { playSfx('click'); memState.gridSize = 'easy'; e.target.classList.add('active'); document.getElementById('mem-diff-med').classList.remove('active'); document.getElementById('mem-diff-hard').classList.remove('active'); initMemoryGame(); });
     document.getElementById('mem-diff-med').addEventListener('click', (e) => { playSfx('click'); memState.gridSize = 'med'; e.target.classList.add('active'); document.getElementById('mem-diff-easy').classList.remove('active'); document.getElementById('mem-diff-hard').classList.remove('active'); initMemoryGame(); });
     document.getElementById('mem-diff-hard').addEventListener('click', (e) => { playSfx('click'); memState.gridSize = 'hard'; e.target.classList.add('active'); document.getElementById('mem-diff-easy').classList.remove('active'); document.getElementById('mem-diff-med').classList.remove('active'); initMemoryGame(); });
