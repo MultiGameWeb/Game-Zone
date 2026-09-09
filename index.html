@@ -793,10 +793,10 @@
     .btn-ttt-restart { background: linear-gradient(180deg, #ec4899 0%, #be185d 100%); box-shadow: 0 5px 0 #9d174d, 0 8px 16px rgba(236,72,153,0.35); }
     .btn-ttt-restart:active { transform: translateY(3px); box-shadow: 0 2px 0 #9d174d; }
 
-    /* Reaction Time Tester */
+    /* Reaction Rush */
     .reaction-box {
       width: 100%;
-      height: 240px;
+      height: 250px;
       border-radius: 20px;
       display: flex;
       flex-direction: column;
@@ -806,60 +806,48 @@
       margin: 14px 0;
       padding: 16px;
       text-align: center;
-      transition: background-color 0.25s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      transition: background-color 0.25s ease, transform 0.1s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      user-select: none;
+      touch-action: manipulation;
     }
     .reaction-box:active { transform: scale(0.985); }
     .reaction-box.state-idle { background: #334155; border: 3px dashed #64748b; }
     .reaction-box.state-wait { background: #dc2626; border: 3px solid #f87171; box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); }
     .reaction-box.state-ready { background: #16a34a; border: 3px solid #4ade80; box-shadow: 0 0 35px rgba(34, 197, 94, 0.6); }
+    .reaction-box.state-yellow { background: #eab308; border: 3px solid #fde047; box-shadow: 0 0 35px rgba(234, 179, 8, 0.45); }
+    .reaction-box.state-blue { background: #2563eb; border: 3px solid #60a5fa; box-shadow: 0 0 35px rgba(37, 99, 235, 0.55); }
     .reaction-box.state-result { background: #0284c7; border: 3px solid #38bdf8; box-shadow: 0 0 30px rgba(14, 165, 233, 0.5); }
     .reaction-box.state-early { background: #e11d48; border: 3px solid #fda4af; animation: shake 0.3s both; }
-
-    .reaction-title-msg {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #ffffff;
-      margin-bottom: 6px;
-      letter-spacing: -0.01em;
-    }
-    .reaction-sub-msg {
-      font-size: 0.92rem;
-      color: rgba(255, 255, 255, 0.85);
-      font-weight: 600;
-    }
-
-    .reaction-history-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      text-align: left;
-    }
-    .reaction-history-header {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      font-weight: 800;
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .reaction-history-list {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .reaction-pill {
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 3px 8px;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: #38bdf8;
+    .reaction-box.state-success { background: #0f766e; border: 3px solid #5eead4; box-shadow: 0 0 35px rgba(20, 184, 166, 0.5); }
+    .reaction-title-msg { font-size: 2.2rem; font-weight: 900; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .reaction-sub-msg { font-size: 0.92rem; color: rgba(255, 255, 255, 0.9); font-weight: 700; }
+    .reaction-signal-emoji { font-size: 3.2rem; line-height: 1; margin-bottom: 8px; }
+    .reaction-difficulty-row { display:flex; gap:8px; flex-wrap:wrap; margin: 0 0 10px; }
+    .reaction-diff-btn { flex:1; min-width:90px; }
+    .reaction-rules { font-size:0.7rem; color:var(--text-muted); margin:8px 0 12px; line-height:1.5; text-align:center; }
+    .reaction-session-history { display:flex; gap:6px; flex-wrap:wrap; }
+    .reaction-session-pill { background:#172033; border:1px solid #334155; padding:4px 8px; border-radius:8px; font-family:var(--font-mono); font-size:0.75rem; font-weight:800; color:#e2e8f0; }
+    .reaction-history-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; text-align: left; }
+    .reaction-history-header { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800; margin-bottom: 6px; display:flex; justify-content:space-between; gap:8px; }
+    .reaction-history-list { display:flex; gap:6px; flex-wrap:wrap; }
+    .reaction-pill { background: #1e293b; border: 1px solid #334155; padding: 3px 8px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: #38bdf8; }
+    .reaction-modal-backdrop { position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(2,6,23,.78); backdrop-filter:blur(6px); z-index:10000; }
+    .reaction-modal-backdrop.active { display:flex; }
+    .reaction-modal { width:min(520px,100%); background:linear-gradient(180deg,#0f172a 0%,#111827 100%); border:1px solid #334155; border-radius:22px; padding:20px; box-shadow:0 25px 80px rgba(0,0,0,.55); text-align:center; }
+    .reaction-modal h3 { font-size:1.5rem; font-weight:900; margin-bottom:4px; }
+    .reaction-modal-sub { color:var(--text-muted); font-size:.82rem; margin-bottom:16px; }
+    .reaction-result-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:14px 0 16px; }
+    .reaction-result-card { background:#0b1220; border:1px solid #1e293b; border-radius:12px; padding:10px; }
+    .reaction-result-card .label { display:block; font-size:.66rem; text-transform:uppercase; color:var(--text-muted); font-weight:800; margin-bottom:3px; }
+    .reaction-result-card .value { display:block; font-family:var(--font-mono); font-size:1.12rem; font-weight:900; }
+    .reaction-modal-actions { display:flex; gap:10px; }
+    .reaction-modal-actions button { flex:1; }
+    @media (max-width: 560px) {
+      .reaction-result-grid { grid-template-columns:1fr 1fr; }
+      .reaction-difficulty-row { display:grid; grid-template-columns:repeat(3,1fr); }
+      .reaction-diff-btn { min-width:0; }
+      .reaction-title-msg { font-size:1.85rem; }
     }
 
     /* Memory Matching */
@@ -1016,7 +1004,7 @@
         <div class="game-card-box card-reaction-box">
           <div>
             <div class="game-icon-large">⚡</div>
-            <h2 class="game-box-title">REACTION TEST</h2>
+            <h2 class="game-box-title">REACTION RUSH ⚡</h2>
             <span class="game-box-badge badge-rose">Millisecond Precision</span>
             <p class="game-box-desc">Test your reflexes! Wait for Green and tap as fast as possible. Track history & best ms.</p>
           </div>
@@ -1351,39 +1339,70 @@
       </div>
     </section>
 
-    <!-- VIEW 9: REACTION TIME TESTER -->
+    <!-- VIEW 9: REACTION RUSH -->
     <section id="view-reaction" class="view-section">
       <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #f43f5e; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Reflex Sprint</div>
-          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">REACTION TEST</h2>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">REACTION RUSH ⚡</h2>
+
+          <div class="reaction-difficulty-row">
+            <button id="rt-diff-easy" class="toggle-btn reaction-diff-btn active" type="button">🌱 Easy<br><small>2–5s</small></button>
+            <button id="rt-diff-medium" class="toggle-btn reaction-diff-btn" type="button">⚡ Medium<br><small>1–4s</small></button>
+            <button id="rt-diff-hard" class="toggle-btn reaction-diff-btn" type="button">🔥 Hard<br><small>0.7–3s</small></button>
+          </div>
 
           <div class="stat-header">
-            <div><span class="stat-label">Best Time</span><span id="rt-hud-best" class="stat-val" style="color: #34d399;">-- ms</span></div>
-            <div><span class="stat-label">Average</span><span id="rt-hud-avg" class="stat-val" style="color: #38bdf8;">-- ms</span></div>
-            <div><span class="stat-label">Tries</span><span id="rt-hud-count" class="stat-val">0</span></div>
+            <div><span class="stat-label">Round</span><span id="rt-hud-round" class="stat-val" style="color:#fbbf24;">1 / 5</span></div>
+            <div><span class="stat-label">Score</span><span id="rt-hud-score" class="stat-val" style="color:#38bdf8;">0</span></div>
+            <div><span class="stat-label">Best</span><span id="rt-hud-best" class="stat-val" style="color:#34d399;">-- ms</span></div>
+            <div><span class="stat-label">Combo</span><span id="rt-hud-combo" class="stat-val" style="color:#f472b6;">0x</span></div>
           </div>
 
           <div id="rt-interactive-box" class="reaction-box state-idle">
-            <div id="rt-title-text" class="reaction-title-msg">Click to Start</div>
-            <div id="rt-sub-text" class="reaction-sub-msg">Tap anywhere inside this box to begin!</div>
+            <div id="rt-signal-emoji" class="reaction-signal-emoji">⚡</div>
+            <div id="rt-title-text" class="reaction-title-msg">READY?</div>
+            <div id="rt-sub-text" class="reaction-sub-msg">Tap the box to start Round 1/5</div>
           </div>
+
+          <div id="rt-rules" class="reaction-rules">🟢 GO: fast taps score more • 🔴 STOP: wait for +250 • 🟡 WAIT: don't rush • 🔵 DOUBLE TAP: +350</div>
 
           <div class="reaction-history-card">
             <div class="reaction-history-header">
-              <span>Last 5 Attempts</span>
+              <span>Last 5 Reaction Records</span>
               <span id="rt-history-summary">No data yet</span>
             </div>
             <div id="rt-history-pills" class="reaction-history-list"></div>
           </div>
 
-          <div style="display: flex; gap: 10px;">
-            <button id="rt-btn-reset" class="btn-3d btn-rose" type="button">Reset Stats</button>
+          <div style="display:flex; gap:10px;">
+            <button id="rt-btn-reset" class="btn-3d btn-rose" type="button">Reset History</button>
             <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
           </div>
         </div>
       </div>
     </section>
+
+    <div id="rt-result-modal" class="reaction-modal-backdrop" aria-hidden="true">
+      <div class="reaction-modal" role="dialog" aria-modal="true" aria-labelledby="rt-final-title">
+        <div style="font-size:2rem; margin-bottom:4px;">🏁</div>
+        <h3 id="rt-final-title">SESSION COMPLETE!</h3>
+        <div id="rt-final-sub" class="reaction-modal-sub">5 rounds finished</div>
+        <div class="reaction-result-grid">
+          <div class="reaction-result-card"><span class="label">Score</span><span id="rt-final-score" class="value">0</span></div>
+          <div class="reaction-result-card"><span class="label">Best ms</span><span id="rt-final-best" class="value">--</span></div>
+          <div class="reaction-result-card"><span class="label">Average ms</span><span id="rt-final-avg" class="value">--</span></div>
+          <div class="reaction-result-card"><span class="label">Accuracy</span><span id="rt-final-accuracy" class="value">0%</span></div>
+          <div class="reaction-result-card"><span class="label">Best Combo</span><span id="rt-final-combo" class="value">0x</span></div>
+          <div class="reaction-result-card"><span class="label">Rating</span><span id="rt-final-rating" class="value">—</span></div>
+        </div>
+        <div id="rt-perfect-badge" style="display:none; font-weight:900; margin-bottom:12px; font-size:1rem;">🏆 PERFECT REFLEX MASTER!</div>
+        <div class="reaction-modal-actions">
+          <button id="rt-btn-play-again" class="btn-3d btn-rose" type="button">Play Again</button>
+          <button id="rt-btn-modal-menu" class="btn-3d btn-secondary" type="button">Menu</button>
+        </div>
+      </div>
+    </div>
 
     <!-- VIEW 10: MEMORY MATCHING -->
     <section id="view-memory" class="view-section">
@@ -3679,92 +3698,304 @@
     renderTttBoard();
 
     /* ========================================================
-       GAME 8: REACTION TIME TESTER
+       GAME 8: REACTION RUSH
        ======================================================== */
+    const RT_TOTAL_ROUNDS = 5;
     const rtState = {
+      difficulty: 'easy',
       status: 'idle',
+      round: 1,
+      score: 0,
+      combo: 0,
+      bestCombo: 0,
+      roundClean: true,
+      completedRounds: 0,
+      successfulRounds: 0,
+      sessionTimes: [],
+      sessionHadError: false,
+      signal: null,
       startTime: 0,
       timerTimeout: null,
+      doubleTapTimer: null,
+      lastBlueTap: 0,
       history: [],
-      bestTime: null
+      bestTime: null,
+      bestScore: 0
     };
 
     const rtBox = document.getElementById('rt-interactive-box');
     const rtTitle = document.getElementById('rt-title-text');
     const rtSub = document.getElementById('rt-sub-text');
+    const rtEmoji = document.getElementById('rt-signal-emoji');
+    const rtHudRound = document.getElementById('rt-hud-round');
+    const rtHudScore = document.getElementById('rt-hud-score');
     const rtHudBest = document.getElementById('rt-hud-best');
-    const rtHudAvg = document.getElementById('rt-hud-avg');
-    const rtHudCount = document.getElementById('rt-hud-count');
+    const rtHudCombo = document.getElementById('rt-hud-combo');
     const rtHistoryPills = document.getElementById('rt-history-pills');
     const rtHistorySummary = document.getElementById('rt-history-summary');
+    const rtModal = document.getElementById('rt-result-modal');
 
-    function updateReactionBoxUI() {
-      rtBox.className = `reaction-box state-${rtState.status}`;
-      if (rtState.status === 'idle') {
-        rtTitle.textContent = "Click to Start";
-        rtSub.textContent = "Tap anywhere inside this box to begin!";
-      } else if (rtState.status === 'wait') {
-        rtTitle.textContent = "Wait for Green...";
-        rtSub.textContent = "Don't click yet! Get ready.";
-      } else if (rtState.status === 'ready') {
-        rtTitle.textContent = "CLICK NOW! ⚡";
-        rtSub.textContent = "Tap as fast as you can!";
-      } else if (rtState.status === 'early') {
-        rtTitle.textContent = "Too Soon! ⚠️";
-        rtSub.textContent = "Clicked before green. Tap to try again.";
+    const rtFinalScore = document.getElementById('rt-final-score');
+    const rtFinalBest = document.getElementById('rt-final-best');
+    const rtFinalAvg = document.getElementById('rt-final-avg');
+    const rtFinalAccuracy = document.getElementById('rt-final-accuracy');
+    const rtFinalCombo = document.getElementById('rt-final-combo');
+    const rtFinalRating = document.getElementById('rt-final-rating');
+    const rtPerfectBadge = document.getElementById('rt-perfect-badge');
+
+    const rtDiffButtons = {
+      easy: document.getElementById('rt-diff-easy'),
+      medium: document.getElementById('rt-diff-medium'),
+      hard: document.getElementById('rt-diff-hard')
+    };
+
+    function getRtDelay() {
+      const ranges = { easy: [2000,5000], medium: [1000,4000], hard: [700,3000] };
+      const [min,max] = ranges[rtState.difficulty];
+      return Math.round(min + Math.random() * (max - min));
+    }
+
+    function rtRandomSignal() {
+      const pool = ['green','green','red','yellow','blue'];
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function rtLoadPersistent() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('reactionRushHistory') || 'null');
+        if (saved && Array.isArray(saved.history)) rtState.history = saved.history.filter(x => Number.isFinite(x)).slice(0,5);
+        rtState.bestTime = rtState.history.length ? Math.min(...rtState.history) : null;
+        rtState.bestScore = Number.isFinite(saved?.bestScore) ? saved.bestScore : 0;
+      } catch (e) {
+        rtState.history = []; rtState.bestTime = null; rtState.bestScore = 0;
       }
     }
 
-    function handleReactionBoxClick() {
-      if (rtState.status === 'idle' || rtState.status === 'result' || rtState.status === 'early') {
-        playSfx('click');
-        rtState.status = 'wait';
-        updateReactionBoxUI();
+    function rtSavePersistent() {
+      try {
+        localStorage.setItem('reactionRushHistory', JSON.stringify({ history: rtState.history.slice(0,5), bestScore: rtState.bestScore }));
+      } catch (e) {}
+    }
 
-        const delay = getRandomInt(2000, 5000);
-        if (rtState.timerTimeout) clearTimeout(rtState.timerTimeout);
-        rtState.timerTimeout = setTimeout(() => {
+    function updateReactionHUD() {
+      rtHudRound.textContent = `${Math.min(rtState.round, RT_TOTAL_ROUNDS)} / ${RT_TOTAL_ROUNDS}`;
+      rtHudScore.textContent = rtState.score;
+      rtHudBest.textContent = rtState.bestTime === null ? '-- ms' : `${rtState.bestTime} ms`;
+      rtHudCombo.textContent = `${rtState.combo}x`;
+    }
+
+    function updateReactionBoxUI() {
+      rtBox.className = `reaction-box state-${rtState.status}`;
+      const content = {
+        idle: ['⚡','READY?', `Tap the box to start Round ${rtState.round}/${RT_TOTAL_ROUNDS}`],
+        wait: ['🔴','STOP!','Don’t tap — wait for the next signal.'],
+        yellow: ['🟡','WAIT...','Hold steady. Green can arrive soon!'],
+        ready: ['🟢','GO!','Tap NOW! Speed = bigger score.'],
+        blue: ['🔵','DOUBLE TAP!','Tap twice quickly for +350 bonus!'],
+        early: ['⛔','FALSE START!','-100 points • Combo reset • Next round loading...'],
+        success: ['✅','NICE!','Round cleared — next challenge coming...'],
+        result: ['🏁','ROUND COMPLETE','Get ready for the next one.']
+      }[rtState.status] || ['⚡','REACTION RUSH','Tap to play'];
+      rtEmoji.textContent = content[0];
+      rtTitle.textContent = content[1];
+      rtSub.textContent = content[2];
+    }
+
+    function showReactionModal(show) {
+      rtModal.classList.toggle('active', show);
+      rtModal.setAttribute('aria-hidden', show ? 'false' : 'true');
+    }
+
+    function comboBonus(combo) {
+      return ({2:50,3:100,4:150,5:250}[combo] || 0);
+    }
+
+    function reactionPointsForMs(ms) {
+      if (ms < 150) return 500;
+      if (ms <= 220) return 400;
+      if (ms <= 300) return 300;
+      if (ms <= 400) return 200;
+      return 100;
+    }
+
+    function getReactionRating(score, perfect) {
+      if (perfect) return '🏆 PERFECT';
+      if (score >= 2300) return 'LEGENDARY ⚡';
+      if (score >= 1800) return 'MASTER 🔥';
+      if (score >= 1300) return 'ELITE 💎';
+      if (score >= 900) return 'FAST 🏎️';
+      return 'KEEP TRAINING 💪';
+    }
+
+    function finishReactionRound({ success = false, ms = null, basePoints = 0, error = false } = {}) {
+      if (rtState.timerTimeout) { clearTimeout(rtState.timerTimeout); rtState.timerTimeout = null; }
+      if (rtState.doubleTapTimer) { clearTimeout(rtState.doubleTapTimer); rtState.doubleTapTimer = null; }
+
+      if (success) {
+        rtState.successfulRounds++;
+        rtState.completedRounds++;
+        rtState.combo++;
+        rtState.bestCombo = Math.max(rtState.bestCombo, rtState.combo);
+        const bonus = comboBonus(rtState.combo);
+        rtState.score += basePoints + bonus;
+        if (ms !== null) { rtState.sessionTimes.push(ms); recordReactionAttempt(ms); }
+        playSfx('correct');
+        rtState.status = 'success';
+        updateReactionHUD();
+        updateReactionBoxUI();
+      } else {
+        rtState.completedRounds++;
+        rtState.sessionHadError = rtState.sessionHadError || error;
+        rtState.score = Math.max(0, rtState.score + basePoints);
+        rtState.combo = 0;
+        if (error) playSfx('wrong');
+        updateReactionHUD();
+        updateReactionBoxUI();
+      }
+
+      if (rtState.completedRounds >= RT_TOTAL_ROUNDS) {
+        setTimeout(showReactionFinalResult, 380);
+      } else {
+        rtState.round++;
+        setTimeout(startReactionRound, 650);
+      }
+    }
+
+    function handleFalseStart() {
+      if (rtState.status !== 'wait' && rtState.status !== 'yellow' && rtState.status !== 'blue') return;
+      if (rtState.timerTimeout) { clearTimeout(rtState.timerTimeout); rtState.timerTimeout = null; }
+      rtState.sessionHadError = true;
+      rtState.status = 'early';
+      rtState.roundClean = false;
+      rtState.score -= 100;
+      rtState.combo = 0;
+      rtState.completedRounds++;
+      playSfx('wrong');
+      updateReactionHUD();
+      updateReactionBoxUI();
+      if (rtState.completedRounds >= RT_TOTAL_ROUNDS) {
+        setTimeout(showReactionFinalResult, 420);
+      } else {
+        rtState.round++;
+        setTimeout(startReactionRound, 520);
+      }
+    }
+
+    function scheduleSignal() {
+      const signal = rtRandomSignal();
+      rtState.signal = signal;
+      const delay = getRtDelay();
+      if (rtState.timerTimeout) clearTimeout(rtState.timerTimeout);
+      rtState.timerTimeout = setTimeout(() => {
+        if (signal === 'green') {
           rtState.status = 'ready';
           rtState.startTime = performance.now();
-          updateReactionBoxUI();
           playSfx('hint');
-        }, delay);
+          updateReactionBoxUI();
+        } else if (signal === 'red') {
+          rtState.status = 'wait';
+          updateReactionBoxUI();
+          rtState.timerTimeout = setTimeout(() => {
+            if (rtState.status !== 'wait') return;
+            rtState.score += 250;
+            rtState.completedRounds++;
+            rtState.successfulRounds++;
+            rtState.combo++;
+            rtState.bestCombo = Math.max(rtState.bestCombo, rtState.combo);
+            rtState.score += comboBonus(rtState.combo);
+            playSfx('correct');
+            rtState.status = 'success';
+            updateReactionHUD();
+            updateReactionBoxUI();
+            if (rtState.completedRounds >= RT_TOTAL_ROUNDS) setTimeout(showReactionFinalResult, 380);
+            else { rtState.round++; setTimeout(startReactionRound,650); }
+          }, Math.min(1600, Math.max(900, Math.round(delay * 0.45))));
+        } else if (signal === 'yellow') {
+          rtState.status = 'yellow';
+          updateReactionBoxUI();
+          rtState.timerTimeout = setTimeout(() => {
+            if (rtState.status !== 'yellow') return;
+            rtState.status = 'ready';
+            rtState.signal = 'green';
+            rtState.startTime = performance.now();
+            playSfx('hint');
+            updateReactionBoxUI();
+          }, Math.min(1800, Math.max(700, Math.round(delay * 0.5))));
+        } else if (signal === 'blue') {
+          rtState.status = 'blue';
+          rtState.lastBlueTap = 0;
+          rtState.startTime = performance.now();
+          updateReactionBoxUI();
+        }
+      }, delay);
+    }
 
-      } else if (rtState.status === 'wait') {
-        if (rtState.timerTimeout) clearTimeout(rtState.timerTimeout);
-        playSfx('wrong');
-        rtState.status = 'early';
-        updateReactionBoxUI();
+    function startReactionRound() {
+      if (rtState.completedRounds >= RT_TOTAL_ROUNDS) return;
+      rtState.status = 'wait';
+      rtState.signal = null;
+      rtState.roundClean = true;
+      updateReactionHUD();
+      updateReactionBoxUI();
+      scheduleSignal();
+    }
 
-      } else if (rtState.status === 'ready') {
-        const elapsed = Math.round(performance.now() - rtState.startTime);
-        playSfx('correct');
-        rtState.status = 'result';
-        rtTitle.textContent = `${elapsed} ms`;
-        rtSub.textContent = elapsed < 220 ? "Godlike Reflexes! 🚀 Tap to test again." : (elapsed < 320 ? "Great speed! 👍 Tap to test again." : "Good try! Tap to retry.");
-        rtBox.className = "reaction-box state-result";
+    function handleReactionBoxClick() {
+      if (rtState.status === 'idle') {
+        playSfx('click');
+        rtState.round = 1;
+        rtState.score = 0;
+        rtState.combo = 0;
+        rtState.bestCombo = 0;
+        rtState.completedRounds = 0;
+        rtState.successfulRounds = 0;
+        rtState.sessionTimes = [];
+        rtState.sessionHadError = false;
+        startReactionRound();
+        return;
+      }
 
-        recordReactionAttempt(elapsed);
+      if (rtState.status === 'wait' || rtState.status === 'yellow') {
+        handleFalseStart();
+        return;
+      }
+
+      if (rtState.status === 'ready' && rtState.signal === 'green') {
+        const elapsed = Math.max(1, Math.round(performance.now() - rtState.startTime));
+        const points = reactionPointsForMs(elapsed);
+        finishReactionRound({ success:true, ms:elapsed, basePoints:points });
+        return;
+      }
+
+      if (rtState.status === 'blue') {
+        const now = performance.now();
+        if (rtState.lastBlueTap && (now - rtState.lastBlueTap) <= 450) {
+          const elapsed = Math.max(1, Math.round(now - rtState.startTime));
+          finishReactionRound({ success:true, ms:elapsed, basePoints:350 });
+          rtState.lastBlueTap = 0;
+        } else {
+          rtState.lastBlueTap = now;
+          rtState.startTime = now;
+          rtSub.textContent = 'Great — one more quick tap!';
+          playSfx('click');
+          if (rtState.doubleTapTimer) clearTimeout(rtState.doubleTapTimer);
+          rtState.doubleTapTimer = setTimeout(() => {
+            if (rtState.status === 'blue') handleFalseStart();
+          }, 460);
+        }
+        return;
       }
     }
 
     function recordReactionAttempt(ms) {
       rtState.history.unshift(ms);
       if (rtState.history.length > 5) rtState.history.pop();
-
-      if (rtState.bestTime === null || ms < rtState.bestTime) {
-        rtState.bestTime = ms;
-      }
-
-      const sum = rtState.history.reduce((a, b) => a + b, 0);
-      const avg = Math.round(sum / rtState.history.length);
-
+      if (rtState.bestTime === null || ms < rtState.bestTime) rtState.bestTime = ms;
+      const avg = Math.round(rtState.history.reduce((a,b) => a+b,0) / rtState.history.length);
       rtHudBest.textContent = `${rtState.bestTime} ms`;
-      rtHudAvg.textContent = `${avg} ms`;
-      rtHudCount.textContent = rtState.history.length;
       rtHistorySummary.textContent = `Avg: ${avg} ms`;
-
       renderReactionHistory();
+      rtSavePersistent();
     }
 
     function renderReactionHistory() {
@@ -3773,36 +4004,91 @@
         const pill = document.createElement('span');
         pill.className = 'reaction-pill';
         pill.textContent = `#${idx + 1}: ${time}ms`;
-        if (time === rtState.bestTime) {
-          pill.style.borderColor = '#34d399';
-          pill.style.color = '#34d399';
-        }
+        if (time === rtState.bestTime) { pill.style.borderColor = '#34d399'; pill.style.color = '#34d399'; }
         rtHistoryPills.appendChild(pill);
       });
     }
 
+    function showReactionFinalResult() {
+      const times = rtState.sessionTimes.slice();
+      const best = times.length ? Math.min(...times) : null;
+      const avg = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : null;
+      const accuracy = Math.round((rtState.successfulRounds / RT_TOTAL_ROUNDS) * 100);
+      const perfect = rtState.successfulRounds === RT_TOTAL_ROUNDS && !rtState.sessionHadError;
+      if (perfect) rtState.score += 500;
+      rtState.bestScore = Math.max(rtState.bestScore, rtState.score);
+      rtSavePersistent();
+
+      rtFinalScore.textContent = rtState.score;
+      rtFinalBest.textContent = best === null ? '--' : `${best} ms`;
+      rtFinalAvg.textContent = avg === null ? '--' : `${avg} ms`;
+      rtFinalAccuracy.textContent = `${accuracy}%`;
+      rtFinalCombo.textContent = `${rtState.bestCombo}x`;
+      rtFinalRating.textContent = getReactionRating(rtState.score, perfect);
+      rtPerfectBadge.style.display = perfect ? 'block' : 'none';
+      document.getElementById('rt-final-sub').textContent = perfect ? 'Flawless 5-round session complete!' : `${rtState.successfulRounds}/${RT_TOTAL_ROUNDS} rounds cleared`;
+      showReactionModal(true);
+    }
+
     function resetReactionState() {
       if (rtState.timerTimeout) clearTimeout(rtState.timerTimeout);
+      if (rtState.doubleTapTimer) clearTimeout(rtState.doubleTapTimer);
+      rtState.timerTimeout = null; rtState.doubleTapTimer = null;
       rtState.status = 'idle';
+      rtState.round = 1;
+      rtState.score = 0;
+      rtState.combo = 0;
+      rtState.bestCombo = 0;
+      rtState.completedRounds = 0;
+      rtState.successfulRounds = 0;
+      rtState.sessionTimes = [];
+      rtState.sessionHadError = false;
+      showReactionModal(false);
+      updateReactionHUD();
       updateReactionBoxUI();
+      renderReactionHistory();
     }
 
     function initReactionGame() {
+      rtLoadPersistent();
+      rtState.bestTime = rtState.history.length ? Math.min(...rtState.history) : null;
       resetReactionState();
+      updateReactionHUD();
+      renderReactionHistory();
     }
+
+    function setReactionDifficulty(level) {
+      if (!['easy','medium','hard'].includes(level)) return;
+      rtState.difficulty = level;
+      Object.entries(rtDiffButtons).forEach(([key,btn]) => btn.classList.toggle('active', key === level));
+      if (rtState.status !== 'idle') resetReactionState();
+    }
+
+    document.getElementById('rt-diff-easy').addEventListener('click', () => { playSfx('click'); setReactionDifficulty('easy'); });
+    document.getElementById('rt-diff-medium').addEventListener('click', () => { playSfx('click'); setReactionDifficulty('medium'); });
+    document.getElementById('rt-diff-hard').addEventListener('click', () => { playSfx('click'); setReactionDifficulty('hard'); });
 
     document.getElementById('rt-btn-reset').addEventListener('click', () => {
       playSfx('click');
       if (rtState.timerTimeout) clearTimeout(rtState.timerTimeout);
-      rtState.status = 'idle';
+      if (rtState.doubleTapTimer) clearTimeout(rtState.doubleTapTimer);
       rtState.history = [];
       rtState.bestTime = null;
-      rtHudBest.textContent = '-- ms';
-      rtHudAvg.textContent = '-- ms';
-      rtHudCount.textContent = '0';
-      rtHistorySummary.textContent = 'No data yet';
-      rtHistoryPills.innerHTML = '';
-      updateReactionBoxUI();
+      rtState.bestScore = 0;
+      rtSavePersistent();
+      resetReactionState();
+    });
+
+    document.getElementById('rt-btn-play-again').addEventListener('click', () => {
+      playSfx('click');
+      showReactionModal(false);
+      resetReactionState();
+    });
+
+    document.getElementById('rt-btn-modal-menu').addEventListener('click', () => {
+      playSfx('click');
+      showReactionModal(false);
+      openView('hub');
     });
 
     rtBox.addEventListener('click', handleReactionBoxClick);
