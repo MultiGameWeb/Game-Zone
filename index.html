@@ -157,6 +157,8 @@
     .grid-3x3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4x4 { grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 7px; }
     .grid-5x5 { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 5px; }
+    .grid-6x6 { grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 4px; }
+    .grid-6x6 .tile { font-size: 1rem; border-radius: 9px; }
     .tile { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #334155; border-radius: 16px; font-family: var(--font-mono); font-weight: 900; font-size: 1.8rem; color: #ffffff; box-shadow: 0 4px 0 #090e17, 0 6px 12px rgba(0, 0, 0, 0.4); cursor: pointer; position: relative; z-index: 10; transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease; }
     .grid-4x4 .tile { font-size: 1.45rem; border-radius: 13px; }
     .grid-5x5 .tile { font-size: 1.2rem; border-radius: 10px; }
@@ -1946,8 +1948,62 @@
     const wbTrie = new WordTrieNode();
     const wbDictSet = new Set();
     RAW_DICTIONARY.forEach(w => { wbDictSet.add(w); let curr = wbTrie; for (const ch of w) { if (!curr.children[ch]) curr.children[ch] = new WordTrieNode(); curr = curr.children[ch]; } curr.isWord = true; });
-    const wbState = { currentBox: 1, totalBoxes: 20, score: 0, totalWordsFound: 0, elapsedSeconds: 0, timerInterval: null, hintsLeft: 3, gridSize: 3, targetWordCount: 5, minWordLength: 3, gridLetters: [], discoveredWords: new Set(), allSolvableWords: new Map(), isDragging: false, currentPath: [], currentWord: "" };
-    const wbEls = { hudBox: document.getElementById('wb-hud-box'), hudScore: document.getElementById('wb-hud-score'), hudTime: document.getElementById('wb-hud-time'), hudTarget: document.getElementById('wb-hud-target'), previewBubble: document.getElementById('wb-preview-bubble'), floatingFeedback: document.getElementById('wb-floating-feedback'), gridWrapper: document.getElementById('wb-grid-wrapper'), letterGrid: document.getElementById('wb-letter-grid'), svgTrace: document.getElementById('wb-svg-trace'), svgPointer: document.getElementById('wb-svg-pointer'), foundList: document.getElementById('wb-found-list'), foundCount: document.getElementById('wb-found-count'), hintBadge: document.getElementById('wb-hint-badge'), btnHint: document.getElementById('wb-btn-hint'), btnNextBox: document.getElementById('wb-btn-next-box'), modalComplete: document.getElementById('wb-modal-box-complete'), completeTitle: document.getElementById('wb-complete-title'), autoProgress: document.getElementById('wb-auto-progress'), modalVictory: document.getElementById('wb-modal-victory'), resScore: document.getElementById('wb-res-score'), resWords: document.getElementById('wb-res-words'), resTime: document.getElementById('wb-res-time'), btnRestartAll: document.getElementById('wb-btn-restart-all') };
+    /* ========================================================
+       FIXED WORD BOX LEVEL DATA
+       20 handcrafted levels • Easy → Expert
+       Each level has a stable puzzle board and a small target set.
+       The board is visually transformed on replay (rotate/flip) so
+       repeated plays do not look identical, while the target words
+       remain the same for that level.
+       ======================================================== */
+    const WORD_BOX_FIXED_LEVELS = [
+      { size:3, words:["CAT","DOG","SUN"], letters:["CAT","DOG","SUN"] },
+      { size:3, words:["MAP","RED","PIN"], letters:["MAP","RED","PIN"] },
+      { size:3, words:["FOX","BEE","JOY"], letters:["FOX","BEE","JOY"] },
+      { size:3, words:["AIR","HAT","ICE"], letters:["AIR","HAT","ICE"] },
+      { size:3, words:["ANT","OAK","TOP"], letters:["ANT","OAK","TOP"] },
+
+      { size:4, words:["BOOK","FISH","HOME","ROAD"], letters:["BOOK","FISH","HOME","ROAD"] },
+      { size:4, words:["LION","STAR","TREE","WIND"], letters:["LION","STAR","TREE","WIND"] },
+      { size:4, words:["COLD","FIRE","GAME","KING"], letters:["COLD","FIRE","GAME","KING"] },
+      { size:4, words:["LOVE","TIME","WORD","WORK"], letters:["LOVE","TIME","WORD","WORK"] },
+      { size:4, words:["FAST","GOLD","HELP","PLAY"], letters:["FAST","GOLD","HELP","PLAY"] },
+
+      { size:5, words:["ABOUT","BEACH","BRAIN","CROWN","DREAM"], letters:["ABOUT","BEACH","BRAIN","CROWN","DREAM"] },
+      { size:5, words:["DRIVE","EARTH","FIELD","FOCUS","GRACE"], letters:["DRIVE","EARTH","FIELD","FOCUS","GRACE"] },
+      { size:5, words:["HEART","HORSE","HOTEL","HOUSE","LIGHT"], letters:["HEART","HORSE","HOTEL","HOUSE","LIGHT"] },
+      { size:5, words:["MAGIC","MAJOR","MONEY","MUSIC","PARTY"], letters:["MAGIC","MAJOR","MONEY","MUSIC","PARTY"] },
+      { size:5, words:["PEACE","PHONE","PLACE","QUICK","ROUND"], letters:["PEACE","PHONE","PLACE","QUICK","ROUND"] },
+
+      { size:6, words:["ACTION","ACTIVE","ADMIRE","ADVICE","ANSWER","AFFECT"], letters:["ACTION","ACTIVE","ADMIRE","ADVICE","ANSWER","AFFECT"] },
+      { size:6, words:["BEAUTY","BOTTLE","BRIGHT","CAMERA","CANDLE","CREATE"], letters:["BEAUTY","BOTTLE","BRIGHT","CAMERA","CANDLE","CREATE"] },
+      { size:6, words:["DANGER","DECIDE","DINNER","DRIVER","EFFECT","EFFORT"], letters:["DANGER","DECIDE","DINNER","DRIVER","EFFECT","EFFORT"] },
+      { size:6, words:["ENOUGH","ESCAPE","EXCITE","FAMILY","FAMOUS","FINGER"], letters:["ENOUGH","ESCAPE","EXCITE","FAMILY","FAMOUS","FINGER"] },
+      { size:6, words:["FINISH","FOLLOW","GLOBAL","GROWTH","HIDDEN","HONEST"], letters:["FINISH","FOLLOW","GLOBAL","GROWTH","HIDDEN","HONEST"] }
+    ];
+
+    const wbState = {
+      currentBox: 1, totalBoxes: 20, score: 0, totalWordsFound: 0,
+      elapsedSeconds: 0, timerInterval: null, hintsLeft: 3,
+      gridSize: 3, targetWordCount: 3, minWordLength: 3,
+      gridLetters: [], discoveredWords: new Set(),
+      allSolvableWords: new Map(), targetWords: new Set(),
+      isDragging: false, currentPath: [], currentWord: "",
+      currentTransform: 0
+    };
+
+    const wbEls = {
+      hudBox: document.getElementById('wb-hud-box'),
+      hudScore: document.getElementById('wb-hud-score'), hudTime: document.getElementById('wb-hud-time'),
+      hudTarget: document.getElementById('wb-hud-target'), previewBubble: document.getElementById('wb-preview-bubble'),
+      floatingFeedback: document.getElementById('wb-floating-feedback'), gridWrapper: document.getElementById('wb-grid-wrapper'),
+      letterGrid: document.getElementById('wb-letter-grid'), svgTrace: document.getElementById('wb-svg-trace'), svgPointer: document.getElementById('wb-svg-pointer'),
+      foundList: document.getElementById('wb-found-list'), foundCount: document.getElementById('wb-found-count'),
+      hintBadge: document.getElementById('wb-hint-badge'), btnHint: document.getElementById('wb-btn-hint'), btnNextBox: document.getElementById('wb-btn-next-box'),
+      modalComplete: document.getElementById('wb-modal-box-complete'), completeTitle: document.getElementById('wb-complete-title'),
+      autoProgress: document.getElementById('wb-auto-progress'), modalVictory: document.getElementById('wb-modal-victory'),
+      resScore: document.getElementById('wb-res-score'), resWords: document.getElementById('wb-res-words'), resTime: document.getElementById('wb-res-time'), btnRestartAll: document.getElementById('wb-btn-restart-all')
+    };
 
     function getNeighbors8(idx, size) {
       const r = Math.floor(idx / size), c = idx % size, out = [];
@@ -1961,54 +2017,91 @@
       return out;
     }
 
-    function solveGridWords8(letters, size, minLen) {
-      const totalCells = size * size, map = new Map(), visited = new Array(totalCells).fill(false);
-      function dfs(idx, node, path, str) {
-        if (node.isWord && str.length >= minLen) { if (!map.has(str)) map.set(str, [...path]); }
-        visited[idx] = true;
-        for (const nIdx of getNeighbors8(idx, size)) {
-          if (!visited[nIdx]) { const ch = letters[nIdx]; if (node.children[ch]) { path.push(nIdx); dfs(nIdx, node.children[ch], path, str + ch); path.pop(); } }
+    function transformWordBoxLevel(levelData, transform) {
+      const n = levelData.size;
+      const out = Array(n * n);
+      const src = levelData.letters;
+      function map(r, c) {
+        switch (transform % 8) {
+          case 1: return [c, n - 1 - r];
+          case 2: return [n - 1 - r, n - 1 - c];
+          case 3: return [n - 1 - c, r];
+          case 4: return [r, n - 1 - c];
+          case 5: return [n - 1 - r, c];
+          case 6: return [c, r];
+          case 7: return [n - 1 - c, n - 1 - r];
+          default: return [r, c];
         }
-        visited[idx] = false;
       }
-      for (let i = 0; i < totalCells; i++) { const ch = letters[i]; if (wbTrie.children[ch]) dfs(i, wbTrie.children[ch], [i], ch); }
-      return map;
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+        const [nr, nc] = map(r, c); out[nr * n + nc] = src[r * n + c];
+      }
+      return out;
     }
-    function generateSolvableBox(boxNum) {
-      let size = boxNum <= 5 ? 3 : (boxNum <= 10 ? 4 : 5), targetWords = boxNum <= 5 ? 5 : (boxNum <= 10 ? 6 : 7), minLen = boxNum <= 15 ? (boxNum <= 5 ? 3 : 4) : 5;
-      const totalCells = size * size, seedPool = RAW_DICTIONARY.filter(w => w.length >= minLen && w.length <= minLen + 2);
-      for (let attempts = 0; attempts < 50; attempts++) {
-        const grid = new Array(totalCells).fill(null);
-        for (let s = 0; s < (size === 3 ? 2 : 3); s++) {
-          const word = seedPool[Math.floor(Math.random() * seedPool.length)]; let curr = Math.floor(Math.random() * totalCells), path = [curr];
-          for (let c = 0; c < word.length; c++) {
-            grid[curr] = word[c];
-            if (c < word.length - 1) { const nbrs = getNeighbors8(curr, size).filter(n => !path.includes(n)); if (nbrs.length) { curr = nbrs[Math.floor(Math.random() * nbrs.length)]; path.push(curr); } else break; }
+
+    function findWordPath8(letters, size, word) {
+      const target = word.toUpperCase();
+      const visited = new Array(size * size).fill(false);
+      for (let start = 0; start < letters.length; start++) {
+        if (letters[start] !== target[0]) continue;
+        const path = [];
+        function dfs(idx, pos) {
+          if (letters[idx] !== target[pos] || visited[idx]) return false;
+          visited[idx] = true; path.push(idx);
+          if (pos === target.length - 1) return true;
+          for (const next of getNeighbors8(idx, size)) {
+            if (dfs(next, pos + 1)) return true;
           }
+          visited[idx] = false; path.pop(); return false;
         }
-        for (let i = 0; i < totalCells; i++) { if (!grid[i]) grid[i] = (Math.random() > 0.4) ? ["A","E","I","O","U"][Math.floor(Math.random()*5)] : ["T","N","S","R","H","L","D","C","M","P"][Math.floor(Math.random()*10)]; }
-        const map = solveGridWords8(grid, size, minLen);
-        if (map.size >= targetWords + 2) return { size, targetWords, minLen, letters: grid, solvableWords: map };
+        if (dfs(start, 0)) return path.slice();
+        visited.fill(false);
       }
-      const fb = ["C","A","T","R","E","D","P","I","N"];
-      const fbMap = solveGridWords8(fb, 3, 3);
-      return { size: 3, targetWords: Math.min(4, Math.max(1, fbMap.size)), minLen: 3, letters: fb, solvableWords: fbMap };
+      return null;
     }
-    function initWordBox20() {
-      stopWordBoxTimer();
-      wbState.currentBox = 1; wbState.score = 0; wbState.elapsedSeconds = 0; wbState.totalWordsFound = 0; wbState.hintsLeft = 3;
-      wbState.currentPath = []; wbState.currentWord = ''; wbState.isDragging = false;
-      loadWordBoxLevel(1); startWordBoxTimer();
+
+    function prepareWordBoxVariant(levelData, variant) {
+      const letters = transformWordBoxLevel(levelData, variant);
+      const map = new Map();
+      levelData.words.forEach(word => {
+        const path = findWordPath8(letters, levelData.size, word);
+        if (path) map.set(word, path);
+      });
+      return { letters, map };
     }
+
+    function getNextWordBoxVariant(boxNum) {
+      const key = `wordBoxVariant_${boxNum}`;
+      let last = -1;
+      try { last = parseInt(localStorage.getItem(key), 10); if (Number.isNaN(last)) last = -1; } catch (e) {}
+      const next = (last + 1) % 8;
+      try { localStorage.setItem(key, String(next)); } catch (e) {}
+      return next;
+    }
+
     function loadWordBoxLevel(boxNum) {
-      wbState.currentBox = boxNum; wbState.discoveredWords.clear(); wbState.currentPath = []; wbState.currentWord = ""; wbState.isDragging = false;
-      const puz = generateSolvableBox(boxNum);
-      wbState.gridSize = puz.size; wbState.targetWordCount = puz.targetWords; wbState.minWordLength = puz.minLen; wbState.gridLetters = puz.letters; wbState.allSolvableWords = puz.solvableWords;
-      wbEls.hudBox.textContent = `${boxNum} / ${wbState.totalBoxes}`; wbEls.hudTarget.textContent = `0 / ${wbState.targetWordCount}`;
-      wbEls.hudScore.textContent = wbState.score; wbEls.hintBadge.textContent = wbState.hintsLeft; wbEls.foundCount.textContent = `0 found`;
+      const level = WORD_BOX_FIXED_LEVELS[boxNum - 1] || WORD_BOX_FIXED_LEVELS[0];
+      const variant = getNextWordBoxVariant(boxNum);
+      const prepared = prepareWordBoxVariant(level, variant);
+      wbState.currentBox = boxNum;
+      wbState.gridSize = level.size;
+      wbState.targetWordCount = level.words.length;
+      wbState.minWordLength = level.words.reduce((m,w) => Math.min(m, w.length), 99);
+      wbState.gridLetters = prepared.letters;
+      wbState.allSolvableWords = prepared.map;
+      wbState.targetWords = new Set(level.words);
+      wbState.currentTransform = variant;
+      wbState.discoveredWords.clear(); wbState.currentPath = []; wbState.currentWord = ''; wbState.isDragging = false;
+      wbEls.hudBox.textContent = `${boxNum} / ${wbState.totalBoxes}`;
+      wbEls.hudTarget.textContent = `0 / ${wbState.targetWordCount}`;
+      wbEls.hudScore.textContent = wbState.score;
+      wbEls.hintBadge.textContent = wbState.hintsLeft;
+      wbEls.foundCount.textContent = `0 found`;
       wbEls.foundList.innerHTML = '';
       renderWbGrid();
+      wbEls.previewBubble.textContent = 'SWIPE LETTERS'; wbEls.previewBubble.classList.add('empty');
     }
+
     function renderWbGrid() {
       wbEls.letterGrid.className = `letter-grid grid-${wbState.gridSize}x${wbState.gridSize}`;
       wbEls.letterGrid.innerHTML = '';
@@ -2016,6 +2109,7 @@
         const tile = document.createElement('div'); tile.className = 'tile'; tile.textContent = letter; tile.dataset.index = i; wbEls.letterGrid.appendChild(tile);
       });
     }
+
     function getTileCenter(tile) {
       const r = tile.getBoundingClientRect(), p = wbEls.gridWrapper.getBoundingClientRect();
       return { x: r.left - p.left + r.width / 2, y: r.top - p.top + r.height / 2 };
@@ -2026,69 +2120,97 @@
     }
     function getTileIdxFromCoords(clientX, clientY) {
       const tiles = wbEls.letterGrid.children;
-      for (let i = 0; i < tiles.length; i++) {
-        const rect = tiles[i].getBoundingClientRect();
-        if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) return i;
-      }
+      for (let i = 0; i < tiles.length; i++) { const rect = tiles[i].getBoundingClientRect(); if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) return i; }
       return null;
     }
     wbEls.gridWrapper.addEventListener('pointerdown', (e) => {
-      const idx = getTileIdxFromCoords(e.clientX, e.clientY);
-      if (idx !== null) {
-        try { wbEls.gridWrapper.setPointerCapture(e.pointerId); } catch (err) {}
-        wbState.isDragging = true; wbState.currentPath = [idx]; wbState.currentWord = wbState.gridLetters[idx];
-        wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile');
-        wbEls.previewBubble.textContent = wbState.currentWord; wbEls.previewBubble.classList.remove('empty'); updateWbSvg();
-      }
+      const idx = getTileIdxFromCoords(e.clientX, e.clientY); if (idx === null) return;
+      try { wbEls.gridWrapper.setPointerCapture(e.pointerId); } catch (err) {}
+      wbState.isDragging = true; wbState.currentPath = [idx]; wbState.currentWord = wbState.gridLetters[idx];
+      wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile');
+      wbEls.previewBubble.textContent = wbState.currentWord; wbEls.previewBubble.classList.remove('empty'); updateWbSvg();
     });
     window.addEventListener('pointermove', (e) => {
       if (!wbState.isDragging) return;
-      const idx = getTileIdxFromCoords(e.clientX, e.clientY);
-      if (idx === null) return;
-      if (!wbState.currentPath.includes(idx)) {
-        const lastIdx = wbState.currentPath[wbState.currentPath.length - 1];
-        const r1 = Math.floor(lastIdx / wbState.gridSize), c1 = lastIdx % wbState.gridSize, r2 = Math.floor(idx / wbState.gridSize), c2 = idx % wbState.gridSize;
-        if (Math.abs(r1 - r2) <= 1 && Math.abs(c1 - c2) <= 1) {
-          wbState.currentPath.push(idx); wbState.currentWord += wbState.gridLetters[idx];
-          wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile');
-          wbEls.previewBubble.textContent = wbState.currentWord; updateWbSvg();
-        }
+      const idx = getTileIdxFromCoords(e.clientX, e.clientY); if (idx === null || wbState.currentPath.includes(idx)) return;
+      const lastIdx = wbState.currentPath[wbState.currentPath.length - 1];
+      const r1 = Math.floor(lastIdx / wbState.gridSize), c1 = lastIdx % wbState.gridSize, r2 = Math.floor(idx / wbState.gridSize), c2 = idx % wbState.gridSize;
+      if (Math.abs(r1 - r2) <= 1 && Math.abs(c1 - c2) <= 1) {
+        wbState.currentPath.push(idx); wbState.currentWord += wbState.gridLetters[idx];
+        wbEls.letterGrid.children[idx].classList.add('selected'); playSfx('tile'); wbEls.previewBubble.textContent = wbState.currentWord; updateWbSvg();
       }
     });
+
+    function showWbFeedback(text, correct) {
+      wbEls.floatingFeedback.textContent = text; wbEls.floatingFeedback.className = `feedback-float-alert show ${correct ? 'correct' : 'wrong'}`;
+      setTimeout(() => wbEls.floatingFeedback.classList.remove('show'), 500);
+    }
+
+    function completeCurrentWordBox() {
+      playSfx('box'); wbState.score += 150;
+      wbEls.hudScore.textContent = wbState.score;
+      wbEls.completeTitle.textContent = `BOX ${wbState.currentBox} COMPLETE!`;
+      wbEls.modalComplete.classList.add('active');
+      setTimeout(() => {
+        wbEls.modalComplete.classList.remove('active');
+        if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1);
+        else {
+          stopWordBoxTimer(); playSfx('win');
+          wbEls.resScore.textContent = wbState.score; wbEls.resWords.textContent = wbState.totalWordsFound;
+          const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0');
+          wbEls.resTime.textContent = `${m}:${s}`; wbEls.modalVictory.classList.add('active');
+        }
+      }, 1400);
+    }
+
     function finishWbSwipe() {
       if (!wbState.isDragging) return;
       wbState.isDragging = false; wbEls.svgTrace.setAttribute('points', '');
-      const word = wbState.currentWord;
-      if (word.length >= 3 && wbDictSet.has(word) && !wbState.discoveredWords.has(word)) {
+      const word = wbState.currentWord.toUpperCase();
+      const target = wbState.targetWords.has(word) && !wbState.discoveredWords.has(word);
+      if (target && wbState.allSolvableWords.has(word)) {
         wbState.discoveredWords.add(word); wbState.totalWordsFound++;
-        const pts = word.length === 3 ? 10 : (word.length === 4 ? 20 : 35);
-        wbState.score += pts; playSfx('valid');
-        wbEls.hudScore.textContent = wbState.score; wbEls.hudTarget.textContent = `${wbState.discoveredWords.size} / ${wbState.targetWordCount}`;
+        const pts = word.length <= 3 ? 10 : (word.length === 4 ? 20 : (word.length === 5 ? 30 : 40));
+        wbState.score += pts; playSfx('valid'); showWbFeedback(`VALID +${pts}`, true);
+        wbEls.hudScore.textContent = wbState.score; wbEls.hudTarget.textContent = `${wbState.discoveredWords.size} / ${wbState.targetWordCount}`; wbEls.foundCount.textContent = `${wbState.discoveredWords.size} found`;
         const chip = document.createElement('span'); chip.className = 'word-chip'; chip.textContent = `✓ ${word}`; wbEls.foundList.appendChild(chip);
-        if (wbState.discoveredWords.size >= wbState.targetWordCount) {
-          playSfx('box'); wbState.score += 150;
-          wbEls.completeTitle.textContent = `BOX ${wbState.currentBox} COMPLETE!`;
-          wbEls.modalComplete.classList.add('active');
-          setTimeout(() => {
-            wbEls.modalComplete.classList.remove('active');
-            if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1);
-            else { stopWordBoxTimer(); playSfx('win'); wbEls.modalVictory.classList.add('active'); }
-          }, 1400);
-        }
+        if (wbState.discoveredWords.size >= wbState.targetWordCount) completeCurrentWordBox();
+      } else if (word.length >= wbState.minWordLength) {
+        playSfx('invalid'); showWbFeedback(wbState.targetWords.has(word) ? 'ALREADY FOUND' : 'NOT A TARGET WORD', false);
       }
-      wbState.currentPath.forEach(idx => wbEls.letterGrid.children[idx].classList.remove('selected'));
-      wbState.currentPath = []; wbState.currentWord = ""; wbEls.previewBubble.textContent = "SWIPE LETTERS"; wbEls.previewBubble.classList.add('empty');
+      wbState.currentPath.forEach(idx => { if (wbEls.letterGrid.children[idx]) wbEls.letterGrid.children[idx].classList.remove('selected'); });
+      wbState.currentPath = []; wbState.currentWord = ''; wbEls.previewBubble.textContent = 'SWIPE LETTERS'; wbEls.previewBubble.classList.add('empty');
     }
     window.addEventListener('pointerup', finishWbSwipe);
+
     function startWordBoxTimer() {
       if (wbState.timerInterval) clearInterval(wbState.timerInterval);
-      wbState.timerInterval = setInterval(() => { wbState.elapsedSeconds++; const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0'); wbEls.hudTime.textContent = `${m}:${s}`; }, 1000);
+      wbState.timerInterval = setInterval(() => {
+        wbState.elapsedSeconds++;
+        const m = String(Math.floor(wbState.elapsedSeconds / 60)).padStart(2,'0'), s = String(wbState.elapsedSeconds % 60).padStart(2,'0');
+        wbEls.hudTime.textContent = `${m}:${s}`;
+      }, 1000);
     }
     function stopWordBoxTimer() {
       if (wbState.timerInterval) { clearInterval(wbState.timerInterval); wbState.timerInterval = null; }
       wbState.isDragging = false; wbState.currentPath = []; wbState.currentWord = '';
       if (wbEls && wbEls.svgTrace) wbEls.svgTrace.setAttribute('points', '');
     }
+    function initWordBox20() {
+      stopWordBoxTimer(); wbState.currentBox = 1; wbState.score = 0; wbState.elapsedSeconds = 0; wbState.totalWordsFound = 0; wbState.hintsLeft = 3;
+      wbState.discoveredWords.clear(); loadWordBoxLevel(1); wbEls.modalVictory.classList.remove('active'); startWordBoxTimer();
+    }
+
+    wbEls.btnHint.addEventListener('click', () => {
+      playSfx('hint');
+      if (wbState.hintsLeft <= 0) { showWbFeedback('NO HINTS LEFT', false); return; }
+      const remaining = [...wbState.targetWords].filter(w => !wbState.discoveredWords.has(w));
+      const word = remaining[0];
+      const path = word ? wbState.allSolvableWords.get(word) : null;
+      if (!path) return;
+      wbState.hintsLeft--; wbEls.hintBadge.textContent = wbState.hintsLeft;
+      path.forEach(idx => { const el = wbEls.letterGrid.children[idx]; if (el) { el.classList.add('hint-pulse'); setTimeout(() => el.classList.remove('hint-pulse'), 1600); } });
+    });
     wbEls.btnNextBox.addEventListener('click', () => { playSfx('click'); if (wbState.currentBox < wbState.totalBoxes) loadWordBoxLevel(wbState.currentBox + 1); });
     wbEls.btnRestartAll.addEventListener('click', () => { playSfx('click'); wbEls.modalVictory.classList.remove('active'); initWordBox20(); });
 
