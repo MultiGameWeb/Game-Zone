@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Brain & Arcade Games Hub - All 12 Games</title>
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Brain & Arcade">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% 15%, #162035 0%, #0a0e17 100%);
@@ -73,6 +79,12 @@
     .btn-secondary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--btn-gray-shadow); }
     .view-section { display: none; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .view-section.active { display: block; }
+    .how-to-play-box { width:100%; margin:0 0 12px; }
+    .how-to-play-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; appearance:none; border:1px solid #334155; background:rgba(15,23,42,.82); color:#38bdf8; border-radius:12px; padding:9px 12px; font:800 .82rem var(--font-stack); cursor:pointer; text-align:left; }
+    .how-to-play-content { display:none; background:#0b1120; border:1px solid #1e293b; border-top:0; border-radius:0 0 12px 12px; padding:10px 14px; color:#cbd5e1; font-size:.8rem; line-height:1.5; text-align:left; }
+    .how-to-play-content.open { display:block; animation:fadeIn .18s ease; }
+    .how-to-play-content ul { margin:0; padding-left:18px; }
+    .how-to-play-content li { margin-bottom:4px; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     .hub-intro { text-align: center; margin-bottom: 18px; }
     .hub-title { font-size: 2.1rem; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
@@ -143,9 +155,10 @@
     .sudoku-keypad { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-width: 360px; margin: 0 auto 12px; }
     .key-btn { appearance: none; border: 1px solid #334155; background: #1e293b; color: #fff; padding: 10px 0; font-size: 1.3rem; font-family: var(--font-mono); font-weight: 800; border-radius: 10px; cursor: pointer; }
     .key-btn:active { background: #10b981; }
-    .ball-game-container { width: 100%; max-width: 460px; margin: 0 auto; text-align: center; }
-    .canvas-wrapper { position: relative; width: 100%; border-radius: 20px; overflow: hidden; border: 2px solid #f97316; box-shadow: 0 10px 30px rgba(249, 115, 22, 0.25); background: #070913; touch-action: none; }
-    #ball-canvas { display: block; width: 100%; height: 420px; touch-action: none; }
+    .ball-game-container { width:100%; max-width:780px; margin:0 auto; text-align:center; }
+    .canvas-wrapper { position:relative; width:100%; border-radius:22px; overflow:hidden; border:2px solid #f97316; box-shadow:0 12px 35px rgba(249,115,22,.3),0 0 28px rgba(249,115,22,.12); background:#05070e; touch-action:none; }
+    #ball-canvas { display:block; width:100%; height:min(78svh,780px); min-height:540px; touch-action:none; image-rendering:auto; }
+    .ball-fullscreen-note { color:#94a3b8; font-size:.72rem; margin-top:6px; }
     .touch-hint-bar { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; color: #fed7aa; white-space: nowrap; pointer-events: none; }
     .ball-stats-hud { display: flex; justify-content: space-between; margin-bottom: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 12px; padding: 8px 16px; }
     .series-display-box { background: #0f172a; border: 2px dashed #f59e0b; border-radius: 16px; padding: 18px 12px; margin: 14px 0; font-family: var(--font-mono); font-size: 2.1rem; font-weight: 900; color: #fbbf24; letter-spacing: 0.05em; text-shadow: 0 0 16px rgba(245, 158, 11, 0.3); }
@@ -158,7 +171,7 @@
     .modal-box { background: #111827; border-radius: 22px; padding: 26px 20px; max-width: 380px; width: 100%; text-align: center; }
     @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
     @media (max-width: 980px) { .games-row-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-    @media (max-width: 580px) { .games-row-grid { grid-template-columns: 1fr; gap: 12px; } .hub-title { font-size: 1.7rem; } .math-expression { font-size: 2.2rem; } .series-display-box { font-size: 1.7rem; } .btn-option { padding: 14px 8px; font-size: 1.4rem; } #ball-canvas { height: 370px; } }
+    @media (max-width:580px) { .games-row-grid{grid-template-columns:1fr;gap:12px}.hub-title{font-size:1.7rem}.math-expression{font-size:2.2rem}.series-display-box{font-size:1.7rem}.btn-option{padding:14px 8px;font-size:1.4rem} #view-ball{width:100%} #view-ball .ball-game-container{max-width:none} #view-ball .canvas-wrapper{width:100vw;margin-left:calc(50% - 50vw);border-radius:0} #view-ball .ball-stats-hud,#view-ball .ball-game-container>div:last-child{margin-left:6px;margin-right:6px} #ball-canvas{height:78svh;min-height:560px}.ball-fullscreen-note{display:none} }
     .ttt-board-wrap { width: min(100%, 360px); margin: 0 auto 14px; position: relative; }
     .ttt-board { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; aspect-ratio: 1; padding: 8px; background: #0f172a; border: 2px solid #334155; border-radius: 22px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.4); }
     .ttt-cell { appearance: none; border: 2px solid #334155; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); color: #fff; border-radius: 16px; font-family: var(--font-stack); font-size: clamp(2.6rem, 12vw, 4rem); font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 0 #090e17, 0 8px 16px rgba(0,0,0,0.3); transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
@@ -226,7 +239,7 @@
     /* MEMORY MATCHING */
     .memory-grid { display: grid; gap: 8px; width: 100%; max-width: 420px; margin: 0 auto 14px; perspective: 1000px; }
     .memory-grid.grid-easy { grid-template-columns: repeat(4, 1fr); }
-    .memory-grid.grid-medium { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .memory-grid.grid-med { grid-template-columns: repeat(5, 1fr); gap: 6px; }
     .memory-grid.grid-hard { grid-template-columns: repeat(6, 1fr); gap: 5px; }
     .memory-card { aspect-ratio: 1; position: relative; transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-radius: 12px; }
     .memory-card.flipped { transform: rotateY(180deg); }
@@ -267,7 +280,55 @@
     .pmem-cell.active-path { background: #8b5cf6 !important; border-color: #c084fc !important; box-shadow: 0 0 20px rgba(139, 92, 246, 0.7); transform: scale(1.05); }
     .pmem-cell.user-success { background: #10b981 !important; border-color: #34d399 !important; box-shadow: 0 0 20px rgba(16, 185, 129, 0.7); }
     .pmem-cell.user-fail { background: #ef4444 !important; border-color: #f87171 !important; animation: shake 0.3s both; }
-  </style>
+
+    /* FALLING TAP: portrait mobile full-screen play mode */
+    @media (max-width: 580px) {
+      body.falling-mode-active { overflow: hidden; padding: 0; }
+      body.falling-mode-active .top-header { display: none; }
+      body.falling-mode-active #app { width: 100vw; max-width: none; height: 100svh; }
+      body.falling-mode-active #view-reaction { position: fixed; inset: 0; width: 100vw; height: 100svh; z-index: 5000; background: #050812; padding: 0; overflow: hidden; }
+      body.falling-mode-active #view-reaction .how-to-play-box,
+      body.falling-mode-active #view-reaction .rt-mode-bar,
+      body.falling-mode-active #view-reaction > .game-wrapper > .card > .setting-row,
+      body.falling-mode-active #view-reaction .reaction-history-card { display: none !important; }
+      body.falling-mode-active #view-reaction .game-wrapper,
+      body.falling-mode-active #view-reaction .card { max-width: none; width: 100%; height: 100%; margin: 0; border-radius: 0; }
+      body.falling-mode-active #view-reaction .card { padding: 8px; background: linear-gradient(180deg,#08101d 0%,#04070e 100%); border: 0; display: flex; flex-direction: column; }
+      body.falling-mode-active #view-reaction h2 { font-size: 1.35rem !important; margin: 0 0 4px !important; }
+      body.falling-mode-active #view-reaction .card > div:first-child { font-size: .62rem !important; margin-bottom: 2px !important; }
+      body.falling-mode-active #view-reaction .stat-header { margin-bottom: 6px; padding: 6px 8px; }
+      body.falling-mode-active #view-reaction .stat-label { font-size: .56rem; }
+      body.falling-mode-active #view-reaction .stat-val { font-size: .92rem; }
+      body.falling-mode-active #view-reaction .rt-hud-alert-banner { margin-bottom: 6px; padding: 7px 10px; font-size: .9rem; flex: 0 0 auto; }
+      body.falling-mode-active #view-reaction .falling-tap-area { display: block !important; flex: 1 1 auto; min-height: 0; height: auto; margin: 0 0 6px; border-radius: 16px; border: 2px solid #f97316; position: relative; overflow: hidden; }
+      body.falling-mode-active #view-reaction .falling-danger-line { bottom: 54px; height: 3px; box-shadow: 0 0 12px rgba(239,68,68,.65); }
+      body.falling-mode-active #view-reaction .falling-danger-label { font-size: .72rem; padding: 4px 10px; transform: translateY(-9px); }
+      body.falling-mode-active #view-reaction .falling-item { z-index: 4; user-select: none; -webkit-user-select: none; }
+      body.falling-mode-active #view-reaction #rt-action-row { flex: 0 0 auto; gap: 8px !important; }
+      body.falling-mode-active #view-reaction #rt-action-row .btn-3d { padding: 11px 10px; font-size: .82rem; }
+    }
+  
+    /* MORE GAMES + PWA INSTALL UI */
+    .more-games-section { margin: 4px 0 28px; }
+    .more-games-card { background: linear-gradient(180deg, rgba(17,24,39,.96), rgba(10,14,23,.96)); border: 1px solid #334155; border-radius: 22px; padding: 22px 18px; text-align:center; box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+    .more-games-kicker { font-size:.74rem; color:#67e8f9; font-weight:900; letter-spacing:.12em; text-transform:uppercase; margin-bottom:5px; }
+    .more-games-title { font-size:1.55rem; font-weight:900; margin-bottom:5px; }
+    .more-games-subtitle { color:var(--text-muted); font-size:.85rem; margin-bottom:14px; }
+    .more-games-actions { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; max-width:620px; margin:0 auto; }
+    .more-game-btn { text-decoration:none; min-height:52px; }
+    .install-help-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(2,6,23,.88); backdrop-filter:blur(8px); z-index:20050; }
+    .install-help-overlay.active { display:flex; }
+    .install-help-card { position:relative; width:min(520px,100%); max-height:min(90vh,720px); overflow:auto; background:linear-gradient(180deg,#111827 0%,#0b1220 100%); border:1px solid #334155; border-radius:24px; padding:24px 18px 18px; box-shadow:0 25px 90px rgba(0,0,0,.7); text-align:left; }
+    .install-help-close { position:absolute; top:12px; right:12px; width:38px; height:38px; border-radius:50%; border:1px solid #334155; background:#0f172a; color:#fff; cursor:pointer; font-size:1rem; }
+    .install-help-icon { font-size:2.6rem; margin-bottom:6px; }
+    .install-help-card h2 { font-size:1.5rem; font-weight:900; margin-bottom:5px; }
+    .install-help-subtitle { color:var(--text-muted); font-size:.84rem; line-height:1.45; margin-bottom:14px; }
+    .install-help-section { background:#0b1220; border:1px solid #1e293b; border-radius:14px; padding:11px 12px; margin-bottom:10px; }
+    .install-help-section h3 { font-size:.86rem; color:#67e8f9; margin-bottom:4px; }
+    .install-help-section p { color:#cbd5e1; font-size:.8rem; line-height:1.5; }
+    @media (max-width:720px){ .top-header{flex-wrap:wrap; gap:7px;} .header-actions{flex-wrap:wrap; justify-content:flex-end;} .more-games-actions{grid-template-columns:1fr;} }
+    @media (max-width:580px){ .install-header-btn,.home-header-btn{font-size:.72rem; padding:7px 9px;} }
+</style>
 </head>
 <body>
 
@@ -277,6 +338,8 @@
     </div>
     <div class="header-actions">
       <button id="btn-sound-toggle" class="btn-header-action" type="button">🔊 Sound ON</button>
+      <button id="btn-install-app" class="btn-header-action install-header-btn" type="button">📲 Install App</button>
+      <button id="btn-add-home" class="btn-header-action home-header-btn" type="button">➕ Home Screen</button>
       <button id="btn-back-hub" class="btn-header-action" type="button">🏠 Hub</button>
     </div>
   </header>
@@ -415,11 +478,24 @@
           <button id="btn-launch-pmem" class="btn-3d btn-purple" type="button">Play Path Memory</button>
         </div>
       </div>
+
+      <section class="more-games-section" aria-label="More Games">
+        <div class="more-games-card">
+          <div class="more-games-kicker">🎮 MORE GAMES</div>
+          <h2 class="more-games-title">PLAY MORE GAMES</h2>
+          <p class="more-games-subtitle">Explore our other game experiences.</p>
+          <div class="more-games-actions">
+            <a class="btn-3d btn-indigo more-game-btn" href="https://multigameweb.github.io/Pro-Chess/" target="_blank" rel="noopener noreferrer">♟️ PRO CHESS ↗</a>
+            <a class="btn-3d btn-cyan more-game-btn" href="https://multigameweb.github.io/Gamzone/" target="_blank" rel="noopener noreferrer">🎮 GAME ZONE ↗</a>
+          </div>
+        </div>
+      </section>
     </section>
 
     <!-- VIEW 2: QUICK MATHS -->
     <section id="view-math" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — QUICK MATHS</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Choose 4 Options or Type. In Type mode press Enter on the device keyboard to submit instantly.</li><li>Choose Arithmetic or Percentage, then Dynamic or Hard difficulty. Toggle the 60-second timer ON or OFF.</li><li>Answer quickly and accurately. The next question advances automatically.</li></ul></div></div>
+            <div class="game-wrapper">
         <div id="math-screen-start" class="card screen-math active">
           <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Mental Speed</div>
           <h2 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 12px;">QUICK MATHS</h2>
@@ -499,8 +575,8 @@
           </div>
 
           <div id="mq-container-type" style="display: none;">
-            <input id="mq-input" class="answer-input" type="text" inputmode="decimal" placeholder="?">
-            <button id="mq-btn-submit" class="btn-3d btn-blue" type="button">Submit</button>
+            <input id="mq-input" class="answer-input" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="Type answer…">
+            <div class="typing-hint">↵ Press <b>Enter</b> on your device keyboard to submit instantly</div>
           </div>
 
           <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
@@ -528,7 +604,8 @@
 
     <!-- VIEW 3: 6x6 SUDOKU -->
     <section id="view-sudoku" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — 6×6 SUDOKU</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Fill each row, column and 2×3 block with 1–6 without repeats.</li><li>Tap an empty cell, then use the keypad. Wrong entries flash red.</li><li>Use up to 3 hints and complete the whole grid to win.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Logical Grid (2×3 Blocks)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">6×6 SUDOKU</h2>
@@ -562,7 +639,8 @@
 
     <!-- VIEW 4: 3D BALL RUN -->
     <section id="view-ball" class="view-section">
-      <div class="ball-game-container">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — 3D BALL RUN</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Drag left/right to steer the orange ball.</li><li>Avoid red cubes and collect blue diamonds; speed increases as you survive.</li><li>Mobile uses a wide full-screen-height play area for a taller 3D track feel.</li></ul></div></div>
+            <div class="ball-game-container">
         <div class="ball-stats-hud">
           <div><span class="stat-label">Score</span><span id="ball-score" class="stat-val" style="color: #fb923c;">0</span></div>
           <div><span class="stat-label">Diamonds</span><span id="ball-gems" class="stat-val" style="color: #38bdf8;">💎 0</span></div>
@@ -570,9 +648,10 @@
         </div>
 
         <div class="canvas-wrapper">
-          <canvas id="ball-canvas" width="440" height="460"></canvas>
+          <canvas id="ball-canvas" width="600" height="820"></canvas>
           <div class="touch-hint-bar">👈 Drag Finger Left / Right 👉</div>
         </div>
+        <div class="ball-fullscreen-note">Wide mobile playfield • immersive tall track</div>
 
         <div style="display: flex; gap: 10px; margin-top: 14px;">
           <button id="btn-restart-ball" class="btn-3d btn-orange" type="button">Restart Ball</button>
@@ -582,7 +661,8 @@
     </section>
 <!-- VIEW 6: BODMAS MASTER -->
     <section id="view-bodmas" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — BODMAS MASTER</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Use BODMAS: brackets first, then ÷/×, then +/−.</li><li>Pick an answer and the next equation appears automatically after a short feedback flash.</li><li>Next Equation can skip immediately.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #22d3ee; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Order of Operations (No Repeats)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">BODMAS MASTER</h2>
@@ -614,7 +694,8 @@
 
     <!-- VIEW 7: NUMBER SERIES -->
     <section id="view-series" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — NUMBER SERIES</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Find the pattern in the sequence and choose the missing number.</li><li>The next puzzle appears automatically after each answer.</li><li>Use Next Series to skip immediately.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Sequence & Logic (No Repeats)</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">NUMBER SERIES</h2>
@@ -646,7 +727,8 @@
 
     <!-- VIEW 8: TIC-TAC-TOE -->
     <section id="view-ttt" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — TIC-TAC-TOE</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Get three marks in a row, column or diagonal.</li><li>Choose AI or 2 Player. Easy is relaxed, Medium mixes strategy, Hard is optimal.</li><li>Restart starts a new board without clearing the scoreboard.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #f9a8d4; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Classic Strategy</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">TIC-TAC-TOE</h2>
@@ -691,7 +773,8 @@
 
     <!-- VIEW 9: REACTION RUSH & BRAIN ALERT -->
     <section id="view-reaction" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — REACTION RUSH</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Find It: read the target name only and tap the matching icon.</li><li>Falling Tap: tap the falling item before the danger line.</li><li>Classic Rush: react to the signal rules and complete 5 rounds.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #f43f5e; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Reflex & Cognition Hub</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">REACTION RUSH ⚡</h2>
@@ -731,7 +814,7 @@
           <div id="rt-container-find" class="find-it-wrapper">
             <div class="find-target-banner">
               <span>FIND:</span>
-              <span id="rt-find-target-display" style="color: #facc15; font-size: 1.3rem;">BALL ⚽</span>
+              <span id="rt-find-target-display" style="color: #facc15; font-size: 1.3rem;">BALL</span>
             </div>
             <div id="rt-find-grid" class="find-grid"></div>
           </div>
@@ -761,7 +844,7 @@
             <div id="rt-history-pills" class="reaction-history-list"></div>
           </div>
 
-          <div style="display:flex; gap:10px;">
+          <div id="rt-action-row" style="display:flex; gap:10px;">
             <button id="rt-btn-reset" class="btn-3d btn-rose" type="button">Reset Stats</button>
             <button class="btn-3d btn-secondary" onclick="openView('hub')" type="button">Menu</button>
           </div>
@@ -771,7 +854,8 @@
 
     <!-- VIEW 10: MEMORY MATCHING -->
     <section id="view-memory" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — MEMORY MATCH</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Flip two cards and match identical pairs.</li><li>Easy 4×4, Medium 5×4, Hard 6×6. The live timer starts immediately and keeps counting.</li><li>Complete all pairs using fewer moves and less time.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #10b981; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Visual Recall</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 8px;">MEMORY MATCH</h2>
@@ -806,7 +890,8 @@
 
     <!-- VIEW 11: NUMBER FLASH (GAME A) -->
     <section id="view-nflash" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — NUMBER FLASH</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Memorize the digits before they disappear.</li><li>Normal = same order; Reverse = backwards.</li><li>Use the keypad to complete 5 rounds as quickly as possible.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #818cf8; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Flash Memory Recall</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">NUMBER FLASH 🔢</h2>
@@ -874,7 +959,8 @@
 
     <!-- VIEW 12: TARGET TAP (GAME B) -->
     <section id="view-ttap" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — TARGET TAP</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Read the exact shape and color shown in the target.</li><li>Tap the one card matching BOTH.</li><li>Easy 8, Medium 12, Hard 16 targets.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #06b6d4; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Rapid Discrimination</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">TARGET TAP 🎯</h2>
@@ -921,7 +1007,8 @@
 
     <!-- VIEW 13: MISSING TILE (GAME C) -->
     <section id="view-mtile" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — MISSING TILE</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Memorize the grid during the observation phase.</li><li>One icon disappears; choose exactly which icon is missing.</li><li>Easy 3×3, Medium 4×4, Hard 5×5.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #f59e0b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Grid Observation</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">MISSING TILE 👀</h2>
@@ -968,7 +1055,8 @@
 
     <!-- VIEW 14: PATH MEMORY (GAME D) -->
     <section id="view-pmem" class="view-section">
-      <div class="game-wrapper">
+<div class="how-to-play-box"><button class="how-to-play-toggle" type="button"><span>📖 HOW TO PLAY — PATH MEMORY</span><span class="how-arrow">▾</span></button><div class="how-to-play-content"><ul><li>Watch the highlighted cells in order.</li><li>After the highlight sequence ends, tap the same cells in the same order.</li><li>Difficulty changes grid size and path length.</li></ul></div></div>
+            <div class="game-wrapper">
         <div class="card">
           <div style="font-size: 0.75rem; color: #a855f7; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Spatial Working Memory</div>
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;">PATH MEMORY 🧠</h2>
@@ -1092,6 +1180,28 @@
     </div>
   </div>
 
+  <div id="install-help-modal" class="install-help-overlay" aria-hidden="true">
+    <div class="install-help-card" role="dialog" aria-modal="true" aria-labelledby="install-help-title">
+      <button id="install-help-close" class="install-help-close" type="button" aria-label="Close">✕</button>
+      <div class="install-help-icon">📲</div>
+      <h2 id="install-help-title">INSTALL BRAIN &amp; ARCADE</h2>
+      <p class="install-help-subtitle">Add the game hub to your home screen for quick access.</p>
+      <div class="install-help-section">
+        <h3>Android / Chrome</h3>
+        <p>Tap <b>Install App</b> when the browser offers installation. You can also use the browser menu → <b>Install app</b> or <b>Add to Home screen</b>.</p>
+      </div>
+      <div class="install-help-section">
+        <h3>iPhone / iPad</h3>
+        <p>Tap <b>Share</b> in the browser, then choose <b>Add to Home Screen</b>.</p>
+      </div>
+      <div class="install-help-section">
+        <h3>Desktop</h3>
+        <p>Use the browser's install control in the address bar or browser menu when available.</p>
+      </div>
+      <button id="install-help-ok" class="btn-3d btn-blue" type="button">GOT IT</button>
+    </div>
+  </div>
+
   <script>
     /* ========================================================
        GLOBAL ASYNC CLEANUP
@@ -1099,7 +1209,10 @@
        ======================================================== */
     const nativeSetTimeout = window.setTimeout.bind(window);
     const nativeClearTimeout = window.clearTimeout.bind(window);
+    const nativeSetInterval = window.setInterval.bind(window);
+    const nativeClearInterval = window.clearInterval.bind(window);
     const pendingTimeouts = new Set();
+    const pendingIntervals = new Set();
 
     window.setTimeout = function (fn, delay, ...args) {
       let id = null;
@@ -1116,9 +1229,29 @@
       nativeClearTimeout(id);
     };
 
+    window.setInterval = function (fn, delay, ...args) {
+      const id = nativeSetInterval(() => {
+        try { fn(...args); } catch (err) { console.error(err); }
+      }, delay);
+      pendingIntervals.add(id);
+      return id;
+    };
+    window.clearInterval = function (id) {
+      pendingIntervals.delete(id);
+      nativeClearInterval(id);
+    };
+
     function clearAllPendingTimeouts() {
       [...pendingTimeouts].forEach(id => nativeClearTimeout(id));
       pendingTimeouts.clear();
+    }
+    function clearAllPendingIntervals() {
+      [...pendingIntervals].forEach(id => nativeClearInterval(id));
+      pendingIntervals.clear();
+    }
+    function clearAllAsyncWork() {
+      clearAllPendingTimeouts();
+      clearAllPendingIntervals();
     }
 
     /* ========================================================
@@ -1126,23 +1259,40 @@
        ======================================================== */
     let audioCtx = null;
     let isSoundOn = true;
+    const activeOscillators = new Set();
 
+    let audioMaster = null;
     function getAudioCtx() {
       if (!audioCtx) {
         const AudioClass = window.AudioContext || window.webkitAudioContext;
         if (AudioClass) audioCtx = new AudioClass();
       }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
+      if (audioCtx && !audioMaster) {
+        audioMaster = audioCtx.createGain();
+        audioMaster.gain.value = 0.95;
+        audioMaster.connect(audioCtx.destination);
       }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
       return audioCtx;
+    }
+    function connectTracked(osc, gain, ctx) {
+      osc.connect(gain);
+      gain.connect(audioMaster || ctx.destination);
+      activeOscillators.add(osc);
+      osc.addEventListener?.('ended', () => activeOscillators.delete(osc));
+      return osc;
+    }
+    function stopAllSfx() {
+      activeOscillators.forEach(osc => { try { osc.stop(); } catch (e) {} });
+      activeOscillators.clear();
     }
 
     const btnSoundToggle = document.getElementById('btn-sound-toggle');
     btnSoundToggle.addEventListener('click', () => {
       isSoundOn = !isSoundOn;
       btnSoundToggle.textContent = isSoundOn ? '🔊 Sound ON' : '🔇 Sound OFF';
-      if (isSoundOn) playSfx('click');
+      if (!isSoundOn) stopAllSfx();
+      else playSfx('click');
     });
 
     function playSfx(type) {
@@ -1160,8 +1310,7 @@
           osc.frequency.exponentialRampToValueAtTime(320, now + 0.04);
           gain.gain.setValueAtTime(0.12, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
+          connectTracked(osc, gain, ctx);
           osc.start(now);
           osc.stop(now + 0.05);
 
@@ -1175,8 +1324,7 @@
             osc.frequency.setValueAtTime(freq, startTime);
             gain.gain.setValueAtTime(0.18, startTime);
             gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
+            connectTracked(osc, gain, ctx);
             osc.start(startTime);
             osc.stop(startTime + 0.16);
           });
@@ -1189,8 +1337,7 @@
           osc.frequency.linearRampToValueAtTime(85, now + 0.2);
           gain.gain.setValueAtTime(0.22, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
+          connectTracked(osc, gain, ctx);
           osc.start(now);
           osc.stop(now + 0.21);
 
@@ -1202,8 +1349,7 @@
           osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1);
           gain.gain.setValueAtTime(0.18, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
+          connectTracked(osc, gain, ctx);
           osc.start(now);
           osc.stop(now + 0.13);
 
@@ -1215,8 +1361,7 @@
           osc.frequency.exponentialRampToValueAtTime(30, now + 0.3);
           gain.gain.setValueAtTime(0.35, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.32);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
+          connectTracked(osc, gain, ctx);
           osc.start(now);
           osc.stop(now + 0.33);
 
@@ -1230,8 +1375,7 @@
             osc.frequency.setValueAtTime(freq, startTime);
             gain.gain.setValueAtTime(0.22, startTime);
             gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
+            connectTracked(osc, gain, ctx);
             osc.start(startTime);
             osc.stop(startTime + 0.24);
           });
@@ -1311,13 +1455,26 @@
       pmem: document.getElementById('view-pmem')
     };
 
+    /* HOW TO PLAY */
+    document.querySelectorAll('.how-to-play-toggle').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        playSfx('click'); const box=btn.nextElementSibling; const opening=!box.classList.contains('open');
+        document.querySelectorAll('.how-to-play-content.open').forEach(x=>x.classList.remove('open'));
+        document.querySelectorAll('.how-arrow').forEach(x=>x.textContent='▾');
+        box.classList.toggle('open',opening); const arrow=btn.querySelector('.how-arrow'); if(arrow) arrow.textContent=opening?'▴':'▾';
+      });
+    });
+
     function openView(viewName) {
-      clearAllPendingTimeouts();
+      clearAllAsyncWork();
+      stopAllSfx();
       playSfx('click');
+      if (viewName !== 'reaction') document.body.classList.remove('falling-mode-active');
       if (viewName !== 'ball') stopBallGame();
       if (viewName !== 'math') stopMathTimer();
       if (viewName !== 'sudoku') stopSudokuTimer();
       if (viewName !== 'reaction') resetReactionState();
+      if (viewName !== 'ttt' && tttAiTimeout) { clearTimeout(tttAiTimeout); tttAiTimeout = null; }
       if (viewName !== 'memory') stopMemoryTimer();
       if (viewName !== 'nflash') resetNumberFlashState();
       if (viewName !== 'ttap') resetTargetTapState();
@@ -1445,7 +1602,7 @@
       mathState.currentQuestion = generateMathQ();
       document.getElementById('mq-expression').textContent = mathState.currentQuestion.str;
       document.getElementById('mq-precision-hint').style.display = mathState.currentQuestion.isDec ? 'block' : 'none';
-      document.getElementById('mq-type-label').textContent = `${mathState.difficultyMode === 'hard' ? '🔥 HARD: ' : ''}${mathState.questionType === 'percentage' ? 'PERCENTAGE' : 'ARITHMETIC'}`;
+      document.getElementById('mq-type-label').textContent = `${mathState.difficultyMode === 'hard' ? '🔥 HARD: ' : ''}${mathState.questionType === 'percentage' ? 'PERCENTAGE' : 'ARITHMETIC'} · Q${mathState.attempted + 1}`;
       document.getElementById('mq-progress').textContent = `${Math.min(mathState.attempted + 1, mathState.totalQuestions)}/${mathState.totalQuestions}`;
 
       if (mathState.inputMode === 'options') {
@@ -1457,7 +1614,7 @@
         document.getElementById('mq-container-options').style.display = 'none';
         document.getElementById('mq-container-type').style.display = 'block';
         const input = document.getElementById('mq-input'); input.value = ''; input.disabled = false;
-        document.getElementById('mq-btn-submit').disabled = false; input.focus();
+        input.focus();
       }
     }
 
@@ -1499,7 +1656,7 @@
       if (raw === '' || isNaN(raw)) return;
       mathState.isProcessingAnswer = true;
       document.getElementById('mq-input').disabled = true;
-      document.getElementById('mq-btn-submit').disabled = true;
+      
       const val = parseFloat(raw), targetVal = mathState.currentQuestion.target;
       mathState.attempted++;
       const isCorrect = (mathState.currentQuestion.isDec ? roundAnswer(val) : val) === (mathState.currentQuestion.isDec ? roundAnswer(targetVal) : targetVal);
@@ -1578,6 +1735,7 @@
     }
     function finishMathQuiz() {
       if (mathState.transitionTimeout) { clearTimeout(mathState.transitionTimeout); mathState.transitionTimeout = null; }
+      if (mathState.timerInterval) { clearInterval(mathState.timerInterval); mathState.timerInterval = null; }
       mathState.sessionId++;
       stopMathTimer();
       playSfx('win');
@@ -1601,8 +1759,7 @@
     document.getElementById('mq-btn-start').addEventListener('click', startMathSession);
     document.getElementById('mq-btn-restart').addEventListener('click', resetMathToStart);
     document.getElementById('mq-btn-quit').addEventListener('click', finishMathQuiz);
-    document.getElementById('mq-btn-submit').addEventListener('click', submitTypeAnswer);
-    document.getElementById('mq-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitTypeAnswer(); });
+    document.getElementById('mq-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitTypeAnswer(); } });
 
     /* ========================================================
        GAME 2: 6X6 SUDOKU
@@ -1747,98 +1904,28 @@
     document.getElementById('btn-sdk-play-again').addEventListener('click', () => { playSfx('click'); document.getElementById('sudoku-win-modal').classList.remove('active'); startNewSudoku(); });
 
     /* ========================================================
-       GAME 3: 3D BALL RUN
+       GAME 3: 3D BALL RUN — WIDE / TALL / SMOOTH
        ======================================================== */
-    const canvas = document.getElementById('ball-canvas');
-    const ctx = canvas.getContext('2d');
-    let ballAnimId = null;
-    function resizeBallCanvas() {
-      const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
-      canvas.width = Math.round(440 * dpr); canvas.height = Math.round(460 * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    resizeBallCanvas();
-    window.addEventListener('resize', resizeBallCanvas);
-    const ballGame = { running: false, score: 0, gems: 0, speed: 2.3, ballX: 0, targetBallX: 0, rollAngle: 0, zOffset: 0, obstacles: [], collectibles: [], graceTime: 0 };
-    function init3DBallGame() {
-      document.getElementById('ball-gameover-modal').classList.remove('active');
-      ballGame.running = true; ballGame.score = 0; ballGame.gems = 0; ballGame.speed = 2.3; ballGame.ballX = 0;
-      ballGame.targetBallX = 0; ballGame.rollAngle = 0; ballGame.zOffset = 0; ballGame.obstacles = []; ballGame.collectibles = [];
-      ballGame.graceTime = performance.now() + 3000;
-      for (let z = 350; z < 1400; z += 180) spawnGem(z);
-      for (let z = 950; z < 2200; z += 260) spawnObstacle(z);
-      if (ballAnimId) cancelAnimationFrame(ballAnimId);
-      ballLoop();
-    }
-    function stopBallGame() { ballGame.running = false; if (ballAnimId) cancelAnimationFrame(ballAnimId); ballAnimId = null; }
-    function spawnObstacle(z) { const lanes = [-55, 0, 55]; ballGame.obstacles.push({ x: lanes[Math.floor(Math.random() * lanes.length)], z, w: 26 }); }
-    function spawnGem(z) { const lanes = [-55, 0, 55]; ballGame.collectibles.push({ x: lanes[Math.floor(Math.random() * lanes.length)], z, collected: false }); }
-    function handlePointerMove(clientX) {
-      const rect = canvas.getBoundingClientRect(), norm = ((clientX - rect.left) / rect.width) * 2 - 1;
-      ballGame.targetBallX = Math.max(-80, Math.min(80, norm * 85));
-    }
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (e.touches.length) handlePointerMove(e.touches[0].clientX); }, { passive: false });
-    canvas.addEventListener('touchstart', (e) => { if (e.touches.length) handlePointerMove(e.touches[0].clientX); }, { passive: false });
-    canvas.addEventListener('mousemove', (e) => { if (e.buttons === 1 || e.buttons === 0) handlePointerMove(e.clientX); });
-    function ballLoop() {
-      if (!ballGame.running) return;
-      ballGame.score += Math.round(ballGame.speed * 0.25);
-      if (ballGame.speed < 5.8) ballGame.speed += 0.0004;
-      ballGame.rollAngle += ballGame.speed * 0.05;
-      ballGame.ballX += (ballGame.targetBallX - ballGame.ballX) * 0.2;
-      ballGame.zOffset = (ballGame.zOffset + ballGame.speed * 2.3) % 80;
-      document.getElementById('ball-score').textContent = ballGame.score;
-      document.getElementById('ball-gems').textContent = `💎 ${ballGame.gems}`;
-      document.getElementById('ball-speed').textContent = `${(ballGame.speed / 2.3).toFixed(1)}x`;
-      ctx.fillStyle = '#070a14'; ctx.fillRect(0, 0, 440, 460);
-      const cx = 220, horizonY = 90, fov = 220;
-      ctx.save(); ctx.beginPath(); ctx.moveTo(cx - 35, horizonY); ctx.lineTo(cx + 35, horizonY); ctx.lineTo(cx + 190, 460); ctx.lineTo(cx - 190, 460); ctx.closePath();
-      ctx.fillStyle = '#0b1329'; ctx.fill(); ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.stroke();
-      for (let z = 40; z < 800; z += 55) {
-        const visualZ = z - ballGame.zOffset; if (visualZ <= 10) continue;
-        const scale = fov / (visualZ + fov), y = horizonY + (460 - horizonY) * scale * 1.35; if (y > 460) continue;
-        const w = (visualZ < 50 ? 380 : 70 + (340 - 70) * scale);
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(cx - w / 2, y); ctx.lineTo(cx + w / 2, y); ctx.stroke();
-      }
-      ctx.restore();
-      for (let i = ballGame.obstacles.length - 1; i >= 0; i--) {
-        const obs = ballGame.obstacles[i]; obs.z -= ballGame.speed * 2.3;
-        if (performance.now() > ballGame.graceTime && obs.z > 35 && obs.z < 75 && Math.abs(ballGame.ballX - obs.x) < 24) { triggerBallGameOver(); return; }
-        if (obs.z < 15) { ballGame.obstacles.splice(i, 1); spawnObstacle(900 + Math.random() * 220); }
-      }
-      for (let i = ballGame.collectibles.length - 1; i >= 0; i--) {
-        const gem = ballGame.collectibles[i]; gem.z -= ballGame.speed * 2.3;
-        if (!gem.collected && gem.z > 40 && gem.z < 80 && Math.abs(ballGame.ballX - gem.x) < 28) { gem.collected = true; ballGame.gems++; ballGame.score += 50; playSfx('gem'); }
-        if (gem.z < 15) { ballGame.collectibles.splice(i, 1); if (Math.random() > 0.3) spawnGem(950 + Math.random() * 200); }
-      }
-      ballGame.obstacles.forEach(obs => {
-        if (obs.z < 20 || obs.z > 900) return;
-        const scale = fov / (obs.z + fov), sx = cx + obs.x * scale * 2.2, sy = horizonY + (460 - horizonY) * scale * 1.35, size = obs.w * scale * 2.1;
-        ctx.fillStyle = '#ef4444'; ctx.fillRect(sx - size / 2, sy - size, size, size);
-      });
-      ballGame.collectibles.forEach(gem => {
-        if (gem.collected || gem.z < 20 || gem.z > 900) return;
-        const scale = fov / (gem.z + fov), sx = cx + gem.x * scale * 2.2, sy = horizonY + (460 - horizonY) * scale * 1.35 - (18 * scale), r = 12 * scale * 2.2;
-        ctx.save(); ctx.translate(sx, sy); ctx.rotate(ballGame.rollAngle); ctx.fillStyle = '#38bdf8';
-        ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r, 0); ctx.lineTo(0, r); ctx.lineTo(-r, 0); ctx.closePath(); ctx.fill(); ctx.restore();
-      });
-      const ballRadius = 24, ballScreenX = cx + ballGame.ballX * 1.6, ballScreenY = 460 - 58;
-      ctx.beginPath(); ctx.arc(ballScreenX, ballScreenY, ballRadius, 0, Math.PI * 2);
-      ctx.fillStyle = '#f97316'; ctx.fill();
-      ballAnimId = requestAnimationFrame(ballLoop);
-    }
-    function triggerBallGameOver() {
-      stopBallGame(); playSfx('crash');
-      document.getElementById('ball-final-dist').textContent = ballGame.score;
-      document.getElementById('ball-final-gems').textContent = ballGame.gems;
-      document.getElementById('ball-gameover-modal').classList.add('active');
-    }
-    document.getElementById('btn-restart-ball').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
-    document.getElementById('btn-ball-retry').addEventListener('click', () => { playSfx('click'); init3DBallGame(); });
+    const canvas=document.getElementById('ball-canvas'),ctx=canvas.getContext('2d');
+    let ballAnimId=null; const BALL_W=600,BALL_H=820;
+    function resizeBallCanvas(){const dpr=Math.max(1,Math.min(window.devicePixelRatio||1,2));canvas.width=Math.round(BALL_W*dpr);canvas.height=Math.round(BALL_H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=true;}
+    resizeBallCanvas(); window.addEventListener('resize',resizeBallCanvas);
+    const ballGame={running:false,score:0,gems:0,speed:2.35,ballX:0,targetBallX:0,rollAngle:0,zOffset:0,obstacles:[],collectibles:[],graceTime:0};
+    function init3DBallGame(){document.getElementById('ball-gameover-modal').classList.remove('active');stopBallGame();Object.assign(ballGame,{running:true,score:0,gems:0,speed:2.35,ballX:0,targetBallX:0,rollAngle:0,zOffset:0,obstacles:[],collectibles:[],graceTime:performance.now()+3200});for(let z=380;z<1900;z+=190)spawnGem(z);for(let z=1000;z<3400;z+=300)spawnObstacle(z);ballLoop();}
+    function stopBallGame(){ballGame.running=false;if(ballAnimId)cancelAnimationFrame(ballAnimId);ballAnimId=null;}
+    function spawnObstacle(z){const lanes=[-125,0,125];ballGame.obstacles.push({x:lanes[Math.floor(Math.random()*lanes.length)],z,w:48});}
+    function spawnGem(z){const lanes=[-125,0,125];ballGame.collectibles.push({x:lanes[Math.floor(Math.random()*lanes.length)],z,collected:false});}
+    function handlePointerMove(clientX){const r=canvas.getBoundingClientRect(),norm=Math.max(-1,Math.min(1,((clientX-r.left)/r.width)*2-1));ballGame.targetBallX=Math.max(-165,Math.min(165,norm*175));}
+    canvas.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length)handlePointerMove(e.touches[0].clientX)},{passive:false});
+    canvas.addEventListener('touchstart',e=>{e.preventDefault();if(e.touches.length)handlePointerMove(e.touches[0].clientX)},{passive:false});
+    canvas.addEventListener('mousemove',e=>handlePointerMove(e.clientX));
+    function ballLoop(){if(!ballGame.running)return;const now=performance.now();ballGame.score+=Math.max(1,Math.round(ballGame.speed*.24));if(ballGame.speed<6.4)ballGame.speed+=.00035;ballGame.rollAngle+=ballGame.speed*.055;ballGame.ballX+=(ballGame.targetBallX-ballGame.ballX)*.18;ballGame.zOffset=(ballGame.zOffset+ballGame.speed*2.45)%92;document.getElementById('ball-score').textContent=ballGame.score;document.getElementById('ball-gems').textContent=`💎 ${ballGame.gems}`;document.getElementById('ball-speed').textContent=`${(ballGame.speed/2.35).toFixed(1)}x`;ctx.clearRect(0,0,BALL_W,BALL_H);const cx=BALL_W/2,horizonY=145,roadBottom=BALL_H,fov=310;const bg=ctx.createLinearGradient(0,0,0,BALL_H);bg.addColorStop(0,'#050812');bg.addColorStop(1,'#02040a');ctx.fillStyle=bg;ctx.fillRect(0,0,BALL_W,BALL_H);ctx.save();ctx.beginPath();ctx.moveTo(cx-70,horizonY);ctx.lineTo(cx+70,horizonY);ctx.lineTo(cx+292,roadBottom);ctx.lineTo(cx-292,roadBottom);ctx.closePath();const road=ctx.createLinearGradient(0,horizonY,0,roadBottom);road.addColorStop(0,'#121c34');road.addColorStop(.55,'#0a1327');road.addColorStop(1,'#050b18');ctx.fillStyle=road;ctx.fill();const edge=ctx.createLinearGradient(0,horizonY,0,roadBottom);edge.addColorStop(0,'#7dd3fc');edge.addColorStop(1,'#0284c7');ctx.strokeStyle=edge;ctx.lineWidth=5;ctx.stroke();for(let z=35;z<1150;z+=65){const vz=z-ballGame.zOffset;if(vz<=10)continue;const sc=fov/(vz+fov),y=horizonY+(roadBottom-horizonY)*sc*1.23;if(y>roadBottom)continue;const half=55+240*sc;ctx.strokeStyle='rgba(56,189,248,.22)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-half,y);ctx.lineTo(cx+half,y);ctx.stroke();}ctx.restore();for(let i=ballGame.obstacles.length-1;i>=0;i--){const o=ballGame.obstacles[i];o.z-=ballGame.speed*2.45;if(now>ballGame.graceTime&&o.z>45&&o.z<105&&Math.abs(ballGame.ballX-o.x)<52){triggerBallGameOver();return;}if(o.z<18){ballGame.obstacles.splice(i,1);spawnObstacle(1200+Math.random()*350);}}for(let i=ballGame.collectibles.length-1;i>=0;i--){const g=ballGame.collectibles[i];g.z-=ballGame.speed*2.45;if(!g.collected&&g.z>50&&g.z<110&&Math.abs(ballGame.ballX-g.x)<58){g.collected=true;ballGame.gems++;ballGame.score+=60;playSfx('gem');}if(g.z<18){ballGame.collectibles.splice(i,1);spawnGem(1100+Math.random()*420);}}ballGame.obstacles.forEach(o=>{if(o.z<18||o.z>1200)return;const sc=fov/(o.z+fov),sx=cx+o.x*sc*2.12,sy=horizonY+(roadBottom-horizonY)*sc*1.23,size=o.w*sc*2.55;const gr=ctx.createLinearGradient(sx-size/2,sy-size,sx+size/2,sy);gr.addColorStop(0,'#fb6969');gr.addColorStop(1,'#b91c1c');ctx.fillStyle=gr;ctx.fillRect(sx-size/2,sy-size,size,size);ctx.fillStyle='#fca5a5';ctx.beginPath();ctx.moveTo(sx-size/2,sy-size);ctx.lineTo(sx-size/2+9*sc,sy-size-9*sc);ctx.lineTo(sx+size/2+9*sc,sy-size-9*sc);ctx.lineTo(sx+size/2,sy-size);ctx.closePath();ctx.fill();});ballGame.collectibles.forEach(g=>{if(g.collected||g.z<18||g.z>1200)return;const sc=fov/(g.z+fov),sx=cx+g.x*sc*2.12,sy=horizonY+(roadBottom-horizonY)*sc*1.23-28*sc,r=18*sc*2.25;ctx.save();ctx.translate(sx,sy);ctx.rotate(ballGame.rollAngle);const gg=ctx.createLinearGradient(0,-r,0,r);gg.addColorStop(0,'#e0f2fe');gg.addColorStop(.45,'#38bdf8');gg.addColorStop(1,'#0369a1');ctx.fillStyle=gg;ctx.beginPath();ctx.moveTo(0,-r);ctx.lineTo(r,0);ctx.lineTo(0,r);ctx.lineTo(-r,0);ctx.closePath();ctx.fill();ctx.restore();});const br=43,bx=cx+ballGame.ballX*1.52,by=BALL_H-98;ctx.beginPath();ctx.ellipse(bx,by+br-2,br*1.25,br*.38,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,.48)';ctx.fill();const bgd=ctx.createRadialGradient(bx-13,by-16,5,bx,by,br);bgd.addColorStop(0,'#ffedd5');bgd.addColorStop(.26,'#fb923c');bgd.addColorStop(.62,'#f97316');bgd.addColorStop(1,'#9a3412');ctx.beginPath();ctx.arc(bx,by,br,0,Math.PI*2);ctx.fillStyle=bgd;ctx.fill();ctx.strokeStyle='#fdba74';ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.arc(bx-12,by-15,7,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.36)';ctx.fill();ballAnimId=requestAnimationFrame(ballLoop);}
+    function triggerBallGameOver(){stopBallGame();playSfx('crash');document.getElementById('ball-final-dist').textContent=ballGame.score;document.getElementById('ball-final-gems').textContent=ballGame.gems;document.getElementById('ball-gameover-modal').classList.add('active');}
+    document.getElementById('btn-restart-ball').addEventListener('click',()=>{playSfx('click');init3DBallGame();});document.getElementById('btn-ball-retry').addEventListener('click',()=>{playSfx('click');init3DBallGame();});
     /* ========================================================
        GAME 4: BODMAS MASTER
        ======================================================== */
-    const bodmasState = { score: 0, streak: 0, attempted: 0, usedSet: new Set(), current: null, options: [], isAnswered: false };
+    const bodmasState = { score: 0, streak: 0, attempted: 0, usedSet: new Set(), current: null, options: [], isAnswered: false, nextTimeout: null };
     const bodmasButtons = document.querySelectorAll('.bodmas-opt');
     function generateUniqueBodmas() {
       for (let att = 0; att < 80; att++) {
@@ -1852,7 +1939,7 @@
       }
       return { exp: "12 + 4 × 3", ans: 24, rule: "Multiply first (4×3=12), then add 12+12=24!" };
     }
-    function initBodmasGame() { bodmasState.score = 0; bodmasState.streak = 0; bodmasState.attempted = 0; bodmasState.usedSet.clear(); loadBodmasQuestion(); }
+    function initBodmasGame() { if(bodmasState.nextTimeout){clearTimeout(bodmasState.nextTimeout);bodmasState.nextTimeout=null;} bodmasState.score=0;bodmasState.streak=0;bodmasState.attempted=0;bodmasState.usedSet.clear();loadBodmasQuestion(); }
     function loadBodmasQuestion() {
       bodmasState.isAnswered = false; document.getElementById('bodmas-alert').className = 'feedback-float-alert'; document.getElementById('bodmas-rule-box').classList.remove('show');
       bodmasState.attempted++; document.getElementById('bodmas-q-count').textContent = `#${bodmasState.attempted}`;
@@ -1878,14 +1965,16 @@
         }
         document.getElementById('bodmas-score').textContent = bodmasState.score;
         document.getElementById('bodmas-streak').textContent = `🔥 ${bodmasState.streak}`;
+        bodmasButtons.forEach(b=>b.disabled=true);
+        bodmasState.nextTimeout=setTimeout(()=>{bodmasState.nextTimeout=null;loadBodmasQuestion();},700);
       });
     });
-    document.getElementById('btn-bodmas-next').addEventListener('click', () => { playSfx('click'); loadBodmasQuestion(); });
+    document.getElementById('btn-bodmas-next').addEventListener('click',()=>{playSfx('click');if(bodmasState.nextTimeout){clearTimeout(bodmasState.nextTimeout);bodmasState.nextTimeout=null;}loadBodmasQuestion();});
 
     /* ========================================================
        GAME 6: NUMBER SERIES
        ======================================================== */
-    const seriesState = { score: 0, attempted: 0, correct: 0, usedSet: new Set(), current: null, options: [], isAnswered: false };
+    const seriesState = { score: 0, attempted: 0, correct: 0, usedSet: new Set(), current: null, options: [], isAnswered: false, nextTimeout: null };
     const seriesButtons = document.querySelectorAll('.series-opt');
     function generateUniqueSeries() {
       for (let att = 0; att < 80; att++) {
@@ -1900,7 +1989,7 @@
       }
       return { text: "4, 8, 12, 16, 20, ?", ans: 24, rule: "Add 4 each time (+4)!" };
     }
-    function initSeriesGame() { seriesState.score = 0; seriesState.attempted = 0; seriesState.correct = 0; seriesState.usedSet.clear(); loadSeriesQuestion(); }
+    function initSeriesGame() { if(seriesState.nextTimeout){clearTimeout(seriesState.nextTimeout);seriesState.nextTimeout=null;} seriesState.score=0;seriesState.attempted=0;seriesState.correct=0;seriesState.usedSet.clear();loadSeriesQuestion(); }
     function loadSeriesQuestion() {
       seriesState.isAnswered = false; document.getElementById('series-rule-box').classList.remove('show');
       seriesState.attempted++; document.getElementById('series-q-count').textContent = `#${seriesState.attempted}`;
@@ -1926,9 +2015,11 @@
         }
         document.getElementById('series-score').textContent = seriesState.score;
         document.getElementById('series-acc').textContent = `${Math.round((seriesState.correct / seriesState.attempted) * 100)}%`;
+        seriesButtons.forEach(b=>b.disabled=true);
+        seriesState.nextTimeout=setTimeout(()=>{seriesState.nextTimeout=null;loadSeriesQuestion();},700);
       });
     });
-    document.getElementById('btn-series-next').addEventListener('click', () => { playSfx('click'); loadSeriesQuestion(); });
+    document.getElementById('btn-series-next').addEventListener('click',()=>{playSfx('click');if(seriesState.nextTimeout){clearTimeout(seriesState.nextTimeout);seriesState.nextTimeout=null;}loadSeriesQuestion();});
 
     /* ========================================================
        GAME 7: TIC-TAC-TOE
@@ -1939,6 +2030,7 @@
     const TTT_WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
     function renderTttBoard() {
       tttBoardEl.innerHTML = '';
+      updateTttBanner();
       tttState.board.forEach((mark, idx) => {
         const cell = document.createElement('button'); cell.type = 'button'; cell.className = 'ttt-cell'; cell.textContent = mark;
         if (mark) cell.classList.add('filled', mark === 'X' ? 'x-mark' : 'o-mark');
@@ -1985,31 +2077,38 @@
           tttAiTimeout = null;
           if (tttState.gameOver || !tttState.isAiMode || tttState.currentPlayer !== 'O') return;
           let move = -1;
+          const availAll = tttState.board.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+          const winMove = (player) => {
+            for (const i of availAll) {
+              tttState.board[i] = player;
+              const w = checkWinner(tttState.board);
+              tttState.board[i] = '';
+              if (w && w.player === player) return i;
+            }
+            return -1;
+          };
           if (tttState.difficulty === 'hard') {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 9; i++) { if (!tttState.board[i]) { tttState.board[i] = 'O'; const sc = minimax(tttState.board, 0, false); tttState.board[i] = ''; if (sc > bestScore) { bestScore = sc; move = i; } } }
+            let bestScore = -Infinity, bestMoves = [];
+            for (const i of availAll) {
+              tttState.board[i] = 'O';
+              const sc = minimax(tttState.board, 0, false);
+              tttState.board[i] = '';
+              if (sc > bestScore) { bestScore = sc; bestMoves = [i]; }
+              else if (sc === bestScore) bestMoves.push(i);
+            }
+            const preference = [4, 0, 2, 6, 8, 1, 3, 5, 7];
+            move = preference.find(i => bestMoves.includes(i)) ?? bestMoves[0];
           } else if (tttState.difficulty === 'med') {
-            const avail = tttState.board.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-            const findTacticalMove = (player) => {
-              for (const i of avail) {
-                tttState.board[i] = player;
-                const w = checkWinner(tttState.board);
-                tttState.board[i] = '';
-                if (w && w.player === player) return i;
-              }
-              return -1;
-            };
-            move = findTacticalMove('O');
-            if (move < 0) move = findTacticalMove('X');
+            move = winMove('O');
+            if (move < 0) move = winMove('X');
             if (move < 0 && tttState.board[4] === '') move = 4;
             if (move < 0) {
               const corners = [0,2,6,8].filter(i => tttState.board[i] === '');
-              if (corners.length && Math.random() < 0.7) move = corners[Math.floor(Math.random() * corners.length)];
+              if (corners.length) move = corners[Math.floor(Math.random() * corners.length)];
             }
-            if (move < 0) move = avail[Math.floor(Math.random() * avail.length)];
+            if (move < 0) move = availAll[Math.floor(Math.random() * availAll.length)];
           } else {
-            const avail = tttState.board.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-            move = avail[Math.floor(Math.random() * avail.length)];
+            move = availAll[Math.floor(Math.random() * availAll.length)];
           }
           if (move >= 0) {
             tttState.board[move] = 'O'; playSfx('tile');
@@ -2030,6 +2129,17 @@
       document.getElementById('ttt-score-o').textContent = tttState.winsO;
       document.getElementById('ttt-score-draws').textContent = tttState.draws;
     }
+    function updateTttBanner() {
+      tttTurnBanner.className = 'ttt-turn-banner ' + (tttState.gameOver ? 'win-state' : (tttState.currentPlayer === 'X' ? 'x-turn' : 'o-turn'));
+      if (tttState.gameOver) {
+        const win = checkWinner(tttState.board);
+        tttTurnBanner.textContent = win ? `${win.player === 'X' ? '❌ You' : '⭕ Bot'} win!` : '🤝 Draw game';
+      } else if (tttState.isAiMode) {
+        tttTurnBanner.textContent = tttState.currentPlayer === 'X' ? '❌ Your Turn (X)' : '⭕ Bot is thinking…';
+      } else {
+        tttTurnBanner.textContent = ` ${tttState.currentPlayer === 'X' ? '❌ Player X' : '⭕ Player O'} Turn`;
+      }
+    }
     function initTicTacToe() {
       if (tttAiTimeout) { clearTimeout(tttAiTimeout); tttAiTimeout = null; }
       tttState.board = Array(9).fill(''); tttState.currentPlayer = 'X'; tttState.gameOver = false; tttState.winningCombo = []; renderTttBoard(); updateTttScoreboard(); }
@@ -2047,7 +2157,7 @@
       gameMode: 'find', difficulty: 'medium', status: 'idle', round: 1, score: 0, combo: 0, bestCombo: 0,
       completedRounds: 0, successfulRounds: 0, sessionTimes: [], sessionHadError: false,
       startTime: 0, timerTimeout: null, phaseTimeout: null, fallingAnimId: null, signal: null, blueTaps: 0,
-      history: [], bestTime: null
+      history: [], bestTime: null, sessionId: 0, nextRoundTimeout: null
     };
     const rtModeButtons = { find: document.getElementById('rt-mode-find'), falling: document.getElementById('rt-mode-falling'), classic: document.getElementById('rt-mode-classic') };
     const rtDiffButtons = { easy: document.getElementById('rt-diff-easy'), medium: document.getElementById('rt-diff-medium'), hard: document.getElementById('rt-diff-hard') };
@@ -2057,6 +2167,7 @@
     function clearAllRtTimers() {
       if (rtState.timerTimeout) { clearTimeout(rtState.timerTimeout); rtState.timerTimeout = null; }
       if (rtState.phaseTimeout) { clearTimeout(rtState.phaseTimeout); rtState.phaseTimeout = null; }
+      if (rtState.nextRoundTimeout) { clearTimeout(rtState.nextRoundTimeout); rtState.nextRoundTimeout = null; }
       if (rtState.fallingAnimId) { cancelAnimationFrame(rtState.fallingAnimId); rtState.fallingAnimId = null; }
     }
     function updateReactionHUD() {
@@ -2072,7 +2183,7 @@
     // FIND IT MODE
     let currentFindTarget = null, findChoiceLocked = false;
     function startFindItRound() {
-      clearAllRtTimers(); if (rtState.completedRounds >= 5) return;
+      clearAllRtTimers(); const sid = rtState.sessionId; if (rtState.completedRounds >= 5) return;
       findChoiceLocked = false; rtState.status = 'active'; updateReactionHUD();
       const recent = getStorageItems("reactionFindRecent");
       let avail = SHARED_ICON_POOL.filter(i => !recent.includes(i.name));
@@ -2080,7 +2191,7 @@
       const roundChoices = shuffleArr(avail).slice(0, 10);
       saveStorageItems("reactionFindRecent", roundChoices.map(c => c.name), 40);
       currentFindTarget = roundChoices[Math.floor(Math.random() * roundChoices.length)];
-      document.getElementById('rt-find-target-display').textContent = `${currentFindTarget.name} ${currentFindTarget.icon}`;
+      document.getElementById('rt-find-target-display').textContent = currentFindTarget.name;
 
       const grid = document.getElementById('rt-find-grid'); grid.innerHTML = '';
       roundChoices.forEach(item => {
@@ -2099,13 +2210,13 @@
             rtState.sessionTimes.push(elapsed); recordReactionAttempt(elapsed);
             document.getElementById('rt-hud-alert').textContent = `⚡ ALERT: ${elapsed} ms (+${pts})`;
             updateReactionHUD();
-            setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFindItRound(); } }, 320);
+            rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFindItRound(); } }, 320);
           } else {
             playSfx('wrong'); btn.classList.add('btn-wrong-flash');
             rtState.completedRounds++; rtState.sessionHadError = true; rtState.score = Math.max(0, rtState.score - 100); rtState.combo = 0;
             document.getElementById('rt-hud-alert').textContent = '❌ WRONG TARGET! -100';
             updateReactionHUD();
-            setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFindItRound(); } }, 450);
+            rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFindItRound(); } }, 450);
           }
         });
         grid.appendChild(btn);
@@ -2117,19 +2228,21 @@
     // FALLING TAP MODE
     let fallingProcessed = false;
     function startFallingTapRound() {
-      clearAllRtTimers(); if (rtState.completedRounds >= 5) return;
+      clearAllRtTimers(); const sid = rtState.sessionId; if (rtState.completedRounds >= 5) return;
       fallingProcessed = false; rtState.status = 'active'; updateReactionHUD();
       const arena = document.getElementById('rt-falling-arena'); arena.innerHTML = '';
       document.getElementById('rt-hud-alert').textContent = 'ALERT: WATCH FALLING ITEM!';
-      const shapes = ["│", "╱", "╲", "┃", "⚡", "⭐", "🔺", "🔷", "●", "◆", "🔥"];
+      const shapes = ["⚡", "⭐", "🔺", "🔷", "●", "◆", "⬟", "✦", "✚", "⬢"];
       const itemEl = document.createElement('div'); itemEl.className = 'falling-item';
       itemEl.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-      const speed = rtState.difficulty === 'easy' ? 2.0 : (rtState.difficulty === 'hard' ? 3.8 : 2.7);
-      const size = rtState.difficulty === 'easy' ? 50 : 42;
-      itemEl.style.fontSize = `${size}px`; itemEl.style.width = `${size + 14}px`; itemEl.style.height = `${size + 14}px`;
-      const startX = Math.round(15 + Math.random() * 260);
-      let posY = -20; itemEl.style.left = `${startX}px`; itemEl.style.top = `${posY}px`;
+      const speed = rtState.difficulty === 'easy' ? 2.6 : (rtState.difficulty === 'hard' ? 4.8 : 3.6);
+      const size = rtState.difficulty === 'easy' ? 54 : (rtState.difficulty === 'hard' ? 46 : 50);
+      const itemSize = size + 16;
+      itemEl.style.fontSize = `${size}px`; itemEl.style.width = `${itemSize}px`; itemEl.style.height = `${itemSize}px`;
       arena.appendChild(itemEl);
+      const maxX = Math.max(10, arena.clientWidth - itemSize - 10);
+      const startX = Math.round(10 + Math.random() * maxX);
+      let posY = -itemSize; itemEl.style.left = `${startX}px`; itemEl.style.top = `${posY}px`;
       rtState.startTime = performance.now();
 
       itemEl.addEventListener('pointerdown', (e) => {
@@ -2138,25 +2251,26 @@
         fallingProcessed = true; clearAllRtTimers();
         const elapsed = Math.max(1, Math.round(performance.now() - rtState.startTime));
         playSfx('correct');
-        const pts = elapsed < 150 ? 500 : (elapsed <= 220 ? 400 : (elapsed <= 300 ? 300 : (elapsed <= 400 ? 200 : 100)));
+        const pts = elapsed < 300 ? 500 : (elapsed <= 700 ? 400 : (elapsed <= 1200 ? 300 : (elapsed <= 1800 ? 200 : 100)));
         rtState.successfulRounds++; rtState.completedRounds++; rtState.combo++;
         rtState.bestCombo = Math.max(rtState.bestCombo, rtState.combo);
         rtState.score += pts + ({2:50,3:100,4:150,5:250}[rtState.combo] || 0);
         rtState.sessionTimes.push(elapsed); recordReactionAttempt(elapsed);
         document.getElementById('rt-hud-alert').textContent = `⚡ ALERT: ${elapsed} ms (+${pts})`;
         updateReactionHUD();
-        setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFallingTapRound(); } }, 340);
+        rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFallingTapRound(); } }, 340);
       });
 
       function step() {
         if (fallingProcessed || rtState.status !== 'active') return;
+        const dangerY = Math.max(120, arena.clientHeight - Math.max(58, Math.round(arena.clientHeight * 0.08)));
         posY += speed; itemEl.style.top = `${posY}px`;
-        if (posY >= 222) {
+        if (posY + itemSize >= dangerY) {
           fallingProcessed = true; clearAllRtTimers(); playSfx('wrong');
           rtState.completedRounds++; rtState.sessionHadError = true; rtState.score = Math.max(0, rtState.score - 100); rtState.combo = 0;
           document.getElementById('rt-hud-alert').textContent = '❌ DANGER HIT! MISS (-100)';
           updateReactionHUD();
-          setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFallingTapRound(); } }, 450);
+          rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startFallingTapRound(); } }, 450);
           return;
         }
         rtState.fallingAnimId = requestAnimationFrame(step);
@@ -2166,7 +2280,7 @@
 
     // CLASSIC RUSH MODE
     function startClassicRushRound() {
-      clearAllRtTimers(); if (rtState.completedRounds >= 5) return;
+      clearAllRtTimers(); const sid = rtState.sessionId; if (rtState.completedRounds >= 5) return;
       rtState.status = 'waiting'; rtState.signal = null; rtState.blueTaps = 0; updateReactionHUD();
       rtBox.className = 'reaction-box state-waiting';
       document.getElementById('rt-signal-emoji').textContent = '⏳';
@@ -2218,7 +2332,8 @@
         rtBox.className = 'reaction-box state-failure'; if (reason) document.getElementById('rt-sub-text').textContent = reason;
       }
       updateReactionHUD();
-      setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startClassicRushRound(); } }, 750);
+      const sid = rtState.sessionId;
+      rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startClassicRushRound(); } }, 750);
     }
     rtBox.addEventListener('click', () => {
       if (rtState.status === 'idle') { playSfx('click'); startReactionSession(); return; }
@@ -2227,7 +2342,8 @@
         playSfx('wrong'); rtBox.className = 'reaction-box state-early';
         document.getElementById('rt-title-text').textContent = 'FALSE START!'; document.getElementById('rt-sub-text').textContent = '-100 points • Combo reset';
         updateReactionHUD();
-        setTimeout(() => { if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startClassicRushRound(); } }, 800);
+        const sid = rtState.sessionId;
+        rtState.nextRoundTimeout = setTimeout(() => { rtState.nextRoundTimeout = null; if (sid !== rtState.sessionId) return; if (rtState.completedRounds >= 5) showReactionFinalResult(); else { rtState.round++; startClassicRushRound(); } }, 800);
         return;
       }
       if (rtState.status === 'ready' && rtState.signal === 'green') {
@@ -2242,14 +2358,14 @@
     });
 
     function startReactionSession() {
-      clearAllRtTimers(); rtState.round = 1; rtState.score = 0; rtState.combo = 0; rtState.bestCombo = 0; rtState.completedRounds = 0; rtState.successfulRounds = 0; rtState.sessionTimes = []; rtState.sessionHadError = false;
+      clearAllRtTimers(); rtState.sessionId++; const sid = rtState.sessionId; rtState.round = 1; rtState.score = 0; rtState.combo = 0; rtState.bestCombo = 0; rtState.completedRounds = 0; rtState.successfulRounds = 0; rtState.sessionTimes = []; rtState.sessionHadError = false;
       document.getElementById('rt-result-modal').classList.remove('active'); updateReactionHUD();
       if (rtState.gameMode === 'find') startFindItRound();
       else if (rtState.gameMode === 'falling') startFallingTapRound();
       else startClassicRushRound();
     }
     function showReactionFinalResult() {
-      clearAllRtTimers(); rtState.status = 'idle';
+      clearAllRtTimers(); rtState.status = 'idle'; stopAllSfx();
       const times = rtState.sessionTimes, best = times.length ? Math.min(...times) : null, avg = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : null;
       const acc = Math.round((rtState.successfulRounds / 5) * 100), perfect = rtState.successfulRounds === 5 && !rtState.sessionHadError;
       if (perfect) rtState.score += 500;
@@ -2292,6 +2408,7 @@
       rtContainers.find.style.display = mode === 'find' ? 'flex' : 'none';
       rtContainers.falling.style.display = mode === 'falling' ? 'block' : 'none';
       rtContainers.classic.style.display = mode === 'classic' ? 'block' : 'none';
+      document.body.classList.toggle('falling-mode-active', mode === 'falling');
       resetReactionState(); startReactionSession();
     }
     rtModeButtons.find.addEventListener('click', () => setRtMode('find'));
@@ -2305,14 +2422,14 @@
     rtDiffButtons.easy.addEventListener('click', () => setRtDiff('easy'));
     rtDiffButtons.medium.addEventListener('click', () => setRtDiff('medium'));
     rtDiffButtons.hard.addEventListener('click', () => setRtDiff('hard'));
-    document.getElementById('rt-btn-reset').addEventListener('click', () => { playSfx('click'); rtState.history = []; rtState.bestTime = null; resetReactionState(); renderReactionHistory(); });
+    document.getElementById('rt-btn-reset').addEventListener('click', () => { stopAllSfx(); rtState.history = []; rtState.bestTime = null; resetReactionState(); renderReactionHistory(); playSfx('click'); startReactionSession(); });
     document.getElementById('rt-btn-play-again').addEventListener('click', () => { playSfx('click'); document.getElementById('rt-result-modal').classList.remove('active'); startReactionSession(); });
     document.getElementById('rt-btn-modal-menu').addEventListener('click', () => { playSfx('click'); document.getElementById('rt-result-modal').classList.remove('active'); openView('hub'); });
 
     /* ========================================================
        GAME 9: MEMORY MATCHING (150+ VISUALS)
        ======================================================== */
-    const memState = { gridSize: 'easy', totalCards: 16, cards: [], flippedCards: [], matchedPairs: 0, totalPairs: 8, moves: 0, seconds: 0, timerInterval: null, isLocked: false };
+    const memState = { gridSize: 'easy', totalCards: 16, cards: [], flippedCards: [], matchedPairs: 0, totalPairs: 8, moves: 0, seconds: 0, timerInterval: null, timerStartedAt: 0, isLocked: false };
     const memGridContainer = document.getElementById('memory-grid-container');
     function generateMemoryDeck() {
       const recent = getStorageItems("memoryMatchRecent");
@@ -2362,7 +2479,7 @@
     }
     function initMemoryGame() {
       if (memState.timerInterval) clearInterval(memState.timerInterval);
-      memState.flippedCards = []; memState.matchedPairs = 0; memState.moves = 0; memState.seconds = 0; memState.isLocked = false;
+      memState.flippedCards = []; memState.matchedPairs = 0; memState.moves = 0; memState.seconds = 0; memState.timerStartedAt=performance.now(); memState.isLocked = false;
       document.getElementById('mem-win-modal').classList.remove('active');
       memState.totalCards = memState.gridSize === 'easy' ? 16 : (memState.gridSize === 'med' ? 20 : 36);
       memState.totalPairs = memState.totalCards / 2;
@@ -2388,10 +2505,12 @@
     const numberFlashState = {
       mode: 'normal', difficulty: 'easy', status: 'idle', round: 1, score: 0, combo: 0, bestCombo: 0,
       completedRounds: 0, successfulRounds: 0, sessionTimes: [], sessionHadError: false,
-      currentSequence: [], userInput: [], startTime: 0, timerTimeout: null, isProcessing: false, bestTime: null
+      currentSequence: [], userInput: [], startTime: 0, timerTimeout: null, isProcessing: false, bestTime: null, transitionTimeout: null, sessionId: 0
     };
     function resetNumberFlashState() {
       if (numberFlashState.timerTimeout) { clearTimeout(numberFlashState.timerTimeout); numberFlashState.timerTimeout = null; }
+      if (numberFlashState.transitionTimeout) { clearTimeout(numberFlashState.transitionTimeout); numberFlashState.transitionTimeout = null; }
+      numberFlashState.sessionId++;
       numberFlashState.status = 'idle'; numberFlashState.round = 1; numberFlashState.score = 0; numberFlashState.combo = 0; numberFlashState.bestTime = getBestTime('nflashBestTime');
       numberFlashState.completedRounds = 0; numberFlashState.successfulRounds = 0; numberFlashState.sessionTimes = []; numberFlashState.userInput = [];
       document.getElementById('nflash-display').textContent = 'READY?'; document.getElementById('nflash-input').textContent = '_ _ _ _';
@@ -2517,7 +2636,7 @@
     const targetTapState = {
       difficulty: 'med', status: 'idle', round: 1, score: 0, combo: 0, bestCombo: 0,
       completedRounds: 0, successfulRounds: 0, sessionTimes: [], sessionHadError: false,
-      currentTarget: null, startTime: 0, isLocked: false, bestTime: null
+      currentTarget: null, startTime: 0, isLocked: false, bestTime: null, transitionTimeout: null, sessionId: 0
     };
 
     const TTAP_SHAPES = ["circle", "square", "triangle", "star", "diamond"];
@@ -2539,6 +2658,8 @@
     }
 
     function resetTargetTapState() {
+      if (targetTapState.transitionTimeout) { clearTimeout(targetTapState.transitionTimeout); targetTapState.transitionTimeout = null; }
+      targetTapState.sessionId++;
       targetTapState.status = 'idle'; targetTapState.round = 1; targetTapState.score = 0; targetTapState.combo = 0; targetTapState.bestTime = getBestTime('ttapBestTime');
       targetTapState.completedRounds = 0; targetTapState.successfulRounds = 0; targetTapState.sessionTimes = []; targetTapState.isLocked = false;
       document.getElementById('ttap-hud-round').textContent = '1 / 5';
@@ -2610,7 +2731,10 @@
           document.getElementById('ttap-hud-best').textContent = best ? `${best} ms` : '-- ms';
           document.getElementById('ttap-hud-avg').textContent = avg ? `${avg} ms` : '-- ms';
 
-          setTimeout(() => {
+          const sid = targetTapState.sessionId;
+          targetTapState.transitionTimeout = setTimeout(() => {
+            targetTapState.transitionTimeout = null;
+            if (sid !== targetTapState.sessionId) return;
             if (targetTapState.completedRounds >= 5) showGeneralGameResult(targetTapState, "TARGET TAP", "🏆 PERFECT TARGET MASTER!");
             else { targetTapState.round++; startTargetTapRound(); }
           }, 350);
@@ -2645,11 +2769,13 @@
     const missingTileState = {
       difficulty: 'easy', status: 'idle', round: 1, score: 0, combo: 0, bestCombo: 0,
       completedRounds: 0, successfulRounds: 0, sessionTimes: [], sessionHadError: false,
-      missingItem: null, startTime: 0, timerTimeout: null, isLocked: false, bestTime: null
+      missingItem: null, startTime: 0, timerTimeout: null, isLocked: false, bestTime: null, transitionTimeout: null, sessionId: 0
     };
 
     function resetMissingTileState() {
       if (missingTileState.timerTimeout) { clearTimeout(missingTileState.timerTimeout); missingTileState.timerTimeout = null; }
+      if (missingTileState.transitionTimeout) { clearTimeout(missingTileState.transitionTimeout); missingTileState.transitionTimeout = null; }
+      missingTileState.sessionId++;
       missingTileState.status = 'idle'; missingTileState.round = 1; missingTileState.score = 0; missingTileState.combo = 0; missingTileState.bestTime = getBestTime('mtileBestTime');
       missingTileState.completedRounds = 0; missingTileState.successfulRounds = 0; missingTileState.sessionTimes = []; missingTileState.isLocked = false;
       document.getElementById('mtile-hud-round').textContent = '1 / 5';
@@ -2754,7 +2880,10 @@
             document.getElementById('mtile-hud-best').textContent = best ? `${best} ms` : '-- ms';
             document.getElementById('mtile-hud-avg').textContent = avg ? `${avg} ms` : '-- ms';
 
-            setTimeout(() => {
+            const sid = missingTileState.sessionId;
+            missingTileState.transitionTimeout = setTimeout(() => {
+              missingTileState.transitionTimeout = null;
+              if (sid !== missingTileState.sessionId) return;
               if (missingTileState.completedRounds >= 5) showGeneralGameResult(missingTileState, "MISSING TILE", "🏆 PERFECT OBSERVER!");
               else { missingTileState.round++; startMissingTileRound(); }
             }, 500);
@@ -2789,10 +2918,13 @@
     const pathMemoryState = {
       difficulty: 'easy', status: 'idle', round: 1, score: 0, combo: 0, bestCombo: 0,
       completedRounds: 0, successfulRounds: 0, sessionTimes: [], sessionHadError: false,
-      currentPath: [], userStep: 0, startTime: 0, isShowingPath: false, isLocked: false, bestTime: null
+      currentPath: [], userStep: 0, startTime: 0, isShowingPath: false, isLocked: false, bestTime: null, highlightInterval: null, transitionTimeout: null, sessionId: 0
     };
 
     function resetPathMemoryState() {
+      if (pathMemoryState.highlightInterval) { clearInterval(pathMemoryState.highlightInterval); pathMemoryState.highlightInterval = null; }
+      if (pathMemoryState.transitionTimeout) { clearTimeout(pathMemoryState.transitionTimeout); pathMemoryState.transitionTimeout = null; }
+      pathMemoryState.sessionId++;
       pathMemoryState.status = 'idle'; pathMemoryState.round = 1; pathMemoryState.score = 0; pathMemoryState.combo = 0; pathMemoryState.bestTime = getBestTime('pmemBestTime');
       pathMemoryState.completedRounds = 0; pathMemoryState.successfulRounds = 0; pathMemoryState.sessionTimes = [];
       pathMemoryState.currentPath = []; pathMemoryState.userStep = 0; pathMemoryState.isShowingPath = false; pathMemoryState.isLocked = false;
@@ -2862,7 +2994,7 @@
 
       // Sequentially highlight path cells
       let stepIdx = 0;
-      const highlightInterval = setInterval(() => {
+      pathMemoryState.highlightInterval = setInterval(() => {
         if (stepIdx > 0) {
           gridEl.children[path[stepIdx - 1]].classList.remove('active-path');
         }
@@ -2871,8 +3003,10 @@
           gridEl.children[path[stepIdx]].classList.add('active-path');
           stepIdx++;
         } else {
-          clearInterval(highlightInterval);
-          setTimeout(() => {
+          clearInterval(pathMemoryState.highlightInterval);
+          pathMemoryState.highlightInterval = null;
+          pathMemoryState.transitionTimeout = setTimeout(() => {
+            if (pathMemoryState.status !== 'memorize') return;
             document.getElementById('pmem-instruction').textContent = '⚡ REPEAT THE PATH NOW!';
             pathMemoryState.status = 'input';
             pathMemoryState.isLocked = false;
@@ -2912,7 +3046,10 @@
           document.getElementById('pmem-hud-best').textContent = best ? `${best} ms` : '-- ms';
           document.getElementById('pmem-hud-avg').textContent = avg ? `${avg} ms` : '-- ms';
 
-          setTimeout(() => {
+          const sid = pathMemoryState.sessionId;
+          pathMemoryState.transitionTimeout = setTimeout(() => {
+            pathMemoryState.transitionTimeout = null;
+            if (sid !== pathMemoryState.sessionId) return;
             if (pathMemoryState.completedRounds >= 5) showGeneralGameResult(pathMemoryState, "PATH MEMORY", "🏆 PERFECT PATH MASTER!");
             else { pathMemoryState.round++; startPathMemoryRound(); }
           }, 450);
@@ -2929,7 +3066,10 @@
         document.getElementById('pmem-hud-score').textContent = pathMemoryState.score;
         document.getElementById('pmem-hud-combo').textContent = `${pathMemoryState.combo}x`;
 
-        setTimeout(() => {
+        const sid = pathMemoryState.sessionId;
+        pathMemoryState.transitionTimeout = setTimeout(() => {
+          pathMemoryState.transitionTimeout = null;
+          if (sid !== pathMemoryState.sessionId) return;
           if (pathMemoryState.completedRounds >= 5) showGeneralGameResult(pathMemoryState, "PATH MEMORY", "🏆 PERFECT PATH MASTER!");
           else { pathMemoryState.round++; startPathMemoryRound(); }
         }, 500);
@@ -2971,6 +3111,7 @@
       const perfect = st.successfulRounds === 5 && !st.sessionHadError;
 
       if (perfect) st.score += 500;
+      stopAllSfx();
       playSfx('win');
 
       document.getElementById('gen-modal-title').textContent = `${gameName} COMPLETE!`;
@@ -2990,7 +3131,7 @@
     }
 
     document.getElementById('gen-btn-play-again').addEventListener('click', () => {
-      playSfx('click');
+      stopAllSfx(); playSfx('click');
       document.getElementById('general-game-modal').classList.remove('active');
       if (currentModalGameName === "NUMBER FLASH") initNumberFlashGame();
       else if (currentModalGameName === "TARGET TAP") initTargetTapGame();
@@ -3003,6 +3144,59 @@
       document.getElementById('general-game-modal').classList.remove('active');
       openView('hub');
     });
+
+
+    /* ========================================================
+       PWA INSTALL + ADD TO HOME SCREEN
+       ======================================================== */
+    let deferredInstallPrompt = null;
+    const installAppBtn = document.getElementById('btn-install-app');
+    const addHomeBtn = document.getElementById('btn-add-home');
+    const installHelpModal = document.getElementById('install-help-modal');
+    const closeInstallHelp = () => { installHelpModal.classList.remove('active'); installHelpModal.setAttribute('aria-hidden','true'); };
+    const openInstallHelp = () => { installHelpModal.classList.add('active'); installHelpModal.setAttribute('aria-hidden','false'); };
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      installAppBtn.textContent = '✅ Installed';
+      installAppBtn.disabled = true;
+      installAppBtn.style.opacity = '.7';
+    });
+
+    function isStandaloneMode() {
+      return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+    if (isStandaloneMode()) {
+      installAppBtn.textContent = '✅ App Installed';
+      installAppBtn.disabled = true;
+      installAppBtn.style.opacity = '.7';
+    }
+
+    installAppBtn.addEventListener('click', async () => {
+      playSfx('click');
+      if (deferredInstallPrompt) {
+        try {
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+        } catch (e) {}
+        deferredInstallPrompt = null;
+        return;
+      }
+      openInstallHelp();
+    });
+    addHomeBtn.addEventListener('click', () => { playSfx('click'); openInstallHelp(); });
+    document.getElementById('install-help-close').addEventListener('click', closeInstallHelp);
+    document.getElementById('install-help-ok').addEventListener('click', closeInstallHelp);
+    installHelpModal.addEventListener('click', (e) => { if (e.target === installHelpModal) closeInstallHelp(); });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+    }
 
   </script>
 </body>
